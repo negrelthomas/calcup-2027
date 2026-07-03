@@ -1,0 +1,8 @@
+{
+  "name": "calcup-site-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": { "generate": "node generate.mjs", "dev": "node generate.mjs --local '../2027_Calcup Master File.xlsx'" },
+  "dependencies": { "xlsx": "^0.18.5" }
+}

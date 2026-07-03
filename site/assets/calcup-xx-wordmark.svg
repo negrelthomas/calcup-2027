@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 250" width="1120" height="250">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Saira+Stencil+One&amp;display=swap');
+      .l1{font-family:'Saira Stencil One',sans-serif;font-size:120px}
+      .l2{font-family:'Saira Stencil One',sans-serif;font-size:46px;letter-spacing:5px}
+      .ca{fill:#F47920}.cu{fill:#102A43}
+    </style>
+  </defs>
+  <text x="20" y="132" class="l1"><tspan class="ca">CALIFORNIA</tspan> <tspan class="cu">CUP</tspan></text>
+  <text x="22" y="205" class="l2"><tspan fill="#F47920">XX</tspan><tspan fill="#102A43"> · 20TH EDITION · 2027</tspan></text>
+</svg>

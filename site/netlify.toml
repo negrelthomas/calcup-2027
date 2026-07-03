@@ -1,0 +1,10 @@
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Always revalidate so a redeploy is picked up immediately (no hard-refresh needed).
+# Critical during the tournament: updated scores in data.js reach spectators live.
+[[headers]]
+  for = "/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Handball Referee Flashcards — Proligue Level</title>
+<style>
+  :root {
+    color-scheme: light;
+    --green: #1a6b3c;
+    --green-light: #e8f5ee;
+    --green-mid: #2d8a55;
+    --green-dark: #0f4526;
+    --accent: #f0a500;
+    --red: #c0392b;
+    --blue: #1a5276;
+    --gray-50: #f8f9fa;
+    --gray-200: #e0e4e2;
+    --gray-400: #8a9490;
+    --gray-700: #3a4a42;
+    --text: #1c2b24;
+    --radius: 12px;
+    --shadow: 0 4px 20px rgba(0,0,0,0.10);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gray-50); color: var(--text); min-height: 100vh; }
+  .header { background: var(--green); color: white; padding: 16px 20px 12px; display: flex; align-items: center; gap: 12px; }
+  .header-icon { font-size: 26px; }
+  .header-title { font-size: 18px; font-weight: 700; }
+  .header-sub { font-size: 11px; opacity: 0.75; margin-top: 1px; }
+  .progress-bar-wrap { background: var(--green-dark); height: 4px; }
+  .progress-bar-fill { height: 4px; background: var(--accent); transition: width 0.4s ease; width: 0%; }
+  .stats-bar { background: white; border-bottom: 1px solid var(--gray-200); padding: 8px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+  .stat { display: flex; flex-direction: column; align-items: center; }
+  .stat-val { font-size: 17px; font-weight: 700; line-height: 1; }
+  .stat-lbl { font-size: 10px; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 2px; }
+  .stat.knew .stat-val { color: var(--green-mid); }
+  .stat.nope .stat-val { color: var(--red); }
+  .stat.total .stat-val { color: var(--blue); }
+  .stat-sep { width: 1px; height: 28px; background: var(--gray-200); }
+  .pct-badge { margin-left: auto; background: var(--green-light); color: var(--green-dark); font-weight: 700; font-size: 12px; padding: 3px 10px; border-radius: 20px; }
+  .filters { padding: 10px 20px; background: white; border-bottom: 1px solid var(--gray-200); display: flex; gap: 5px; flex-wrap: wrap; }
+  .filter-btn { padding: 4px 11px; border-radius: 20px; border: 1.5px solid var(--gray-200); background: white; font-size: 11px; font-weight: 600; color: var(--gray-700); cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+  .filter-btn:hover { border-color: var(--green-mid); color: var(--green-mid); }
+  .filter-btn.active { background: var(--green); border-color: var(--green); color: white; }
+  .controls { padding: 10px 20px; display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .btn { padding: 7px 15px; border-radius: 8px; border: none; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-outline { background: white; border: 1.5px solid var(--gray-200); color: var(--gray-700); }
+  .btn-outline:hover { border-color: var(--green-mid); color: var(--green-mid); }
+  .btn-green { background: var(--green); color: white; }
+  .btn-green:hover { background: var(--green-mid); }
+  .card-counter { margin-left: auto; font-size: 11px; color: var(--gray-400); font-weight: 600; }
+  .card-area { padding: 14px 20px 20px; display: flex; flex-direction: column; align-items: center; }
+  .flip-container { width: 100%; max-width: 680px; perspective: 1200px; cursor: pointer; user-select: none; }
+  .flip-inner { position: relative; width: 100%; min-height: 290px; transition: transform 0.5s cubic-bezier(0.4,0.2,0.2,1); transform-style: preserve-3d; }
+  .flip-container.flipped .flip-inner { transform: rotateY(180deg); }
+  .card-face { position: absolute; width: 100%; min-height: 290px; border-radius: var(--radius); backface-visibility: hidden; -webkit-backface-visibility: hidden; display: flex; flex-direction: column; padding: 24px 28px; box-shadow: var(--shadow); }
+  .card-front { background: white; border-top: 4px solid var(--green); }
+  .card-back { background: var(--green-light); border-top: 4px solid var(--accent); transform: rotateY(180deg); }
+  .card-category-pill { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; padding: 3px 9px; border-radius: 12px; background: var(--green-light); color: var(--green-dark); width: fit-content; margin-bottom: 14px; }
+  .card-back .card-category-pill { background: white; }
+  .card-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--gray-400); margin-bottom: 7px; }
+  .card-back .card-label { color: var(--green-mid); }
+  .card-question { font-size: 15px; font-weight: 600; line-height: 1.55; color: var(--text); flex: 1; }
+  .card-answer { font-size: 13.5px; line-height: 1.65; color: var(--green-dark); flex: 1; }
+  .card-rule { margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--green-mid); background: white; padding: 3px 9px; border-radius: 7px; width: fit-content; }
+  .card-hint { margin-top: auto; padding-top: 14px; font-size: 11px; color: var(--gray-400); text-align: center; }
+  .diff-pill { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; background: #ffeaa0; color: #7a5700; vertical-align: middle; }
+  .answer-btns { display: flex; gap: 10px; justify-content: center; margin-top: 14px; width: 100%; max-width: 680px; }
+  .answer-btns.hidden { visibility: hidden; }
+  .btn-knew { background: var(--green); color: white; padding: 10px 28px; font-size: 13px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: background 0.15s; }
+  .btn-knew:hover { background: var(--green-mid); }
+  .btn-nope { background: white; color: var(--red); border: 2px solid var(--red); padding: 10px 28px; font-size: 13px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+  .btn-nope:hover { background: #fdf0ee; }
+  .nav-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
+  .btn-nav { background: white; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 7px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+  .btn-nav:hover { border-color: var(--green-mid); color: var(--green-mid); }
+  .btn-nav:disabled { opacity: 0.35; cursor: not-allowed; }
+  .empty { text-align: center; padding: 50px 20px; color: var(--gray-400); }
+  .completion { background: white; border-radius: var(--radius); padding: 28px; text-align: center; max-width: 460px; margin: 24px auto; box-shadow: var(--shadow); }
+  .completion-icon { font-size: 44px; margin-bottom: 14px; }
+  .completion h2 { font-size: 20px; font-weight: 700; color: var(--green-dark); margin-bottom: 6px; }
+  .completion p { color: var(--gray-400); font-size: 13px; margin-bottom: 18px; }
+  .score-ring { display: inline-flex; flex-direction: column; align-items: center; background: var(--green-light); border-radius: 50%; width: 90px; height: 90px; justify-content: center; margin-bottom: 16px; }
+  .score-ring .big { font-size: 26px; font-weight: 800; color: var(--green); }
+  .score-ring .sml { font-size: 10px; color: var(--green-mid); font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="header-icon">🤾</div>
+  <div>
+    <div class="header-title">Handball Referee Flashcards <span style="font-size:11px;font-weight:400;opacity:0.8">— Proligue / National Level</span></div>
+    <div class="header-sub">IHF Rules of the Game · 75 cards · Advanced interpretation & edge cases</div>
+  </div>
+</div>
+<div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill"></div></div>
+<div class="stats-bar">
+  <div class="stat knew"><div class="stat-val" id="knewCount">0</div><div class="stat-lbl">Knew it</div></div>
+  <div class="stat-sep"></div>
+  <div class="stat nope"><div class="stat-val" id="nopeCount">0</div><div class="stat-lbl">Missed</div></div>
+  <div class="stat-sep"></div>
+  <div class="stat total"><div class="stat-val" id="seenCount">0</div><div class="stat-lbl">Seen</div></div>
+  <div class="pct-badge" id="pctBadge">0%</div>
+</div>
+<div class="filters" id="filtersEl"></div>
+<div class="controls">
+  <button class="btn btn-outline" onclick="shuffleDeck()">🔀 Shuffle</button>
+  <button class="btn btn-outline" onclick="resetScores()">↺ Reset</button>
+  <button class="btn btn-green" onclick="reviewMissed()" id="reviewBtn" style="display:none">Review missed</button>
+  <div class="card-counter" id="cardCounter"></div>
+</div>
+<div class="card-area" id="cardArea"></div>
+<script>
+const CARDS=[
+// ── 1. FOULS & FREE THROWS ──────────────────────────────────────────────────
+{cat:"Fouls & Free Throws",
+q:"A free throw is awarded 11m from goal. Before the whistle, the goalkeeper abandons the goal area entirely. The thrower takes a quick throw (no whistle) and scores into the empty net. Goal or retake?",
+a:"Goal. For a free throw there is no rule requiring the goalkeeper to be on the goal line. The goalkeeper's position is irrelevant. Only the 7m throw requires the goalkeeper to be on the line. The goal stands.",
+rule:"Rule 13, 15:2"},
+{cat:"Fouls & Free Throws",
+q:"A 7m throw is taken and saved by the goalkeeper. The rebound falls to an attacking teammate who scores immediately. Is the goal valid?",
+a:"No. On a 7m throw, only the thrower and the goalkeeper may play the ball until it has struck the post, crossbar, or the goalkeeper. A teammate touching the rebound before any such contact is a violation — free throw for the defending team.",
+rule:"Rule 14:6"},
+{cat:"Fouls & Free Throws",
+q:"The 7m thrower shoots, the ball hits the crossbar and rebounds to the thrower who scores. Valid?",
+a:"No. The thrower may not play the ball a second time until it has been touched by the goalkeeper or a goalpost/crossbar. Rebounding off the crossbar and then scoring is therefore valid — the crossbar counts. Wait: the ball DID touch the crossbar, so the thrower CAN play it. Goal stands. Key distinction: post/crossbar contact = OK; no contact at all = violation.",
+rule:"Rule 14:6"},
+{cat:"Fouls & Free Throws",
+q:"A free throw is awarded at the exact position of the foul — on the 9m line itself. Where is it taken from?",
+a:"From that exact spot on the 9m line. The rule states: at the location of the foul, or at the nearest point on the 9m line if the foul occurred inside it. Since the foul occurred on the line, the throw is taken from there.",
+rule:"Rule 13:1"},
+{cat:"Fouls & Free Throws",
+q:"On a quick free throw (no whistle), the thrower is correctly positioned but stands 40cm further from goal than the actual foul location. The shot scores. Valid?",
+a:"Yes. The rules prohibit executing a free throw closer to goal than the correct position — they do not prohibit taking it further back. A thrower may always choose to take the throw from further away than required. Goal stands.",
+rule:"Rule 13:1"},
+{cat:"Fouls & Free Throws",
+q:"During a 7m throw, the goalkeeper charges off the line and makes physical contact with the thrower's arm before the ball is released. What is the call?",
+a:"The goalkeeper's premature departure AND the physical contact on the thrower = foul. Yellow card or 2-minute suspension for the goalkeeper depending on severity. The 7m throw is retaken. The contact does not convert the offense — the throw is still retaken, not converted to a free throw.",
+rule:"Rule 14:9, 8:4"},
+{cat:"Fouls & Free Throws",
+q:"An attacking player is fouled while shooting from 9m — not a clear scoring chance (goalkeeper and defender between them and goal). The foul is a hard grab from behind. What are the consequences?",
+a:"Free throw from the location (outside 9m, taken from there). Additionally, the foul's severity (deliberate grab from behind) warrants at minimum a 2-minute suspension. The absence of a clear scoring chance means no 7m — but the disciplinary sanction for the manner of the foul is independent.",
+rule:"Rule 8:5, 13:1"},
+{cat:"Fouls & Free Throws",
+q:"A free throw is awarded outside the 9m line. The thrower, without waiting for the whistle, plays the ball to a teammate standing in the 9m arc. The teammate shoots and scores. Valid?",
+a:"No. On a quick free throw (no whistle), attacking players must still be outside the 9m line or at least not in an advantageous position inside it when the ball is played. A teammate inside the 9m arc receiving the ball is a violation. Free throw for the defending team.",
+rule:"Rule 15:6"},
+{cat:"Fouls & Free Throws",
+q:"During a free throw, the ball strikes a referee standing between the thrower and the goal and deflects into the net. Goal or restart?",
+a:"Not a goal. When the ball hits a referee and the outcome is materially affected, play is restarted with a referee throw at the location of the contact. The attacking team does not regain the free throw.",
+rule:"Rule 13:4 Comment"},
+{cat:"Fouls & Free Throws",
+q:"A player is fouled after releasing a shot. The ball enters the goal. The referee awards a 7m throw for the foul. Correct?",
+a:"No. If the ball enters the goal after the foul (i.e., after the throw was already released), the goal stands. No 7m or free throw is awarded for the foul — the goal takes precedence. The foul may still be sanctioned separately (yellow/suspension) but no restart is given.",
+rule:"Rule 14:1 Comment"},
+{cat:"Fouls & Free Throws",
+q:"A defender blocks a free throw with their body, but their arm is held in an artificially widened position — clearly beyond their natural body outline. What is the call?",
+a:"Illegal obstruction. A player may not use an unnatural position (arms artificially extending body width) to block a free throw. The referee awards a new free throw for the obstruction. Repeated or deliberate use merits a yellow card.",
+rule:"Rule 15:4, 8:7a"},
+// ── 2. EXCLUSIONS & DISQUALIFICATIONS ────────────────────────────────────────
+{cat:"Exclusions & Disqualifications",
+q:"A player has 1 yellow card and 2 suspensions. They commit a new foul warranting a suspension. What happens and what is the resulting court situation?",
+a:"Automatic disqualification (red card). A player's third 2-minute infraction in the same match — regardless of prior yellow cards — triggers disqualification. Team plays shorthanded for 2 minutes. After 2 minutes a replacement may enter.",
+rule:"Rule 16:6d"},
+{cat:"Exclusions & Disqualifications",
+q:"Team A scores while playing 7v6 (opponent has a player serving a suspension). Does the goal release the suspended player early, as in ice hockey?",
+a:"No. In handball, a 2-minute suspension runs for the full 2 minutes of game time regardless of goals scored during the power play. The suspended player cannot return until the 2 minutes expire. No 'penalty kill' release rule exists.",
+rule:"Rule 16:3"},
+{cat:"Exclusions & Disqualifications",
+q:"Name two specific actions that require a blue card (disqualification with report) rather than a red card alone.",
+a:"1) Deliberate physical assault on an opponent or official with intent to injure. 2) Seriously threatening or verbally abusing a referee (e.g., making threats outside of heated protest). Also: grossly unsporting conduct post-match, or spitting at someone. The blue card mandates a written disciplinary report to the governing authority.",
+rule:"Rule 16:8–9"},
+{cat:"Exclusions & Disqualifications",
+q:"A player's third suspension becomes a disqualification. The team plays 2 minutes short. After 1 minute, the opposing team scores. When can the replacement enter?",
+a:"After the full 2 minutes of game time, not after the goal. Goals do not reduce suspension time. The replacement enters only when 2 full game-time minutes have elapsed since the disqualification.",
+rule:"Rule 16:6"},
+{cat:"Exclusions & Disqualifications",
+q:"Two players from the same team are simultaneously disqualified (red cards) for fighting. How many players does their team field during the penalty period, and when can replacements enter?",
+a:"The team fields 5 players (7 minus 2). Both 2-minute penalty periods run simultaneously. After 2 game-time minutes, both replacements enter at the same time, returning the team to 7.",
+rule:"Rule 16:6"},
+{cat:"Exclusions & Disqualifications",
+q:"During extra time, a player commits their third suspendable offense. They are disqualified. They had already been disqualified earlier in regulation and served their 2 minutes — does this new disqualification stack?",
+a:"Yes. Each disqualification is a separate event. The new disqualification means another player leaves for 2 minutes and a replacement may enter after that. However, the disqualified player cannot return for the rest of the match, and if they already had a prior disqualification, the disciplinary picture is more serious — a report may now be required.",
+rule:"Rule 16:6d, 16:8"},
+{cat:"Exclusions & Disqualifications",
+q:"A suspended player (serving 2 min) re-enters the court 15 seconds early, believing their time is up. They touch the ball. What is the consequence?",
+a:"Play stops. The early entry is penalized: the original suspension continues for the remaining 15 seconds AND a new 2-minute suspension is added for the illegal re-entry. The team may therefore be playing 2 players short simultaneously.",
+rule:"Rule 4:6, 16:3"},
+{cat:"Exclusions & Disqualifications",
+q:"A team official not on the official match sheet is found in the bench area during the match. What should the referee do?",
+a:"Stop play if necessary and require the person to leave the bench area. The head coach or responsible official receives a yellow card for allowing an unregistered person in the bench zone. If they refuse to leave, further sanctions apply.",
+rule:"Rule 4:2"},
+{cat:"Exclusions & Disqualifications",
+q:"Referees are approached by a disqualified player in the tunnel after the match who becomes verbally abusive. Can sanctions still be imposed?",
+a:"Yes. Referee authority extends from entering the facility before the match until leaving after it. Incidents in the tunnel, locker room corridor, or court area post-match are within disciplinary jurisdiction — at minimum a report to the relevant authority.",
+rule:"Rule 16:9"},
+{cat:"Exclusions & Disqualifications",
+q:"A player serving a 2-minute suspension comes back onto the court legally after 2 minutes. But the referees notice they have switched jerseys with a teammate to disguise their identity. What happens?",
+a:"Both players are sanctioned. Jersey swapping to evade disciplinary tracking is grossly unsporting. Both players receive yellow cards at minimum; the originally suspended player may face escalation. The substitute who swapped jerseys may be disqualified for deliberately deceiving the referees.",
+rule:"Rule 16:1, 16:9"},
+// ── 3. GOALKEEPER RULES ──────────────────────────────────────────────────────
+{cat:"Goalkeeper Rules",
+q:"A defender under severe pressure from an attacker has no option but to play the ball back toward the goalkeeper. The goalkeeper catches it with their hands in the goal area. Is it a back-pass violation?",
+a:"Yes. The back-pass rule tests the deliberateness of the field player's action, not the circumstances. If the field player intentionally directed the ball toward the goalkeeper — even under pressure with no other option — it is a back-pass violation. Only an unintentional deflection that goes to the GK is exempt.",
+rule:"Rule 6:5a"},
+{cat:"Goalkeeper Rules",
+q:"The goalkeeper, ball in hand inside the goal area, steps just outside the 6m line with one foot, then steps back inside. How does this affect the 3-second possession clock?",
+a:"The 3-second clock does not reset upon re-entry. The clock began when the goalkeeper received the ball. Briefly stepping outside and returning does not restart it. The total ball-in-hand time (inside + outside) must stay within the combined limits.",
+rule:"Rule 5:6, 6:5"},
+{cat:"Goalkeeper Rules",
+q:"An attacking player jumps from outside the 6m line, catches a pass while airborne over the goal area, and lands inside without having released the ball. Goal area violation or legal?",
+a:"Violation — the player had possession of the ball while in the air over the goal area and landed inside without releasing it. The airborne rule only protects an attacker who releases the ball before landing. Landing with the ball inside = goal area violation. Free throw for the defending team.",
+rule:"Rule 6:2a"},
+{cat:"Goalkeeper Rules",
+q:"An attacker is airborne shooting. Their non-throwing hand briefly grazes the 6m line on the way down after the ball is already released. Goal or violation?",
+a:"Goal. The ball was released before any body contact with the goal area. The grazing of the line after release does not retroactively create a violation — what matters is that the ball was gone before the contact.",
+rule:"Rule 6:2a"},
+{cat:"Goalkeeper Rules",
+q:"A defending field player intentionally steps into their own goal area to stop a ball rolling toward the empty net (goalkeeper displaced). The ball is stopped. What is the call?",
+a:"7m throw. A defending field player entering the goal area to prevent a certain goal is penalized by a 7m throw, regardless of whether they succeed in stopping the ball. The successful clearance does not change the call.",
+rule:"Rule 6:2b"},
+{cat:"Goalkeeper Rules",
+q:"The goalkeeper, standing outside the goal area, receives a throw-in from the sideline thrown directly to them by a teammate. They catch it and walk back into the goal area. Violation?",
+a:"Yes — this is a back-pass violation. A teammate deliberately passing the ball to the goalkeeper (who is outside the area) still triggers the rule. The ball was deliberately directed to the goalkeeper by a field player. Free throw for the opponent.",
+rule:"Rule 6:5a"},
+{cat:"Goalkeeper Rules",
+q:"The goalkeeper deflects a shot and the ball rolls slowly toward the goal line inside the area. The goalkeeper deliberately kicks it behind the goal line to force a goal throw rather than risk it crossing. What is the call?",
+a:"Goal throw — the goalkeeper deliberately played the ball behind their own goal line from within the goal area. This is legal; the goal throw is taken by the goalkeeper from within the goal area. There is no rule preventing a goalkeeper from deliberately kicking the ball behind their own line.",
+rule:"Rule 12:1"},
+{cat:"Goalkeeper Rules",
+q:"The goalkeeper saves a shot with their head. The ball deflects into a teammate standing on the 6m line who instinctively catches it. What is the call?",
+a:"The teammate was standing on the 6m line — which belongs to the goal area. Their presence there is a goal area violation. Additionally, they caught the ball inside the goal area as a field player. Free throw for the opposing team.",
+rule:"Rule 6:1, 6:2c"},
+{cat:"Goalkeeper Rules",
+q:"After being disqualified (red card), the team's only designated goalkeeper must leave. There is no substitute goalkeeper on the roster. What must happen before play resumes?",
+a:"A field player must be designated as the new goalkeeper and must wear a distinctly different-colored jersey from all other players on both teams. The team reorganizes; normal substitution rules apply. Play resumes once the jersey change is completed.",
+rule:"Rule 5:11, 4:8"},
+{cat:"Goalkeeper Rules",
+q:"The goalkeeper catches a ball inside the goal area from a shot, then intentionally throws it directly at an opponent standing outside the area. No injury. What is the call?",
+a:"At minimum a yellow card for unsporting behavior — deliberately throwing the ball at an opponent. If done with force or hostility, a 2-minute suspension. If clearly intended to injure: red or blue card. The opposing team receives a free throw at the point of the offense.",
+rule:"Rule 8:7, 16:1"},
+// ── 4. PASSIVE PLAY ──────────────────────────────────────────────────────────
+{cat:"Passive Play",
+q:"The forewarning signal is shown. The attacking team makes 3 passes. On the 4th touch, a player dribbles twice before passing to a teammate. How many passes have occurred toward the limit?",
+a:"3 passes — 4 touches total, but dribbling by the same player does not count as a pass. Only ball transfers from one player to another increment the count. After the dribble the player passes = 4th pass now occurs. Referee must then act if no shot follows.",
+rule:"Rule 7:11"},
+{cat:"Passive Play",
+q:"With the forewarning signal shown and 3 passes completed, the ball-holder holds possession motionless for 5 seconds without attempting to pass or shoot. Must the referee wait for the 4th pass before whistling passive play?",
+a:"No. While the 4-pass limit is a guideline, the forewarning signal means any continuation of passive tendency justifies the whistle. Prolonged static ball-holding without any attacking intent after the signal has been shown — even before the 4th pass — can be called as passive play at referee discretion.",
+rule:"Rule 7:11"},
+{cat:"Passive Play",
+q:"With the forewarning signal shown and 2 passes made, an attacker shoots — the ball hits the post and rebounds directly back to the attacking team without the goalkeeper touching it. Does the pass count reset?",
+a:"The referee must assess whether a genuine shot attempt was made. A shot that hit the post (not the goalkeeper) is still a shot on goal and should reset the passive play evaluation. The forewarning signal remains in place but the pass count restarts. The ball touching the post (not the GK) is still a shot attempt.",
+rule:"Rule 7:11 Comment"},
+{cat:"Passive Play",
+q:"The forewarning signal is shown during a 7v6 attack (extra field player). After 3 passes, a defender commits a minor foul — the referee decides not to call it (advantage). Does the passive play forewarning reset?",
+a:"No. Advantage applied for a defensive foul does not cancel the forewarning signal. The signal is only cancelled when the referee actually blows the whistle for the foul and awards a free throw. If advantage is applied, the passive play situation and pass count continue.",
+rule:"Rule 7:11 Comment"},
+{cat:"Passive Play",
+q:"Can referees show the passive play forewarning signal immediately after a team wins a corner throw, before any passes have been made?",
+a:"No. The forewarning signal requires prior observation of passive tendencies (e.g., backwards passing, deliberate slowing, no progress toward goal). It cannot be shown preemptively at the start of a new possession without observed passive behavior.",
+rule:"Rule 7:10"},
+{cat:"Passive Play",
+q:"The forewarning signal is shown. The attacking team makes 4 passes and on the 4th pass the ball is bobbled by the receiver — they don't fully control it but regain it. Does the bobble reset the count or does the free throw apply immediately?",
+a:"The 4th pass was completed (ball transferred to the receiver). Whether they controlled it cleanly or bobbled it is irrelevant — the transfer occurred. If no shot followed, passive play free throw is awarded. The bobble does not grant a second chance at the pass.",
+rule:"Rule 7:11"},
+{cat:"Passive Play",
+q:"A team is playing 6v7 (shorthanded). They clearly establish a deliberate time-wasting defensive position — holding the ball with no attacking intent for 40 seconds. Can passive play be called on a team playing shorthanded?",
+a:"Yes. Passive play rules apply regardless of numerical strength. A shorthanded team that is clearly time-wasting (rather than defending/transitioning) can receive the forewarning signal and ultimately a free throw for passive play.",
+rule:"Rule 7:10"},
+{cat:"Passive Play",
+q:"During a fast break with a clear 2v1 situation, the referee shows the forewarning signal. Correct or not?",
+a:"Not correct. The forewarning signal should never be shown during a dynamic attack with clear scoring potential — a fast break with a 2v1 advantage is the antithesis of passive play. Showing the signal here would be an error in judgment.",
+rule:"Rule 7:10"},
+{cat:"Passive Play",
+q:"Team A is shown the forewarning signal near the end of the match while leading by 1. They make exactly 4 passes and on the 4th a player shoots wide. The referee had already started to blow the whistle. Is it passive play or a goal throw (ball went wide)?",
+a:"A genuine shot on goal — even if it goes wide — resolves the passive play situation (the attack made a scoring attempt). The referee should not blow for passive play if the thrower genuinely shot at goal on the 4th touch. Goal throw for the defending team (ball went wide).",
+rule:"Rule 7:11"},
+// ── 5. RESTARTS & THROWS ─────────────────────────────────────────────────────
+{cat:"Restarts & Throws",
+q:"A throw-off is taken. The ball goes directly to an opponent who catches it. Without passing, the opponent shoots immediately. Legal?",
+a:"Legal. Once the throw-off is executed and an opponent gains possession, all normal play rules apply. There is no restriction on the opponent shooting immediately from wherever they catch the throw-off ball.",
+rule:"Rule 10:1–3"},
+{cat:"Restarts & Throws",
+q:"A corner throw is awarded on the right side. Before the throw, two attackers position themselves on the 6m line. Legal?",
+a:"Legal for attackers — the 6m line restriction on a corner throw applies to the defenders (who must stay 3m away from the thrower). Attackers may position themselves anywhere that is not inside the goal area itself. Standing on the 6m line as an attacker is a goal area violation though — the line belongs to the area. They must be outside.",
+rule:"Rule 11:2, 15:4"},
+{cat:"Restarts & Throws",
+q:"A throw-in is awarded. Before the whistle, the thrower hands the ball to a nearby teammate standing on the sideline who takes the throw instead. Legal?",
+a:"Legal. Any player on the team may take a throw-in — it does not have to be the player nearest to where the ball went out. The team chooses who executes it, provided the thrower is in the correct position.",
+rule:"Rule 10:2"},
+{cat:"Restarts & Throws",
+q:"A goalkeeper throw is taken. Before the ball leaves the goal area, an attacker steps onto the 6m line momentarily and then retreats. The goalkeeper has not yet released the ball. What is the call?",
+a:"Retake. Attackers must be outside the 6m line until the ball crosses the line. Stepping onto the line (which belongs to the goal area) before the ball is released = premature entry. The goalkeeper throw must be retaken.",
+rule:"Rule 12:2"},
+{cat:"Restarts & Throws",
+q:"A referee throw is called. One of the two involved players is injured and cannot participate. How is the referee throw conducted?",
+a:"A referee throw is executed between whatever players are present. If one player is unavailable (injured), the referee throw still proceeds — the remaining eligible player participates and the referee throws accordingly. Play must resume.",
+rule:"Rule 13:4"},
+{cat:"Restarts & Throws",
+q:"On a goalkeeper throw, the ball is played to a field player outside the area, who immediately passes it back to the goalkeeper still inside the area. The GK catches it. Back-pass or legal?",
+a:"Back-pass violation. The field player deliberately passed the ball back to the goalkeeper. The sequence (GK throw → teammate → back to GK) is exactly what the back-pass rule prohibits. Free throw for the opponent.",
+rule:"Rule 6:5a"},
+{cat:"Restarts & Throws",
+q:"A free throw is taken quickly (no whistle). Just before the throw, an opponent steps aggressively into the 3m exclusion zone. The throw is taken and misses. What is the call?",
+a:"If the encroachment materially interfered with the throw (forced a misdirected or hurried shot), the referee awards a new free throw with a formal whistle and cautions or suspends the encroaching player. If the throw was taken cleanly and the encroachment had no effect, play continues with the outcome (miss = turnover).",
+rule:"Rule 15:4"},
+{cat:"Restarts & Throws",
+q:"The ball deflects off a referee during a goalkeeper throw, goes into the goal. Is it a goal?",
+a:"No. The ball striking a referee during a restart that directly leads to the ball entering the goal is not a valid goal. A referee throw is awarded at the location of the contact to restart play.",
+rule:"Rule 13:4 Comment"},
+{cat:"Restarts & Throws",
+q:"Team A is awarded a free throw 13m from goal. The thrower takes it quickly and shoots directly. The goalkeeper, who was outside their area, is nowhere near the goal. The ball goes in. Is the goalkeeper required to be inside the area?",
+a:"No. The goalkeeper has no obligation to be in the goal area during a free throw. If the goalkeeper has chosen to leave the area and the free throw is correctly executed, a resulting goal is fully valid.",
+rule:"Rule 13:1"},
+{cat:"Restarts & Throws",
+q:"After a goal throw is awarded, the goalkeeper accidentally steps outside the goal area before releasing the ball. They quickly step back in and then release it. Was there a violation?",
+a:"No violation if the ball was not yet in play (the throw is not considered taken until the ball is released). The goalkeeper stepping outside momentarily before the throw is taken is not a procedural offense — the throw is taken when the ball leaves the goalkeeper's hand from inside the goal area.",
+rule:"Rule 12:2"},
+// ── 6. REFEREE SIGNALS ────────────────────────────────────────────────────────
+{cat:"Referee Signals",
+q:"The goal referee signals goal (pointing to center), but the court referee signals no-goal (waving arms) simultaneously. How is the conflict resolved?",
+a:"The referees confer immediately. General principle: the goal referee has primary authority for decisions at their end of the court (whether the ball fully crossed the line). If the goal referee is certain, their decision prevails. If genuine uncertainty remains, the safer decision is no-goal. Communication between partners is mandatory before play resumes.",
+rule:"IHF Referees' Guide, Rule 17"},
+{cat:"Referee Signals",
+q:"After showing a 2-minute suspension, the referee must clearly communicate which player is suspended when both teams wear similar colors. What is the correct procedure?",
+a:"After the 2-finger suspension signal, the referee: (1) points clearly to the penalized player, (2) points toward that team's substitution area, (3) communicates the player's jersey number verbally to the timekeeper if there is any ambiguity. The timekeeper must confirm before starting the suspension clock.",
+rule:"IHF Signal 14, Rule 16:3"},
+{cat:"Referee Signals",
+q:"A referee inadvertently blows the whistle when no violation has occurred (phantom whistle during open play). What is the correct restart?",
+a:"A referee throw at the location where the ball was when the whistle sounded. Neither team should benefit from the error. The referee must acknowledge the mistake clearly (verbally or by gesture) to prevent confusion.",
+rule:"Rule 13:4"},
+{cat:"Referee Signals",
+q:"The court referee wants to signal the 'passive play forewarning' but the goal referee disagrees and doesn't raise their arm. What should happen?",
+a:"Either referee may independently show the forewarning signal. There is no requirement for both to raise their arm simultaneously, though coordination is preferred. If referees disagree on passive play, they should briefly confer. One referee showing the signal is sufficient to activate it.",
+rule:"Rule 7:11, Rule 17"},
+{cat:"Referee Signals",
+q:"After a red card is shown and the team serves their 2-minute penalty, the same referee realizes they misidentified the player — the red card should have gone to a different player on the same team. Can this be corrected?",
+a:"Yes, but only before play resumes. If the error is caught before the throw restarts play, the correction can be made (the correct player is disqualified and leaves). Once play has resumed with a throw after the error, the decision stands and cannot be reversed.",
+rule:"Rule 17:9"},
+{cat:"Referee Signals",
+q:"A team timeout is granted. As the teams are in their huddles, the referee notices the timekeeper failed to stop the clock. What must the referee do?",
+a:"The referee must immediately signal the timekeeper to stop the clock (T signal again, whistle if needed). The elapsed time during the timeout (where it was running) should be corrected. The referee must verify the clock is stopped before the timeout huddles proceed.",
+rule:"Rule 2:10"},
+{cat:"Referee Signals",
+q:"The court referee signals a 7m throw. The goal referee simultaneously signals a 2-minute suspension. Are both signals compatible — can both apply?",
+a:"Yes. A 7m throw and a 2-minute suspension (or even a red card) can be awarded simultaneously. The suspension is given for the disciplinary offense; the 7m throw is the restart for the clear-chance denial. Both must be applied and communicated clearly.",
+rule:"Rule 14:1, 16:3"},
+{cat:"Referee Signals",
+q:"After blowing the whistle for a 7m throw, the referee signals the suspension of the offending player. Must the 7m throw wait until the suspended player leaves the court?",
+a:"Yes. The 7m throw is set up only after the suspended player has left the court and gone to the bench area. Play cannot resume until the disciplinary situation is fully processed and all players are in their correct positions.",
+rule:"Rule 14:3"},
+// ── 7. TIME & SUBSTITUTION ────────────────────────────────────────────────────
+{cat:"Time & Substitution",
+q:"Team A requests a timeout at the exact moment Team B is awarded a throw-in. Is the timeout granted?",
+a:"No. A team timeout may only be requested when the requesting team is in possession of the ball (or has just been awarded a throw). Since Team B was awarded the throw-in, Team A does not have possession and their timeout request is denied.",
+rule:"Rule 2:10"},
+{cat:"Time & Substitution",
+q:"During a team timeout, a player is injured. Can the timeout be extended to complete the medical treatment?",
+a:"No. The team timeout lasts exactly 1 minute and cannot be extended. If treatment is incomplete at the end of the timeout, the referee calls a separate referee timeout for medical treatment (Rule 2:8), which runs independently of the team timeout.",
+rule:"Rule 2:10, 2:8"},
+{cat:"Time & Substitution",
+q:"In extra time, how many team timeouts is each team entitled to, and do unused timeouts from regulation carry over?",
+a:"Each team is entitled to 1 team timeout per period of extra time. Unused regulation timeouts do NOT carry over to extra time. Each period (first and second half of extra time) gives each team one new timeout.",
+rule:"Rule 2:10"},
+{cat:"Time & Substitution",
+q:"A player substituting on runs directly to participate in a fast break that was already in progress when they entered. Legal?",
+a:"Legal — as soon as a legal substitution is completed (outgoing player left through the substitution zone, incoming player entered correctly), the incoming player is fully eligible to participate immediately, including in the ongoing fast break.",
+rule:"Rule 4:4"},
+{cat:"Time & Substitution",
+q:"A team uses a field player as goalkeeper in a 7v6 attack. That player commits a foul outside the goal area. Are they subject to field player rules or goalkeeper rules?",
+a:"Field player rules entirely. A player acting as 'goalkeeper' without being in the goal area is treated as a field player in all respects — including fouls, disciplinary sanctions, and the prohibition on using the legs/feet to play the ball.",
+rule:"Rule 4:8"},
+{cat:"Time & Substitution",
+q:"The buzzer sounds for half-time. Simultaneously a free throw is taken and the ball is in the air. The ball enters the goal. Is the goal valid?",
+a:"Valid — if the ball was released (throw committed) before the buzzer, a resulting goal counts. The referee must judge whether the throw was genuinely initiated before the signal. If the ball was clearly airborne before the buzzer, goal stands.",
+rule:"Rule 2:9"},
+{cat:"Time & Substitution",
+q:"A player enters the court during a substitution but their team already has 7 players on court (the outgoing player hasn't left yet). The incoming player does not touch the ball. What is the sanction?",
+a:"2-minute suspension for the illegally entering player — even though they didn't touch the ball. Illegal entry (court occupied by too many players) is an infraction regardless of ball contact. The outgoing player must leave first.",
+rule:"Rule 4:5, 16:3b"},
+{cat:"Time & Substitution",
+q:"With 3 seconds on the clock, Team A is awarded a 7m throw. They take their time and set up. The buzzer sounds before the throw is taken. Is the 7m throw still executed?",
+a:"Yes. When a 7m throw is awarded before time expires (while time was still running), it must be taken even after the buzzer. The rules require that a 7m throw awarded within time be executed. The result (goal or no-goal) counts.",
+rule:"Rule 2:9"},
+// ── 8. EDGE CASES & JUDGMENT CALLS ───────────────────────────────────────────
+{cat:"Edge Cases",
+q:"Both teams simultaneously commit fouls on each other. One team's foul was slightly more severe than the other. What is the correct restart?",
+a:"Referee throw. When both teams commit violations simultaneously — regardless of differing severity — the correct restart is always a referee throw. There is no provision for awarding the more severe foul; simultaneity = referee throw.",
+rule:"Rule 13:4"},
+{cat:"Edge Cases",
+q:"An unofficial person (photographer with a sideline pass) enters the court and obstructs a fast break, preventing a certain goal. What is the call?",
+a:"7m throw and play stoppage. Outside interference (any non-player, non-official person) that destroys a clear scoring chance is treated the same as an illegal foul. The offending person is removed from the playing area and a 7m throw is awarded.",
+rule:"Rule 14:1b"},
+{cat:"Edge Cases",
+q:"A player who was substituted off re-enters the court from the corner flag area (not through the substitution zone) during a stoppage. What is the call?",
+a:"2-minute suspension. Players must always enter through the correct substitution zone after the outgoing player has fully left. Entry from any other boundary point is illegal entry regardless of whether play was stopped.",
+rule:"Rule 4:4, 4:5"},
+{cat:"Edge Cases",
+q:"The score is level at the end of extra time. Both captains agree to go directly to a shootout, skipping the second extra time period. Can referees allow this?",
+a:"No. Referees must follow the competition format set by the organizing authority. Captains cannot override competition regulations. If the rules require a second extra time period, it must be played regardless of any captain agreement.",
+rule:"Rule 2:2"},
+{cat:"Edge Cases",
+q:"An attacker commits an offensive foul in the act of shooting — simultaneously the ball enters the goal. What takes precedence?",
+a:"The foul. If the attacking player committed a foul (e.g., charging, pushing off a defender) and the ball still went in, the goal is disallowed. The defending team receives a free throw. Contrast: if the defense fouled the attacker and the ball went in, goal stands.",
+rule:"Rule 14:1 Comment"},
+{cat:"Edge Cases",
+q:"A 7m throw is awarded. Before it is taken, the coach of the shooting team requests a team timeout. Permitted?",
+a:"Yes — the team awarded the 7m throw has possession and may request a timeout before execution. After the timeout the 7m is taken; goalkeeper positioning and any suspension times are preserved as at the moment of the timeout.",
+rule:"Rule 2:10"},
+{cat:"Edge Cases",
+q:"During a brawl, a referee cannot clearly identify who struck first. How should disciplinary sanctions be handled?",
+a:"Referees confer and sanction only what they clearly observed. They are not obligated to guess on players they cannot identify with certainty. However, all clearly identified offenders must be sanctioned. A written report is strongly recommended when the situation cannot be fully resolved on court.",
+rule:"Rule 17:9"},
+{cat:"Edge Cases",
+q:"A bench coach runs 5 meters along the sideline gesturing aggressively at a referee's call. It is their first offense. What is the sanction?",
+a:"Yellow card (warning) for the team official. Running along the sideline to confront or protest at referees is unsporting bench conduct. Next offense: 2-minute suspension served by a court player. Following that: disqualification of the official.",
+rule:"Rule 16:1-2"},
+{cat:"Edge Cases",
+q:"Team A is awarded a free throw outside the 9m line with 2 seconds left, score level. After the whistle, the thrower shoots from clearly 2 meters inside the 9m arc. The ball goes in. What happens?",
+a:"No goal. The free throw was executed from an illegal position (inside the 9m line). Even in the dying seconds the position rule must be enforced. The throw is awarded to the opposing team (turnover) — time expires and the match ends level.",
+rule:"Rule 13:1, 15:7"},
+{cat:"Edge Cases",
+q:"A player commits a serious offense after the final whistle but before leaving the court. The referee has already pocketed the whistle. Can disciplinary action be taken?",
+a:"Yes. Referee authority extends until both teams have left the facility. Post-whistle incidents on or near the court are sanctionable. Serious conduct (assault, spitting, threats) = blue card (disqualification with report). The match result is unaffected.",
+rule:"Rule 16:9"}
+];
+
+let deck=[...CARDS],currentIdx=0,isFlipped=false,scores={},activeCategory='All',filteredDeck=[...deck];
+const CATEGORIES=['All',...new Set(CARDS.map(c=>c.cat))];
+function cardId(card){return card.q.slice(0,55);}
+function init(){buildFilters();applyFilter('All');}
+function buildFilters(){
+  document.getElementById('filtersEl').innerHTML=CATEGORIES.map(cat=>
+    `<button class="filter-btn${cat===activeCategory?' active':''}" onclick="applyFilter(${JSON.stringify(cat)})">${cat==='All'?'All ('+CARDS.length+')':cat}</button>`
+  ).join('');
+}
+function applyFilter(cat){
+  activeCategory=cat;
+  document.querySelectorAll('.filter-btn').forEach(b=>{
+    const label=b.textContent.trim().replace(/\s*\(\d+\)/,'');
+    b.classList.toggle('active',label===cat);
+  });
+  filteredDeck=cat==='All'?[...deck]:deck.filter(c=>c.cat===cat);
+  currentIdx=0;isFlipped=false;render();
+}
+function shuffleDeck(){
+  for(let i=filteredDeck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[filteredDeck[i],filteredDeck[j]]=[filteredDeck[j],filteredDeck[i]];}
+  currentIdx=0;isFlipped=false;render();
+}
+function resetScores(){scores={};applyFilter(activeCategory);}
+function reviewMissed(){
+  const missed=CARDS.filter(c=>scores[cardId(c)]==='nope');
+  if(!missed.length)return;
+  filteredDeck=[...missed];currentIdx=0;isFlipped=false;render();
+}
+function render(){
+  const area=document.getElementById('cardArea'),total=filteredDeck.length;
+  if(total===0){area.innerHTML=`<div class="empty"><div style="font-size:38px;margin-bottom:10px">&#127881;</div><p style="font-size:13px;color:#8a9490">No cards in this category.</p></div>`;updateStats();return;}
+  if(currentIdx>=total){showCompletion();return;}
+  const card=filteredDeck[currentIdx];
+  area.innerHTML=`
+    <div class="flip-container${isFlipped?' flipped':''}" id="flipCard" onclick="flipCard()">
+      <div class="flip-inner">
+        <div class="card-face card-front">
+          <div class="card-category-pill">${card.cat}</div>
+          <div class="card-label">Question</div>
+          <div class="card-question">${card.q}</div>
+          <div class="card-hint">Click to reveal answer</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="card-category-pill">${card.cat}</div>
+          <div class="card-label">Answer</div>
+          <div class="card-answer">${card.a}</div>
+          <div class="card-rule">${card.rule}</div>
+        </div>
+      </div>
+    </div>
+    <div class="answer-btns${isFlipped?'':' hidden'}">
+      <button class="btn-nope" onclick="markCard('nope')">&#x2717; Didn't know it</button>
+      <button class="btn-knew" onclick="markCard('knew')">&#x2713; Knew it</button>
+    </div>
+    <div class="nav-btns">
+      <button class="btn-nav" onclick="prevCard()" ${currentIdx===0?'disabled':''}>&#8592; Prev</button>
+      <button class="btn-nav" onclick="nextCard()" ${currentIdx>=total-1?'disabled':''}>Next &#8594;</button>
+    </div>`;
+  document.getElementById('cardCounter').textContent=`Card ${currentIdx+1} of ${total}`;
+  updateStats();updateProgress();
+}
+function flipCard(){
+  isFlipped=!isFlipped;
+  const fc=document.getElementById('flipCard');if(fc)fc.classList.toggle('flipped',isFlipped);
+  const btns=document.querySelector('.answer-btns');if(btns)btns.classList.toggle('hidden',!isFlipped);
+}
+function markCard(result){scores[cardId(filteredDeck[currentIdx])]=result;nextCard();}
+function prevCard(){if(currentIdx>0){currentIdx--;isFlipped=false;render();}}
+function nextCard(){currentIdx++;isFlipped=false;render();}
+function updateStats(){
+  const allIds=CARDS.map(cardId);
+  const knew=allIds.filter(id=>scores[id]==='knew').length;
+  const nope=allIds.filter(id=>scores[id]==='nope').length;
+  const seen=knew+nope,pct=seen>0?Math.round((knew/seen)*100):0;
+  document.getElementById('knewCount').textContent=knew;
+  document.getElementById('nopeCount').textContent=nope;
+  document.getElementById('seenCount').textContent=seen;
+  document.getElementById('pctBadge').textContent=pct+'%';
+  document.getElementById('reviewBtn').style.display=nope>0?'inline-block':'none';
+}
+function updateProgress(){
+  document.getElementById('progressFill').style.width=(Object.keys(scores).length/CARDS.length*100)+'%';
+}
+function showCompletion(){
+  const allIds=CARDS.map(cardId);
+  const knew=allIds.filter(id=>scores[id]==='knew').length;
+  const nope=allIds.filter(id=>scores[id]==='nope').length;
+  const seen=knew+nope,pct=seen>0?Math.round((knew/seen)*100):0;
+  document.getElementById('cardArea').innerHTML=`
+    <div class="completion">
+      <div class="completion-icon">${pct>=80?'&#127885;':pct>=60?'&#128203;':'&#128218;'}</div>
+      <div class="score-ring"><span class="big">${pct}%</span><span class="sml">correct</span></div>
+      <h2>${pct>=80?'Proligue ready!':pct>=60?'Solid — keep drilling':'Keep studying'}</h2>
+      <p>${knew} knew · ${nope} missed · ${filteredDeck.length} cards reviewed</p>
+      <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-top:6px">
+        <button class="btn btn-outline" onclick="restartDeck()">Restart deck</button>
+        ${nope>0?'<button class="btn btn-green" onclick="reviewMissed()">Review missed ('+nope+')</button>':''} 
+      </div>
+    </div>`;
+  document.getElementById('cardCounter').textContent='';updateStats();
+}
+function restartDeck(){currentIdx=0;isFlipped=false;render();}
+init();
+</script>
+</body>
+</html>
