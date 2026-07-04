@@ -1,0 +1,376 @@
+:root{
+  --navy:#102A43; --navy-deep:#0C2138; --navy-2:#1B3A5B;
+  --orange:#F47920; --orange-dark:#C75E12; --orange-tint:#FCEBDA;
+  --ink:#13202E; --muted:#5A6B7B; --line:#E5EAF0; --bg:#F6F8FA; --card:#FFFFFF;
+  --green:#0F6E56; --red:#A32D2D;
+  --maxw:1040px; --radius:10px;
+  --font:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:var(--font);color:var(--ink);background:var(--bg);line-height:1.55;-webkit-font-smoothing:antialiased}
+a{color:var(--orange-dark);text-decoration:none}
+a:hover{text-decoration:underline}
+img{max-width:100%;display:block}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 18px}
+
+/* Header */
+.nav{background:var(--navy);position:sticky;top:0;z-index:50}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 24px;min-height:68px;padding:8px 0}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand:hover{text-decoration:none}
+.brandmark{font-family:'Saira Stencil One',var(--font);font-size:28px;line-height:1;letter-spacing:1px}
+.brandmark .bm-cal{color:var(--orange)}
+.brandmark .bm-cup{color:#fff}
+.brand .word{color:#fff;font-size:20px;font-weight:700;letter-spacing:.5px}
+.brand .logo-mark{height:50px;width:auto;background:#fff;border-radius:8px;padding:4px 9px;display:block}
+.nav-logo{height:46px;width:auto;display:block}
+.badge{font-family:'Saira Stencil One',var(--font);font-size:12px;background:var(--orange);color:#3A1B02;padding:4px 10px;border-radius:20px;white-space:nowrap;letter-spacing:.5px}
+
+/* CalCup 20th-edition wordmark (Saira Stencil One) */
+.hero-wordmark{font-family:'Saira Stencil One',var(--font);margin:0 0 14px;line-height:1.02}
+.hero-wordmark .l1{font-size:52px;letter-spacing:1px}
+.hero-wordmark .l1 .ca{color:var(--orange)}
+.hero-wordmark .l1 .cu{color:#fff}
+.hero-wordmark .l2{font-size:19px;letter-spacing:3px;color:#B7C6D6;margin-top:6px}
+.hero-wordmark .l2 .x{color:var(--orange)}
+@media (max-width:600px){.hero-wordmark .l1{font-size:34px}.hero-wordmark .l2{font-size:14px;letter-spacing:2px}}
+.menu{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:flex-end;align-items:center}
+.menu a{color:#C3D0DE;font-size:14px;white-space:nowrap}
+.watch-cta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:22px;white-space:nowrap}
+.watch-cta:hover{text-decoration:none;filter:brightness(1.08)}
+.watch-cta i{font-size:15px}
+@media (max-width:720px){.watch-cta{margin-right:10px;font-size:12px;padding:7px 12px}}
+.menu a:hover,.menu a.active{color:var(--orange);text-decoration:none}
+.burger{display:none;background:none;border:0;color:#fff;font-size:24px;cursor:pointer}
+
+/* Hero */
+.hero{background:var(--navy-deep);color:#fff;padding:46px 0}
+.page-photo{position:fixed;inset:0;z-index:-1;background-size:cover;background-position:center 18%;background-repeat:no-repeat;pointer-events:none}
+.hero-loc{margin:16px 0 0;font-size:14px;color:#B7C6D6}
+.hero-loc i{color:#F4A05E;margin-right:4px}
+.hero-loc a{color:#F4A05E}
+.hero .wrap{position:relative}
+.hero-logo{position:absolute;right:18px;top:50%;transform:translateY(-50%);height:128px;width:auto}
+@media (max-width:900px){.hero-logo{height:86px}}
+@media (max-width:600px){.hero-logo{height:60px;opacity:.85}}
+.hero .kicker{color:#F4A05E;font-size:13px;letter-spacing:1px;text-transform:uppercase;margin:0 0 8px}
+.hero h1{font-size:40px;line-height:1.08;margin:0 0 12px;font-weight:700}
+.hero .sub{color:#B7C6D6;font-size:17px;margin:0 0 22px}
+.btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:7px;font-size:14px;font-weight:600;padding:11px 20px;border-radius:var(--radius);cursor:pointer;border:1px solid transparent}
+.btn-lg{font-size:16px;padding:14px 28px}
+.hero .btn{font-family:'Saira Stencil One',var(--font);text-transform:uppercase;letter-spacing:1.5px;font-weight:400}
+.btn-red{background:#D42A2A;color:#fff}
+.btn-red:hover{background:#e23b3b;text-decoration:none}
+.btn-pri{background:var(--orange);color:#3A1B02}
+.btn-pri:hover{background:#ff8a33;text-decoration:none}
+.btn-ghost{background:transparent;border-color:#3E5C7C;color:#fff}
+.btn-ghost:hover{background:#16314c;text-decoration:none}
+
+/* Sections */
+section{padding:30px 0}
+.sec-head{display:flex;align-items:center;justify-content:space-between;margin:0 0 16px}
+.sec-head h2{font-size:22px;margin:0;font-weight:700}
+.sec-head .note{font-size:13px;color:var(--muted)}
+.grid{display:grid;gap:16px}
+.cols-2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.cols-3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.cols-tiles{grid-template-columns:repeat(auto-fit,minmax(130px,1fr))}
+
+/* Cards */
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.card h3{margin:0 0 10px;font-size:16px;font-weight:700}
+.explore-grid{display:grid;gap:14px;grid-template-columns:repeat(2,1fr)}
+@media (min-width:640px){.explore-grid{grid-template-columns:repeat(3,1fr)}}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:26px 14px;text-align:center;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:12px;transition:transform .15s, border-color .15s, box-shadow .15s}
+.tile:hover{border-color:var(--orange);transform:translateY(-3px);box-shadow:0 8px 22px rgba(16,42,67,.10);text-decoration:none}
+.tile .ico{width:56px;height:56px;border-radius:50%;background:var(--orange-tint);display:flex;align-items:center;justify-content:center}
+.tile .ico i{font-size:26px;color:var(--orange-dark)}
+.tile>span:last-child{font-size:15px;font-weight:600}
+
+/* Game card */
+.game{border:1px solid var(--line);border-radius:12px;padding:14px;background:var(--card)}
+.game .meta{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px}
+.game .row{display:flex;justify-content:space-between;font-size:16px;margin:2px 0}
+.game .row .sc{font-weight:700}
+.game .offi{border-top:1px solid var(--line);margin-top:10px;padding-top:9px;font-size:12px;color:var(--muted);line-height:1.9}
+.game .offi i{color:var(--orange-dark)}
+.pill{font-size:11px;font-weight:600;padding:2px 8px;border-radius:20px}
+.pill.final{background:#E2F2EC;color:var(--green)}
+.pill.live{background:#F7E3E3;color:var(--red)}
+.pill.up{background:#EEF2F6;color:var(--muted)}
+
+/* Lists / tables */
+.lead .lrow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--line);font-size:14px}
+.lead .lrow:last-child{border-bottom:0}
+.lead .rk{color:var(--muted);display:inline-block;width:18px}
+.lead .rk.top{color:var(--orange-dark);font-weight:700}
+.sched .srow{display:grid;grid-template-columns:60px 1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px;align-items:center}
+.sched .srow .refs{font-size:12px;color:var(--muted)}
+.sched .srow:last-child{border-bottom:0}
+
+/* Info page */
+.infogrid{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.kv{font-size:14px;margin:6px 0}
+.kv b{color:var(--ink)}
+.callout{background:var(--orange-tint);border:1px solid #F3C79A;border-radius:10px;padding:12px 14px;font-size:14px;color:#6B3608}
+.rules li{margin:5px 0}
+
+/* Partners band */
+.partners{background:#fff;border-top:1px solid var(--line)}
+.partners .wrap{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:14px 26px;padding:18px}
+.partners .grp{display:flex;align-items:center;gap:10px}
+.partners .lbl{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.partners img{height:40px;width:auto;display:block}
+
+/* Standings table */
+.tbl{width:100%;border-collapse:collapse;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.tbl th{background:var(--navy);color:#fff;font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.4px;padding:9px 8px;text-align:center}
+.tbl td{padding:9px 8px;text-align:center;border-top:1px solid var(--line)}
+.tbl td.tm{text-align:left;font-weight:600}
+.tbl td.pts{font-weight:700;color:var(--navy)}
+.tbl tr.qual td{background:var(--orange-tint)}
+.tbl tr.qual td.tm::after{content:" ▸ qualifies";color:var(--orange-dark);font-size:11px;font-weight:600}
+.trophy-img{max-width:260px;width:38%;min-width:180px;border-radius:12px;float:right;margin:0 0 14px 18px}
+.champs .notheld td{color:var(--muted);font-style:italic}
+.champs .notheld td.tm{text-align:center}
+.tbd{color:#9aa6b2}
+@media (max-width:600px){.trophy-img{float:none;width:100%;max-width:none;margin:0 0 14px}}
+
+/* Schedule */
+.filterbar{display:flex;gap:8px;margin-bottom:16px}
+.filterbar button{font-size:13px;font-weight:600;padding:7px 16px;border-radius:20px;border:1px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer}
+.filterbar button.on{background:var(--navy);color:#fff;border-color:var(--navy)}
+.dayblock{margin-bottom:22px}
+.dayhead{font-size:13px;text-transform:uppercase;letter-spacing:.6px;color:var(--orange-dark);margin:0 0 8px;font-weight:700}
+.grow{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-bottom:8px}
+.grow .gno{width:26px;height:26px;flex:none;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.grow .gmain{flex:1;min-width:0}
+.grow .gteams{font-size:15px;font-weight:600}
+.grow .gteams .v{color:var(--muted);font-weight:400;margin:0 4px}
+.gt{display:inline-flex;align-items:center;gap:7px}
+.gt .tlogo{width:22px;height:22px;object-fit:contain;flex:0 0 auto;vertical-align:middle}
+.sched .srow .gt{gap:6px}
+.sched .srow .gt .tlogo{width:18px;height:18px}
+.tbl td.tm .gt{gap:7px}
+.tbl td.tm .tlogo{width:18px;height:18px}
+.lead .lrow .gt{gap:6px;display:inline-flex}
+.lead .lrow .tlogo{width:17px;height:17px}
+.game .row .gt .tlogo{width:20px;height:20px}
+.ref-flag-img{width:36px;height:auto;border-radius:3px;box-shadow:0 1px 3px rgba(16,42,67,.25);display:block}
+.grow .gsub{font-size:12px;color:var(--muted);margin-top:2px}
+.grow .gres{flex:none;text-align:right}
+.res.final{color:var(--green);font-weight:700;font-size:15px}
+.res.live{color:var(--red);font-weight:700;font-size:15px}
+.res.up{color:var(--muted);font-size:14px}
+
+/* Teams / referees / sponsors / history */
+.muted{color:var(--muted)}
+.physio-contact{display:flex;flex-wrap:wrap;gap:16px;margin-top:8px;font-size:14px}
+.physio-contact a,.physio-contact span{color:var(--orange-dark)}
+.physio-contact i{margin-right:4px}
+.hero-wordmark .l2 sup{font-size:.55em;vertical-align:super;letter-spacing:0}
+.teamcard{display:block;color:var(--ink)}
+.teamcard:hover{border-color:var(--orange);text-decoration:none}
+.teamcard .rec{margin-top:8px;font-size:13px;font-weight:600;color:var(--navy)}
+.team-logo{height:64px;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.team-logo img{max-height:60px;max-width:100%;object-fit:contain}
+.ref-head{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ref-flag{font-size:22px;line-height:1}
+.ref-people{display:flex;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+.ref-person{text-align:center;width:84px}
+.ref-portrait{width:72px;height:72px;border-radius:50%;background:var(--orange-tint);border:2px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--orange-dark);font-family:'Saira Stencil One',var(--font);font-size:20px;margin:0 auto 6px}
+.ref-name{font-size:13px;font-weight:600}
+.badge2{font-size:11px;font-weight:600;background:var(--navy);color:#fff;padding:1px 7px;border-radius:20px;vertical-align:middle}
+.refgame{font-size:13px;padding:4px 0;border-bottom:1px solid var(--line)}
+.refgame:last-child{border-bottom:0}
+.sponsorgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px}
+.sponsor{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px 14px;text-align:center;min-height:90px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.sponsor .sname{font-weight:600}
+.sponsor.ph{border-style:dashed;color:var(--text-muted);color:#9aa6b2}
+.timeline{border-left:2px solid var(--orange);padding-left:18px;margin-left:6px}
+.tlrow{position:relative;padding:6px 0 14px}
+.tlrow::before{content:"";position:absolute;left:-25px;top:11px;width:10px;height:10px;border-radius:50%;background:var(--orange)}
+.tlyear{font-weight:700;color:var(--navy)}
+.tltext{font-size:14px;color:var(--ink)}
+
+/* Video */
+.video{position:relative;width:100%;aspect-ratio:16/9;background:#0C2138;border-radius:12px;overflow:hidden}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:20px}
+.video.placeholder p{margin:8px 0 0}
+
+/* Footer */
+footer{background:var(--navy);color:#9FB1C4;margin-top:0}
+footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:18px}
+footer a{color:#C3D0DE}
+
+/* Concession — hero product, gear cards, pre-order form */
+.con-hero{display:flex;gap:22px;align-items:center;flex-wrap:wrap;border-color:var(--orange);background:var(--orange-tint);margin-bottom:18px}
+.con-hero-img{flex:0 0 240px;max-width:240px}
+.con-hero-img img{width:100%;height:auto;display:block;border-radius:10px}
+.con-hero.noimg .con-hero-img{display:none}
+.con-hero-txt{flex:1;min-width:240px}
+.con-tag{display:inline-block;background:var(--orange);color:#3A1B02;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:12px}
+.gear-card{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
+.gear-card:hover{text-decoration:none;border-color:var(--orange)}
+.gear-img{width:100%;max-width:200px}
+.gear-img img{width:100%;height:auto;display:block;border-radius:10px}
+.gear-name{font-weight:700;font-size:16px;margin-top:4px}
+.gear-price{font-family:'Saira Stencil One',var(--font);color:var(--orange-dark);font-size:20px}
+.preorder-form{padding:20px}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.preorder-form label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.preorder-form input,.preorder-form select,.preorder-form textarea{font:inherit;font-weight:400;color:var(--ink);padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
+.preorder-form>label{margin-top:12px}
+.pf-pay{margin:14px 0;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.pf-pay i{color:var(--orange-dark)}
+@media (max-width:640px){.pf-grid{grid-template-columns:1fr}}
+
+@media (max-width:720px){
+  .menu{display:none;position:absolute;top:60px;left:0;right:0;background:var(--navy);flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;align-items:stretch;padding:10px 18px;gap:0}
+  .menu.open{display:flex}
+  .menu a{padding:11px 0;border-bottom:1px solid #1B3A5B}
+  .burger{display:block}
+  .nav-logo{display:none}
+  .hero h1{font-size:30px}
+}
+
+/* --- ref flag per name --- */
+.ref-name{display:flex;align-items:center;gap:7px}
+.ref-name .ref-flag-img{width:24px;box-shadow:0 1px 2px rgba(16,42,67,.25)}
+/* --- lottery --- */
+.lottery{background:var(--navy);color:#fff;border-radius:14px;padding:22px 22px 18px;box-shadow:0 10px 30px rgba(16,42,67,.18)}
+.lot-badge{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;padding:5px 11px;border-radius:20px}
+.lot-head{color:#fff;margin:12px 0 4px;font-size:26px}
+.lot-blurb{color:#cfe0f0;margin:0 0 16px;max-width:660px}
+.lot-prizes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px}
+.lot-prize{display:flex;gap:12px;align-items:flex-start;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:12px}
+.lot-place{background:var(--orange);color:#fff;font-weight:800;font-size:11px;padding:4px 8px;border-radius:6px;white-space:nowrap}
+.lot-item{color:#fff;font-weight:700}
+.lot-tix-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.lot-tix{display:flex;flex-direction:column;background:#fff;border-radius:8px;padding:8px 14px;min-width:82px}
+.lot-tname{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.lot-tprice{font-size:20px;font-weight:800;color:var(--navy)}
+.lot-meta{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:#cfe0f0;border-top:1px solid rgba(255,255,255,.14);padding-top:12px}
+.lot-meta .ti{color:var(--orange)}
+.lot-pay{color:#fff;font-weight:700}
+@media(max-width:640px){.lot-prizes{grid-template-columns:1fr}}
+/* --- concession --- */
+.con-list{display:flex;flex-direction:column;gap:2px}
+.con-row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:6px 0;font-size:14px}
+.con-row:last-child{border-bottom:0}
+.con-p{font-weight:700;color:var(--navy)}
+.con-bname{font-weight:800;color:var(--navy)}
+.con-bprice{font-size:22px;font-weight:800;color:var(--orange-dark);margin-top:6px}
+.cteas{display:flex;flex-wrap:wrap;align-items:center;gap:12px 18px;justify-content:space-between;background:var(--orange-tint);border:1px solid var(--line);border-radius:12px;padding:12px 16px;text-decoration:none;color:inherit}
+.cteas-txt{font-size:14px}
+.cteas-picks{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.cteas-pick b{color:var(--navy)}
+.cteas-cta{color:var(--orange-dark);font-weight:700;font-size:13px;white-space:nowrap}
+.reccard h3{color:var(--navy)}
+/* --- ref quiz --- */
+.quiz{max-width:620px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:0 8px 24px rgba(16,42,67,.08)}
+.quiz-intro,.quiz-result{text-align:center}
+.quiz-badge{display:inline-flex;align-items:center;justify-content:center;min-width:66px;height:66px;padding:0 16px;background:var(--navy);color:#fff;border-radius:50px;font-size:24px;font-weight:800}
+.quiz-badge .ti{color:var(--orange);font-size:30px}
+.quiz-top{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:8px}
+.quiz-timer{font-weight:800;color:var(--orange-dark)}
+.quiz-bar{height:5px;background:var(--line);border-radius:5px;overflow:hidden;margin-bottom:14px}
+.quiz-bar-in{height:100%;background:var(--orange);width:100%;transition:width 1s linear}
+.quiz-q{font-size:18px;font-weight:700;color:var(--navy);margin-bottom:14px}
+.quiz-opts{display:flex;flex-direction:column;gap:9px}
+.quiz-opt{text-align:left;padding:12px 14px;border:1.5px solid var(--line);background:#fff;border-radius:9px;font-size:15px;cursor:pointer;transition:.15s}
+.quiz-opt:hover:not(:disabled){border-color:var(--navy)}
+.quiz-opt:disabled{cursor:default}
+.quiz-opt.correct{border-color:var(--green);background:#e8f6ee}
+.quiz-opt.wrong{border-color:var(--red);background:#fdecec}
+.quiz-fb{font-size:13.5px;color:#33414f;margin-top:12px;line-height:1.45}
+
+/* --- referee carousel (coverflow) --- */
+.ref-cf{position:relative;max-width:760px;margin:8px auto 0;padding:0 46px;overflow-x:hidden}
+.rc-stage{position:relative;height:344px}
+.rc-slot{position:absolute;left:50%;top:0;width:300px;margin-left:-150px;transition:transform .45s cubic-bezier(.4,0,.2,1),opacity .45s;cursor:pointer}
+.rc-slot.rc-hide{opacity:0;pointer-events:none;transform:scale(.5)}
+.rc-p0{transform:translateX(0) scale(1);opacity:1;cursor:default}
+.rc-p1{transform:translateX(72%) scale(.82);opacity:.42}
+.rc-pm1{transform:translateX(-72%) scale(.82);opacity:.42}
+.rc-p2{transform:translateX(128%) scale(.64);opacity:.16}
+.rc-pm2{transform:translateX(-128%) scale(.64);opacity:.16}
+.rc-p1:hover,.rc-pm1:hover{opacity:.72}
+.rc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 18px 16px;box-shadow:0 12px 30px rgba(16,42,67,.13);text-align:center;min-height:300px}
+.rc-card .ref-people{display:flex;justify-content:center;gap:22px;margin-bottom:12px}
+.ref-person{display:flex;flex-direction:column;align-items:center;gap:9px}
+.ref-portrait{position:relative;width:86px;height:86px;border-radius:50%;overflow:hidden;background:var(--orange-tint);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(244,121,32,.28)}
+.ref-portrait .rp-init{font-family:'Saira Stencil One',var(--font);font-size:27px;color:var(--orange-dark);line-height:1}
+.rp-flag{position:absolute;left:0;right:0;bottom:0;width:100%;height:44%;object-fit:cover;-webkit-mask-image:linear-gradient(to top,#000 42%,transparent);mask-image:linear-gradient(to top,#000 42%,transparent);opacity:.92}
+.ref-name{display:block;font-weight:700;font-size:14px;color:var(--navy);text-align:center}
+.rc-bio{font-size:13px;margin:2px 0 10px}
+.rc-assign{font-size:12px;color:var(--muted);border-top:1px solid var(--line);padding-top:10px;line-height:1.5}
+.rc-arrow{position:absolute;top:118px;z-index:20;width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--navy);font-size:20px;line-height:36px;text-align:center;cursor:pointer;box-shadow:0 4px 12px rgba(16,42,67,.14);padding:0}
+.rc-arrow:hover{background:var(--navy);color:#fff}
+.rc-prev{left:0}.rc-next{right:0}
+.rc-dots{display:flex;justify-content:center;gap:7px;margin-top:8px}
+.rc-dot{width:8px;height:8px;border-radius:50%;border:0;background:var(--line);cursor:pointer;padding:0}
+.rc-dot.on{background:var(--orange)}
+@media(max-width:560px){.ref-cf{padding:0 36px}.rc-slot{width:248px;margin-left:-124px}.rc-p1,.rc-pm1{opacity:.28}}
+
+/* --- quiz: nickname + weekend leaderboard --- */
+.quiz-name{width:100%;max-width:280px;padding:11px 14px;border:1.5px solid var(--line);border-radius:9px;font-size:16px;text-align:center;font-family:var(--font)}
+.quiz-name:focus{outline:none;border-color:var(--orange)}
+.quiz-timer{font-weight:800;color:#fff;background:var(--orange-dark);min-width:24px;text-align:center;border-radius:6px;padding:1px 9px}
+.quiz-lb-wrap{margin:18px auto 0;max-width:360px;text-align:left}
+.quiz-lb-h{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;text-align:center}
+table.lb{width:100%;border-collapse:collapse;font-size:14px}
+table.lb th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);padding:4px 6px;border-bottom:1px solid var(--line)}
+table.lb td{padding:6px;text-align:center;border-bottom:1px solid var(--line)}
+table.lb td.lb-name{text-align:left;font-weight:600;color:var(--navy)}
+table.lb tr.me td{background:var(--orange-tint)}
+.lb-live{display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;color:#fff;background:var(--green);border-radius:10px;padding:1px 7px;vertical-align:middle}
+
+/* --- recovery tip icons --- */
+.reccard{padding-top:16px}
+.rec-ico{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:50%;background:var(--orange-tint);margin-bottom:10px}
+.rec-ico i{font-size:22px;color:var(--orange-dark)}
+/* --- quiz big final score (Saira) --- */
+.quiz-bigscore{font-family:'Saira Stencil One',var(--font);font-size:60px;line-height:1;color:var(--navy);margin:6px 0 2px;letter-spacing:1px}
+.quiz-bigscore .bs-num{color:var(--orange)}
+
+/* --- site-wide ref-quiz promo ribbon --- */
+.refbar{display:flex;align-items:center;justify-content:center;gap:8px 18px;flex-wrap:wrap;background:var(--navy-2);color:#fff;padding:9px 18px;text-decoration:none;border-bottom:2px solid var(--orange)}
+.refbar:hover{text-decoration:none;background:#20456a}
+.refbar-txt{font-size:13.5px;color:#DDE6EF}
+.refbar-txt i{color:var(--orange);margin-right:2px}
+.refbar-txt b{color:#fff}
+.refbar-btn{background:var(--orange);color:#3A1B02;font-weight:800;font-size:13px;padding:6px 15px;border-radius:20px;white-space:nowrap}
+@media(max-width:560px){.refbar-txt{font-size:12px}.refbar{padding:8px 12px}}
+
+/* --- sticky ref ribbon + schedule division colors --- */
+.refbar{position:sticky;top:68px;z-index:49}
+.grow[data-div="W"] .gno{background:var(--orange-dark)}
+.sched-legend{display:flex;gap:18px;margin-bottom:14px;font-size:12px;color:var(--muted);align-items:center}
+.sched-legend .lg{display:inline-flex;align-items:center;gap:7px}
+.sched-legend .lg::before{content:"";width:16px;height:16px;border-radius:50%;display:inline-block}
+.sched-legend .lg-m::before{background:var(--navy)}
+.sched-legend .lg-w::before{background:var(--orange-dark)}
+@media(max-width:600px){.refbar{top:60px}}
+
+/* --- schedule: two-line game rows with jersey swatches --- */
+.grow{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--card);margin-bottom:9px}
+.grow .gno{margin-top:2px}
+.grow .gmain{flex:1;min-width:0}
+.gmeta{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;margin-bottom:7px}
+.gteam{display:flex;align-items:center;gap:9px;padding:3px 0}
+.jersey{width:15px;height:17px;border-radius:3px 3px 5px 5px;flex:0 0 auto;box-shadow:inset 0 0 0 1px rgba(0,0,0,.14)}
+.jersey-tbd{background:repeating-linear-gradient(45deg,#eceff2,#eceff2 3px,#dfe4e9 3px,#dfe4e9 6px)}
+.gteam .tlogo{width:24px;height:24px;object-fit:contain;flex:0 0 auto}
+.gtn{font-weight:600;font-size:15px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.gteam.gwin .gtn{font-weight:800;color:var(--navy)}
+.gsc{font-weight:800;font-size:17px;color:var(--navy);min-width:26px;text-align:right}
+.goff{font-size:11.5px;color:var(--muted);margin-top:8px;border-top:1px dashed var(--line);padding-top:7px}
+.gstat{flex:0 0 auto;margin-top:2px}
+.sched-legend .lg-sw{color:var(--muted)}
+
+/* per-game jersey swatch: visible border for light colours */
+.jersey{box-shadow:inset 0 0 0 1.5px rgba(0,0,0,.22)}
