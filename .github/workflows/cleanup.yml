@@ -37,4 +37,4 @@ jobs:
           git rm -f --ignore-unmatch -- "site/assets/logos/USMA MEN'S TEAM HANDBALL OFFICIAL LOGO.png"
           git commit -m "chore: deep clean - remove 23 unreferenced assets" || echo "nothing to remove"
           git push
-YML
+
