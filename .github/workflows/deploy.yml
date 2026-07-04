@@ -7,7 +7,7 @@ concurrency:
   group: calcup-deploy
   cancel-in-progress: false
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -31,19 +31,14 @@ jobs:
           DATA_JS:      ../site/data/data.js
           CHANGED_FLAG: ${{ github.workspace }}/changed.flag
         run: node generate.mjs
-      - name: Deploy to Netlify (only when data changed)
-        run: |
-          if [ "$(cat changed.flag 2>/dev/null)" = "1" ]; then
-            cd site
-            npx --yes netlify-cli deploy --prod --dir=. \
-              --site="${{ secrets.NETLIFY_SITE_ID }}" \
-              --auth="${{ secrets.NETLIFY_AUTH_TOKEN }}" \
-              --message "auto: master update"
-          else echo "No change - nothing to deploy."; fi
-      - name: Commit refreshed data.js
+      - name: Commit refreshed data.js (push auto-triggers Netlify)
         run: |
           if [ "$(cat changed.flag 2>/dev/null)" = "1" ]; then
             git config user.name "calcup-bot"
             git config user.email "bot@users.noreply.github.com"
-            git add site/data/data.js && git commit -m "auto: refresh tournament data" && git push
+            git add site/data/data.js
+            git commit -m "auto: refresh tournament data"
+            git push
+          else
+            echo "No change - nothing to deploy."
           fi
