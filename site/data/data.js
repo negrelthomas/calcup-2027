@@ -1729,9 +1729,24 @@ window.CALCUP = {
     ],
     "W": [
       {
+        "player": "Padideh Dehdari",
+        "team": "ch-w",
+        "goals": 458
+      },
+      {
         "player": "Amber Kaufman",
         "team": "ch-w",
         "goals": 120
+      },
+      {
+        "player": "Jacqueline Sandoval",
+        "team": "ch-w",
+        "goals": 23
+      },
+      {
+        "player": "Maria del Carmen Anguiano",
+        "team": "ch-w",
+        "goals": 16
       }
     ]
   }
