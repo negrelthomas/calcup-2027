@@ -1,0 +1,40 @@
+name: One-time cleanup (remove unused assets)
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove unreferenced junk (single commit)
+        run: |
+          git config user.name "calcup-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git rm -f --ignore-unmatch -- "site/deploy-1782831502630-20d74822-560a-402d-a07a-095e85c83f76.zip"
+          git rm -f --ignore-unmatch -- "site/assets/Calcup-no-year-marking_logo.jpg"
+          git rm -f --ignore-unmatch -- "site/assets/calcup-logo.jpg"
+          git rm -f --ignore-unmatch -- "site/assets/Calheat_logo-new-color-sharp-edge.png"
+          git rm -f --ignore-unmatch -- "site/assets/NEW-USATH-LOGO-2020.png"
+          git rm -f --ignore-unmatch -- "site/assets/press/ziKV4IXh"
+          git rm -f --ignore-unmatch -- "site/assets/press/ziMyjG8q"
+          git rm -f --ignore-unmatch -- "site/assets/press/CalCup_2027_Photos.zip"
+          git rm -f --ignore-unmatch -- "site/assets/press/CalCup_2027_Logos.zip"
+          git rm -f --ignore-unmatch -- "site/assets/photos/16.jpeg"
+          git rm -f --ignore-unmatch -- "site/assets/photos/17.jpeg"
+          git rm -f --ignore-unmatch -- "site/assets/photos/18.png"
+          git rm -f --ignore-unmatch -- "site/assets/photos/19.jpeg"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Army-West-Point-Logo.jpg"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Boston Team Handball_LOGO_COLOR 2.0.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Calheat_logo-new-color-sharp-edge.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Denver Wolves.jpg"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Logo LATHC.PNG"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Logo Seattle HB Club Black Ink Transparent.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/NYC Handball Logo.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/SDTHC_Logo_2023_transparentBG.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/Salt Lake City Massif Logo.png"
+          git rm -f --ignore-unmatch -- "site/assets/logos/USMA MEN'S TEAM HANDBALL OFFICIAL LOGO.png"
+          git commit -m "chore: deep clean - remove 23 unreferenced assets" || echo "nothing to remove"
+          git push
+YML
