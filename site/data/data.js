@@ -1705,366 +1705,372 @@ window.CALCUP = {
     ]
   },
   "scorers": {
-    "M": [],
-    "W": [
+    "M": [
       {
-        "player": "Amber Kaufman",
-        "team": "ch-w",
-        "goals": 1
-      },
+        "player": "Dave Winniger",
+        "team": "boston",
+        "goals": 120
+      }
+    ],
+    "W": [
       {
         "player": "Maria del Carmen Anguiano",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Jacqueline Sandoval",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Padideh Dehdari",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Josielen Silva",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Maya Salles-Cunha",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Yuliia Horbenko",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Natacha Crooks",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Johanna Rydefalk",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Madeleine Bjorklund",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Angelica Palmi",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Sophie Ilona Hensel",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Josefine Bank Johansen",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Janine McDonald",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Anais Chretien",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Leila Movahedian",
         "team": "ch-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Heather Wetmore",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Elizaveta Danilova",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Nicolle Melo",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Daryna Spivak",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Insa Duken",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Katiana Saldanha",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Maria Luiza Folchetti Urbaneja",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Sofia Broadhead",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Hannah Siegel",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Marine Dunoguier",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Laura Rimlinger",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Casey Swezey",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Leticia Oliveira de Souza Carlos",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Antonia Judson",
         "team": "massif",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Stephanie Moreno",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Gabriela Andrade",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Louisde Ganitis",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Gosia Maggie Hibner",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Débora Freitas",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Amanda Fields",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Maria Vallone",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Sherri Cheng",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Denali Dahl",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Meryl Gibbs",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Maggie Kowalik",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Clémence Brice",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Chloé Chateau",
         "team": "nyc",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Marilia Cantagessi",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Grace Lopez",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Kate Marsul",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Keila Rosa",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Karina Moreno",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Emma Löfblad",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Audrey Ruiz",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Mira Chew",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Adela Valenzuela",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Ombretta Minkue",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Beiza Turkoglu",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Briana Jauregui",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Vicky Johnson",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Ilse Martinez",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Nadia Guardado",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Abril Jaramillo",
         "team": "sd-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Sara Peters",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Nia Perry",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Lucienne Nicholson",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Isabelle Vinson",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Anya Prokop",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Mary Arengo",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Teressa Wojtalik",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Sydney Rhuda",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Keirsten Nies",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Margaret Crimmins",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Allison Campbell",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Grace Kaiser",
         "team": "army-w",
-        "goals": 1
+        "goals": 2
       },
       {
         "player": "Linden Madison",
         "team": "army-w",
+        "goals": 2
+      },
+      {
+        "player": "Amber Kaufman",
+        "team": "ch-w",
         "goals": 1
       }
     ]
