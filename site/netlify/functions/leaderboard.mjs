@@ -12,6 +12,13 @@ function json(data, status = 200) {
 export default async (req) => {
   try {
     const store = getStore("refquiz");
+    // Admin reset: visit /.netlify/functions/leaderboard?reset=YOUR_TOKEN
+    // (set QUIZ_RESET_TOKEN in Netlify → Site configuration → Environment variables)
+    const resetParam = new URL(req.url).searchParams.get("reset");
+    if (resetParam && process.env.QUIZ_RESET_TOKEN && resetParam === process.env.QUIZ_RESET_TOKEN) {
+      await store.setJSON(KEY, []);
+      return json({ reset: true, message: "Leaderboard cleared." });
+    }
     if (req.method === "POST") {
       const body = await req.json().catch(() => null);
       let list = (await store.get(KEY, { type: "json" })) || [];
