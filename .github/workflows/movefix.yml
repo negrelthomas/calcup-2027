@@ -1,0 +1,26 @@
+name: Fix misplaced uploads (move root files into site)
+on:
+  workflow_dispatch: {}
+permissions:
+  contents: write
+jobs:
+  movefix:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Move root uploads into site/ and clean up
+        run: |
+          git config user.name "calcup-bot"
+          git config user.email "bot@users.noreply.github.com"
+          mkdir -p site/assets/merch
+          for f in app.js index.html concession.html referees.html info.html; do
+            if [ -f "$f" ]; then git mv -f "$f" "site/$f"; echo "moved $f"; fi
+          done
+          if [ -f styles.css ]; then git mv -f styles.css site/assets/styles.css; echo "moved styles.css"; fi
+          for img in calcup-tshirt.jpg calcup-hoodie.jpg calcup-hat.jpg; do
+            if [ -f "$img" ]; then git mv -f "$img" "site/assets/merch/$img"; echo "moved $img"; fi
+            if [ -f "merch/$img" ]; then git mv -f "merch/$img" "site/assets/merch/$img"; echo "moved merch/$img"; fi
+          done
+          rmdir merch 2>/dev/null || true
+          git commit -m "fix: move misplaced root uploads into site/" || echo "nothing to move"
+          git push
