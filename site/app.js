@@ -5,7 +5,71 @@
   var teams = D.teams || [], refs = D.referees || [], vols = D.volunteers || [], games = D.games || [];
   var WIN = M.winPoints != null ? M.winPoints : 2, DRAW = M.drawPoints != null ? M.drawPoints : 1, LOSS = M.lossPoints != null ? M.lossPoints : 0;
   var DAYS = ["Thu", "Fri", "Sat", "Sun"];
+  var DAY_DATE = { Thu:"2027-01-28", Fri:"2027-01-29", Sat:"2027-01-30", Sun:"2027-01-31" };
   var JCOL = { White:"#FFFFFF", Blue:"#2E6FD6", Black:"#1F1F1F", Green:"#1E8449", Gold:"#C9A227", Red:"#C0392B", Yellow:"#E4B90B", Navy:"#1F3A93", Orange:"#F47920" };
+
+  /* Single source of truth for both the top nav and the home "Explore" grid — they can't drift. */
+  /* primary:true → top nav. All items → home "Explore" directory. Watch live is a header CTA, not a nav item. */
+  var SECTIONS = [
+    { href:"schedule.html",   nav:"Schedule",    tile:"Schedule",     icon:"ti-clock",           primary:true },
+    { href:"standings.html",  nav:"Standings",   tile:"Standings",    icon:"ti-friends",         primary:true },
+    { href:"scorers.html",    nav:"Top scorers", tile:"Top scorers",  icon:"ti-run",             primary:true },
+    { href:"teams.html",      nav:"Teams",       tile:"Teams",        icon:"ti-users",           primary:true },
+    { href:"referees.html",   nav:"Refereeing",  tile:"Refereeing",   icon:"ti-flag",            primary:true },
+    { href:"info.html",       nav:"Info",        tile:"Visitor info", icon:"ti-map-pin",         primary:true },
+    { href:"physio.html",     nav:"Physio",      tile:"Physio",       icon:"ti-stethoscope",     primary:true },
+    { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
+    { href:"history.html",    nav:"History",     tile:"History",      icon:"ti-trophy",          primary:true },
+    { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
+    { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
+    { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false }
+  ];
+  function currentPage(){ var p=(location.pathname.split("/").pop()||"index.html"); return p||"index.html"; }
+  function renderNav(){
+    var menu=document.getElementById("menu"); if(menu){
+      var cur=currentPage();
+      var items=[{href:"index.html",nav:"Home"}].concat(SECTIONS.filter(function(s){return s.primary;}));
+      menu.innerHTML=items.map(function(it){
+        var act=(it.href===cur)?' class="active"':'';
+        return '<a href="'+it.href+'"'+act+'>'+it.nav+'</a>';
+      }).join("");
+    }
+    // "Watch live" CTA pinned in the header on every page (visible on mobile too)
+    var wrap=document.querySelector(".nav .wrap");
+    if(wrap && !document.getElementById("watch-cta")){
+      var cta=document.createElement("a");
+      cta.id="watch-cta"; cta.className="watch-cta"; cta.href="watch.html";
+      cta.innerHTML='<i class="ti ti-player-play"></i> Watch live';
+      wrap.insertBefore(cta, document.getElementById("burger"));
+    }
+  }
+  function renderExplore(){
+    var el=document.getElementById("explore-grid"); if(!el) return;
+    el.innerHTML=SECTIONS.map(function(it){
+      return '<a class="tile" href="'+it.href+'"><span class="ico"><i class="ti '+it.icon+'"></i></span><span>'+it.tile+'</span></a>';
+    }).join("");
+  }
+  /* real datetime for a game, used to pick the next game by actual date & time */
+  function gameDate(g){
+    var d=DAY_DATE[g.day]; if(!d) return null;
+    var m=String(g.time||"").match(/(\d+):(\d+)\s*(AM|PM)?/i); if(!m) return null;
+    var hh=parseInt(m[1],10), mm=parseInt(m[2],10), ap=(m[3]||"").toUpperCase();
+    if(ap==="PM"&&hh<12) hh+=12; if(ap==="AM"&&hh===12) hh=0;
+    return new Date(d+"T"+("0"+hh).slice(-2)+":"+("0"+mm).slice(-2)+":00");
+  }
+  function chronSorted(){ return games.slice().sort(function(a,b){ var da=gameDate(a),db=gameDate(b); if(da&&db) return da-db; return (a.no||0)-(b.no||0); }); }
+  function upcomingByTime(){
+    var now=new Date(), sorted=chronSorted();
+    var notFinal=sorted.filter(function(g){ return g.status!=="final"; });
+    var future=notFinal.filter(function(g){ var d=gameDate(g); return d? d>=now : true; });
+    return future.length? future : notFinal;
+  }
+  function nextGame(){
+    var live=games.find(function(g){ return g.status==="live"; }); if(live) return live;
+    var pool=upcomingByTime();
+    return pool.find(function(g){ return isReal(g.teamA)&&isReal(g.teamB); }) || pool[0]
+        || chronSorted().reverse().find(function(g){ return g.status==="final"; }) || games[games.length-1];
+  }
 
   var byId = {}; teams.forEach(function (t) { byId[t.id] = t; });
   var refMap = {}; refs.forEach(function (r) { refMap[r.id] = r; });
@@ -176,11 +240,7 @@
   }
 
   /* ---------- featured / preview ---------- */
-  function featured() {
-    return games.find(function (g) { return g.status === "live"; }) ||
-      games.find(function (g) { return g.status === "upcoming" && isReal(g.teamA); }) ||
-      games.slice().reverse().find(function (g) { return g.status === "final"; });
-  }
+  function featured() { return nextGame(); }
   function previewRows(list) {
     return '<div class="sched">' + list.map(function (g) {
       var res = g.status === "final" ? '<span style="color:var(--green);font-weight:600">' + g.scoreA + "-" + g.scoreB + "</span>"
@@ -378,8 +438,21 @@
   }
 
   /* ---------- lottery ---------- */
+  var LOTTERY = {
+    headline: "Win a player-signed pro jersey",
+    blurb: "Three prizes, drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
+    prizes: [
+      { place:"1st prize", item:"Match jersey signed by the French national team players", src:"Courtesy of the French Handball Federation" },
+      { place:"2nd prize", item:"Match jersey signed by the PSG Handball players", src:"Courtesy of Paris Saint-Germain Handball" },
+      { place:"3rd prize", item:"$75 of CalCup merch — your choice", src:"Redeemable at the concession stand, at your discretion" }
+    ],
+    tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
+    where: "On sale at the organization table — Saturday & Sunday.",
+    draw: "Drawn at the finals ceremony on Sunday. You must be present to win.",
+    pay: "Venmo · PayPal · Zelle accepted"
+  };
   function renderLottery(el){
-    var L=D.lottery; if(!L){el.innerHTML="";return;}
+    var L=LOTTERY; if(!L){el.innerHTML="";return;}
     var prizes=(L.prizes||[]).map(function(p){return '<div class="lot-prize"><div class="lot-place">'+p.place+'</div><div><div class="lot-item">'+p.item+'</div><div class="muted" style="font-size:12px">'+p.src+'</div></div></div>';}).join("");
     var tix=(L.tickets||[]).map(function(t){return '<div class="lot-tix"><span class="lot-tname">'+t.name+'</span><span class="lot-tprice">'+t.price+'</span></div>';}).join("");
     el.innerHTML='<div class="lottery"><span class="lot-badge">Grand-prize lottery</span>'+
@@ -400,7 +473,19 @@
     var merchSec=(M.items||M.bundles)?('<section><div class="sec-head"><h2>Merch</h2>'+(M.note?'<span class="note">'+M.note+'</span>':'')+'</div><div class="grid cols-3">'+
       (M.items?'<div class="card"><h3 style="margin:0 0 8px">Gear</h3><div class="con-list">'+rows(M.items)+'</div></div>':'')+
       (M.bundles||[]).map(bcard).join("")+'</div></section>'):'';
+    function gcard(img,name,desc,price){
+      var im=img?'<div class="gear-img"><img src="assets/merch/'+img+'" alt="'+name+'" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div>':'';
+      return '<a class="card gear-card" href="#preorder">'+im+'<div class="gear-name">'+name+'</div><div class="muted" style="font-size:13px">'+desc+'</div><div class="gear-price">'+price+'</div></a>';
+    }
+    var heroSec='<section class="con-hero card"><div class="con-hero-img"><img src="assets/merch/calcup-tshirt.jpg" alt="CalCup 20th-edition T-shirt" onerror="this.closest(\'.con-hero\').classList.add(\'noimg\');this.remove()"></div>'+
+      '<div class="con-hero-txt"><span class="con-tag">Hero product</span><h2 style="margin:.2em 0">The CalCup 20th-edition tee</h2><p class="muted">Sport-grey heavyweight cotton, three-colour front print. The tournament classic &mdash; <b>$20</b> at the booth.</p><a class="btn btn-pri" href="#preorder">Pre-order gear &rarr;</a></div></section>';
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">reserve &amp; pay to confirm</span></div><div class="grid cols-3">'+
+      gcard("calcup-hoodie.jpg","Commemorative hoodie","20th-edition hoodie, orange strings","$75")+
+      gcard("calcup-hat.jpg","Commemorative hat","20th-edition flat-visor snapback","$35")+
+      gcard("","Hoodie + hat bundle","Save $10 vs. buying separately","$100")+
+      '</div></section>';
     el.innerHTML='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>'+
+      heroSec+gearSec+
       '<section><div class="sec-head"><h2>Menu</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
       '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>'+
       merchSec;
@@ -499,6 +584,8 @@
   }
 
   function init() {
+    renderNav();          // top nav from SECTIONS (every page)
+    renderExplore();      // home "Explore" grid from the same SECTIONS
     var b = document.getElementById("burger");
     if (b) b.addEventListener("click", function () { document.getElementById("menu").classList.toggle("open"); });
 
@@ -507,7 +594,8 @@
     if (document.getElementById("top-m")) set("top-m", leaderHTML(topScorers("M", 5)));
     if (document.getElementById("top-w")) set("top-w", leaderHTML(topScorers("W", 5)));
     if (document.getElementById("sched-preview")) {
-      var next = games.filter(function (g) { return g.status !== "final"; }).slice(0, 5);
+      var next = upcomingByTime().slice(0, 5);
+      if (!next.length) next = chronSorted().slice(-5);
       set("sched-preview", previewRows(next));
     }
 
