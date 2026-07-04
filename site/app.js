@@ -2,6 +2,7 @@
 (function () {
   var D = window.CALCUP || {};
   var M = D.meta || {};
+  if (!M.streamUrl) M.streamUrl = "https://www.youtube.com/embed/XsOU8JnEpNM"; // TEST feed — replace/remove when the real stream is set
   var teams = D.teams || [], refs = D.referees || [], vols = D.volunteers || [], games = D.games || [];
   var WIN = M.winPoints != null ? M.winPoints : 2, DRAW = M.drawPoints != null ? M.drawPoints : 1, LOSS = M.lossPoints != null ? M.lossPoints : 0;
   var DAYS = ["Thu", "Fri", "Sat", "Sun"];
@@ -15,7 +16,7 @@
     { href:"standings.html",  nav:"Standings",   tile:"Standings",    icon:"ti-friends",         primary:true },
     { href:"scorers.html",    nav:"Top scorers", tile:"Top scorers",  icon:"ti-run",             primary:true },
     { href:"teams.html",      nav:"Teams",       tile:"Teams",        icon:"ti-users",           primary:true },
-    { href:"referees.html",   nav:"Refereeing",  tile:"Refereeing",   icon:"ti-flag",            primary:true },
+    { href:"referees.html",   nav:"Refereeing",  tile:"Refereeing",   icon:"whistle",            primary:true },
     { href:"info.html",       nav:"Info",        tile:"Visitor info", icon:"ti-map-pin",         primary:true },
     { href:"physio.html",     nav:"Physio",      tile:"Physio",       icon:"ti-stethoscope",     primary:true },
     { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
@@ -43,11 +44,32 @@
       wrap.insertBefore(cta, document.getElementById("burger"));
     }
   }
+  var WHISTLE_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="14.5" r="5.5"/><path d="M14 11.5 21 9v4l-7 1.5"/><path d="M9.5 9V5.5h4"/></svg>';
+  function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : '<i class="ti '+icon+'"></i>'; }
   function renderExplore(){
     var el=document.getElementById("explore-grid"); if(!el) return;
     el.innerHTML=SECTIONS.map(function(it){
-      return '<a class="tile" href="'+it.href+'"><span class="ico"><i class="ti '+it.icon+'"></i></span><span>'+it.tile+'</span></a>';
+      return '<a class="tile" href="'+it.href+'"><span class="ico">'+iconHTML(it.icon)+'</span><span>'+it.tile+'</span></a>';
     }).join("");
+  }
+  /* click-to-zoom for product images (class "zoomable") */
+  function setupZoom(){
+    if(document.getElementById("zoom-overlay")) return;
+    var ov=document.createElement("div");
+    ov.id="zoom-overlay"; ov.className="zoom-overlay";
+    ov.innerHTML='<img alt=""><button class="zoom-close" aria-label="Close">&times;</button>';
+    document.body.appendChild(ov);
+    function close(){ ov.classList.remove("open"); }
+    ov.addEventListener("click", close);
+    document.addEventListener("keydown", function(e){ if(e.key==="Escape") close(); });
+    document.addEventListener("click", function(e){
+      var t=e.target;
+      if(t && t.classList && t.classList.contains("zoomable")){
+        e.preventDefault();
+        ov.querySelector("img").src=t.getAttribute("src");
+        ov.classList.add("open");
+      }
+    });
   }
   /* real datetime for a game, used to pick the next game by actual date & time */
   function gameDate(g){
@@ -82,7 +104,7 @@
   }
   function isReal(id) { return !!byId[id]; }
   function teamLogo(id, cls) { return byId[id] ? '<img class="' + (cls || "tlogo") + '" src="assets/logos/' + id + '.png" alt="" onerror="this.style.display=\'none\'">' : ""; }
-  function refName(id) { var r = refMap[id]; return r ? ((r.refs ? r.refs.join(" / ") : r.pair)) : "TBD"; }
+  function refName(id) { var r = refMap[id]; if (r) return r.refs ? r.refs.join(" / ") : r.pair; var s = String(id || "").trim(); return (!s || /assign manually/i.test(s) || /^referee \d+ \(tbd\)\s*\/\s*referee \d+ \(tbd\)$/i.test(s)) ? "TBD" : s; }
   function flagEmoji(c) { return c === "USA" ? "🇺🇸" : c === "FRA" ? "🇫🇷" : c === "CAN" ? "🇨🇦" : "🏳️"; }
   function flagImg(c) { var m = { USA: "flag-us.png", FRA: "flag-fr.png", CAN: "flag-ca.png" }; return m[c] ? '<img class="ref-flag-img" src="assets/' + m[c] + '" alt="' + c + '">' : ""; }
   function tableNames(ids) { return (ids || []).map(function (i) { return volMap[i] ? volMap[i].name : i; }).join(", ") || "TBD"; }
@@ -470,25 +492,26 @@
     var menu=(C.menu||[]).map(function(g){return '<div class="card"><h3 style="margin:0 0 8px">'+g.group+'</h3><div class="con-list">'+rows(g.items)+'</div></div>';}).join("");
     var bundles=(C.bundles||[]).map(bcard).join("");
     var M=C.merch||{};
-    var merchSec=(M.items||M.bundles)?('<section><div class="sec-head"><h2>Merch</h2>'+(M.note?'<span class="note">'+M.note+'</span>':'')+'</div><div class="grid cols-3">'+
-      (M.items?'<div class="card"><h3 style="margin:0 0 8px">Gear</h3><div class="con-list">'+rows(M.items)+'</div></div>':'')+
+    var merchExtras=(M.items||M.bundles)?('<section><div class="sec-head"><h2>Jerseys &amp; extras</h2>'+(M.note?'<span class="note">'+M.note+'</span>':'')+'</div><div class="grid cols-3">'+
+      (M.items?'<div class="card"><h3 style="margin:0 0 8px">Jerseys</h3><div class="con-list">'+rows(M.items)+'</div></div>':'')+
       (M.bundles||[]).map(bcard).join("")+'</div></section>'):'';
     function gcard(img,name,desc,price){
-      var im=img?'<div class="gear-img"><img src="assets/merch/'+img+'" alt="'+name+'" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div>':'';
-      return '<a class="card gear-card" href="#preorder">'+im+'<div class="gear-name">'+name+'</div><div class="muted" style="font-size:13px">'+desc+'</div><div class="gear-price">'+price+'</div></a>';
+      var im=img?'<div class="gear-img"><img class="zoomable" src="assets/merch/'+img+'" alt="'+name+'" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div>':'';
+      return '<a class="card gear-card" href="#preorder"><span class="preorder-tag">Pre-order</span>'+im+'<div class="gear-name">'+name+'</div><div class="muted" style="font-size:13px">'+desc+'</div><div class="gear-price">'+price+'</div></a>';
     }
-    var heroSec='<section class="con-hero card"><div class="con-hero-img"><img src="assets/merch/calcup-tshirt.jpg" alt="CalCup 20th-edition T-shirt" onerror="this.closest(\'.con-hero\').classList.add(\'noimg\');this.remove()"></div>'+
-      '<div class="con-hero-txt"><span class="con-tag">Hero product</span><h2 style="margin:.2em 0">The CalCup 20th-edition tee</h2><p class="muted">Sport-grey heavyweight cotton, three-colour front print. The tournament classic &mdash; <b>$20</b> at the booth.</p><a class="btn btn-pri" href="#preorder">Pre-order gear &rarr;</a></div></section>';
-    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">reserve &amp; pay to confirm</span></div><div class="grid cols-3">'+
-      gcard("calcup-hoodie.jpg","Commemorative hoodie","20th-edition hoodie, orange strings","$75")+
-      gcard("calcup-hat.jpg","Commemorative hat","20th-edition flat-visor snapback","$35")+
+    var teeSec='<section class="con-hero card"><div class="con-hero-img"><img class="zoomable" src="assets/merch/calcup-tshirt.jpg" alt="CalCup T-shirt" onerror="this.closest(\'.con-hero\').classList.add(\'noimg\');this.remove()"></div>'+
+      '<div class="con-hero-txt"><span class="con-tag">Best seller</span><h2 style="margin:.2em 0">The CalCup tee</h2><p class="muted">Sport-grey heavyweight cotton, three-colour print. Available in <b>men&rsquo;s, women&rsquo;s and kids&rsquo;</b> sizes &mdash; <b>$20</b>, grab yours at the booth.</p></div></section>';
+    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament.</p>';
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order &middot; special XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+      gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings","$75")+
+      gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$35")+
       gcard("","Hoodie + hat bundle","Save $10 vs. buying separately","$100")+
       '</div></section>';
+    var foodSec='<section><div class="sec-head"><h2>Food &amp; drink</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
+      '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>';
+    var merchHead='<section style="padding-top:4px"><div class="sec-head"><h2>Merch</h2><span class="note">gear up &mdash; cashless (Venmo/PayPal/Zelle)</span></div></section>';
     el.innerHTML='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>'+
-      heroSec+gearSec+
-      '<section><div class="sec-head"><h2>Menu</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
-      '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>'+
-      merchSec;
+      foodSec+merchHead+teeSec+gearSec+merchExtras;
   }
   function renderConcessionTeaser(el){
     var C=D.concession; if(!C){el.innerHTML="";return;}
@@ -501,6 +524,8 @@
     var Q=D.refQuiz; if(!Q||!Q.questions)return;
     var per=Q.perQuestion||5, POOL=Q.questions, ROUND=Math.min(15,POOL.length);
     var API="/.netlify/functions/leaderboard", LKEY="calcup_refquiz_v1";
+    var CLOSE=new Date("2027-02-01T12:00:00-08:00"); // leaderboard closes before the Sunday finals — adjust date if needed
+    function boardOpen(){ return Date.now() < CLOSE.getTime(); }
     function esc(x){ return String(x).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
     function loadLocal(){ try{return JSON.parse(localStorage.getItem(LKEY)||"[]");}catch(e){return [];} }
     function saveLocal(rec){ try{var a=loadLocal(); a.push(rec); a.sort(function(x,y){return (y.score-x.score)||(x.ts-y.ts);}); localStorage.setItem(LKEY,JSON.stringify(a.slice(0,50)));}catch(e){} }
@@ -513,17 +538,19 @@
         list.map(function(r,i){return '<tr'+(hl&&r.id===hl?' class="me"':'')+'><td>'+(i+1)+'</td><td class="lb-name">'+esc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td></tr>';}).join("")+'</tbody></table>';
     }
     function getBoard(cb){ fetch(API,{headers:{"Accept":"application/json"}}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
-    function postBoard(rec,cb){ saveLocal(rec); fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
+    function postBoard(rec,cb){ saveLocal(rec); if(!boardOpen()){ getBoard(cb); return; } fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
     var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false;
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
         '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>'+per+' seconds each</b>. Fast on purpose &mdash; no time to phone a friend. Add a nickname to join the weekend leaderboard.</p>'+
+        '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard &rarr; win a <b>$50 concession gift card</b>. Board closes before the Sunday finals, so you can still shop.</div>'+
+        (boardOpen()?'':'<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b> — winner announced at the concession booth. You can still play for fun!</div>')+
         '<input id="qname" class="quiz-name" maxlength="18" placeholder="Your nickname" autocomplete="off" spellcheck="false">'+
         '<div style="margin:14px 0"><button class="btn btn-pri btn-lg" id="qstart">Start the test</button></div>'+
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading…</div></div></div>';
-      var inp=el.querySelector("#qname"); if(inp)inp.focus();
+      var inp=el.querySelector("#qname"); void inp; /* no autofocus — keeps the Refereeing page at the top */
       getBoard(function(l,live){ var w=el.querySelector("#qlb"); if(w)w.innerHTML=boardHTML(l,null,live); });
       function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon";
         qs=shuffle(POOL).slice(0,ROUND).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why}; });
@@ -586,6 +613,7 @@
   function init() {
     renderNav();          // top nav from SECTIONS (every page)
     renderExplore();      // home "Explore" grid from the same SECTIONS
+    setupZoom();          // click-to-zoom product images
     var b = document.getElementById("burger");
     if (b) b.addEventListener("click", function () { document.getElementById("menu").classList.toggle("open"); });
 
