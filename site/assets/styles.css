@@ -16,7 +16,7 @@ img{max-width:100%;display:block}
 
 /* Header */
 .nav{background:var(--navy);position:sticky;top:0;z-index:50}
-.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:10px 24px;min-height:68px;padding:8px 0}
 .brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .brand:hover{text-decoration:none}
 .brandmark{font-family:'Saira Stencil One',var(--font);font-size:28px;line-height:1;letter-spacing:1px}
@@ -35,8 +35,12 @@ img{max-width:100%;display:block}
 .hero-wordmark .l2{font-size:19px;letter-spacing:3px;color:#B7C6D6;margin-top:6px}
 .hero-wordmark .l2 .x{color:var(--orange)}
 @media (max-width:600px){.hero-wordmark .l1{font-size:34px}.hero-wordmark .l2{font-size:14px;letter-spacing:2px}}
-.menu{display:flex;gap:18px}
-.menu a{color:#C3D0DE;font-size:14px}
+.menu{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:flex-end;align-items:center}
+.menu a{color:#C3D0DE;font-size:14px;white-space:nowrap}
+.watch-cta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:22px;white-space:nowrap}
+.watch-cta:hover{text-decoration:none;filter:brightness(1.08)}
+.watch-cta i{font-size:15px}
+@media (max-width:720px){.watch-cta{margin-right:10px;font-size:12px;padding:7px 12px}}
 .menu a:hover,.menu a.active{color:var(--orange);text-decoration:none}
 .burger{display:none;background:none;border:0;color:#fff;font-size:24px;cursor:pointer}
 
@@ -202,8 +206,30 @@ footer{background:var(--navy);color:#9FB1C4;margin-top:0}
 footer .wrap{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;padding:18px}
 footer a{color:#C3D0DE}
 
+/* Concession — hero product, gear cards, pre-order form */
+.con-hero{display:flex;gap:22px;align-items:center;flex-wrap:wrap;border-color:var(--orange);background:var(--orange-tint);margin-bottom:18px}
+.con-hero-img{flex:0 0 240px;max-width:240px}
+.con-hero-img img{width:100%;height:auto;display:block;border-radius:10px}
+.con-hero.noimg .con-hero-img{display:none}
+.con-hero-txt{flex:1;min-width:240px}
+.con-tag{display:inline-block;background:var(--orange);color:#3A1B02;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;padding:3px 9px;border-radius:12px}
+.gear-card{text-align:center;display:flex;flex-direction:column;align-items:center;gap:6px;color:var(--ink)}
+.gear-card:hover{text-decoration:none;border-color:var(--orange)}
+.gear-img{width:100%;max-width:200px}
+.gear-img img{width:100%;height:auto;display:block;border-radius:10px}
+.gear-name{font-weight:700;font-size:16px;margin-top:4px}
+.gear-price{font-family:'Saira Stencil One',var(--font);color:var(--orange-dark);font-size:20px}
+.preorder-form{padding:20px}
+.pf-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.preorder-form label{display:flex;flex-direction:column;gap:4px;font-size:13px;font-weight:600;color:var(--muted)}
+.preorder-form input,.preorder-form select,.preorder-form textarea{font:inherit;font-weight:400;color:var(--ink);padding:9px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;width:100%}
+.preorder-form>label{margin-top:12px}
+.pf-pay{margin:14px 0;font-size:13px;color:var(--muted);display:flex;align-items:center;gap:6px}
+.pf-pay i{color:var(--orange-dark)}
+@media (max-width:640px){.pf-grid{grid-template-columns:1fr}}
+
 @media (max-width:720px){
-  .menu{display:none;position:absolute;top:60px;left:0;right:0;background:var(--navy);flex-direction:column;padding:10px 18px;gap:0}
+  .menu{display:none;position:absolute;top:60px;left:0;right:0;background:var(--navy);flex-direction:column;flex-wrap:nowrap;justify-content:flex-start;align-items:stretch;padding:10px 18px;gap:0}
   .menu.open{display:flex}
   .menu a{padding:11px 0;border-bottom:1px solid #1B3A5B}
   .burger{display:block}
