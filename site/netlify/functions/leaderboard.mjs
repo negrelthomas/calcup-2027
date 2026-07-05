@@ -28,9 +28,10 @@ export default async (req) => {
           name: body.name.slice(0, 18),
           score: Math.max(0, Math.min(99, body.score | 0)),
           total: Math.max(1, Math.min(99, body.total | 0)),
+          ms: Math.max(0, Math.min(3600000, body.ms | 0)) || null,
           ts: Date.now()
         });
-        list.sort((a, b) => (b.score - a.score) || (a.ts - b.ts));
+        list.sort((a, b) => (b.score - a.score) || ((a.ms || 9e9) - (b.ms || 9e9)) || (a.ts - b.ts));
         list = list.slice(0, 200);
         await store.setJSON(KEY, list);
       }
