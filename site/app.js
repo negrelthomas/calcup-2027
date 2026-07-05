@@ -6,7 +6,7 @@
   var teams = D.teams || [], refs = D.referees || [], vols = D.volunteers || [], games = D.games || [];
   var WIN = M.winPoints != null ? M.winPoints : 2, DRAW = M.drawPoints != null ? M.drawPoints : 1, LOSS = M.lossPoints != null ? M.lossPoints : 0;
   var DAYS = ["Thu", "Fri", "Sat", "Sun"];
-  var DAY_DATE = { Thu:"2027-01-28", Fri:"2027-01-29", Sat:"2027-01-30", Sun:"2027-01-31" };
+  var DAY_DATE = { Thu:"2027-01-29", Fri:"2027-01-30", Sat:"2027-01-31", Sun:"2027-02-01" };
   var JCOL = { White:"#FFFFFF", Blue:"#2E6FD6", Black:"#1F1F1F", Green:"#1E8449", Gold:"#C9A227", Red:"#C0392B", Yellow:"#E4B90B", Navy:"#1F3A93", Orange:"#F47920" };
 
   /* Single source of truth for both the top nav and the home "Explore" grid — they can't drift. */
@@ -46,6 +46,7 @@
   }
   var WHISTLE_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="14.5" r="5.5"/><path d="M14 11.5 21 9v4l-7 1.5"/><path d="M9.5 9V5.5h4"/></svg>';
   function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : '<i class="ti '+icon+'"></i>'; }
+  var BUNDLE_SVG='<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
   function renderExplore(){
     var el=document.getElementById("explore-grid"); if(!el) return;
     el.innerHTML=SECTIONS.map(function(it){
@@ -217,11 +218,14 @@
       return { id: s.id, name: s.name, P: P, W: W, D: Dr, L: L, GF: s.gf, GA: s.ga, Pts: s.pts };
     });
   }
-  function tableHTML(div, grp, qualifies) {
+  function tableHTML(div, grp, qualLabels) {
+    qualLabels = qualLabels || [];
     var rows = (D.standings && D.standings[grp] && D.standings[grp].length) ? standingsFromExcel(grp) : computeTable(div, grp);
     var body = rows.map(function (t, i) {
-      var q = i < qualifies ? ' class="qual"' : '';
-      return '<tr' + q + '><td>' + (i + 1) + '</td><td class="tm"><span class="gt">' + teamLogo(t.id) + t.name + '</span></td><td>' + t.P + '</td><td>' + t.W + '</td><td>' + t.D + '</td><td>' + t.L + '</td><td>' + t.GF + '</td><td>' + t.GA + '</td><td>' + (t.GF - t.GA > 0 ? "+" : "") + (t.GF - t.GA) + '</td><td class="pts">' + t.Pts + '</td></tr>';
+      var label = qualLabels[i];
+      var q = label ? ' class="qual"' : '';
+      var badge = label ? '<span class="qbadge">&rarr; ' + label + '</span>' : '';
+      return '<tr' + q + '><td>' + (i + 1) + '</td><td class="tm"><span class="gt">' + teamLogo(t.id) + t.name + '</span>' + badge + '</td><td>' + t.P + '</td><td>' + t.W + '</td><td>' + t.D + '</td><td>' + t.L + '</td><td>' + t.GF + '</td><td>' + t.GA + '</td><td>' + (t.GF - t.GA > 0 ? "+" : "") + (t.GF - t.GA) + '</td><td class="pts">' + t.Pts + '</td></tr>';
     }).join("");
     return '<table class="tbl"><thead><tr><th>#</th><th style="text-align:left">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead><tbody>' + body + '</tbody></table>';
   }
@@ -438,14 +442,22 @@
       '<p style="margin:0 0 10px">' + (L.desc || '') + '</p>' +
       (c.length ? '<div class="physio-contact">' + c.join("") + '</div>' : '') + '</div></section>' : '';
     var team = (p.team || []).map(function (m) {
-      return '<div class="card"><h3 style="margin:0 0 4px">' + m.name + '</h3>' +
-        (m.role ? '<span class="badge2" style="margin-bottom:6px;display:inline-block">' + m.role + '</span>' : '') +
-        (m.org ? '<div class="muted">' + m.org + '</div>' : '<div class="muted">&nbsp;</div>') + '</div>';
+      var clean = m.name.replace(/^Dr\.?\s*/i, "");
+      var init = (clean.replace(/[^A-Za-z ]/g, "").trim().split(/\s+/).map(function (w) { return w[0] || ""; }).join("").slice(0, 2).toUpperCase()) || "?";
+      var slug = clean.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+      return '<div class="physio-portrait">' +
+        '<span class="pp-init">' + init + '</span>' +
+        '<img class="pp-photo" src="assets/physio/' + slug + '.jpg" alt="' + m.name + '" onerror="this.remove()">' +
+        '<div class="pp-cap"><span class="pp-name">' + m.name + '</span><span class="pp-role">' + (m.role || "Vibrant Niche") + '</span></div>' +
+        '</div>';
     }).join("");
-    var prot = (p.protocols || []).map(function (x) { return '<li>' + x + '</li>'; }).join("");
+    var prot = (p.protocols || []).map(function (x) {
+      if (/^Supplies\b/i.test(x)) x = "We provide the medical supplies on site — ice, tape, gel, Biofreeze and more.";
+      return '<li>' + x + '</li>';
+    }).join("");
     el.innerHTML =
       '<section><p style="font-size:17px;max-width:760px">' + (p.intro || '') + '</p></section>' + lead +
-      '<section><div class="sec-head"><h2>The physiotherapy team</h2></div><div class="grid cols-3">' + team + '</div></section>' +
+      '<section><div class="sec-head"><h2>The physiotherapy team</h2></div><div class="physio-team-grid">' + team + '</div></section>' +
       '<section><div class="sec-head"><h2>Protocols at CalCup</h2></div><div class="card"><ul class="rules" style="margin:0;padding-left:18px">' + prot + '</ul></div></section>' + recoveryHTML(p.recovery);
   }
 
@@ -488,7 +500,11 @@
   function renderConcession(el){
     var C=D.concession; if(!C)return;
     function rows(list){ return list.map(function(it){return '<div class="con-row"><span>'+it.n+'</span><span class="con-p">'+it.p+'</span></div>';}).join(""); }
-    function bcard(b){ return '<div class="card con-bundle"><div class="con-bname">'+b.n+'</div><div class="muted" style="font-size:13px">'+b.d+'</div><div class="con-bprice">'+b.p+'</div></div>'; }
+    function bcard(b){
+      var slug=(b.n||"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+      return '<div class="card con-bundle"><div class="cb-vis"><span class="cb-ico">'+BUNDLE_SVG+'</span><img class="cb-img" src="assets/concession/'+slug+'.jpg" alt="'+b.n+'" onerror="this.remove()"></div>'+
+        '<div class="con-bname">'+b.n+'</div><div class="muted" style="font-size:13px">'+b.d+'</div><div class="con-bprice">'+b.p+'</div></div>';
+    }
     var menu=(C.menu||[]).map(function(g){return '<div class="card"><h3 style="margin:0 0 8px">'+g.group+'</h3><div class="con-list">'+rows(g.items)+'</div></div>';}).join("");
     var bundles=(C.bundles||[]).map(bcard).join("");
     var M=C.merch||{};
@@ -510,8 +526,9 @@
     var foodSec='<section><div class="sec-head"><h2>Food &amp; drink</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
       '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>';
     var merchHead='<section style="padding-top:4px"><div class="sec-head"><h2>Merch</h2><span class="note">gear up &mdash; cashless (Venmo/PayPal/Zelle)</span></div></section>';
+    var starterSec='<section><div class="card starter-kit"><div class="sk-txt"><span class="con-tag">Starter kit</span><h3>Fan starter kit</h3><p class="muted">One CalCup tee <b>+</b> a $12 prepaid food card &mdash; gear up and fuel up in one.</p></div><div class="sk-price"><span class="sk-was">$32 value</span><span class="sk-now">$27</span><span class="sk-save">save 16%</span></div></div></section>';
     el.innerHTML='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>'+
-      foodSec+merchHead+teeSec+gearSec+merchExtras;
+      foodSec+merchHead+teeSec+starterSec+gearSec+merchExtras;
   }
   function renderConcessionTeaser(el){
     var C=D.concession; if(!C){el.innerHTML="";return;}
@@ -520,9 +537,36 @@
   }
 
   /* ---------- "You think you can ref?" quiz ---------- */
+  // Corrections to flagged questions + extra questions so the 15-question quiz rotates from a larger pool.
+  var QFIX=[
+    { match:/7m throw is saved/i, q:{ q:"A 7-metre throw is saved by the keeper. The rebound falls to an attacking teammate who scores immediately. Valid?",
+      a:["Goal — the save put the ball back in play","No — free throw to the defenders","Retake the 7-metre throw","7-metre throw again"], c:0,
+      why:"Goal. Once the ball has touched the goalkeeper (the save), the 7-metre restriction ends and the ball is live for everyone. A teammate may legally play the rebound and score. (Rule 14:6)" } },
+    { match:/dribbles twice, then passes/i, q:{ q:"Passive-play forewarning shown. The team makes 3 passes, then a player dribbles twice and passes again. How many passes count toward the limit?",
+      a:["4 — the dribble doesn't count, the next pass does","3 — the dribble cancels a pass","6 — dribbles count as passes","5"], c:0,
+      why:"4 passes. After the raised-arm warning a team has a limited number of passes to get a shot away. Dribbling is not a pass, so the two dribbles add nothing — but the pass after them is the 4th pass. (Rule 7:11)" } },
+    { match:/hits a referee standing in front of goal/i, q:{ q:"A team is awarded a free throw. Can a goal be scored directly from it?",
+      a:["Yes — a direct goal is allowed","No — a teammate must touch it first","Only from inside 9 metres","Only in the last minute"], c:0,
+      why:"Yes — a goal may be scored directly from a free throw, provided the throw is taken correctly. (Rule 15)" } },
+    { match:/red-carded together for fighting/i, q:{ q:"A player is disqualified (red card) for a serious foul. How does it affect the team on court?",
+      a:["Down a player for 2 minutes, then a substitute may enter","The same player returns after 2 minutes","Down a player for the rest of the match","No effect — a straight substitution is allowed"], c:0,
+      why:"A disqualification carries a 2-minute team suspension: the team plays short for 2 minutes, after which a substitute may enter. The disqualified player takes no further part. (Rule 16:8)" } }
+  ];
+  var QUIZ_EXTRA=[
+    { q:"A field player deliberately plays the ball with the foot or lower leg. Call?", a:["Free throw to the opponents","7-metre throw","Play on — legal","2-minute suspension"], c:0, why:"Field players may not deliberately play the ball with any part of the leg below the knee. Result: free throw to the other team. (Rule 7:8)" },
+    { q:"How many players may a team have on court at once, including the goalkeeper?", a:["7","6","5","8"], c:0, why:"Seven — six field players plus a goalkeeper. (Rule 4:1)" },
+    { q:"The ball crosses the outer goal line, last touched by an attacker (not a shot on goal). Restart?", a:["Goalkeeper throw","Corner throw","Throw-in for the attackers","Free throw"], c:0, why:"When the ball goes over the outer goal line last touched by an attacker (or the defending keeper), play restarts with a goalkeeper throw. (Rule 12:1)" },
+    { q:"A substitution during play — how must the incoming player enter?", a:["Through their own substitution zone, after the outgoing player leaves","Anywhere along the sideline","Across the centre line","Only when play is stopped"], c:0, why:"Substitutions may be made any time through the team's own substitution zone, once the outgoing player has fully left the court. (Rule 4:4)" },
+    { q:"On a throw-in, the thrower lifts their foot off the sideline before releasing the ball. Call?", a:["Throw-in to the other team","Retake the throw-in","Play on","Free throw at 9 metres"], c:0, why:"The thrower must keep one foot on the sideline until the ball leaves the hand; otherwise the throw-in passes to the opponents. (Rule 11:3)" },
+    { q:"On a 7-metre throw, where must the goalkeeper stay until the ball is released?", a:["Behind the 4-metre goalkeeper-restraining line","On the goal line","Behind the 6-metre line","Anywhere in the goal area"], c:0, why:"The goalkeeper must not cross the 4-metre line until the ball has left the thrower's hand. (Rule 14:8)" }
+  ];
+  function refQuizPool(base){
+    var out=(base||[]).map(function(q){ for(var k=0;k<QFIX.length;k++){ if(QFIX[k].match.test(q.q)) return QFIX[k].q; } return q; });
+    return out.concat(QUIZ_EXTRA);
+  }
   function renderRefQuiz(el){
     var Q=D.refQuiz; if(!Q||!Q.questions)return;
-    var per=Q.perQuestion||5, POOL=Q.questions, ROUND=Math.min(15,POOL.length);
+    var per=Q.perQuestion||5, POOL=refQuizPool(Q.questions), ROUND=Math.min(15,POOL.length);
     var API="/.netlify/functions/leaderboard", LKEY="calcup_refquiz_v1";
     var CLOSE=new Date("2027-02-01T12:00:00-08:00"); // leaderboard closes before the Sunday finals — adjust date if needed
     function boardOpen(){ return Date.now() < CLOSE.getTime(); }
@@ -534,13 +578,15 @@
       var tag=live?' <span class="lb-live">live</span>':'';
       var head='<div class="quiz-lb-h">Weekend leaderboard'+tag+'</div>';
       if(!list.length) return head+'<div class="muted" style="font-size:13px;text-align:center">No scores yet — be the first!</div>';
-      return head+'<table class="lb"><thead><tr><th>#</th><th style="text-align:left">Player</th><th>Score</th></tr></thead><tbody>'+
-        list.map(function(r,i){return '<tr'+(hl&&r.id===hl?' class="me"':'')+'><td>'+(i+1)+'</td><td class="lb-name">'+esc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td></tr>';}).join("")+'</tbody></table>';
+      return head+'<table class="lb"><thead><tr><th>#</th><th style="text-align:left">Player</th><th>Score</th><th>Time</th></tr></thead><tbody>'+
+        list.map(function(r,i){return '<tr'+(hl&&r.id===hl?' class="me"':'')+'><td>'+(i+1)+'</td><td class="lb-name">'+esc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td><td>'+fmtMs(r.ms)+'</td></tr>';}).join("")+'</tbody></table>'+
+        '<div class="muted" style="font-size:11px;text-align:center;margin-top:6px">Ranked by score, then fastest time.</div>';
     }
     function getBoard(cb){ fetch(API,{headers:{"Accept":"application/json"}}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function postBoard(rec,cb){ saveLocal(rec); if(!boardOpen()){ getBoard(cb); return; } fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
-    var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false;
+    var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false, startTs=0;
+    function fmtMs(ms){ if(ms==null||isNaN(ms))return "—"; var s=ms/1000, m=Math.floor(s/60), sec=Math.floor(s%60), t=Math.floor((s*10)%10); return m+":"+("0"+sec).slice(-2)+"."+t; }
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
@@ -552,7 +598,7 @@
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading…</div></div></div>';
       var inp=el.querySelector("#qname"); void inp; /* no autofocus — keeps the Refereeing page at the top */
       getBoard(function(l,live){ var w=el.querySelector("#qlb"); if(w)w.innerHTML=boardHTML(l,null,live); });
-      function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon";
+      function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon"; startTs=Date.now();
         qs=shuffle(POOL).slice(0,ROUND).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why}; });
         i=0; score=0; show(); }
       el.querySelector("#qstart").addEventListener("click",begin);
@@ -578,7 +624,7 @@
       el.querySelector("#qnext").addEventListener("click",function(){ i++; if(i<qs.length)show(); else finish(); });
     }
     function finish(){
-      var id=Date.now()+"-"+Math.floor(Math.random()*1e6), rec={id:id,name:name,score:score,total:qs.length,ts:Date.now()};
+      var id=Date.now()+"-"+Math.floor(Math.random()*1e6), rec={id:id,name:name,score:score,total:qs.length,ms:Date.now()-startTs,ts:Date.now()};
       var r=score/qs.length, g=r>=0.86?["Certified referee","You could officiate the final."]:r>=0.6?["Table official","Strong rules knowledge."]:r>=0.33?["Rookie","Keep studying the rulebook."]:["Spectator","Best leave the whistle to the pros!"];
       el.innerHTML='<div class="quiz quiz-result"><div class="quiz-bigscore"><span class="bs-num">'+score+'</span> / '+qs.length+'</div><h2 style="margin:8px 0 2px">'+g[0]+'</h2><p class="muted" style="margin:0 0 8px">'+esc(name)+' &mdash; '+g[1]+'</p>'+
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Saving…</div></div>'+
@@ -622,15 +668,19 @@
     if (document.getElementById("top-m")) set("top-m", leaderHTML(topScorers("M", 5)));
     if (document.getElementById("top-w")) set("top-w", leaderHTML(topScorers("W", 5)));
     if (document.getElementById("sched-preview")) {
-      var next = upcomingByTime().slice(0, 5);
-      if (!next.length) next = chronSorted().slice(-5);
+      var now = new Date();
+      // Next two games that haven't started yet by the actual date & time — excludes any game currently live.
+      var upcoming = chronSorted().filter(function (g) { var d = gameDate(g); return d ? d > now : true; });
+      var next = upcoming.slice(0, 2);
+      if (!next.length) next = chronSorted().slice(-2);
       set("sched-preview", previewRows(next));
     }
 
     // standings
-    if (document.getElementById("tbl-ma")) set("tbl-ma", tableHTML("M", "A", 1));
-    if (document.getElementById("tbl-mb")) set("tbl-mb", tableHTML("M", "B", 1));
-    if (document.getElementById("tbl-w")) set("tbl-w", tableHTML("W", "W", 2));
+    var MEN_Q = ["1st/2nd place final", "3rd/4th place game"];
+    if (document.getElementById("tbl-ma")) set("tbl-ma", tableHTML("M", "A", MEN_Q));
+    if (document.getElementById("tbl-mb")) set("tbl-mb", tableHTML("M", "B", MEN_Q));
+    if (document.getElementById("tbl-w")) set("tbl-w", tableHTML("W", "W", ["1st/2nd place final", "1st/2nd place final"]));
 
     // scorers (full)
     if (document.getElementById("scorers-m")) set("scorers-m", leaderHTML(topScorers("M")));
