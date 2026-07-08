@@ -122,7 +122,7 @@
     var a = g.status === "upcoming" ? '<span class="sc" style="color:var(--muted)">–</span>' : '<span class="sc">' + g.scoreA + "</span>";
     var b = g.status === "upcoming" ? '<span class="sc" style="color:var(--muted)">–</span>' : '<span class="sc">' + g.scoreB + "</span>";
     return '<div class="game">' +
-      '<div class="meta">' + gameTitle(g) + " · Game " + g.no + " · " + g.day + " " + g.time + " · Court " + g.court + "</div>" +
+      '<div class="meta">' + gameTitle(g) + " · Game " + g.no + " · " + g.day + " " + g.time + "</div>" +
       '<div class="row"><span class="gt">' + teamLogo(g.teamA) + teamName(g.teamA) + "</span>" + a + "</div>" +
       '<div class="row"><span class="gt">' + teamLogo(g.teamB) + teamName(g.teamB) + "</span>" + b + "</div>" +
       '<div style="margin-top:8px">' + statusPill(g.status) + "</div>" +
@@ -222,9 +222,9 @@
     qualLabels = qualLabels || [];
     var rows = (D.standings && D.standings[grp] && D.standings[grp].length) ? standingsFromExcel(grp) : computeTable(div, grp);
     var body = rows.map(function (t, i) {
-      var label = qualLabels[i];
-      var q = label ? ' class="qual"' : '';
-      var badge = label ? '<span class="qbadge">&rarr; ' + label + '</span>' : '';
+      var ql = qualLabels[i], label = ql ? (ql.t || ql) : "", champ = !!(ql && ql.c);
+      var q = champ ? ' class="qual"' : '';
+      var badge = label ? '<span class="qbadge' + (champ ? '' : ' qbadge-plain') + '">&rarr; ' + label + '</span>' : '';
       return '<tr' + q + '><td>' + (i + 1) + '</td><td class="tm"><span class="gt">' + teamLogo(t.id) + t.name + '</span>' + badge + '</td><td>' + t.P + '</td><td>' + t.W + '</td><td>' + t.D + '</td><td>' + t.L + '</td><td>' + t.GF + '</td><td>' + t.GA + '</td><td>' + (t.GF - t.GA > 0 ? "+" : "") + (t.GF - t.GA) + '</td><td class="pts">' + t.Pts + '</td></tr>';
     }).join("");
     return '<table class="tbl"><thead><tr><th>#</th><th style="text-align:left">Team</th><th>P</th><th>W</th><th>D</th><th>L</th><th>GF</th><th>GA</th><th>GD</th><th>Pts</th></tr></thead><tbody>' + body + '</tbody></table>';
@@ -237,7 +237,7 @@
     return '<div class="grow" data-div="'+g.division+'">'+
       '<div class="gno">'+g.no+'</div>'+
       '<div class="gmain">'+
-        '<div class="gmeta">'+gameTitle(g)+' · '+g.time+' · Court '+g.court+'</div>'+
+        '<div class="gmeta">'+gameTitle(g)+' · '+g.time+'</div>'+
         schedTeam(g,"A")+schedTeam(g,"B")+
         '<div class="goff">Refs: '+refName(g.refs)+' · Table: '+tableNames(g.table)+'</div>'+
       '</div>'+
@@ -333,13 +333,15 @@
   function flagFace(c){ var m={USA:"flag-us.png",FRA:"flag-fr.png",CAN:"flag-ca.png"}; return m[c]?'<img class="rp-flag" src="assets/'+m[c]+'" alt="'+c+'">':''; }
   function renderReferees(el){
     if(!refs.length){el.innerHTML="";return;}
+    function refKey(s){ return String(s||"").toLowerCase().replace(/[^a-z]+/g," ").trim().split(" ").filter(Boolean).sort().join(""); }
     var cards=refs.map(function(r){
       var names=r.refs||[r.pair];
       var people=names.map(function(n){
         var init=(n.replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase())||"?";
         return '<div class="ref-person"><div class="ref-portrait"><span class="rp-init">'+init+'</span>'+flagFace(r.country)+'</div><div class="ref-name">'+n+'</div></div>';
       }).join("");
-      var assigned=games.filter(function(g){return g.refs===r.id;});
+      var myKey=refKey((r.refs||[]).join(" "));
+      var assigned=games.filter(function(g){ return g.refs && refKey(g.refs)===myKey; });
       var nums=assigned.map(function(g){return g.no;}).join(" · ");
       var asg=assigned.length?('Officiates '+assigned.length+' game'+(assigned.length>1?'s':'')+' · '+nums):'No assignments yet';
       return '<div class="rc-card"><div class="ref-people">'+people+'</div>'+
@@ -393,6 +395,11 @@
   /* ---------- history ---------- */
   function renderHistory(el) {
     var h = D.history || {};
+    // Corrections/additions sourced from the CalCup 2026 Final Rankings & Awards
+    (h.champions || []).forEach(function (c) { if (c.year === 2026) { c.men = "San Diego"; c.women = "San Diego"; } });
+    if (h.timeline && !h.timeline.some(function (e) { return e.year === 2025; })) { h.timeline.push({ year: 2025, text: "Welcomed a guest team from Brisbane, Australia in both the men's and women's divisions." }); h.timeline.sort(function (a, b) { return a.year - b.year; }); }
+    if (h.championsNote) h.championsNote = "2026 results are final, from the official CalCup rankings. Earlier years' roll of honour is still being verified — corrections welcome.";
+    var AWARDS_2026 = '<div class="callout" style="margin-top:14px"><b>2026 award winners</b> &mdash; <b>Men:</b> MVP &amp; Top Scorer Hassen Dhouioui (Boston TH, 41 goals), MVG Aleix Navarro (San Diego). <b>Women:</b> MVP Mire Chew (San Diego), MVG Marilia Cantagessi (San Diego), Top Scorer Elizaveta Danilova (Massif SLC, 33 goals).</div>';
     var tl = (h.timeline || []).map(function (e) { return '<div class="tlrow"><div class="tlyear">' + e.year + '</div><div class="tltext">' + e.text + '</div></div>'; }).join("");
     var aw = (h.awards || []).map(function (a) { return '<div class="card"><h3 style="margin:0 0 2px">' + a.name + '</h3><div class="muted">' + a.for + '</div></div>'; }).join("");
     var champ = (h.champions && h.champions.length)
@@ -407,7 +414,7 @@
       '<section><p style="font-size:17px;max-width:760px">' + (h.blurb || '') + '</p></section>' +
       '<section><div class="sec-head"><h2>Milestones</h2></div><div class="timeline">' + tl + '</div></section>' +
       '<section><div class="sec-head"><h2>The awards</h2></div><div class="grid cols-2">' + aw + '</div></section>' +
-      '<section><div class="sec-head"><h2>Hall of Champions</h2></div>' + champ + '</section>';
+      '<section><div class="sec-head"><h2>Hall of Champions</h2></div>' + champ + AWARDS_2026 + '</section>';
   }
 
   /* ---------- press ---------- */
@@ -481,7 +488,7 @@
       { place:"3rd prize", item:"$75 of CalCup merch — your choice", src:"Redeemable at the concession stand, at your discretion" }
     ],
     tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
-    where: "On sale at the organization table — Saturday & Sunday.",
+    where: "On sale at the concession stand — Friday through Sunday 12 PM.",
     draw: "Drawn at the finals ceremony on Sunday. You must be present to win.",
     pay: "Venmo · PayPal · Zelle accepted"
   };
@@ -550,19 +557,41 @@
       why:"Yes — a goal may be scored directly from a free throw, provided the throw is taken correctly. (Rule 15)" } },
     { match:/red-carded together for fighting/i, q:{ q:"A player is disqualified (red card) for a serious foul. How does it affect the team on court?",
       a:["Down a player for 2 minutes, then a substitute may enter","The same player returns after 2 minutes","Down a player for the rest of the match","No effect — a straight substitution is allowed"], c:0,
-      why:"A disqualification carries a 2-minute team suspension: the team plays short for 2 minutes, after which a substitute may enter. The disqualified player takes no further part. (Rule 16:8)" } }
+      why:"A disqualification carries a 2-minute team suspension: the team plays short for 2 minutes, after which a substitute may enter. The disqualified player takes no further part. (Rule 16:8)" } },
+    { match:/simultaneously signals no-goal/i, q:{ q:"The two referees signal different sanctions for the same offence at the same moment. Which applies?",
+      a:["The more severe of the two decisions","The court referee's, always","The goal referee's, always","Neither — the situation is replayed"], c:0,
+      why:"When the two referees disagree on how severely to punish the same action, the more severe decision is applied. (Rule 17:7)" } },
+    { match:/clearly inside the 9m line and scores/i, q:{ q:"A player receives on-court treatment during an injury interruption. What then applies to that player?",
+      a:["Must leave the court and may return only after the team's 3rd attack","May stay on and play immediately","Is suspended for 2 minutes","Must sit out the rest of the half"], c:0,
+      why:"A player treated on court during an injury stoppage must leave and can only re-enter after their team has completed its 3rd attack. (Rule 4:11)" } }
   ];
   var QUIZ_EXTRA=[
-    { q:"A field player deliberately plays the ball with the foot or lower leg. Call?", a:["Free throw to the opponents","7-metre throw","Play on — legal","2-minute suspension"], c:0, why:"Field players may not deliberately play the ball with any part of the leg below the knee. Result: free throw to the other team. (Rule 7:8)" },
-    { q:"How many players may a team have on court at once, including the goalkeeper?", a:["7","6","5","8"], c:0, why:"Seven — six field players plus a goalkeeper. (Rule 4:1)" },
-    { q:"The ball crosses the outer goal line, last touched by an attacker (not a shot on goal). Restart?", a:["Goalkeeper throw","Corner throw","Throw-in for the attackers","Free throw"], c:0, why:"When the ball goes over the outer goal line last touched by an attacker (or the defending keeper), play restarts with a goalkeeper throw. (Rule 12:1)" },
-    { q:"A substitution during play — how must the incoming player enter?", a:["Through their own substitution zone, after the outgoing player leaves","Anywhere along the sideline","Across the centre line","Only when play is stopped"], c:0, why:"Substitutions may be made any time through the team's own substitution zone, once the outgoing player has fully left the court. (Rule 4:4)" },
-    { q:"On a throw-in, the thrower lifts their foot off the sideline before releasing the ball. Call?", a:["Throw-in to the other team","Retake the throw-in","Play on","Free throw at 9 metres"], c:0, why:"The thrower must keep one foot on the sideline until the ball leaves the hand; otherwise the throw-in passes to the opponents. (Rule 11:3)" },
-    { q:"On a 7-metre throw, where must the goalkeeper stay until the ball is released?", a:["Behind the 4-metre goalkeeper-restraining line","On the goal line","Behind the 6-metre line","Anywhere in the goal area"], c:0, why:"The goalkeeper must not cross the 4-metre line until the ball has left the thrower's hand. (Rule 14:8)" }
+    { q:"A team attacks with a 7th court player and an empty net. It loses the ball, and an opponent shoots into the unguarded goal from their own half. Call?", a:["Goal — it counts","No goal — struck from own half","Goalkeeper throw to the empty-net team","Free throw"], c:0, why:"A goal into the unguarded net counts, even from a player's own half, provided no violation occurred in the process. (Rule 9:1)" },
+    { q:"The final buzzer sounds while a 7-metre throw has been awarded but not yet taken. What happens?", a:["The 7-metre is still taken — time is prolonged for it","The match ends immediately","It carries over to the next period","No goal — too late"], c:0, why:"Playing time is prolonged to allow a 7-metre throw (and its direct outcome) that was awarded before the buzzer. (Rule 2:5)" },
+    { q:"A goalkeeper gains clear control of the ball inside the goal area, then steps out over the goal-area line still holding it. Call?", a:["Free throw to the opponents","Play on — legal","7-metre throw","Corner throw"], c:0, why:"A goalkeeper may not leave the goal area with the ball under control — free throw to the opponents. (Rule 6:7b)" },
+    { q:"A player is shown a blue card. What does it mean beyond a red card (disqualification)?", a:["Disqualification plus a written report to the authorities","An automatic two-match ban","A 4-minute team suspension","Only a final warning"], c:0, why:"A blue card is a disqualification accompanied by a written report; the disciplinary body then decides any further sanction. (Rule 8:10, 16:9)" },
+    { q:"When may a team request its team time-out?", a:["Only while it is in possession of the ball","At any moment during play","Only when defending","Only in the second half"], c:0, why:"A team may request its team time-out only while in possession of the ball, by placing the green card on the timekeeper's table. (Rule 2:10)" },
+    { q:"Passive-play forewarning is up. An attacker shoots on goal; the ball rebounds off the keeper straight back to the attacking team. The forewarning?", a:["Is cancelled — a shot on goal resets it; a fresh attack begins","Stays up and the pass count continues","Triggers an immediate free throw","Limits them to one more pass"], c:0, why:"A genuine shot on goal ends the passive sequence; the raised-arm signal is cancelled, and on regaining the rebound a new attack begins. (Rule 7:11)" }
   ];
   function refQuizPool(base){
     var out=(base||[]).map(function(q){ for(var k=0;k<QFIX.length;k++){ if(QFIX[k].match.test(q.q)) return QFIX[k].q; } return q; });
     return out.concat(QUIZ_EXTRA);
+  }
+  // Standalone always-visible leaderboard (independent of playing the quiz).
+  function renderQuizBoard(el){
+    function esc(x){ return String(x).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
+    function fmtMs(ms){ if(ms==null||isNaN(ms))return "—"; var s=ms/1000,m=Math.floor(s/60),sec=Math.floor(s%60),t=Math.floor((s*10)%10); return m+":"+("0"+sec).slice(-2)+"."+t; }
+    function board(list){
+      list=(list||[]).slice(0,15);
+      if(!list.length) return '<div class="muted" style="font-size:13px;text-align:center">No scores yet — be the first to play!</div>';
+      return '<table class="lb"><thead><tr><th>#</th><th style="text-align:left">Player</th><th>Score</th><th>Time</th></tr></thead><tbody>'+
+        list.map(function(r,i){return '<tr><td>'+(i+1)+'</td><td class="lb-name">'+esc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td><td>'+fmtMs(r.ms)+'</td></tr>';}).join("")+'</tbody></table>'+
+        '<div class="muted" style="font-size:11px;text-align:center;margin-top:6px">Ranked by score, then fastest time.</div>';
+    }
+    el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>';
+    fetch("/.netlify/functions/leaderboard",{headers:{"Accept":"application/json"}}).then(function(r){return r.json();}).then(function(l){
+      el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div>'+board(l)+'</div>';
+    }).catch(function(){ el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Leaderboard unavailable right now.</div></div>'; });
   }
   function renderRefQuiz(el){
     var Q=D.refQuiz; if(!Q||!Q.questions)return;
@@ -677,10 +706,11 @@
     }
 
     // standings
-    var MEN_Q = ["1st/2nd place final", "3rd/4th place game"];
+    var MEN_Q = [{t:"Championship · 1st/2nd place final",c:true},{t:"Plays 3rd/4th place",c:false},{t:"Plays 5th/6th place",c:false},{t:"Plays 7th/8th place",c:false}];
+    var WOMEN_Q = [{t:"Championship · 1st/2nd place final",c:true},{t:"Championship · 1st/2nd place final",c:true},{t:"Plays 3rd/4th place",c:false},{t:"Plays 3rd/4th place",c:false}];
     if (document.getElementById("tbl-ma")) set("tbl-ma", tableHTML("M", "A", MEN_Q));
     if (document.getElementById("tbl-mb")) set("tbl-mb", tableHTML("M", "B", MEN_Q));
-    if (document.getElementById("tbl-w")) set("tbl-w", tableHTML("W", "W", ["1st/2nd place final", "1st/2nd place final"]));
+    if (document.getElementById("tbl-w")) set("tbl-w", tableHTML("W", "W", WOMEN_Q));
 
     // scorers (full)
     if (document.getElementById("scorers-m")) set("scorers-m", leaderHTML(topScorers("M")));
@@ -714,6 +744,7 @@
     var cot = document.getElementById("concession-teaser"); if (cot) renderConcessionTeaser(cot);
     var con = document.getElementById("concession"); if (con) renderConcession(con);
     var rq = document.getElementById("refquiz"); if (rq) renderRefQuiz(rq);
+    var qlb = document.getElementById("quiz-leaderboard"); if (qlb) renderQuizBoard(qlb);
     applyHeroPhotos();
 
     // watch
