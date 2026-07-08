@@ -258,6 +258,8 @@ footer a{color:#C3D0DE}
 .pp-name{display:block;font-weight:700;font-size:15px;line-height:1.2}
 .pp-role{display:block;font-size:12px;color:#C9D6E4;margin-top:2px}
 .qbadge{display:inline-block;margin-left:8px;font-size:11px;font-weight:600;color:var(--orange-dark);background:var(--orange-tint);border:1px solid var(--orange);padding:1px 8px;border-radius:10px;white-space:nowrap;vertical-align:middle}
+.qbadge-plain{color:var(--muted);background:#EEF2F7;border-color:var(--line)}
+.infogrid .card h3{font-family:'Saira Stencil One',var(--font);font-weight:400;font-size:16px;letter-spacing:.3px}
 @media (max-width:600px){.qbadge{display:block;margin:3px 0 0 0}}
 .zoom-overlay{position:fixed;inset:0;z-index:200;display:none;align-items:center;justify-content:center;background:rgba(16,31,46,.88);padding:24px;cursor:zoom-out}
 .zoom-overlay.open{display:flex}
