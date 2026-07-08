@@ -36,39 +36,47 @@
     <p class="sub">Snacks, drinks and bundles courtside — cashless (Venmo, PayPal, Zelle).</p>
   </div>
 </section>
-<div class="wrap"><div id="concession"></div></div>
-
+<!-- Pre-order (commemorative XXth-edition merch) — top of page -->
 <div class="wrap">
   <section id="preorder" class="preorder">
     <div class="sec-head"><h2>Pre-order commemorative gear</h2><span class="note">reserve now · pick up at the tournament</span></div>
-    <p class="muted" style="max-width:820px;margin:0 0 16px">Reserve your <b>XXth-edition</b> hoodie or hat below. Orders are confirmed once payment is received — Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b> — and picked up at the tournament.</p>
-    <form name="preorder" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="preorder-form card">
+    <p class="muted" style="max-width:820px;margin:0 0 16px">Reserve your <b>XXth-edition</b> hoodie or hat below. Add as many items as you want in a single reservation. Orders are confirmed once payment is received — Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b> — and picked up at the tournament.</p>
+    <form name="preorder" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="preorder-form card" id="preorder-form">
       <input type="hidden" name="form-name" value="preorder">
       <p hidden><label>Leave blank: <input name="bot-field"></label></p>
       <div class="pf-grid">
         <label>Name<input type="text" name="name" required></label>
         <label>Email<input type="email" name="email" required></label>
         <label>Phone (optional)<input type="tel" name="phone"></label>
-        <label>Item
-          <select name="item" required>
-            <option value="">Choose…</option>
-            <option>Commemorative hoodie — $75</option>
-            <option>Commemorative hat — $35</option>
-            <option>Hoodie + hat bundle — $100</option>
-            <option>CalCup T-shirt — $20</option>
-          </select>
-        </label>
-        <label>Size (apparel)
-          <select name="size"><option value="">—</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-        </label>
-        <label>Quantity<input type="number" name="quantity" min="1" value="1"></label>
       </div>
+
+      <div id="items-container">
+        <div class="pf-item-row pf-grid" data-row="1">
+          <label>Item
+            <select name="item" required>
+              <option value="">Choose…</option>
+              <option>Commemorative hoodie — $75</option>
+              <option>Commemorative hat — $35</option>
+              <option>Hoodie + hat bundle — $100</option>
+            </select>
+          </label>
+          <label>Size (apparel)
+            <select name="size"><option value="">—</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+          </label>
+          <label>Quantity<input type="number" name="quantity" min="1" value="1"></label>
+        </div>
+      </div>
+      <div style="margin:8px 0 12px"><button type="button" id="add-item" class="btn btn-sec"><i class="ti ti-plus"></i> Add another item</button></div>
+
       <label>Notes (optional)<textarea name="notes" rows="2"></textarea></label>
       <div class="pf-pay"><i class="ti ti-bolt"></i> Confirm with payment: <b>Venmo</b> @CalHeat-Handball · <b>Zelle / PayPal</b> calcup@calheat.com</div>
       <button type="submit" class="btn btn-pri">Reserve my order</button>
     </form>
   </section>
 </div>
+
+<!-- Food & drink concession — moved below pre-order (less priority) -->
+<div class="wrap"><div id="concession"></div></div>
 
 <section class="partners">
   <div class="wrap">
@@ -78,5 +86,137 @@
 </section>
 <script src="data/data.js"></script>
 <script src="app.js"></script>
+<script>
+// Multi-item pre-order: "Add another item" clones a row; on submit each item
+// is POSTed to Netlify Forms as its own submission (same name/email/phone/notes)
+// so the existing tracker parser records one line per SKU.
+(function () {
+  const form = document.getElementById('preorder-form');
+  const addBtn = document.getElementById('add-item');
+  const container = document.getElementById('items-container');
+  if (!form || !addBtn || !container) return;
+
+  // Items where the Size field is not applicable (no apparel sizing)
+  const NO_SIZE_ITEMS = new Set(['Commemorative hat — $35']);
+
+  function syncSizeField(row) {
+    const itemEl = row.querySelector('[name=item]');
+    const sizeEl = row.querySelector('[name=size]');
+    if (!itemEl || !sizeEl) return;
+    if (NO_SIZE_ITEMS.has(itemEl.value)) {
+      sizeEl.value = '';
+      sizeEl.disabled = true;
+      const wrap = sizeEl.closest('label');
+      if (wrap) wrap.style.opacity = '0.4';
+    } else {
+      sizeEl.disabled = false;
+      const wrap = sizeEl.closest('label');
+      if (wrap) wrap.style.opacity = '';
+    }
+  }
+
+  // Delegate change on any item select in the container
+  container.addEventListener('change', function (e) {
+    if (e.target && e.target.matches('[name=item]')) {
+      const row = e.target.closest('.pf-item-row');
+      if (row) syncSizeField(row);
+    }
+  });
+
+  // Initialize on load for the first row
+  container.querySelectorAll('.pf-item-row').forEach(syncSizeField);
+
+  addBtn.addEventListener('click', function () {
+    const rows = container.querySelectorAll('.pf-item-row');
+    const template = rows[0];
+    const clone = template.cloneNode(true);
+    clone.dataset.row = String(rows.length + 1);
+    clone.querySelectorAll('select, input').forEach(function (el) {
+      if (el.type === 'number') el.value = '1'; else el.value = '';
+    });
+    // Re-enable size field on the clone (it may have been disabled on the source row)
+    const cloneSize = clone.querySelector('[name=size]');
+    if (cloneSize) {
+      cloneSize.disabled = false;
+      const wrap = cloneSize.closest('label');
+      if (wrap) wrap.style.opacity = '';
+    }
+    // Add a remove control on cloned rows
+    if (!clone.querySelector('.remove-item')) {
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'btn btn-sec remove-item';
+      rm.style.gridColumn = '1 / -1';
+      rm.style.justifySelf = 'end';
+      rm.innerHTML = '<i class="ti ti-x"></i> Remove item';
+      rm.addEventListener('click', function () { clone.remove(); });
+      clone.appendChild(rm);
+    }
+    container.appendChild(clone);
+  });
+
+  function encode(data) {
+    return Object.keys(data)
+      .map(function (k) { return encodeURIComponent(k) + '=' + encodeURIComponent(data[k]); })
+      .join('&');
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const submitBtn = form.querySelector('button[type=submit]');
+    submitBtn.disabled = true;
+    const originalLabel = submitBtn.textContent;
+    submitBtn.textContent = 'Sending…';
+
+    const shared = {
+      'form-name': 'preorder',
+      'name': form.querySelector('[name=name]').value,
+      'email': form.querySelector('[name=email]').value,
+      'phone': form.querySelector('[name=phone]').value,
+      'notes': form.querySelector('[name=notes]').value,
+      'bot-field': ''
+    };
+
+    const rows = container.querySelectorAll('.pf-item-row');
+    const payloads = [];
+    rows.forEach(function (row) {
+      const item = row.querySelector('[name=item]').value;
+      if (!item) return;
+      payloads.push(Object.assign({}, shared, {
+        item: item,
+        size: row.querySelector('[name=size]').value,
+        quantity: row.querySelector('[name=quantity]').value
+      }));
+    });
+
+    if (payloads.length === 0) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+      alert('Please pick at least one item.');
+      return;
+    }
+
+    let allOk = true;
+    for (const p of payloads) {
+      try {
+        const r = await fetch('/', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+          body: encode(p)
+        });
+        if (!r.ok) allOk = false;
+      } catch (err) { allOk = false; }
+    }
+
+    if (allOk) {
+      form.innerHTML = '<div class="preorder-thanks card" style="padding:20px"><h3 style="margin:0 0 8px">Thanks — your pre-order is in!</h3><p style="margin:0">Confirm with payment: <b>Venmo</b> @CalHeat-Handball · <b>Zelle / PayPal</b> calcup@calheat.com. Pickup at the tournament. See you courtside.</p></div>';
+    } else {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+      alert('Some items could not be submitted. Please try again or email calcup@calheat.com.');
+    }
+  });
+})();
+</script>
 </body>
 </html>
