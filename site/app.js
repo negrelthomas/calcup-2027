@@ -547,31 +547,31 @@
   // Corrections to flagged questions + extra questions so the 15-question quiz rotates from a larger pool.
   var QFIX=[
     { match:/7m throw is saved/i, q:{ q:"A 7-metre throw is saved by the keeper. The rebound falls to an attacking teammate who scores immediately. Valid?",
-      a:["Goal — the save put the ball back in play","No — free throw to the defenders","Retake the 7-metre throw","7-metre throw again"], c:0,
+      a:["Goal — the save put the ball back in play","No — free throw to the defenders","Retake the 7-metre throw","7-metre throw again"], c:0, topic:"7m",
       why:"Goal. Once the ball has touched the goalkeeper (the save), the 7-metre restriction ends and the ball is live for everyone. A teammate may legally play the rebound and score. (Rule 14:6)" } },
     { match:/dribbles twice, then passes/i, q:{ q:"Passive-play forewarning shown. The team makes 3 passes, then a player dribbles twice and passes again. How many passes count toward the limit?",
-      a:["4 — the dribble doesn't count, the next pass does","3 — the dribble cancels a pass","6 — dribbles count as passes","5"], c:0,
+      a:["4 — the dribble doesn't count, the next pass does","3 — the dribble cancels a pass","6 — dribbles count as passes","5"], c:0, topic:"passive",
       why:"4 passes. After the raised-arm warning a team has a limited number of passes to get a shot away. Dribbling is not a pass, so the two dribbles add nothing — but the pass after them is the 4th pass. (Rule 7:11)" } },
     { match:/hits a referee standing in front of goal/i, q:{ q:"A team is awarded a free throw. Can a goal be scored directly from it?",
-      a:["Yes — a direct goal is allowed","No — a teammate must touch it first","Only from inside 9 metres","Only in the last minute"], c:0,
+      a:["Yes — a direct goal is allowed","No — a teammate must touch it first","Only from inside 9 metres","Only in the last minute"], c:0, topic:"procedure",
       why:"Yes — a goal may be scored directly from a free throw, provided the throw is taken correctly. (Rule 15)" } },
     { match:/red-carded together for fighting/i, q:{ q:"A player is disqualified (red card) for a serious foul. How does it affect the team on court?",
-      a:["Down a player for 2 minutes, then a substitute may enter","The same player returns after 2 minutes","Down a player for the rest of the match","No effect — a straight substitution is allowed"], c:0,
+      a:["Down a player for 2 minutes, then a substitute may enter","The same player returns after 2 minutes","Down a player for the rest of the match","No effect — a straight substitution is allowed"], c:0, topic:"2min",
       why:"A disqualification carries a 2-minute team suspension: the team plays short for 2 minutes, after which a substitute may enter. The disqualified player takes no further part. (Rule 16:8)" } },
     { match:/simultaneously signals no-goal/i, q:{ q:"The two referees signal different sanctions for the same offence at the same moment. Which applies?",
-      a:["The more severe of the two decisions","The court referee's, always","The goal referee's, always","Neither — the situation is replayed"], c:0,
+      a:["The more severe of the two decisions","The court referee's, always","The goal referee's, always","Neither — the situation is replayed"], c:0, topic:"procedure",
       why:"When the two referees disagree on how severely to punish the same action, the more severe decision is applied. (Rule 17:7)" } },
     { match:/clearly inside the 9m line and scores/i, q:{ q:"A player receives on-court treatment during an injury interruption. What then applies to that player?",
-      a:["Must leave the court and may return only after the team's 3rd attack","May stay on and play immediately","Is suspended for 2 minutes","Must sit out the rest of the half"], c:0,
+      a:["Must leave the court and may return only after the team's 3rd attack","May stay on and play immediately","Is suspended for 2 minutes","Must sit out the rest of the half"], c:0, topic:"procedure",
       why:"A player treated on court during an injury stoppage must leave and can only re-enter after their team has completed its 3rd attack. (Rule 4:11)" } }
   ];
   var QUIZ_EXTRA=[
-    { q:"A team attacks with a 7th court player and an empty net. It loses the ball, and an opponent shoots into the unguarded goal from their own half. Call?", a:["Goal — it counts","No goal — struck from own half","Goalkeeper throw to the empty-net team","Free throw"], c:0, why:"A goal into the unguarded net counts, even from a player's own half, provided no violation occurred in the process. (Rule 9:1)" },
-    { q:"The final buzzer sounds while a 7-metre throw has been awarded but not yet taken. What happens?", a:["The 7-metre is still taken — time is prolonged for it","The match ends immediately","It carries over to the next period","No goal — too late"], c:0, why:"Playing time is prolonged to allow a 7-metre throw (and its direct outcome) that was awarded before the buzzer. (Rule 2:5)" },
-    { q:"A goalkeeper gains clear control of the ball inside the goal area, then steps out over the goal-area line still holding it. Call?", a:["Free throw to the opponents","Play on — legal","7-metre throw","Corner throw"], c:0, why:"A goalkeeper may not leave the goal area with the ball under control — free throw to the opponents. (Rule 6:7b)" },
-    { q:"A player is shown a blue card. What does it mean beyond a red card (disqualification)?", a:["Disqualification plus a written report to the authorities","An automatic two-match ban","A 4-minute team suspension","Only a final warning"], c:0, why:"A blue card is a disqualification accompanied by a written report; the disciplinary body then decides any further sanction. (Rule 8:10, 16:9)" },
-    { q:"When may a team request its team time-out?", a:["Only while it is in possession of the ball","At any moment during play","Only when defending","Only in the second half"], c:0, why:"A team may request its team time-out only while in possession of the ball, by placing the green card on the timekeeper's table. (Rule 2:10)" },
-    { q:"Passive-play forewarning is up. An attacker shoots on goal; the ball rebounds off the keeper straight back to the attacking team. The forewarning?", a:["Is cancelled — a shot on goal resets it; a fresh attack begins","Stays up and the pass count continues","Triggers an immediate free throw","Limits them to one more pass"], c:0, why:"A genuine shot on goal ends the passive sequence; the raised-arm signal is cancelled, and on regaining the rebound a new attack begins. (Rule 7:11)" }
+    { q:"A team attacks with a 7th court player and an empty net. It loses the ball, and an opponent shoots into the unguarded goal from their own half. Call?", a:["Goal — it counts","No goal — struck from own half","Goalkeeper throw to the empty-net team","Free throw"], c:0, topic:"other", why:"A goal into the unguarded net counts, even from a player's own half, provided no violation occurred in the process. (Rule 9:1)" },
+    { q:"The final buzzer sounds while a 7-metre throw has been awarded but not yet taken. What happens?", a:["The 7-metre is still taken — time is prolonged for it","The match ends immediately","It carries over to the next period","No goal — too late"], c:0, topic:"clock", why:"Playing time is prolonged to allow a 7-metre throw (and its direct outcome) that was awarded before the buzzer. (Rule 2:5)" },
+    { q:"A goalkeeper gains clear control of the ball inside the goal area, then steps out over the goal-area line still holding it. Call?", a:["Free throw to the opponents","Play on — legal","7-metre throw","Corner throw"], c:0, topic:"goalkeeper", why:"A goalkeeper may not leave the goal area with the ball under control — free throw to the opponents. (Rule 6:7b)" },
+    { q:"A player is shown a blue card. What does it mean beyond a red card (disqualification)?", a:["Disqualification plus a written report to the authorities","An automatic two-match ban","A 4-minute team suspension","Only a final warning"], c:0, topic:"procedure", why:"A blue card is a disqualification accompanied by a written report; the disciplinary body then decides any further sanction. (Rule 8:10, 16:9)" },
+    { q:"When may a team request its team time-out?", a:["Only while it is in possession of the ball","At any moment during play","Only when defending","Only in the second half"], c:0, topic:"procedure", why:"A team may request its team time-out only while in possession of the ball, by placing the green card on the timekeeper's table. (Rule 2:10)" },
+    { q:"Passive-play forewarning is up. An attacker shoots on goal; the ball rebounds off the keeper straight back to the attacking team. The forewarning?", a:["Is cancelled — a shot on goal resets it; a fresh attack begins","Stays up and the pass count continues","Triggers an immediate free throw","Limits them to one more pass"], c:0, topic:"passive", why:"A genuine shot on goal ends the passive sequence; the raised-arm signal is cancelled, and on regaining the rebound a new attack begins. (Rule 7:11)" }
   ];
   function refQuizPool(base){
     var out=(base||[]).map(function(q){ for(var k=0;k<QFIX.length;k++){ if(QFIX[k].match.test(q.q)) return QFIX[k].q; } return q; });
@@ -614,7 +614,18 @@
     function getBoard(cb){ fetch(API,{headers:{"Accept":"application/json"}}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function postBoard(rec,cb){ saveLocal(rec); if(!boardOpen()){ getBoard(cb); return; } fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
-    var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false, startTs=0;
+    // Topic-balanced round draw: guarantee the on-court decisive calls (7m / 2-min / late-clock)
+    // each round, then fill the remainder at random. Degrades gracefully if a topic is thin.
+    function drawRound(pool){
+      var MIN={"7m":3,"2min":3,"clock":2}, byTopic={}, used={}, chosen=[];
+      pool.forEach(function(q,idx){ var t=(q&&q.topic)||"other"; (byTopic[t]=byTopic[t]||[]).push(idx); });
+      Object.keys(MIN).forEach(function(t){ var ids=shuffle(byTopic[t]||[]);
+        for(var k=0;k<MIN[t]&&k<ids.length&&chosen.length<ROUND;k++){ used[ids[k]]=true; chosen.push(ids[k]); } });
+      var rest=shuffle(pool.map(function(_,idx){return idx;}).filter(function(idx){return !used[idx];}));
+      for(var j=0;chosen.length<ROUND&&j<rest.length;j++) chosen.push(rest[j]);
+      return shuffle(chosen).slice(0,ROUND).map(function(idx){return pool[idx];});
+    }
+    var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false, qStartTs=0, qElapsedMs=0;
     function fmtMs(ms){ if(ms==null||isNaN(ms))return "—"; var s=ms/1000, m=Math.floor(s/60), sec=Math.floor(s%60), t=Math.floor((s*10)%10); return m+":"+("0"+sec).slice(-2)+"."+t; }
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
@@ -627,14 +638,14 @@
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading…</div></div></div>';
       var inp=el.querySelector("#qname"); void inp; /* no autofocus — keeps the Refereeing page at the top */
       getBoard(function(l,live){ var w=el.querySelector("#qlb"); if(w)w.innerHTML=boardHTML(l,null,live); });
-      function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon"; startTs=Date.now();
-        qs=shuffle(POOL).slice(0,ROUND).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why}; });
+      function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon"; qElapsedMs=0;
+        qs=drawRound(POOL).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why}; });
         i=0; score=0; show(); }
       el.querySelector("#qstart").addEventListener("click",begin);
       if(inp)inp.addEventListener("keydown",function(e){ if(e.key==="Enter")begin(); });
     }
     function show(){
-      answered=false; left=per; var q=qs[i];
+      answered=false; left=per; qStartTs=Date.now(); var q=qs[i];
       var opts=q.opts.map(function(o,idx){return '<button class="quiz-opt" data-i="'+idx+'">'+esc(o.t)+'</button>';}).join("");
       el.innerHTML='<div class="quiz"><div class="quiz-top"><span class="quiz-count">Q '+(i+1)+' / '+qs.length+'</span><span class="quiz-score">Score '+score+'</span><span class="quiz-timer" id="qtimer">'+left+'</span></div>'+
         '<div class="quiz-bar"><div class="quiz-bar-in" id="qbar"></div></div>'+
@@ -644,16 +655,16 @@
       clearInterval(timer); timer=setInterval(function(){ left--; var t=el.querySelector("#qtimer"); if(t)t.textContent=left; if(left<=0){clearInterval(timer); if(!answered)choose(-1);} },1000);
     }
     function choose(idx){
-      if(answered)return; answered=true; clearInterval(timer);
+      if(answered)return; qElapsedMs+=Date.now()-qStartTs; answered=true; clearInterval(timer);
       var q=qs[i], ci=-1; q.opts.forEach(function(o,k){if(o.ok)ci=k;});
       Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){var bi=+b.getAttribute("data-i"); b.disabled=true; if(bi===ci)b.classList.add("correct"); if(bi===idx&&idx!==ci)b.classList.add("wrong");});
       var ok=(idx===ci); if(ok)score++;
       var st=el.querySelector(".quiz-score"); if(st)st.textContent="Score "+score;
-      el.querySelector("#qfb").innerHTML='<b>'+(ok?"Correct! ":(idx===-1?"Time&rsquo;s up! ":"Nope. "))+'</b>'+esc(q.why)+'<div style="margin-top:10px"><button class="btn btn-pri" id="qnext">'+(i+1<qs.length?"Next &rarr;":"Finish")+'</button></div>';
+      el.querySelector("#qfb").innerHTML='<b>'+(ok?"Correct! ":(idx===-1?"Time&rsquo;s up! ":"Nope. "))+'</b>'+esc(q.why)+'<div class="muted" style="font-size:12px;margin-top:6px">Take your time — the clock is paused while you read.</div><div style="margin-top:10px"><button class="btn btn-pri" id="qnext">'+(i+1<qs.length?"Next &rarr;":"Finish")+'</button></div>';
       el.querySelector("#qnext").addEventListener("click",function(){ i++; if(i<qs.length)show(); else finish(); });
     }
     function finish(){
-      var id=Date.now()+"-"+Math.floor(Math.random()*1e6), rec={id:id,name:name,score:score,total:qs.length,ms:Date.now()-startTs,ts:Date.now()};
+      var id=Date.now()+"-"+Math.floor(Math.random()*1e6), rec={id:id,name:name,score:score,total:qs.length,ms:qElapsedMs,ts:Date.now()};
       var r=score/qs.length, g=r>=0.86?["Certified referee","You could officiate the final."]:r>=0.6?["Table official","Strong rules knowledge."]:r>=0.33?["Rookie","Keep studying the rulebook."]:["Spectator","Best leave the whistle to the pros!"];
       el.innerHTML='<div class="quiz quiz-result"><div class="quiz-bigscore"><span class="bs-num">'+score+'</span> / '+qs.length+'</div><h2 style="margin:8px 0 2px">'+g[0]+'</h2><p class="muted" style="margin:0 0 8px">'+esc(name)+' &mdash; '+g[1]+'</p>'+
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Saving…</div></div>'+
