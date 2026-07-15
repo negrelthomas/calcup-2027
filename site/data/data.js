@@ -770,6 +770,7 @@ window.CALCUP = {
           "7-metre throw"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Goal. For a free throw there is no rule requiring the goalkeeper to be on the goal line. The goalkeeper's position is irrelevant. Only the 7m throw requires the goalkeeper to be on the line. The goal stands.  (Rule 13, 15:2)"
       },
       {
@@ -781,6 +782,7 @@ window.CALCUP = {
           "7m throw again"
         ],
         "c": 0,
+        "topic": "7m",
         "why": "No. On a 7m throw, only the thrower and the goalkeeper may play the ball until it has struck the post, crossbar, or the goalkeeper. A teammate touching the rebound before any such contact is a violation — free throw for the defending team.  (Rule 14:6)"
       },
       {
@@ -792,6 +794,7 @@ window.CALCUP = {
           "Throw-in"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Not a goal. When the ball hits a referee and the outcome is materially affected, play is restarted with a referee throw at the location of the contact. The attacking team does not regain the free throw.  (Rule 13:4 Comment)"
       },
       {
@@ -803,6 +806,7 @@ window.CALCUP = {
           "Warning (yellow)"
         ],
         "c": 0,
+        "topic": "2min",
         "why": "Automatic disqualification (red card). A player's third 2-minute infraction in the same match — regardless of prior yellow cards — triggers disqualification. Team plays shorthanded for 2 minutes. After 2 minutes a replacement may enter.  (Rule 16:6d)"
       },
       {
@@ -814,6 +818,7 @@ window.CALCUP = {
           "6 players; after 2 min"
         ],
         "c": 0,
+        "topic": "2min",
         "why": "The team fields 5 players (7 minus 2). Both 2-minute penalty periods run simultaneously. After 2 game-time minutes, both replacements enter at the same time, returning the team to 7.  (Rule 16:6)"
       },
       {
@@ -825,6 +830,7 @@ window.CALCUP = {
           "Team timeout"
         ],
         "c": 0,
+        "topic": "2min",
         "why": "Both players are sanctioned. Jersey swapping to evade disciplinary tracking is grossly unsporting. Both players receive yellow cards at minimum; the originally suspended player may face escalation. The substitute who swapped jerseys may be disqualified for deliberately deceiving the referees.  (Rule 16:1, 16:9)"
       },
       {
@@ -836,6 +842,7 @@ window.CALCUP = {
           "Free throw to defenders"
         ],
         "c": 0,
+        "topic": "other",
         "why": "Goal. The ball was released before any body contact with the goal area. The grazing of the line after release does not retroactively create a violation — what matters is that the ball was gone before the contact.  (Rule 6:2a)"
       },
       {
@@ -847,6 +854,7 @@ window.CALCUP = {
           "Play on — legal"
         ],
         "c": 0,
+        "topic": "7m",
         "why": "7m throw. A defending field player entering the goal area to prevent a certain goal is penalized by a 7m throw, regardless of whether they succeed in stopping the ball. The successful clearance does not change the call.  (Rule 6:2b)"
       },
       {
@@ -858,6 +866,7 @@ window.CALCUP = {
           "Opponents get a 7m"
         ],
         "c": 0,
+        "topic": "goalkeeper",
         "why": "A field player must be designated as the new goalkeeper and must wear a distinctly different-colored jersey from all other players on both teams. The team reorganizes; normal substitution rules apply. Play resumes once the jersey change is completed.  (Rule 5:11, 4:8)"
       },
       {
@@ -869,6 +878,7 @@ window.CALCUP = {
           "2 passes"
         ],
         "c": 0,
+        "topic": "passive",
         "why": "3 passes — 4 touches total, but dribbling by the same player does not count as a pass. Only ball transfers from one player to another increment the count. After the dribble the player passes = 4th pass now occurs. Referee must then act if no shot follows.  (Rule 7:11)"
       },
       {
@@ -880,6 +890,7 @@ window.CALCUP = {
           "No — it never applies in attack"
         ],
         "c": 0,
+        "topic": "passive",
         "why": "No. Advantage applied for a defensive foul does not cancel the forewarning signal. The signal is only cancelled when the referee actually blows the whistle for the foul and awards a free throw. If advantage is applied, the passive play situation and pass count continue.  (Rule 7:11 Comment)"
       },
       {
@@ -891,6 +902,7 @@ window.CALCUP = {
           "Only in the last 2 minutes"
         ],
         "c": 0,
+        "topic": "passive",
         "why": "Not correct. The forewarning signal should never be shown during a dynamic attack with clear scoring potential — a fast break with a 2v1 advantage is the antithesis of passive play. Showing the signal here would be an error in judgment.  (Rule 7:10)"
       },
       {
@@ -902,6 +914,7 @@ window.CALCUP = {
           "Free throw to attackers"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Retake. Attackers must be outside the 6m line until the ball crosses the line. Stepping onto the line (which belongs to the goal area) before the ball is released = premature entry. The goalkeeper throw must be retaken.  (Rule 12:2)"
       },
       {
@@ -913,6 +926,7 @@ window.CALCUP = {
           "Give it to the healthy team"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "A referee throw is executed between whatever players are present. If one player is unavailable (injured), the referee throw still proceeds — the remaining eligible player participates and the referee throws accordingly. Play must resume.  (Rule 13:4)"
       },
       {
@@ -924,6 +938,7 @@ window.CALCUP = {
           "7-metre throw"
         ],
         "c": 0,
+        "topic": "goalkeeper",
         "why": "Back-pass violation. The field player deliberately passed the ball back to the goalkeeper. The sequence (GK throw → teammate → back to GK) is exactly what the back-pass rule prohibits. Free throw for the opponent.  (Rule 6:5a)"
       },
       {
@@ -935,6 +950,7 @@ window.CALCUP = {
           "Retake from center"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "The referees confer immediately. General principle: the goal referee has primary authority for decisions at their end of the court (whether the ball fully crossed the line). If the goal referee is certain, their decision prevails. If genuine uncertainty remains, the safer decision is no-goal. Communication between partners is mandatory before play resumes.  (IHF Referees' Guide, Rule 17)"
       },
       {
@@ -946,6 +962,7 @@ window.CALCUP = {
           "Add the time only at the end"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "The referee must immediately signal the timekeeper to stop the clock (T signal again, whistle if needed). The elapsed time during the timeout (where it was running) should be corrected. The referee must verify the clock is stopped before the timeout huddles proceed.  (Rule 2:10)"
       },
       {
@@ -957,6 +974,7 @@ window.CALCUP = {
           "2 per period"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Each team is entitled to 1 team timeout per period of extra time. Unused regulation timeouts do NOT carry over to extra time. Each period (first and second half of extra time) gives each team one new timeout.  (Rule 2:10)"
       },
       {
@@ -968,6 +986,7 @@ window.CALCUP = {
           "Referee's discretion"
         ],
         "c": 0,
+        "topic": "goalkeeper",
         "why": "Field player rules entirely. A player acting as 'goalkeeper' without being in the goal area is treated as a field player in all respects — including fouls, disciplinary sanctions, and the prohibition on using the legs/feet to play the ball.  (Rule 4:8)"
       },
       {
@@ -979,6 +998,7 @@ window.CALCUP = {
           "Warning (yellow)"
         ],
         "c": 0,
+        "topic": "2min",
         "why": "2-minute suspension for the illegally entering player — even though they didn't touch the ball. Illegal entry (court occupied by too many players) is an infraction regardless of ball contact. The outgoing player must leave first.  (Rule 4:5, 16:3b)"
       },
       {
@@ -990,6 +1010,7 @@ window.CALCUP = {
           "Throw-off"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Referee throw. When both teams commit violations simultaneously — regardless of differing severity — the correct restart is always a referee throw. There is no provision for awarding the more severe foul; simultaneity = referee throw.  (Rule 13:4)"
       },
       {
@@ -1001,6 +1022,7 @@ window.CALCUP = {
           "Free throw to opponents"
         ],
         "c": 0,
+        "topic": "2min",
         "why": "2-minute suspension. Players must always enter through the correct substitution zone after the outgoing player has fully left. Entry from any other boundary point is illegal entry regardless of whether play was stopped.  (Rule 4:4, 4:5)"
       },
       {
@@ -1012,6 +1034,7 @@ window.CALCUP = {
           "7-metre throw"
         ],
         "c": 0,
+        "topic": "clock",
         "why": "No goal. The free throw was executed from an illegal position (inside the 9m line). Even in the dying seconds the position rule must be enforced. The throw is awarded to the opposing team (turnover) — time expires and the match ends level.  (Rule 13:1, 15:7)"
       },
       {
@@ -1023,7 +1046,188 @@ window.CALCUP = {
           "No — the match is over"
         ],
         "c": 0,
+        "topic": "procedure",
         "why": "Yes. Referee authority extends until both teams have left the facility. Post-whistle incidents on or near the court are sanctionable. Serious conduct (assault, spitting, threats) = blue card (disqualification with report). The match result is unaffected.  (Rule 16:9)"
+      },
+      {
+        "q": "A defender, with one foot inside the goal-area line, catches a rebound after the keeper parries a shot — no attacker was in a position to score. Call?",
+        "a": [
+          "Free throw to the attacking team — advantage gained, but no clear chance destroyed",
+          "7-metre throw",
+          "Play on — the ball was loose",
+          "Goalkeeper throw"
+        ],
+        "c": 0,
+        "topic": "7m",
+        "why": "Free throw. A defender who enters the goal area and gains an advantage is penalised, but a 7-metre throw applies only when the illegal entry destroys a clear chance to score. The shot was already parried and no such chance existed, so the correct restart is a free throw to the attackers.  (Rule 6:2b, 6:3)"
+      },
+      {
+        "q": "An attacker breaks free one-on-one with the keeper and is pulled from behind before releasing a shot. Call?",
+        "a": [
+          "7-metre throw — a clear scoring chance was destroyed",
+          "Free throw to the attacking team",
+          "Free throw plus a 2-minute suspension, no 7-metre",
+          "Play on — no shot was taken"
+        ],
+        "c": 0,
+        "topic": "7m",
+        "why": "7-metre throw. A foul that destroys a clear chance to score anywhere on court is punished with a 7-metre, whether or not a shot has been released. The pull from behind ends a clear chance, so a 7-metre is awarded and the foul is separately sanctioned — usually a 2-minute suspension.  (Rule 14:1a)"
+      },
+      {
+        "q": "During a broken play the goalkeeper races out of the goal area and, as a field player, clatters an attacker who had a clear path to the open goal. Call?",
+        "a": [
+          "7-metre throw — a clear scoring chance was destroyed",
+          "Free throw to the attacking team",
+          "Goalkeeper throw — keepers may leave the area",
+          "No sanction — a legal challenge"
+        ],
+        "c": 0,
+        "topic": "7m",
+        "why": "7-metre throw. Once outside the goal area the goalkeeper is treated as a field player. Fouling an opponent who has a clear path to the goal destroys a clear scoring chance and is punished with a 7-metre, plus a personal sanction for the manner of the challenge.  (Rule 8:5, 14:1a)"
+      },
+      {
+        "q": "An attacker charges forearm-first into a set defender, who then reacts by holding. Referees judge the attacker offended first. Call?",
+        "a": [
+          "Free throw to the defending team — the attacker's offensive foul came first",
+          "7-metre throw to the attacking team",
+          "Referee throw — offsetting fouls",
+          "Play on — advantage to the attack"
+        ],
+        "c": 0,
+        "topic": "7m",
+        "why": "Free throw to the defenders. The first offence decides the restart: an attacker who charges or pushes into a defender commits an offensive foul, so no 7-metre is possible even though the defender also held. Possession turns over to the defending team.  (Rule 8:2, 8:2c)"
+      },
+      {
+        "q": "A defender fouls an opponent at midcourt just after that opponent intercepts a pass, but two defenders are still back between the ball and the goal. Call?",
+        "a": [
+          "Free throw to the attacking team — no clear scoring chance existed",
+          "7-metre throw",
+          "7-metre throw plus a 2-minute suspension",
+          "Play on"
+        ],
+        "c": 0,
+        "topic": "7m",
+        "why": "Free throw only. A 7-metre requires that a clear chance to score has been destroyed; with two defenders back covering the goal, no such chance existed at midcourt. The foul is a simple free throw, sanctioned personally only if it was tactical or reckless.  (Rule 14:1, 14:2)"
+      },
+      {
+        "q": "A defender swings an arm across an opponent's throwing shoulder with clear force, spinning them to the floor. Minimum sanction?",
+        "a": [
+          "2-minute suspension — mandatory for reckless contact with physical impact",
+          "Yellow-card warning",
+          "Free throw only",
+          "Disqualification (red card)"
+        ],
+        "c": 0,
+        "topic": "2min",
+        "why": "2-minute suspension at minimum. Actions directed mainly at the opponent's body, carried out with force or reckless disregard for safety, must be suspended. A warning would under-sanction clear physical impact; a red card is reserved for actions that endanger health.  (Rule 8:5, 16:3b)"
+      },
+      {
+        "q": "On a clear fast break a defender grabs and holds the breaking attacker to stop the counter, with no attempt to play the ball. Sanction?",
+        "a": [
+          "2-minute suspension — a foul that stops a fast break must be suspended",
+          "Free throw only",
+          "Yellow-card warning",
+          "7-metre throw with no personal sanction"
+        ],
+        "c": 0,
+        "topic": "2min",
+        "why": "2-minute suspension. A tactical foul that ends a fast break or is designed only to stop the game must be punished with a suspension, not merely a warning. A 7-metre is also awarded when a clear chance is destroyed, but the suspension is mandatory in either case.  (Rule 8:6, 14:1a)"
+      },
+      {
+        "q": "Early in the match a defender is shown a yellow card for holding. Ten minutes later the same defender commits a comparable holding foul. Correct sanction for the second?",
+        "a": [
+          "2-minute suspension — progressive punishment escalates from the warning",
+          "Another yellow-card warning",
+          "Disqualification (red card)",
+          "Free throw only, no personal sanction"
+        ],
+        "c": 0,
+        "topic": "2min",
+        "why": "2-minute suspension. Fouls of this type are punished progressively: a warning first, then a suspension for a repeat of comparable severity. A second yellow to the same player is not permitted, so the escalation moves to a 2-minute suspension.  (Rule 8:3, 16:1, 16:3)"
+      },
+      {
+        "q": "A defender, feet set and facing the attacker, absorbs a hard chest-to-chest charge and gives no ground; the attacker bounces off and loses the ball. Correct call?",
+        "a": [
+          "No sanction — play on; blocking with the torso is legal",
+          "Free throw to the attacking team",
+          "2-minute suspension for the defender",
+          "7-metre throw"
+        ],
+        "c": 0,
+        "topic": "2min",
+        "why": "Play on. A defender may use the torso to block an opponent, with or without the ball, as long as contact is made with a giving body rather than with arms, hands or a thrust. Standing ground and absorbing the charge is legal — the attacker caused the contact, so there is nothing to sanction.  (Rule 8:1, 8:2)"
+      },
+      {
+        "q": "A player receives his third 2-minute suspension of the match. Beyond the automatic disqualification, what happens to his team?",
+        "a": [
+          "The team plays short for 2 minutes, then a substitute may enter",
+          "The team plays short for the rest of the match",
+          "A substitute enters immediately — no shorthanded time",
+          "Nothing further — only the player is affected"
+        ],
+        "c": 0,
+        "topic": "2min",
+        "why": "A third 2-minute suspension brings automatic disqualification, and a disqualification arising this way still carries the associated 2-minute team penalty. The team therefore plays a player short for two minutes before a substitute may enter; the disqualified player takes no further part.  (Rule 16:6, 16:8)"
+      },
+      {
+        "q": "As the final buzzer sounds, an attacker's shot is already in flight when a defender fouls him; the ball goes in. Result?",
+        "a": [
+          "Goal counts — and the foul is still sanctioned",
+          "No goal — time has expired",
+          "No goal, but a 7-metre is awarded",
+          "Goal disallowed, defender warned"
+        ],
+        "c": 0,
+        "topic": "clock",
+        "why": "The goal counts. A shot already released when time expires is valid if it enters the goal, and the buzzer does not wipe out a foul committed during the action — any personal sanction still stands and is recorded before the result is confirmed.  (Rule 2:4, 2:5)"
+      },
+      {
+        "q": "The final buzzer sounds as a defender hauls down an attacker who had a clear chance but had not yet shot. Correct decision?",
+        "a": [
+          "Prolong time for a 7-metre — and disqualify for destroying a clear chance if warranted",
+          "Match over — the buzzer ends everything",
+          "Free throw, taken after time",
+          "No action — the clock has expired"
+        ],
+        "c": 0,
+        "topic": "clock",
+        "why": "Time is prolonged for a 7-metre throw. A 7-metre awarded before or as time expires must be taken even with the clock at zero, and a foul that destroys a clear scoring chance is separately sanctioned — up to disqualification. The buzzer cancels neither the throw nor the discipline.  (Rule 2:5, 14:1a)"
+      },
+      {
+        "q": "With under 30 seconds left, a defender illegally stops an opponent from taking a quick throw that would create a clear scoring chance. Sanction?",
+        "a": [
+          "Disqualification plus a 7-metre throw",
+          "2-minute suspension only",
+          "Free throw and a warning",
+          "7-metre throw with no personal sanction"
+        ],
+        "c": 0,
+        "topic": "clock",
+        "why": "Disqualification and a 7-metre throw. In the final 30 seconds, an illegal action that prevents a throw or destroys a clear scoring chance to run down the clock is punished more severely than usual: the offender is disqualified and the opponents receive a 7-metre.  (Rule 8:10a)"
+      },
+      {
+        "q": "In the last minute, after conceding, the leading team's goalkeeper deliberately kicks the ball away to stop a quick throw-off. Sanction?",
+        "a": [
+          "A suspension for delaying the game — escalating to disqualification if repeated",
+          "No sanction — the clock simply keeps running",
+          "Only a free throw to the opponents",
+          "A warning is the maximum this late"
+        ],
+        "c": 0,
+        "topic": "clock",
+        "why": "Delaying an opponent's restart by kicking or throwing the ball away is unsporting conduct, sanctioned progressively. Deliberate time-wasting late in the game is punished with a 2-minute suspension, rising to disqualification for a repeat or a particularly cynical act.  (Rule 8:7, 8:8)"
+      },
+      {
+        "q": "At the final buzzer a coach storms onto the court protesting the result. How is it handled?",
+        "a": [
+          "Team-official sanction — progressive discipline against the official",
+          "The result is reviewed and may be changed",
+          "A 7-metre throw to the opponents",
+          "No action — the match is over"
+        ],
+        "c": 0,
+        "topic": "clock",
+        "why": "Sanction the team official, not the players. Officials are disciplined on the same progressive scale — warning, suspension, disqualification — and a coach entering the court to protest is unsporting conduct. Referee authority runs until the teams leave the venue, but the result itself is not open to on-court change.  (Rule 8:7, 16:9)"
       }
     ]
   },
