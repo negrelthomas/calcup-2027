@@ -36,7 +36,10 @@
     <p class="sub">Snacks, drinks and bundles courtside — cashless (Venmo, PayPal, Zelle).</p>
   </div>
 </section>
-<!-- Pre-order (commemorative XXth-edition merch) — top of page -->
+<!-- Merch + food render here; app.js relocates the pre-order form directly below the commemorative gear. -->
+<div class="wrap"><div id="concession"></div></div>
+
+<!-- Netlify pre-order form kept static here so Netlify detects it; app.js positions it below the gear. -->
 <div class="wrap">
   <section id="preorder" class="preorder">
     <div class="sec-head"><h2>Pre-order commemorative gear</h2><span class="note">reserve now · pick up at the tournament</span></div>
@@ -74,9 +77,6 @@
     </form>
   </section>
 </div>
-
-<!-- Food & drink concession — moved below pre-order (less priority) -->
-<div class="wrap"><div id="concession"></div></div>
 
 <section class="partners">
   <div class="wrap">
