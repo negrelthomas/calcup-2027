@@ -276,7 +276,7 @@
         : '<span style="color:var(--muted)">' + g.time + "</span>";
       return '<div class="srow"><span style="color:var(--muted)">' + g.day + "</span>" +
         '<span><span class="gt">' + teamLogo(g.teamA) + teamName(g.teamA) + '</span> v <span class="gt">' + teamLogo(g.teamB) + teamName(g.teamB) + "</span>" +
-        '<div class="refs">' + refName(g.refs) + "</div></span>" +
+        '<div class="refs">' + divPill(g) + ' Refs: ' + refName(g.refs) + ' · Table: ' + tableNames(g.table) + "</div></span>" +
         "<span style=\"text-align:right\">" + res + "</span></div>";
     }).join("") + "</div>";
   }
@@ -339,7 +339,7 @@
     // Optional bio/country metadata, keyed by referee name.
     var meta={};
     (D.referees||[]).forEach(function(r){ var k=refKey((r.refs||[]).join(" ")); if(k) meta[k]={country:r.country,bio:r.bio}; });
-    // Single source of truth: the referee pairs actually assigned to games (exactly what the schedule shows).
+    // Confirmed pairs come from the actual game assignments (exactly what the schedule shows).
     var order=[], seen={};
     games.forEach(function(g){
       if(!isRealRef(g.refs)) return;
@@ -347,25 +347,30 @@
       if(!seen[k]){ seen[k]={ names:String(g.refs).split(/\s*\/\s*/), nums:[] }; order.push(k); }
       seen[k].nums.push(g.no);
     });
-    if(!order.length){ el.innerHTML='<div class="muted">Referee pairs will appear here once assignments are confirmed.</div>'; return; }
-    var cards=order.map(function(k){
-      var r=seen[k], m=meta[k]||{country:"USA",bio:"USATH-certified referee pair."};
-      var people=r.names.map(function(n){
-        var init=(n.replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase())||"?";
-        return '<div class="ref-person"><div class="ref-portrait"><span class="rp-init">'+init+'</span>'+flagFace(m.country)+'</div><div class="ref-name">'+n+'</div></div>';
+    var pairs=order.map(function(k){ return { real:true, names:seen[k].names, nums:seen[k].nums, meta:meta[k] }; });
+    // Pad to the full referee roster so unconfirmed slots show clearly as TBD.
+    var target=Math.max((D.referees||[]).length, pairs.length);
+    for(var t=pairs.length; t<target; t++){ pairs.push({ real:false, names:["To be confirmed"], nums:[] }); }
+    if(!pairs.length){ el.innerHTML='<div class="muted">Referee pairs will appear here once assignments are confirmed.</div>'; return; }
+    var cards=pairs.map(function(p){
+      var m=p.meta||{country:"USA",bio:"USATH-certified referee pair."};
+      var people=p.names.map(function(n){
+        var init=p.real?((n.replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase())||"?"):"?";
+        return '<div class="ref-person"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+(p.real?flagFace(m.country):'')+'</div><div class="ref-name">'+n+'</div></div>';
       }).join("");
-      var nums=r.nums.sort(function(a,b){return a-b;}).join(" · ");
-      var asg='Officiates '+r.nums.length+' game'+(r.nums.length>1?'s':'')+' · Game'+(r.nums.length>1?'s':'')+' '+nums;
+      var asg, bio;
+      if(p.real){ var nums=p.nums.sort(function(a,b){return a-b;}).join(" · "); asg='Officiates '+p.nums.length+' game'+(p.nums.length>1?'s':'')+' · Game'+(p.nums.length>1?'s':'')+' '+nums; bio=m.bio; }
+      else { asg='Assignment to be confirmed'; bio='Referee pair to be confirmed.'; }
       return '<div class="rc-card"><div class="ref-people">'+people+'</div>'+
-        (m.bio?'<div class="muted rc-bio">'+m.bio+'</div>':'')+
+        (bio?'<div class="muted rc-bio">'+bio+'</div>':'')+
         '<div class="rc-assign">'+asg+'</div></div>';
     });
     el.innerHTML='<div class="ref-cf" id="refcf">'+
       '<button class="rc-arrow rc-prev" aria-label="Previous pair">&#8249;</button>'+
       '<div class="rc-stage">'+cards.map(function(c,i){return '<div class="rc-slot" data-i="'+i+'">'+c+'</div>';}).join("")+'</div>'+
       '<button class="rc-arrow rc-next" aria-label="Next pair">&#8250;</button>'+
-      '<div class="rc-dots">'+order.map(function(_,i){return '<button class="rc-dot" data-i="'+i+'" aria-label="Pair '+(i+1)+'"></button>';}).join("")+'</div></div>';
-    setupRefCarousel(el.querySelector("#refcf"), order.length);
+      '<div class="rc-dots">'+pairs.map(function(_,i){return '<button class="rc-dot" data-i="'+i+'" aria-label="Pair '+(i+1)+'"></button>';}).join("")+'</div></div>';
+    setupRefCarousel(el.querySelector("#refcf"), pairs.length);
   }
   function setupRefCarousel(root,N){
     if(!root||!N)return;
@@ -411,24 +416,27 @@
     (h.champions || []).forEach(function (c) { if (c.year === 2026) { c.men = "San Diego"; c.women = "San Diego"; } });
     if (h.timeline && !h.timeline.some(function (e) { return e.year === 2025; })) { h.timeline.push({ year: 2025, text: "Welcomed a guest team from Brisbane, Australia in both the men's and women's divisions." }); h.timeline.sort(function (a, b) { return a.year - b.year; }); }
     if (h.championsNote) h.championsNote = "2026 results are final, from the official CalCup rankings. Earlier years' roll of honour is still being verified — corrections welcome.";
-    var AWARDS_2026 =
-      '<div class="sec-head" style="margin-top:24px"><h2>2026 podium &amp; awards</h2><span class="note">19th edition &middot; official results</span></div>' +
+    // 2026 podium & individual awards — official CalCup 2026 final rankings.
+    function w26logo(id){ return teamLogo(id, "aw-logo"); }
+    function podRow(p, id, name){ var n=p.replace(/\D/g,""); return '<div class="pod-row"><span class="pod-rank pod-'+n+'">'+p+'</span><span class="pod-team">'+w26logo(id)+'<span>'+name+'</span></span></div>'; }
+    function podCol(title, cls, rows){ return '<div class="card podium-card"><div class="ac-div '+cls+'">'+title+'</div>'+rows+'</div>'; }
+    var podiumSection =
+      '<div class="sec-head" style="margin-top:8px"><h2>2026 podium</h2><span class="note">Jack Holleman Trophy &middot; 19th edition</span></div>' +
       '<div class="grid cols-2">' +
-        '<div class="card award-card"><div class="ac-div ac-m">Men’s Division</div>' +
-          '<div class="ac-podium"><span>🥇 San Diego</span><span>🥈 CalHeat</span><span>🥉 West Point–Army</span></div>' +
-          '<div class="ac-row"><span>MVP</span><b>Hassen Dhouioui <em>(Boston TH)</em></b></div>' +
-          '<div class="ac-row"><span>MVG</span><b>Aleix Navarro <em>(San Diego)</em></b></div>' +
-          '<div class="ac-row"><span>Top scorer</span><b>Hassen Dhouioui <em>(Boston TH · 41 goals)</em></b></div>' +
-        '</div>' +
-        '<div class="card award-card"><div class="ac-div ac-w">Women’s Division</div>' +
-          '<div class="ac-podium"><span>🥇 San Diego</span><span>🥈 NYC</span><span>🥉 CalHeat</span></div>' +
-          '<div class="ac-row"><span>MVP</span><b>Mire Chew <em>(San Diego)</em></b></div>' +
-          '<div class="ac-row"><span>MVG</span><b>Marilia Cantagessi <em>(San Diego)</em></b></div>' +
-          '<div class="ac-row"><span>Top scorer</span><b>Elizaveta Danilova <em>(Massif SLC · 33 goals)</em></b></div>' +
-        '</div>' +
+        podCol('Men’s Division','ac-m', podRow('1st','sd-m','San Diego')+podRow('2nd','ch-orange','CalHeat')+podRow('3rd','army-m','West Point–Army')) +
+        podCol('Women’s Division','ac-w', podRow('1st','sd-w','San Diego')+podRow('2nd','nyc','NYC')+podRow('3rd','ch-w','CalHeat')) +
+      '</div>';
+    function winner(w){ if(!w) return ''; var init=(w.name||'').split(/\s+/).map(function(x){return x[0]||'';}).slice(0,2).join('').toUpperCase(); var slug=(w.name||'').toLowerCase().replace(/[^a-z]+/g,'-').replace(/^-|-$/g,''); return '<div class="aw-win"><div class="aw-photo"><span class="aw-ph-init">'+init+'</span><img src="assets/awards/'+slug+'.jpg" alt="'+w.name+'" onerror="this.remove()"></div><div class="aw-wmeta"><div class="aw-wname">'+w.name+'</div><div class="aw-wteam">'+w26logo(w.id)+'<span>'+w.team+(w.extra?' · '+w.extra:'')+'</span></div></div></div>'; }
+    function awardCard(trophy, cat, m, w){ return '<div class="card award-card"><div class="aw-trophy">'+trophy+'</div><div class="aw-cat">'+cat+'</div><div class="aw-winners"><div class="aw-side"><span class="aw-dv aw-m">Men</span>'+winner(m)+'</div><div class="aw-side"><span class="aw-dv aw-w">Women</span>'+winner(w)+'</div></div></div>'; }
+    var awardsSection =
+      '<div class="sec-head" style="margin-top:8px"><h2>The awards &amp; 2026 winners</h2><span class="note">official results</span></div>' +
+      '<div class="grid cols-3">' +
+        awardCard('Steve Goss Award','Most Valuable Player',{name:'Hassen Dhouioui',id:'boston',team:'Boston TH'},{name:'Mire Chew',id:'sd-w',team:'San Diego'}) +
+        awardCard('Mark Ragatz Award','Most Valuable Goalkeeper',{name:'Aleix Navarro',id:'sd-m',team:'San Diego'},{name:'Marilia Cantagessi',id:'sd-w',team:'San Diego'}) +
+        awardCard('Joe McVein Award','Top Scorer',{name:'Hassen Dhouioui',id:'boston',team:'Boston TH',extra:'41 goals'},{name:'Elizaveta Danilova',id:'massif',team:'Massif SLC',extra:'33 goals'}) +
       '</div>';
     var tl = (h.timeline || []).map(function (e) { return '<div class="tlrow"><div class="tlyear">' + e.year + '</div><div class="tltext">' + e.text + '</div></div>'; }).join("");
-    var aw = (h.awards || []).map(function (a) { return '<div class="card"><h3 style="margin:0 0 2px">' + a.name + '</h3><div class="muted">' + a.for + '</div></div>'; }).join("");
+    // Award names are merged into the 2026 winners cards above (no separate names-only list).
     var champ = (h.champions && h.champions.length)
       ? '<table class="tbl champs"><thead><tr><th>Year</th><th style="text-align:left">Men\'s champion</th><th style="text-align:left">Women\'s champion</th></tr></thead><tbody>' +
         h.champions.map(function (c) {
@@ -440,8 +448,9 @@
     el.innerHTML =
       '<section><p style="font-size:17px;max-width:760px">' + (h.blurb || '') + '</p></section>' +
       '<section><div class="sec-head"><h2>Milestones</h2></div><div class="timeline">' + tl + '</div></section>' +
-      '<section><div class="sec-head"><h2>The awards</h2></div><div class="grid cols-2">' + aw + '</div></section>' +
-      '<section><div class="sec-head"><h2>Hall of Champions</h2></div>' + champ + AWARDS_2026 + '</section>';
+      '<section>' + podiumSection + '</section>' +
+      '<section>' + awardsSection + '</section>' +
+      '<section><div class="sec-head"><h2>Hall of Champions</h2><span class="note">roll of honour</span></div>' + champ + '</section>';
   }
 
   /* ---------- press ---------- */
@@ -552,15 +561,16 @@
     var teeSec='<section class="con-hero card"><div class="con-hero-img"><img class="zoomable" src="assets/merch/calcup-tshirt.jpg" alt="CalCup T-shirt" onerror="this.closest(\'.con-hero\').classList.add(\'noimg\');this.remove()"></div>'+
       '<div class="con-hero-txt"><span class="con-tag">Best seller</span><h2 style="margin:.2em 0">The CalCup tee</h2><p class="muted">Sport-grey heavyweight cotton, three-colour print. Available in <b>men&rsquo;s, women&rsquo;s and kids&rsquo;</b> sizes &mdash; <b>$20</b>, grab yours at the booth.</p></div></section>';
     var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament.</p>';
-    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order &middot; special XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+    var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-imgs"><img class="zoomable" src="assets/merch/calcup-hoodie.jpg" alt="Commemorative hoodie" onerror="this.style.display=\'none\'"><img class="zoomable" src="assets/merch/calcup-hat.jpg" alt="Commemorative hat" onerror="this.style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $10 vs. separately</div><div class="gear-price">$100</div></a>';
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+      bundleCard+
       gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings","$75")+
       gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$35")+
-      gcard("","Hoodie + hat bundle","Save $10 vs. buying separately","$100")+
       '</div></section>';
     var foodSec='<section><div class="sec-head"><h2>Food &amp; drink</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
       '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>';
     var merchHead='<section style="padding-top:4px"><div class="sec-head"><h2>Merch</h2><span class="note">gear up &mdash; cashless (Venmo/PayPal/Zelle)</span></div></section>';
-    var starterSec='<section><div class="card starter-kit"><div class="sk-txt"><span class="con-tag">Starter kit</span><h3>Fan starter kit</h3><p class="muted">One CalCup tee <b>+</b> a $12 prepaid food card &mdash; gear up and fuel up in one.</p></div><div class="sk-price"><span class="sk-was">$32 value</span><span class="sk-now">$27</span><span class="sk-save">save 16%</span></div></div></section>';
+    var starterSec='<section><div class="card starter-kit"><div class="sk-txt"><span class="con-tag">Starter kit</span><h3>Fan starter kit</h3><p class="muted">One CalCup tee <b>+</b> a $12 prepaid food &amp; drinks card &mdash; gear up and fuel up in one.</p></div><div class="sk-price"><span class="sk-was">$32 value</span><span class="sk-now">$27</span><span class="sk-save">save 16%</span></div></div></section>';
     el.innerHTML='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>'+
       merchHead+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
@@ -619,10 +629,11 @@
         list.map(function(r,i){return '<tr><td>'+(i+1)+'</td><td class="lb-name">'+esc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td><td>'+fmtMs(r.ms)+'</td></tr>';}).join("")+'</tbody></table>'+
         '<div class="muted" style="font-size:11px;text-align:center;margin-top:6px">Ranked by score, then fastest time.</div>';
     }
+    function localBoard(){ try{ return JSON.parse(localStorage.getItem("calcup_refquiz_v1")||"[]"); }catch(e){ return []; } }
     el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>';
     fetch("/.netlify/functions/leaderboard",{headers:{"Accept":"application/json"}}).then(function(r){return r.json();}).then(function(l){
-      el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div>'+board(l)+'</div>';
-    }).catch(function(){ el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Leaderboard unavailable right now.</div></div>'; });
+      el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div>'+board(l&&l.length?l:localBoard())+'</div>';
+    }).catch(function(){ el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div>'+board(localBoard())+'</div>'; });
   }
   function renderRefQuiz(el){
     var Q=D.refQuiz; if(!Q||!Q.questions)return;
@@ -733,6 +744,14 @@
     setupZoom();          // click-to-zoom product images
     var b = document.getElementById("burger");
     if (b) b.addEventListener("click", function () { document.getElementById("menu").classList.toggle("open"); });
+
+    // Site-wide contact footer (every page)
+    if (!document.querySelector(".site-foot")) {
+      var _ft = document.createElement("footer");
+      _ft.className = "site-foot";
+      _ft.innerHTML = '<div class="wrap">Questions? Contact the organizing committee at <a href="mailto:calcup@calheat.com">calcup@calheat.com</a> &middot; Hosted by San Francisco CalHeat</div>';
+      document.body.appendChild(_ft);
+    }
 
     // home
     var f = featured(); if (document.getElementById("featured") && f) set("featured", gameCardHTML(f));

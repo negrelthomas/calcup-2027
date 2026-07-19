@@ -131,7 +131,7 @@ section{padding:30px 0}
 .tbl td.tm{text-align:left;font-weight:600}
 .tbl td.pts{font-weight:700;color:var(--navy)}
 .tbl tr.qual td{background:var(--orange-tint)}
-.tbl tr.qual td.tm::after{content:" ▸ qualifies";color:var(--orange-dark);font-size:11px;font-weight:600}
+/* qualifier label removed — advancement is shown via the qbadge only */
 .trophy-img{max-width:260px;width:38%;min-width:180px;border-radius:12px;float:right;margin:0 0 14px 18px}
 .champs .notheld td{color:var(--muted);font-style:italic}
 .champs .notheld td.tm{text-align:center}
@@ -428,3 +428,42 @@ table.lb tr.me td{background:var(--orange-tint)}
 .ac-row>span{color:var(--muted);flex:0 0 auto}
 .ac-row>b{text-align:right}
 .ac-row em{color:var(--muted);font-weight:600;font-style:normal;font-size:12.5px}
+
+/* site-wide contact footer (every page) */
+.site-foot{border-top:1px solid var(--line);margin-top:10px;padding:18px 0;font-size:13px;color:var(--muted);text-align:center}
+.site-foot a{color:var(--orange-dark);font-weight:600}
+
+/* referee TBD portrait */
+.ref-portrait.ref-tbd{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 6px,#e6eaef 6px,#e6eaef 12px)}
+.ref-portrait.ref-tbd .rp-init{color:var(--muted)}
+
+/* concession hoodie+hat bundle: two images side by side */
+.gear-imgs{display:flex;gap:6px}
+.gear-imgs img{width:50%;height:auto;object-fit:contain;border-radius:8px}
+
+/* 2026 podium (History) */
+.podium-card{padding:16px}
+.pod-row{display:flex;align-items:center;gap:12px;padding:7px 0;border-top:1px dashed var(--line)}
+.pod-row:first-of-type{border-top:0}
+.pod-rank{font-family:'Saira Stencil One',system-ui,sans-serif;font-size:22px;line-height:1;min-width:52px;letter-spacing:.02em}
+.pod-1{color:var(--orange-dark)}
+.pod-2{color:#2E6FD6}
+.pod-3{color:#9AA3AD}
+.pod-team{display:flex;align-items:center;gap:8px;font-weight:600}
+.pod-team .aw-logo{width:22px;height:22px;object-fit:contain}
+
+/* award trophy + winner cards (History) */
+.aw-trophy{font-weight:800;font-size:15px}
+.aw-cat{color:var(--muted);font-size:13px;margin-bottom:10px}
+.aw-winners{display:flex;flex-direction:column;gap:10px}
+.aw-side{border-top:1px dashed var(--line);padding-top:8px}
+.aw-dv{display:inline-block;font-size:11px;font-weight:800;color:#fff;border-radius:999px;padding:1px 8px;margin-bottom:6px}
+.aw-dv.aw-m{background:var(--navy)}
+.aw-dv.aw-w{background:var(--orange-dark)}
+.aw-win{display:flex;align-items:center;gap:10px}
+.aw-photo{position:relative;width:44px;height:44px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:#eef1f4;display:flex;align-items:center;justify-content:center}
+.aw-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.aw-ph-init{font-weight:800;color:var(--muted);font-size:14px}
+.aw-wname{font-weight:700;font-size:14px}
+.aw-wteam{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px}
+.aw-wteam .aw-logo{width:16px;height:16px;object-fit:contain}
