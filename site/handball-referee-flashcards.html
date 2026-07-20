@@ -12,9 +12,9 @@
     color-scheme: light;
     /* CalCup brand palette mapped onto the deck's original variable names,
        so every existing rule recolours to CalCup orange/navy automatically. */
-    --green: #C75E12;        /* primary → CalCup orange-dark */
-    --green-light: #FCEBDA;  /* orange tint */
-    --green-mid: #F47920;    /* CalCup orange */
+    --green: #F47920;        /* primary → exact CalCup orange (matches site --orange) */
+    --green-light: #FCEBDA;  /* orange tint (matches site --orange-tint) */
+    --green-mid: #C75E12;    /* CalCup orange-dark (hover/accent) */
     --green-dark: #8A4210;   /* deep orange (answer text) */
     --accent: #102A43;       /* CalCup navy accent */
     --red: #C0392B;
@@ -29,12 +29,12 @@
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: var(--gray-50); color: var(--text); min-height: 100vh; }
-  .header { background: var(--green); color: white; padding: 16px 20px 12px; display: flex; align-items: center; gap: 12px; }
+  .header { background: var(--accent); color: white; padding: 16px 20px 12px; display: flex; align-items: center; gap: 12px; }
   .header-icon { font-size: 26px; }
   .header-title { font-size: 18px; font-weight: 700; }
   .header-sub { font-size: 11px; opacity: 0.75; margin-top: 1px; }
-  .progress-bar-wrap { background: var(--green-dark); height: 4px; }
-  .progress-bar-fill { height: 4px; background: var(--accent); transition: width 0.4s ease; width: 0%; }
+  .progress-bar-wrap { background: var(--accent); height: 4px; }
+  .progress-bar-fill { height: 4px; background: var(--green); transition: width 0.4s ease; width: 0%; }
   .stats-bar { background: white; border-bottom: 1px solid var(--gray-200); padding: 8px 20px; display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
   .stat { display: flex; flex-direction: column; align-items: center; }
   .stat-val { font-size: 17px; font-weight: 700; line-height: 1; }
@@ -467,7 +467,7 @@ function cardId(card){return card.q.slice(0,55);}
 function init(){buildFilters();applyFilter('All');}
 function buildFilters(){
   document.getElementById('filtersEl').innerHTML=CATEGORIES.map(cat=>
-    `<button class="filter-btn${cat===activeCategory?' active':''}" onclick="applyFilter(${JSON.stringify(cat)})">${cat==='All'?'All ('+CARDS.length+')':cat}</button>`
+    `<button class="filter-btn${cat===activeCategory?' active':''}" onclick="applyFilter('${cat.replace(/'/g,"\\'")}')">${cat==='All'?'All ('+CARDS.length+')':cat}</button>`
   ).join('');
 }
 function applyFilter(cat){
