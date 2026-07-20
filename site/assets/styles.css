@@ -450,12 +450,14 @@ table.lb tr.me td{background:var(--orange-tint)}
 .deal-card.deal-orange{background:var(--orange);border-color:var(--orange);color:#3A1B02}
 .deal-save{position:absolute;top:10px;right:10px;background:var(--navy);color:#fff;font-size:11px;font-weight:800;padding:3px 9px;border-radius:20px}
 .deal-card.deal-orange .deal-save{background:#3A1B02;color:var(--orange)}
-.deal-vis{height:120px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px}
-.deal-img{max-height:112px;width:auto;object-fit:contain}
-.deal-tees{display:flex;align-items:center}
-.deal-tees .deal-img{max-height:98px;margin:0 -16px}
-.deal-tees .deal-img:nth-child(2){max-height:112px;position:relative;z-index:2}
-.deal-duo{display:flex;align-items:center;gap:10px}
+.deal-vis{height:120px;display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px;overflow:hidden}
+.deal-img{max-height:112px;max-width:100%;width:auto;object-fit:contain}
+.deal-svg{height:112px;width:auto;max-width:100%}
+.deal-tees{display:flex;align-items:center;justify-content:center;max-width:100%}
+.deal-tees .deal-img{max-height:84px;margin:0 -18px}
+.deal-tees .deal-img:nth-child(2){max-height:100px;position:relative;z-index:2}
+.deal-duo{display:flex;align-items:center;gap:10px;max-width:100%}
+.deal-duo .deal-img{max-height:100px}
 .deal-icon{width:84px;height:84px;border-radius:50%;background:var(--orange-tint);display:flex;align-items:center;justify-content:center;font-size:38px;color:var(--orange-dark)}
 .deal-icon.big{width:104px;height:104px;font-size:50px}
 .deal-card.deal-orange .deal-icon{background:rgba(255,255,255,.28);color:#3A1B02}
