@@ -359,7 +359,9 @@
       var m=p.meta||{country:"USA",bio:"USATH-certified referee pair."};
       var people=p.names.map(function(n){
         var init=p.real?((n.replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase())||"?"):"?";
-        return '<div class="ref-person"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+(p.real?flagFace(m.country):'')+'</div><div class="ref-name">'+n+'</div></div>';
+        var slug=n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+        var photo=p.real?'<img class="rp-photo" src="assets/refs/'+slug+'.jpg" alt="'+n+'" loading="lazy" onerror="this.remove()">':'';
+        return '<div class="ref-person"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+photo+'</div><div class="ref-name">'+n+'</div></div>';
       }).join("");
       var asg, bio;
       if(p.real){ var nums=p.nums.sort(function(a,b){return a-b;}).join(" · "); asg='Officiates '+p.nums.length+' game'+(p.nums.length>1?'s':'')+' · Game'+(p.nums.length>1?'s':'')+' '+nums; bio=m.bio; }

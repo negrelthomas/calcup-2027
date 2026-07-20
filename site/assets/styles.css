@@ -436,6 +436,7 @@ table.lb tr.me td{background:var(--orange-tint)}
 /* referee TBD portrait */
 .ref-portrait.ref-tbd{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 6px,#e6eaef 6px,#e6eaef 12px)}
 .ref-portrait.ref-tbd .rp-init{color:var(--muted)}
+.ref-portrait .rp-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 
 /* concession hoodie+hat bundle: two images side by side */
 .gear-imgs{display:flex;gap:6px}
