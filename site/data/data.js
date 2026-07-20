@@ -226,40 +226,1236 @@ window.CALCUP = {
     }
   ],
   "rosters": {
-    "ch-w": [
+    "ch-orange": [
       {
-        "n": 1,
-        "name": "C. Duvert",
-        "pos": "Goalkeeper"
+        "name": "Miguel Ledesma",
+        "n": 2,
+        "pos": "RW",
+        "official": false
       },
       {
-        "n": 7,
-        "name": "L. Movahedian",
-        "pos": "Left wing"
+        "name": "Vili Urban",
+        "n": 5,
+        "pos": "CR",
+        "official": false
       },
       {
+        "name": "Jules Fortin",
+        "n": 8,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Jan Kaiser",
+        "n": 9,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Sylwann Rodzko",
         "n": 10,
-        "name": "G. Davi",
-        "pos": "Centre back"
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Omar Bentahar",
+        "n": 16,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Johannes Rueschen",
+        "n": 31,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Oleh Vakarchuk",
+        "n": 38,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Arnau Rovira",
+        "n": 40,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Algot Hane",
+        "n": 54,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Omid Bazanjani",
+        "n": 78,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Benoit Crouzit",
+        "n": 87,
+        "pos": "CR",
+        "official": false
+      },
+      {
+        "name": "Maximilian Paulus",
+        "n": null,
+        "pos": "Official A",
+        "official": true
       }
     ],
     "boston": [
       {
-        "n": 9,
-        "name": "N. Gros",
-        "pos": "Right back"
+        "name": "Dave Winniger",
+        "n": 0,
+        "pos": "",
+        "official": false
       },
       {
+        "name": "AJ Bulow",
+        "n": 2,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Rod Ante",
+        "n": 4,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Khalil Zbiss",
+        "n": 5,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Gustavo Gaigher",
         "n": 11,
-        "name": "F. Henry",
-        "pos": "Pivot"
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Gabe DeSouza",
+        "n": 14,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Brian Buchanan",
+        "n": 17,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Marcos Said",
+        "n": 17,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Jacob Roberts",
+        "n": 28,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Ryley Broadhead",
+        "n": 34,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Alton Coolidge",
+        "n": 35,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Volkan Guclu",
+        "n": 55,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Hassen Dhouioui",
+        "n": 77,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Calvin Kim",
+        "n": 99,
+        "pos": "",
+        "official": false
+      },
+      {
+        "name": "Gustavo Gaigher",
+        "n": null,
+        "pos": "Official A",
+        "official": true
       }
     ],
-    "ch-orange": [
+    "seattle": [
       {
+        "name": "Kevin Sosa",
+        "n": 5,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Rafael Wersom",
+        "n": 6,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Felix Schwock",
+        "n": 7,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "CJ Nghe",
+        "n": 9,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Rafa Zacarias",
+        "n": 10,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Ahshraff Zakaria",
+        "n": 13,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Bengt Molling",
+        "n": 18,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Sandro Herzog",
+        "n": 19,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Victor Zeefried",
+        "n": 21,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Simon Jaeger",
+        "n": 24,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Nic Axheim",
+        "n": 27,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Adam Demeyere",
+        "n": 44,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Jerry Walsh",
+        "n": 99,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Felix Schwock",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Simon Jaeger",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "lathc": [
+      {
+        "name": "Bryan Cook",
+        "n": 1,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Jacobo Garcia",
+        "n": 4,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Manuel Prinz",
+        "n": 6,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Jamil Abdalla",
+        "n": 9,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Abdelrahman Kamel",
+        "n": 11,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Sascha Kiehne",
+        "n": 13,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Dmytro Doroshchuk",
+        "n": 14,
+        "pos": "DFD",
+        "official": false
+      },
+      {
+        "name": "Grant Marocchi",
+        "n": 21,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Aaron Johnson",
+        "n": 22,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Arslane Fekirine",
+        "n": 31,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Russell Giang",
+        "n": 88,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Mostafa Dawod",
+        "n": 99,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Dmytro Doroshchuk",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Sascha Kiehne",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "denver": [
+      {
+        "name": "Sergio Olvera",
+        "n": 2,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Moshe Mukori",
+        "n": 6,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Ian Martinez",
+        "n": 7,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Percy Lopez",
         "n": 8,
-        "name": "M. Paulus",
-        "pos": "Centre back"
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Peter Breuer",
+        "n": 9,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Matoub Maiche",
+        "n": 11,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Jonathan DeSantiago",
+        "n": 14,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Sebastian Pucher",
+        "n": 16,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Jake Lass",
+        "n": 26,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Matthis Herbst",
+        "n": 56,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Beto Amezcua",
+        "n": 77,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Mohamed Lotfy",
+        "n": 81,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Aaron Haninchick",
+        "n": 99,
+        "pos": "LW",
+        "official": false
+      }
+    ],
+    "sd-m": [
+      {
+        "name": "Aleix Navarro Garrido",
+        "n": 1,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Javier Rosa",
+        "n": 5,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Saadallah Kassir",
+        "n": 7,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Jake Johnson",
+        "n": 9,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Fernando Oliviera silva",
+        "n": 11,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Adam King",
+        "n": 14,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Ruben Sanchez",
+        "n": 19,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Lars Miltzow",
+        "n": 22,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Daniel Crozier",
+        "n": 23,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Gerard Martin Escofet",
+        "n": 42,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Joaquin Gonzalez",
+        "n": 44,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Cesar Folliot",
+        "n": 45,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Kaleb Ayala",
+        "n": 47,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Daniel Fuentes Martinez",
+        "n": 59,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Charlie Douglas",
+        "n": 88,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Marcus Moran",
+        "n": 98,
+        "pos": "DFD",
+        "official": false
+      },
+      {
+        "name": "Joaquin Montes",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      }
+    ],
+    "ch-blue": [
+      {
+        "name": "Ezekiel McClintock",
+        "n": 11,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Yogev Keidar",
+        "n": 13,
+        "pos": "RW/RB",
+        "official": false
+      },
+      {
+        "name": "Loris Emanuelli",
+        "n": 23,
+        "pos": "RB/RW",
+        "official": false
+      },
+      {
+        "name": "Ta-Wei Tu",
+        "n": 37,
+        "pos": "RB/RW",
+        "official": false
+      },
+      {
+        "name": "Yuya Iida",
+        "n": 41,
+        "pos": "RB/LB/CB",
+        "official": false
+      },
+      {
+        "name": "Paulo Barr-Gutierrez",
+        "n": 44,
+        "pos": "LW/CB",
+        "official": false
+      },
+      {
+        "name": "Ian Hodgson",
+        "n": 51,
+        "pos": "LW/LB/CB",
+        "official": false
+      },
+      {
+        "name": "Jacob Effertz",
+        "n": 53,
+        "pos": "CB/LW",
+        "official": false
+      },
+      {
+        "name": "Pauly Pimentel",
+        "n": 57,
+        "pos": "LW/LB",
+        "official": false
+      },
+      {
+        "name": "Joshua Ko",
+        "n": 58,
+        "pos": "RB/RW",
+        "official": false
+      },
+      {
+        "name": "Joseph Kuo",
+        "n": 59,
+        "pos": "CB/RB/LB",
+        "official": false
+      },
+      {
+        "name": "Alexander Ly",
+        "n": 60,
+        "pos": "RB/LW/CR",
+        "official": false
+      },
+      {
+        "name": "Jackson Blackwell",
+        "n": 98,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Maximilian Paulus",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Sören Muller",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "army-m": [
+      {
+        "name": "Caden Uptgraft",
+        "n": 1,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Cooper Johnson",
+        "n": 3,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Jack Kendrick",
+        "n": 4,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Samuel Orcutt",
+        "n": 5,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Kalev Kilgast",
+        "n": 6,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Jacob Johnson",
+        "n": 7,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Jamison Uptgraft",
+        "n": 10,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Thomas Nicholson",
+        "n": 16,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Reid Wesley",
+        "n": 19,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Daniel Kramer",
+        "n": 20,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Owen Rodgers",
+        "n": 21,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Tyson Smith",
+        "n": 22,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Samuel Neaves",
+        "n": 24,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Liam Gilfillan",
+        "n": 28,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "David Pitcher",
+        "n": 29,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Othie Freeny",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Maddie Sacco",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "ch-w": [
+      {
+        "name": "Amber Kaufman",
+        "n": 0,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Maria del Carmen Anguiano",
+        "n": 4,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Jacqueline Sandoval",
+        "n": 5,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Padideh Dehdari",
+        "n": 6,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Josielen Silva",
+        "n": 8,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Maya Salles-Cunha",
+        "n": 10,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Yuliia Horbenko",
+        "n": 14,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Natacha Crooks",
+        "n": 16,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Johanna Rydefalk",
+        "n": 21,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Madeleine Bjorklund",
+        "n": 27,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Angelica Palmi",
+        "n": 30,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Sophie Ilona Hensel",
+        "n": 33,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Josefine Bank Johansen",
+        "n": 55,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Janine McDonald",
+        "n": 66,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Anais Chretien",
+        "n": 74,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Leila Movahedian",
+        "n": 75,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Gabriela Davi",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Constance Duvert",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      },
+      {
+        "name": "Agustina Amiconi",
+        "n": null,
+        "pos": "Official C",
+        "official": true
+      }
+    ],
+    "massif": [
+      {
+        "name": "Heather Wetmore",
+        "n": 2,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Elizaveta Danilova",
+        "n": 3,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Nicolle Melo",
+        "n": 4,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Daryna Spivak",
+        "n": 5,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Insa Duken",
+        "n": 6,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Katiana Saldanha",
+        "n": 7,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Maria Luiza Folchetti Urbaneja",
+        "n": 11,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Sofia Broadhead",
+        "n": 12,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Hannah Siegel",
+        "n": 14,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Marine Dunoguier",
+        "n": 15,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Laura Rimlinger",
+        "n": 16,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Casey Swezey",
+        "n": 18,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Leticia Oliveira de Souza Carlos",
+        "n": 20,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Antonia Judson",
+        "n": 23,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Andre Rammi",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      }
+    ],
+    "nyc": [
+      {
+        "name": "Stephanie Moreno",
+        "n": 1,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Gabriela Andrade",
+        "n": 6,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Louisde Ganitis",
+        "n": 8,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Gosia Maggie Hibner",
+        "n": 16,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Débora Freitas",
+        "n": 20,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Amanda Fields",
+        "n": 21,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Maria Vallone",
+        "n": 22,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Sherri Cheng",
+        "n": 27,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Denali Dahl",
+        "n": 28,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Meryl Gibbs",
+        "n": 50,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Maggie Kowalik",
+        "n": 55,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Clémence Brice",
+        "n": 74,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Chloé Chateau",
+        "n": 78,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Louise Ganitis",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Stephanie Moreno",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "sd-w": [
+      {
+        "name": "Marilia Cantagessi",
+        "n": 1,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Grace Lopez",
+        "n": 2,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Kate Marsul",
+        "n": 4,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Keila Rosa",
+        "n": 6,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Karina Moreno",
+        "n": 9,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Emma Löfblad",
+        "n": 10,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Audrey Ruiz",
+        "n": 11,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Mira Chew",
+        "n": 12,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Adela Valenzuela",
+        "n": 15,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Ombretta Minkue",
+        "n": 17,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Beiza Turkoglu",
+        "n": 23,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Briana Jauregui",
+        "n": 24,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Vicky Johnson",
+        "n": 29,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Ilse Martinez",
+        "n": 33,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Nadia Guardado",
+        "n": 44,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Abril Jaramillo",
+        "n": 53,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Joaquin Montes",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Javier Rosa",
+        "n": null,
+        "pos": "Official B",
+        "official": true
+      }
+    ],
+    "army-w": [
+      {
+        "name": "Sara Peters",
+        "n": 1,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Nia Perry",
+        "n": 5,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Lucienne Nicholson",
+        "n": 6,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Isabelle Vinson",
+        "n": 7,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Anya Prokop",
+        "n": 10,
+        "pos": "RW",
+        "official": false
+      },
+      {
+        "name": "Mary Arengo",
+        "n": 12,
+        "pos": "LW",
+        "official": false
+      },
+      {
+        "name": "Teressa Wojtalik",
+        "n": 15,
+        "pos": "RB",
+        "official": false
+      },
+      {
+        "name": "Sydney Rhuda",
+        "n": 16,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Keirsten Nies",
+        "n": 18,
+        "pos": "LB",
+        "official": false
+      },
+      {
+        "name": "Margaret Crimmins",
+        "n": 19,
+        "pos": "CB",
+        "official": false
+      },
+      {
+        "name": "Allison Campbell",
+        "n": 21,
+        "pos": "GK",
+        "official": false
+      },
+      {
+        "name": "Grace Kaiser",
+        "n": 25,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Linden Madison",
+        "n": 26,
+        "pos": "PIV",
+        "official": false
+      },
+      {
+        "name": "Dana Meyers",
+        "n": null,
+        "pos": "Official A",
+        "official": true
+      },
+      {
+        "name": "Maddie Sacco",
+        "n": null,
+        "pos": "Official B",
+        "official": true
       }
     ]
   },
