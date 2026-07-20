@@ -576,10 +576,20 @@
       '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>';
     var merchHead='<section style="padding-top:4px"><div class="sec-head"><h2>Merch</h2><span class="note">gear up &mdash; cashless (Venmo/PayPal/Zelle)</span></div></section>';
     var starterSec='<section><div class="card starter-kit"><div class="sk-txt"><span class="con-tag">Starter kit</span><h3>Fan starter kit</h3><p class="muted">One CalCup tee <b>+</b> a $12 prepaid food &amp; drinks card &mdash; gear up and fuel up in one.</p></div><div class="sk-price"><span class="sk-was">$32 value</span><span class="sk-now">$27</span><span class="sk-save">save 16%</span></div></div></section>';
+    function dealCard(o){ return '<div class="deal-card'+(o.theme?' '+o.theme:'')+'">'+(o.save?'<span class="deal-save">Save '+o.save+'</span>':'')+'<div class="deal-vis">'+o.vis+'</div><div class="deal-body"><div class="deal-title">'+o.title+'</div><div class="deal-desc">'+o.desc+'</div><div class="deal-price"><span class="deal-now">'+o.price+'</span>'+(o.value?'<span class="deal-was">'+o.value+'</span>':'')+'</div><div class="deal-cta"><i class="ti '+o.cicon+'"></i> '+o.cta+'</div></div></div>'; }
+    var teeImg='<img class="deal-img" src="assets/merch/calcup-tshirt.jpg" alt="CalCup tee" onerror="this.style.display=\'none\'">';
+    var hatImg='<img class="deal-img" src="assets/merch/calcup-hat.jpg" alt="CalHeat cap" onerror="this.style.display=\'none\'">';
+    var dealsSec='<section><div class="sec-head"><h2>Bundles &amp; deals</h2><span class="note">grab them at the concession stand</span></div><div class="grid cols-3 deal-grid">'+
+      dealCard({theme:'',save:'$10',title:'Family bundle',desc:'3 CalCup tees &mdash; pick your sizes',price:'$50',value:'$60 value',cta:'Concession stand',cicon:'ti-shopping-bag',vis:'<div class="deal-tees">'+teeImg+teeImg+teeImg+'</div>'})+
+      dealCard({theme:'',save:'$5',title:'Hat &amp; shirt bundle',desc:'CalHeat cap + CalCup tee',price:'$45',value:'$50 value',cta:'Concession stand',cicon:'ti-shopping-bag',vis:'<div class="deal-duo">'+hatImg+teeImg+'</div>'})+
+      dealCard({theme:'',save:'$5',title:'Welcome bundle',desc:'CalCup tee + $12 prepaid card',price:'$27',value:'$32 value',cta:'Concession stand',cicon:'ti-shopping-bag',vis:'<div class="deal-duo">'+teeImg+'<span class="deal-icon"><i class="ti ti-credit-card"></i></span></div>'})+
+      dealCard({theme:'deal-orange',save:'',title:'Prepaid card',desc:'Pay $10, get $12 to spend',price:'$10',value:'$12 value',cta:'Concession stand',cicon:'ti-credit-card',vis:'<span class="deal-icon big"><i class="ti ti-credit-card"></i></span>'})+
+      dealCard({theme:'deal-orange',save:'',title:'Athlete bundle',desc:'Banana + energy bar + sports drink',price:'$4.50',value:'',cta:'Concession stand',cicon:'ti-bolt',vis:'<span class="deal-icon big"><i class="ti ti-bolt"></i></span>'})+
+      '</div></section>';
     var introBlock='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>';
     var hoodieHero='<section><div class="merch-hero"><img class="merch-hero-img zoomable" src="assets/merch/hoodie-model.jpg" alt="CalCup XXth-edition commemorative hoodie" onerror="this.closest(\'section\').style.display=\'none\'"></div>'+
       '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. Pre-order below and pick it up courtside.</p></div></section>';
-    el.innerHTML=hoodieHero+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+introBlock+foodSec;
+    el.innerHTML=hoodieHero+gearSec+'<div id="preorder-anchor"></div>'+teeSec+dealsSec+merchExtras+introBlock+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
     // move it into place directly below the commemorative gear.
     var _pf=document.getElementById('preorder'), _anchor=document.getElementById('preorder-anchor');
