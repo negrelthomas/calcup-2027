@@ -579,7 +579,7 @@
     var introBlock='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>';
     var hoodieHero='<section><div class="merch-hero"><img class="merch-hero-img zoomable" src="assets/merch/hoodie-model.jpg" alt="CalCup XXth-edition commemorative hoodie" onerror="this.closest(\'section\').style.display=\'none\'"></div>'+
       '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. Pre-order below and pick it up courtside.</p></div></section>';
-    el.innerHTML=hoodieHero+merchHead+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+introBlock+foodSec;
+    el.innerHTML=hoodieHero+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+introBlock+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
     // move it into place directly below the commemorative gear.
     var _pf=document.getElementById('preorder'), _anchor=document.getElementById('preorder-anchor');
