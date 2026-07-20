@@ -15,18 +15,22 @@ function mergeTeams(base, mapped){
     id:m.id, name:m.name, city:b.city||"", division:m.division, group:m.group, logo:"",
     jersey:b.jersey||null, jerseyKit:m.jersey }; });
 }
-async function getSheets(){
+async function getSheets(names){
   const li=process.argv.indexOf("--local");
-  if(li>=0){ const {readLocal}=await import("./readLocal.mjs"); return readLocal(process.argv[li+1],SHEETS); }
-  const {readGraph}=await import("./graph.mjs"); return readGraph(SHEETS);
+  if(li>=0){ const {readLocal}=await import("./readLocal.mjs"); return readLocal(process.argv[li+1],names); }
+  const {readGraph}=await import("./graph.mjs"); return readGraph(names);
 }
 (async()=>{
   const DATAJS=process.env.DATA_JS||"../site/data/data.js";
   const base=loadBase(DATAJS);
-  const sheets=await getSheets();
+  const sheets=await getSheets(SHEETS);
+  // Rosters live on an optional tab — read separately so a missing/renamed tab never aborts the deploy.
+  try{ Object.assign(sheets, await getSheets(["Rosters Master"])); }
+  catch(e){ console.warn("Rosters Master not read — keeping existing rosters:", e.message); }
   const model={
     teams: M.mapTeams(sheets), games: M.mapGames(sheets),
-    standings: M.mapStandings(sheets), scorers: M.mapScorers(sheets), referees: M.mapReferees(sheets)
+    standings: M.mapStandings(sheets), scorers: M.mapScorers(sheets), referees: M.mapReferees(sheets),
+    rosters: M.mapRosters(sheets)
   };
   const errs=M.validate(model);
   if(errs.length){ console.error("VALIDATION FAILED — deploy aborted:\n - "+errs.join("\n - ")); process.exit(2); }
@@ -35,6 +39,7 @@ async function getSheets(){
   out.teams=mergeTeams(base.teams, model.teams);
   out.games=model.games; out.referees=model.referees;
   out.standings=model.standings; out.scorers=model.scorers;
+  if(model.rosters) out.rosters=model.rosters;
   const header="/* AUTO-GENERATED from 2027_Calcup Master File.xlsx — do not edit by hand. */\n";
   const body="window.CALCUP = "+JSON.stringify(out,null,2)+";\n";
   const next=header+body;

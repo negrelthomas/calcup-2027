@@ -313,9 +313,12 @@
     document.title = t.name + " — CalCup 2027";
     var r = teamRecord(t.id);
     var ros = (D.rosters && D.rosters[t.id]) || [];
+    var _pl = ros.filter(function (p) { return !p.official; });
+    var _off = ros.filter(function (p) { return p.official; });
     var rosterHTML = ros.length
       ? '<table class="tbl"><thead><tr><th>#</th><th style="text-align:left">Player</th><th style="text-align:left">Position</th></tr></thead><tbody>' +
-        ros.map(function (p) { return '<tr><td>' + p.n + '</td><td class="tm">' + p.name + '</td><td style="text-align:left">' + p.pos + '</td></tr>'; }).join("") + '</tbody></table>'
+        _pl.map(function (p) { return '<tr><td>' + (p.n != null ? p.n : '') + '</td><td class="tm">' + p.name + '</td><td style="text-align:left">' + (p.pos || '') + '</td></tr>'; }).join("") + '</tbody></table>' +
+        (_off.length ? '<div class="sec-head" style="margin-top:14px"><h3 style="margin:0">Officials &amp; staff</h3></div><ul class="off-list">' + _off.map(function (p) { return '<li><b>' + p.name + '</b>' + (p.pos ? ' — ' + p.pos : '') + '</li>'; }).join("") + '</ul>' : '')
       : '<div class="muted">Roster to be announced.</div>';
     var gs = teamGames(t.id).map(function (g) {
       var opp = g.teamA === t.id ? teamName(g.teamB) : teamName(g.teamA);

@@ -102,6 +102,31 @@ export function mapReferees(sheets){
   return Object.keys(pairs).sort().map(k=>pairs[k]);
 }
 
+// Rosters Master tab: one row per person. Columns: Team, Type (Player/Official),
+// Jersey, First Name, Last Name, Position, Role / Official. Players first, officials after.
+export function mapRosters(sheets){
+  const rows=sheets["Rosters Master"]; if(!rows||!rows.length) return null;
+  let hdr; try{ hdr=findHeader(rows,["Team","Type","First Name","Last Name"]); }catch(e){ return null; }
+  const {r,idx}=hdr;
+  const roleName = idx["Role / Official"]!=null ? "Role / Official" : (idx["Role"]!=null ? "Role" : null);
+  const out={};
+  for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+    const id=idOf(val(row,idx,"Team")); if(!id) continue;
+    const fn=String(val(row,idx,"First Name")||"").trim(), ln=String(val(row,idx,"Last Name")||"").trim();
+    if(!fn && !ln) continue;
+    const isOfficial=String(val(row,idx,"Type")||"").trim().toLowerCase().indexOf("official")===0;
+    const jv=val(row,idx,"Jersey"); const num=(jv==null||jv==="")?null:(isNaN(Number(jv))?String(jv).trim():Number(jv));
+    (out[id]=out[id]||[]).push({
+      name:(fn+" "+ln).trim(),
+      n: isOfficial?null:num,
+      pos: isOfficial ? (roleName?String(val(row,idx,roleName)||"").trim():"Official") : String(val(row,idx,"Position")||"").trim(),
+      official: isOfficial
+    });
+  }
+  Object.keys(out).forEach(function(id){ out[id].sort(function(a,b){ if(a.official!==b.official) return a.official?1:-1; var an=a.n==null?999:Number(a.n), bn=b.n==null?999:Number(b.n); return an-bn; }); });
+  return Object.keys(out).length?out:null;
+}
+
 export function validate(model){
   const e=[];
   if(!model.teams || model.teams.length!==13) e.push("teams != 13 (got "+(model.teams||[]).length+")");

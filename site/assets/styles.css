@@ -467,3 +467,7 @@ table.lb tr.me td{background:var(--orange-tint)}
 .aw-wname{font-weight:700;font-size:14px}
 .aw-wteam{display:flex;align-items:center;gap:6px;color:var(--muted);font-size:12.5px}
 .aw-wteam .aw-logo{width:16px;height:16px;object-fit:contain}
+
+/* team page: officials & staff list */
+.off-list{list-style:none;padding:0;margin:8px 0 0}
+.off-list li{padding:6px 0;border-top:1px dashed var(--line);font-size:14px}
