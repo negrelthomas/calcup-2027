@@ -1,5 +1,5 @@
 :root{
-  --navy:#102A43; --navy-deep:#0C2138; --navy-2:#1B3A5B;
+  --navy:#102A43; --navy-deep:var(--navy); --navy-2:#1B3A5B; /* only two navies sitewide: --navy (nav) + --navy-2 (refbar) */
   --orange:#F47920; --orange-dark:#C75E12; --orange-tint:#FCEBDA;
   --ink:#13202E; --muted:#5A6B7B; --line:#E5EAF0; --bg:#F6F8FA; --card:#FFFFFF;
   --green:#0F6E56; --red:#A32D2D;
@@ -196,7 +196,7 @@ section{padding:30px 0}
 .tltext{font-size:14px;color:var(--ink)}
 
 /* Video */
-.video{position:relative;width:100%;aspect-ratio:16/9;background:#0C2138;border-radius:12px;overflow:hidden}
+.video{position:relative;width:100%;aspect-ratio:16/9;background:var(--navy);border-radius:12px;overflow:hidden}
 .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .video.placeholder{display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;padding:20px}
 .video.placeholder p{margin:8px 0 0}
@@ -377,7 +377,7 @@ table.lb tr.me td{background:var(--orange-tint)}
 
 /* --- site-wide ref-quiz promo ribbon --- */
 .refbar{display:flex;align-items:center;justify-content:center;gap:8px 18px;flex-wrap:wrap;background:var(--navy-2);color:#fff;padding:9px 18px;text-decoration:none;border-bottom:2px solid var(--orange)}
-.refbar:hover{text-decoration:none;background:#20456a}
+.refbar:hover{text-decoration:none;filter:brightness(1.12)}
 .refbar-txt{font-size:13.5px;color:#DDE6EF}
 .refbar-txt i{color:var(--orange);margin-right:2px}
 .refbar-txt b{color:#fff}
@@ -437,6 +437,12 @@ table.lb tr.me td{background:var(--orange-tint)}
 .ref-portrait.ref-tbd{background:repeating-linear-gradient(45deg,#eef1f4,#eef1f4 6px,#e6eaef 6px,#e6eaef 12px)}
 .ref-portrait.ref-tbd .rp-init{color:var(--muted)}
 .ref-portrait .rp-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+
+/* concession: hoodie model hero (top of page) */
+.merch-hero{border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(16,42,67,.14)}
+.merch-hero-img{display:block;width:100%;height:auto}
+.merch-hero-cap{padding:12px 2px 2px}
+.merch-hero-cap h2{font-size:24px}
 
 /* concession hoodie+hat bundle: two images side by side */
 .gear-imgs{display:flex;gap:6px}

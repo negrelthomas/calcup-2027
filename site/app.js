@@ -576,8 +576,10 @@
       '<section><div class="sec-head"><h2>Food bundles</h2><span class="note">save vs. buying separately</span></div><div class="grid cols-3">'+bundles+'</div></section>';
     var merchHead='<section style="padding-top:4px"><div class="sec-head"><h2>Merch</h2><span class="note">gear up &mdash; cashless (Venmo/PayPal/Zelle)</span></div></section>';
     var starterSec='<section><div class="card starter-kit"><div class="sk-txt"><span class="con-tag">Starter kit</span><h3>Fan starter kit</h3><p class="muted">One CalCup tee <b>+</b> a $12 prepaid food &amp; drinks card &mdash; gear up and fuel up in one.</p></div><div class="sk-price"><span class="sk-was">$32 value</span><span class="sk-now">$27</span><span class="sk-save">save 16%</span></div></div></section>';
-    el.innerHTML='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>'+
-      merchHead+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+foodSec;
+    var introBlock='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>';
+    var hoodieHero='<section><div class="merch-hero"><img class="merch-hero-img zoomable" src="assets/merch/hoodie-model.jpg" alt="CalCup XXth-edition commemorative hoodie" onerror="this.closest(\'section\').style.display=\'none\'"></div>'+
+      '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. Pre-order below and pick it up courtside.</p></div></section>';
+    el.innerHTML=hoodieHero+merchHead+gearSec+'<div id="preorder-anchor"></div>'+teeSec+starterSec+merchExtras+introBlock+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
     // move it into place directly below the commemorative gear.
     var _pf=document.getElementById('preorder'), _anchor=document.getElementById('preorder-anchor');
