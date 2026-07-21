@@ -59,7 +59,7 @@
             <select name="item" required>
               <option value="">Choose…</option>
               <option>Commemorative hoodie — $75</option>
-              <option>Commemorative hat — $35</option>
+              <option>Commemorative hat — $40</option>
               <option>Hoodie + hat bundle — $100</option>
             </select>
           </label>
@@ -97,7 +97,7 @@
   if (!form || !addBtn || !container) return;
 
   // Items where the Size field is not applicable (no apparel sizing)
-  const NO_SIZE_ITEMS = new Set(['Commemorative hat — $35']);
+  const NO_SIZE_ITEMS = new Set(['Commemorative hat — $40']);
 
   function syncSizeField(row) {
     const itemEl = row.querySelector('[name=item]');
