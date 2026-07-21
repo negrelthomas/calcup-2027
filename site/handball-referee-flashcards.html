@@ -17,7 +17,7 @@
     --green-mid: #C75E12;    /* CalCup orange-dark (hover/accent) */
     --green-dark: #8A4210;   /* deep orange (answer text) */
     --accent: #102A43;       /* CalCup navy accent */
-    --red: #C0392B;
+    --red: #1B3A5B;         /* second navy — used for the "missed / didn't know it" state */
     --blue: #102A43;         /* navy (stat) */
     --gray-50: #F6F8FA;
     --gray-200: #E5EAF0;
@@ -70,13 +70,13 @@
   .card-answer { font-size: 13.5px; line-height: 1.65; color: var(--green-dark); flex: 1; }
   .card-rule { margin-top: 12px; font-size: 11px; font-weight: 700; color: var(--green-mid); background: white; padding: 3px 9px; border-radius: 7px; width: fit-content; }
   .card-hint { margin-top: auto; padding-top: 14px; font-size: 11px; color: var(--gray-400); text-align: center; }
-  .diff-pill { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; background: #ffeaa0; color: #7a5700; vertical-align: middle; }
+  .diff-pill { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; background: #FCEBDA; color: #C75E12; vertical-align: middle; }
   .answer-btns { display: flex; gap: 10px; justify-content: center; margin-top: 14px; width: 100%; max-width: 680px; }
   .answer-btns.hidden { visibility: hidden; }
   .btn-knew { background: var(--green); color: white; padding: 10px 28px; font-size: 13px; border-radius: 8px; border: none; font-weight: 700; cursor: pointer; transition: background 0.15s; }
   .btn-knew:hover { background: var(--green-mid); }
   .btn-nope { background: white; color: var(--red); border: 2px solid var(--red); padding: 10px 28px; font-size: 13px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
-  .btn-nope:hover { background: #fdf0ee; }
+  .btn-nope:hover { background: #EAF0F6; }
   .nav-btns { display: flex; gap: 8px; justify-content: center; margin-top: 12px; }
   .btn-nav { background: white; border: 1.5px solid var(--gray-200); color: var(--gray-700); padding: 7px 20px; border-radius: 8px; font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
   .btn-nav:hover { border-color: var(--green-mid); color: var(--green-mid); }
@@ -491,7 +491,7 @@ function reviewMissed(){
 }
 function render(){
   const area=document.getElementById('cardArea'),total=filteredDeck.length;
-  if(total===0){area.innerHTML=`<div class="empty"><div style="font-size:38px;margin-bottom:10px">&#127881;</div><p style="font-size:13px;color:#8a9490">No cards in this category.</p></div>`;updateStats();return;}
+  if(total===0){area.innerHTML=`<div class="empty"><div style="font-size:38px;margin-bottom:10px">&#127881;</div><p style="font-size:13px;color:#5A6B7B">No cards in this category.</p></div>`;updateStats();return;}
   if(currentIdx>=total){showCompletion();return;}
   const card=filteredDeck[currentIdx];
   area.innerHTML=`

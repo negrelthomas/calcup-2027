@@ -691,7 +691,7 @@
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
         '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>'+per+' seconds each</b>. Fast on purpose &mdash; no time to phone a friend. Add a nickname to join the weekend leaderboard.</p>'+
-        '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard &rarr; win a <b>$50 concession gift card</b>. Board closes before the Sunday finals, so you can still shop.</div>'+
+        '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard &rarr; win a <b>$50 CalCup merch gift card</b> &mdash; winner announced at the end of the weekend. Board closes before the Sunday finals.</div>'+
         (boardOpen()?'':'<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b> — winner announced at the concession booth. You can still play for fun!</div>')+
         '<input id="qname" class="quiz-name" maxlength="18" placeholder="Your nickname" autocomplete="off" spellcheck="false">'+
         '<div style="margin:14px 0"><button class="btn btn-pri btn-lg" id="qstart">Start the test</button></div>'+
@@ -770,6 +770,10 @@
       _ft.innerHTML = '<div class="wrap">Questions? Contact the organizing committee at <a href="mailto:calcup@calheat.com">calcup@calheat.com</a> &middot; Hosted by San Francisco CalHeat</div>';
       document.body.appendChild(_ft);
     }
+
+    // Shared "you think you can ref?" ribbon — one source of truth for every page.
+    var _rbt = document.querySelector(".refbar .refbar-txt");
+    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> 10-second rules quiz &mdash; top the weekend board &amp; win a <b>$50 merch gift card</b>.';
 
     // home
     var f = featured(); if (document.getElementById("featured") && f) set("featured", gameCardHTML(f));
