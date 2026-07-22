@@ -1899,11 +1899,6 @@ window.CALCUP = {
         "n": "Veg Sandwich + Gatorade",
         "d": "Vegetarian sandwich + Gatorade",
         "p": "$6"
-      },
-      {
-        "n": "Athlete Fuel Pack",
-        "d": "Banana + Gatorade + Clif bar",
-        "p": "$4.50"
       }
     ],
     "merch": {
@@ -1932,24 +1927,9 @@ window.CALCUP = {
       ],
       "bundles": [
         {
-          "n": "Family Bundle",
-          "d": "3 CalCup t-shirts",
-          "p": "$50"
-        },
-        {
           "n": "Elite Bundle",
           "d": "Hummel jersey + hat",
           "p": "$70"
-        },
-        {
-          "n": "Hat & Shirt Bundle",
-          "d": "Hat + CalCup t-shirt",
-          "p": "$45"
-        },
-        {
-          "n": "Welcome Bundle",
-          "d": "Starter gear set",
-          "p": "$27"
         }
       ]
     }
