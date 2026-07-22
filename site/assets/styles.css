@@ -472,6 +472,8 @@ table.lb tr.me td{background:var(--orange-tint)}
 .deal-cta{margin-top:8px;font-size:12px;font-weight:700;color:var(--navy)}
 .deal-card.deal-orange .deal-cta{color:#3A1B02}
 .deal-cta i{margin-right:3px}
+.cap-card{text-align:center}
+.cap-card .gear-name{margin-top:8px}
 
 /* concession hoodie+hat bundle: two images side by side */
 .gear-imgs{display:flex;gap:6px}
