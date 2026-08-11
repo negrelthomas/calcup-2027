@@ -295,6 +295,8 @@ footer a{color:#C3D0DE}
 .lot-meta .ti{color:var(--orange)}
 .lot-pay{color:#fff;font-weight:700}
 @media(max-width:640px){.lot-prizes{grid-template-columns:1fr}}
+.lot-mystery{grid-column:1/-1;align-items:center;gap:16px}
+.lot-q{display:flex;align-items:center;justify-content:center;flex:none;width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9D4D);color:#fff;font-size:36px;font-weight:900;transform:rotate(-8deg);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 /* --- concession --- */
 .con-list{display:flex;flex-direction:column;gap:2px}
 .con-row{display:flex;justify-content:space-between;border-bottom:1px dashed var(--line);padding:6px 0;font-size:14px}

@@ -1,5 +1,13 @@
 /* CalCup 2027 — renders all views from window.CALCUP. No data lives here. */
 (function () {
+  /* ===== PREVIEW MODE — THE SWITCH =====
+     true  = only LIVE_PAGES show content. Every other page keeps its nav + hero (structure
+             stays visible) but shows a short "goes live closer to CalCup 2027" notice.
+             The ref-quiz ribbon is hidden site-wide.
+     false = full site back on. Nothing else to change. */
+  var PREVIEW_MODE = true;
+  var LIVE_PAGES = ["concession.html"];
+
   var D = window.CALCUP || {};
   var M = D.meta || {};
   if (!M.streamUrl) M.streamUrl = "https://www.youtube.com/embed/XsOU8JnEpNM"; // TEST feed — replace/remove when the real stream is set
@@ -521,13 +529,9 @@
 
   /* ---------- lottery ---------- */
   var LOTTERY = {
-    headline: "Win a player-signed pro jersey",
-    blurb: "Three prizes, drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
-    prizes: [
-      { place:"1st prize", item:"Match jersey signed by the French national team players", src:"Courtesy of the French Handball Federation" },
-      { place:"2nd prize", item:"Match jersey signed by the PSG Handball players", src:"Courtesy of Paris Saint-Germain Handball" },
-      { place:"3rd prize", item:"$75 of CalCup merch — your choice", src:"Redeemable at the concession stand, at your discretion" }
-    ],
+    headline: "Very special handball prizes",
+    blurb: "Drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
+    mystery: { item:"Very special handball prizes", src:"Stay tuned &mdash; revealed closer to the tournament" },
     tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
     where: "On sale at the concession stand — Friday through Sunday 12 PM.",
     draw: "Drawn at the finals ceremony on Sunday. You must be present to win.",
@@ -535,7 +539,9 @@
   };
   function renderLottery(el){
     var L=LOTTERY; if(!L){el.innerHTML="";return;}
-    var prizes=(L.prizes||[]).map(function(p){return '<div class="lot-prize"><div class="lot-place">'+p.place+'</div><div><div class="lot-item">'+p.item+'</div><div class="muted" style="font-size:12px">'+p.src+'</div></div></div>';}).join("");
+    var prizes=L.mystery
+      ? '<div class="lot-prize lot-mystery"><span class="lot-q" aria-hidden="true">?</span><div><div class="lot-item">'+L.mystery.item+'</div><div class="muted" style="font-size:12px">'+L.mystery.src+'</div></div></div>'
+      : (L.prizes||[]).map(function(p){return '<div class="lot-prize"><div class="lot-place">'+p.place+'</div><div><div class="lot-item">'+p.item+'</div><div class="muted" style="font-size:12px">'+p.src+'</div></div></div>';}).join("");
     var tix=(L.tickets||[]).map(function(t){return '<div class="lot-tix"><span class="lot-tname">'+t.name+'</span><span class="lot-tprice">'+t.price+'</span></div>';}).join("");
     el.innerHTML='<div class="lottery"><span class="lot-badge">Grand-prize lottery</span>'+
       '<h2 class="lot-head">'+L.headline+'</h2><p class="lot-blurb">'+L.blurb+'</p>'+
@@ -568,9 +574,9 @@
       capCard('calheat-cap-flat.jpg','CalHeat cap &mdash; flat visor','Flat visor')+
       capCard('calheat-cap-curved.jpg','CalHeat cap &mdash; curved visor','Curved visor')+
       '</div></section>';
-    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Dec 7, 2026.</b></p>';
-    var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $19 vs. separately</div><div class="gear-price">$99</div></a>';
-    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Dec 7 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Oct 16, 2026.</b></p>';
+    var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $9 vs. separately</div><div class="gear-price">$109</div></a>';
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Oct 16 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
       bundleCard+
       gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings","$79")+
       gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$39")+
@@ -777,6 +783,27 @@
     // Shared "you think you can ref?" ribbon — one source of truth for every page.
     var _rbt = document.querySelector(".refbar .refbar-txt");
     if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> 10-second rules quiz &mdash; top the weekend board &amp; win a <b>$50 merch gift card</b>.';
+
+    // Preview gate — see PREVIEW_MODE switch at the top of this file.
+    if (PREVIEW_MODE) {
+      var _rb = document.querySelector(".refbar"); if (_rb) _rb.remove(); // quiz opens with the rest of the site
+      if (LIVE_PAGES.indexOf(currentPage()) < 0) {
+        var _start = document.querySelector(".hero") || document.querySelector("header");
+        if (_start) {
+          var _n = _start.nextSibling;
+          while (_n) {
+            var _nx = _n.nextSibling;
+            if (!(_n.nodeType === 1 && (_n.tagName === "SCRIPT" || _n.className === "site-foot"))) _n.parentNode.removeChild(_n);
+            _n = _nx;
+          }
+        }
+        var _g = document.createElement("div");
+        _g.className = "wrap";
+        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament &mdash; Jan 29 &ndash; Feb 1, 2027 &middot; Fremont, CA.</p><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a></section>';
+        if (_start && _start.parentNode) _start.parentNode.insertBefore(_g, _start.nextSibling); else document.body.appendChild(_g);
+        return; // skip all data rendering on gated pages
+      }
+    }
 
     // home
     var f = featured(); if (document.getElementById("featured") && f) set("featured", gameCardHTML(f));

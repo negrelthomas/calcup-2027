@@ -1793,20 +1793,12 @@ window.CALCUP = {
     "contact": "calcup@calheat.com"
   },
   "lottery": {
-    "headline": "Win a signed pro jersey",
-    "blurb": "Two grand prizes, drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
-    "prizes": [
-      {
-        "place": "1st prize",
-        "item": "Signed French national team jersey",
-        "src": "Courtesy of the French Handball Federation"
-      },
-      {
-        "place": "2nd prize",
-        "item": "Signed PSG Handball jersey",
-        "src": "Courtesy of Paris Saint-Germain Handball"
-      }
-    ],
+    "headline": "Very special handball prizes",
+    "blurb": "Drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
+    "mystery": {
+      "item": "Very special handball prizes",
+      "src": "Stay tuned — revealed closer to the tournament"
+    },
     "tickets": [
       {
         "name": "Single",
