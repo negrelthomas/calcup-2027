@@ -296,6 +296,12 @@ footer a{color:#C3D0DE}
 .lot-pay{color:#fff;font-weight:700}
 @media(max-width:640px){.lot-prizes{grid-template-columns:1fr}}
 .lot-mystery{grid-column:1/-1;align-items:center;gap:16px}
+.gate{text-align:center;padding:48px 20px;margin:26px 0;background:#fff;border:1px solid #E3E9F0;border-radius:14px}
+.gate-q{width:64px;height:64px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9D4D);color:#fff;font-size:30px;transform:rotate(-6deg);box-shadow:0 6px 18px rgba(16,42,67,.18)}
+.gate h2{margin:0 0 6px;color:var(--navy)}
+.gate p{max-width:540px;margin:0 auto 18px}
+.gate-cta{display:inline-flex;gap:8px;align-items:center;background:var(--navy);color:#fff;font-weight:700;padding:12px 20px;border-radius:10px}
+.gate-cta:hover{background:var(--navy-2);color:#fff}
 .lot-q{display:flex;align-items:center;justify-content:center;flex:none;width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9D4D);color:#fff;font-size:36px;font-weight:900;transform:rotate(-8deg);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 /* --- concession --- */
 .con-list{display:flex;flex-direction:column;gap:2px}
