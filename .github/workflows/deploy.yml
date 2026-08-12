@@ -1,7 +1,10 @@
 name: Deploy CalCup site
 on:
-  schedule:
-    - cron: "*/5 * * * *"
+  # SCHEDULE DISABLED 2026-08-11.
+  # Re-enable in January 2027 for tournament week.
+  # Until then, run manually from the Actions tab after updating the workbook.
+  # schedule:
+  #   - cron: "*/5 * * * *"
   workflow_dispatch: {}
 concurrency:
   group: calcup-deploy
@@ -12,9 +15,10 @@ jobs:
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
       - name: Install generator deps
         working-directory: automation
         run: npm install --no-audit --no-fund

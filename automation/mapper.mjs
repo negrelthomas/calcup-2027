@@ -127,13 +127,87 @@ export function mapRosters(sheets){
   return Object.keys(out).length?out:null;
 }
 
-export function validate(model){
-  const e=[];
-  if(!model.teams || model.teams.length!==13) e.push("teams != 13 (got "+(model.teams||[]).length+")");
-  if(!model.games || model.games.length<20) e.push("games < 20 (got "+(model.games||[]).length+")");
-  model.games.forEach(g=>{ if(!g.teamA||!g.teamB) e.push("game "+g.no+" missing team"); });
-  const grp=model.standings||{}; ["A","B","W"].forEach(g=>{ if(!grp[g]||!grp[g].length) e.push("standings group "+g+" empty"); });
-  if(!model.scorers || !model.scorers.M || !model.scorers.W) e.push("scorers missing");
-  if(!model.referees || model.referees.length<3) e.push("referees < 3");
-  return e;
+// ---------------------------------------------------------------------------
+// Diagnostics
+// ---------------------------------------------------------------------------
+// mapTeams silently drops any row whose Short Name is not in TEAM_ID. That is
+// why a renamed team shows up only as a count mismatch. auditTeams re-reads the
+// same tab and reports what was dropped and why.
+const KNOWN_TEAM_NAMES = Object.keys(TEAM_ID);
+function showName(s){
+  const t = String(s);
+  return JSON.stringify(t) + (t !== t.trim() ? " [leading or trailing whitespace]" : "");
+}
+export function auditTeams(sheets){
+  const rows = (sheets && sheets["Teams Master"]) || [];
+  let hdr;
+  try { hdr = findHeader(rows, ["TeamID","Short Name","Division","Group Code"]); }
+  catch(e){ return { matched: [], unknown: [], expected: KNOWN_TEAM_NAMES, readable: false }; }
+  const { r, idx } = hdr;
+  const matched = [], unknown = [];
+  for(let i=r+1; i<rows.length; i++){
+    const raw = val(rows[i]||[], idx, "Short Name");
+    if(raw == null || String(raw).trim() === "") continue;
+    if(idOf(raw)) matched.push(String(raw).trim()); else unknown.push(raw);
+  }
+  return { matched, unknown, expected: KNOWN_TEAM_NAMES, readable: true };
+}
+// ---------------------------------------------------------------------------
+// Validation
+// ---------------------------------------------------------------------------
+// strict     - every rule blocks. Publishing wrong standings mid-tournament is
+//              worse than publishing nothing. Use from roster lock to wrap-up.
+// permissive - only integrity breaches block. Completeness gaps become warnings.
+//
+// integrity    = the data we have is self-contradictory or unusable.
+// completeness = the data we have is fine, there is just less of it.
+//
+// Returns { mode, errors, warnings }. Non-empty errors must abort the deploy.
+export function validate(model, opts){
+  const mode = (opts && opts.mode) === "strict" ? "strict" : "permissive";
+  const audit = opts && opts.audit;
+  const errors = [], warnings = [];
+  const teams = (model && model.teams) || [];
+  const games = (model && model.games) || [];
+  const grp   = (model && model.standings) || {};
+  const refs  = (model && model.referees) || [];
+  // --- Integrity: fatal in every mode ---
+  if(!teams.length) errors.push("no teams mapped from Teams Master");
+  const seenId = {};
+  teams.forEach(t => {
+    if(seenId[t.id]) errors.push("duplicate team id \"" + t.id + "\" (two rows map to the same team)");
+    seenId[t.id] = true;
+  });
+  games.forEach(g => {
+    if(!g.teamA || !g.teamB) errors.push("game " + g.no + " missing team");
+    if(g.teamA && g.teamA === g.teamB) errors.push("game " + g.no + " has the same team on both sides");
+    if(g.status === "final" && (!Number.isFinite(g.scoreA) || !Number.isFinite(g.scoreB)))
+      errors.push("game " + g.no + " is marked final but a score is not numeric");
+  });
+  const seenNo = {};
+  games.forEach(g => {
+    if(seenNo[g.no]) errors.push("duplicate game number " + g.no);
+    seenNo[g.no] = true;
+  });
+  if(!model || !model.scorers || !model.scorers.M || !model.scorers.W)
+    errors.push("scorers missing (check Individuals Stats Men and Individuals Stats Women)");
+  // --- Completeness: fatal in strict, advisory in permissive ---
+  const soft = mode === "strict" ? errors : warnings;
+  if(teams.length !== 13) soft.push("teams != 13 (got " + teams.length + ")");
+  if(games.length < 20) soft.push("games < 20 (got " + games.length + ")");
+  ["A","B","W"].forEach(g => { if(!grp[g] || !grp[g].length) soft.push("standings group " + g + " is empty"); });
+  if(refs.length < 3) soft.push("referees < 3 (got " + refs.length + ")");
+  // --- Team-name diagnostics: always advisory, they explain the counts above ---
+  if(audit){
+    if(!audit.readable){
+      warnings.push("Teams Master header could not be located for the name audit");
+    } else {
+      audit.unknown.forEach(n =>
+        warnings.push("Teams Master row ignored: " + showName(n) + " is not in the TEAM_ID map"));
+      const missing = (audit.expected || []).filter(n => audit.matched.indexOf(n) < 0);
+      if(missing.length)
+        warnings.push("expected team(s) absent from Teams Master: " + missing.join(", "));
+    }
+  }
+  return { mode, errors, warnings };
 }
