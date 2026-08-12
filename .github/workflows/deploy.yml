@@ -1,10 +1,10 @@
 name: Deploy CalCup site
 on:
-  # SCHEDULE DISABLED 2026-08-11.
-  # Re-enable in January 2027 for tournament week.
-  # Until then, run manually from the Actions tab after updating the workbook.
-  # schedule:
-  #   - cron: "*/5 * * * *"
+  # Daily refresh while the site is in preview. Validation runs permissive, so
+  # this stays green year-round and only commits when the workbook changed.
+  # TOURNAMENT WEEK (late Jan 2027): bump to "*/5 * * * *".
+  schedule:
+    - cron: "0 14 * * *"  # 6:00 AM Pacific (winter)
   workflow_dispatch: {}
 concurrency:
   group: calcup-deploy
