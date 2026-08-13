@@ -1,4 +1,4 @@
-/* AUTO-GENERATED from 2027_Calcup Master File.xlsx — do not edit by hand. */
+/* AUTO-GENERATED from 2027_Calcup Master File.xlsx. Do not edit by hand. */
 window.CALCUP = {
   "meta": {
     "edition": "XX",
@@ -21,7 +21,39 @@ window.CALCUP = {
       "name": "Calheat",
       "city": "San Francisco, CA",
       "division": "M",
-      "group": "A",
+      "group": "",
+      "logo": "",
+      "jersey": {
+        "c": "#F47920",
+        "n": "Orange"
+      },
+      "jerseyKit": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "ch-blue",
+      "name": "Calheat U21",
+      "city": "San Francisco, CA",
+      "division": "M",
+      "group": "",
+      "logo": "",
+      "jersey": {
+        "c": "#1F3A93",
+        "n": "Navy"
+      },
+      "jerseyKit": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "ch-w",
+      "name": "Calheat W",
+      "city": "San Francisco, CA",
+      "division": "W",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#F47920",
@@ -37,15 +69,15 @@ window.CALCUP = {
       "name": "Boston TH",
       "city": "Boston, MA",
       "division": "M",
-      "group": "A",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#1E8449",
         "n": "Green"
       },
       "jerseyKit": {
-        "home": "Blue",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
@@ -53,15 +85,15 @@ window.CALCUP = {
       "name": "Seattle",
       "city": "Seattle, WA",
       "division": "M",
-      "group": "A",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#138D75",
         "n": "Teal"
       },
       "jerseyKit": {
-        "home": "Green",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
@@ -69,15 +101,15 @@ window.CALCUP = {
       "name": "LATHC",
       "city": "Los Angeles, CA",
       "division": "M",
-      "group": "A",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#1C1C1C",
         "n": "Black"
       },
       "jerseyKit": {
-        "home": "Blue",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
@@ -85,15 +117,15 @@ window.CALCUP = {
       "name": "Denver Wolves",
       "city": "Denver, CO",
       "division": "M",
-      "group": "B",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#566573",
         "n": "Grey"
       },
       "jerseyKit": {
-        "home": "Black",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
@@ -101,31 +133,15 @@ window.CALCUP = {
       "name": "San Diego M",
       "city": "San Diego, CA",
       "division": "M",
-      "group": "B",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#2E86C1",
         "n": "Blue"
       },
       "jerseyKit": {
-        "home": "Blue",
-        "away": "White"
-      }
-    },
-    {
-      "id": "ch-blue",
-      "name": "Calheat U21",
-      "city": "San Francisco, CA",
-      "division": "M",
-      "group": "B",
-      "logo": "",
-      "jersey": {
-        "c": "#1F3A93",
-        "n": "Navy"
-      },
-      "jerseyKit": {
-        "home": "White",
-        "away": "Blue"
+        "home": "",
+        "away": ""
       }
     },
     {
@@ -133,95 +149,79 @@ window.CALCUP = {
       "name": "West Point - Army M",
       "city": "West Point, NY",
       "division": "M",
-      "group": "B",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#B8860B",
         "n": "Gold"
       },
       "jerseyKit": {
-        "home": "Black",
-        "away": "Gold"
-      }
-    },
-    {
-      "id": "ch-w",
-      "name": "Calheat W",
-      "city": "San Francisco, CA",
-      "division": "W",
-      "group": "W",
-      "logo": "",
-      "jersey": {
-        "c": "#F47920",
-        "n": "Orange"
-      },
-      "jerseyKit": {
-        "home": "White",
-        "away": "Blue"
+        "home": "",
+        "away": ""
       }
     },
     {
       "id": "massif",
       "name": "Massif SLC",
       "city": "Salt Lake City, UT",
-      "division": "W",
-      "group": "W",
+      "division": "M",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#C0392B",
         "n": "Red"
       },
       "jerseyKit": {
-        "home": "White",
-        "away": "Blue"
+        "home": "",
+        "away": ""
       }
     },
     {
       "id": "nyc",
       "name": "NYC",
       "city": "New York, NY",
-      "division": "W",
-      "group": "W",
+      "division": "M",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#1C1C1C",
         "n": "Black"
       },
       "jerseyKit": {
-        "home": "Black",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
       "id": "sd-w",
       "name": "San Diego W",
       "city": "San Diego, CA",
-      "division": "W",
-      "group": "W",
+      "division": "M",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#2E86C1",
         "n": "Blue"
       },
       "jerseyKit": {
-        "home": "Blue",
-        "away": "White"
+        "home": "",
+        "away": ""
       }
     },
     {
       "id": "army-w",
       "name": "West Point - Army W",
       "city": "West Point, NY",
-      "division": "W",
-      "group": "W",
+      "division": "M",
+      "group": "",
       "logo": "",
       "jersey": {
         "c": "#B8860B",
         "n": "Gold"
       },
       "jerseyKit": {
-        "home": "Black",
-        "away": "Gold"
+        "home": "",
+        "away": ""
       }
     }
   ],
@@ -1461,7 +1461,7 @@ window.CALCUP = {
   },
   "referees": [
     {
-      "id": "r1",
+      "id": "r2",
       "refs": [
         "Referee 1 (TBD)",
         "Referee 2 (TBD)"
@@ -1470,7 +1470,7 @@ window.CALCUP = {
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r2",
+      "id": "r3",
       "refs": [
         "Anastasia Bohoiavlenska",
         "Cristina Molina Hidalgo"
@@ -1479,7 +1479,7 @@ window.CALCUP = {
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r3",
+      "id": "r4",
       "refs": [
         "Referee 9 (TBD)",
         "Referee 10 (TBD)"
@@ -1488,7 +1488,7 @@ window.CALCUP = {
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r4",
+      "id": "r5",
       "refs": [
         "TBD",
         "TBD"
@@ -1497,7 +1497,7 @@ window.CALCUP = {
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r5",
+      "id": "r6",
       "refs": [
         "TBD",
         "TBD"
@@ -2402,540 +2402,481 @@ window.CALCUP = {
   "games": [
     {
       "no": 1,
-      "day": "Thu",
+      "day": "Fri",
       "time": "8:45 PM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "ch-w",
-      "teamB": "massif",
-      "scoreA": 1,
-      "scoreB": 0,
-      "status": "final",
+      "teamA": "tbd-w1",
+      "teamB": "tbd-w2",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 1 (TBD) / Referee 2 (TBD)",
       "table": [
         "Omar Bentahar",
         "Jules Fortin"
       ],
-      "jA": "White",
-      "jB": "Blue"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 2,
       "day": "Fri",
-      "time": "3:50 PM",
+      "time": "9:55 PM",
       "court": 1,
       "division": "M",
       "group": "A",
-      "teamA": "boston",
-      "teamB": "lathc",
-      "scoreA": 2,
-      "scoreB": 1,
-      "status": "final",
+      "teamA": "tbd-a1",
+      "teamB": "tbd-a2",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Halina Lehto / Azadeh Ahmadi",
       "table": [
         "Omar Bentahar",
         "Jules Fortin"
       ],
-      "jA": "Blue",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 3,
       "day": "Fri",
-      "time": "5:00 PM",
+      "time": "11:05 PM",
       "court": 1,
       "division": "M",
       "group": "B",
-      "teamA": "denver",
-      "teamB": "sd-m",
-      "scoreA": 3,
-      "scoreB": 2,
-      "status": "final",
+      "teamA": "tbd-b1",
+      "teamB": "tbd-b2",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Anastasia Bohoiavlenska / Cristina Molina Hidalgo",
       "table": [
         "Omar Bentahar",
         "Jules Fortin"
       ],
-      "jA": "Black",
-      "jB": "Blue"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 4,
       "day": "Fri",
-      "time": "6:10 PM",
+      "time": "12:15 AM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "nyc",
-      "teamB": "sd-w",
-      "scoreA": 4,
-      "scoreB": 3,
-      "status": "final",
+      "teamA": "tbd-w3",
+      "teamB": "tbd-w4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Ezekiel McClintock / Paulo Barr-Gutierrez",
       "table": [
         "Jacqueline  Sandoval",
         "Anais Chretien"
       ],
-      "jA": "Black",
-      "jB": "Blue"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 5,
       "day": "Fri",
-      "time": "7:20 PM",
+      "time": "1:25 AM",
       "court": 1,
       "division": "M",
       "group": "A",
-      "teamA": "seattle",
-      "teamB": "ch-orange",
-      "scoreA": 5,
-      "scoreB": 4,
-      "status": "final",
+      "teamA": "tbd-a3",
+      "teamB": "tbd-a4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 9 (TBD) / Referee 10 (TBD)",
       "table": [
         "Ezekiel McClintock",
         "Anais Chretien"
       ],
-      "jA": "Green",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 6,
       "day": "Fri",
-      "time": "8:30 PM",
+      "time": "2:35 AM",
       "court": 1,
       "division": "M",
       "group": "B",
-      "teamA": "ch-blue",
-      "teamB": "army-m",
-      "scoreA": 6,
-      "scoreB": 5,
-      "status": "final",
+      "teamA": "tbd-b3",
+      "teamB": "tbd-b4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 1 (TBD) / Referee 2 (TBD)",
       "table": [
         "Benoit Crouzit",
         "Sylwann Rodzko"
       ],
-      "jA": "White",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 7,
       "day": "Fri",
-      "time": "9:40 PM",
+      "time": "3:45 AM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "ch-w",
-      "teamB": "army-w",
-      "scoreA": 7,
-      "scoreB": 6,
-      "status": "final",
+      "teamA": "tbd-w1",
+      "teamB": "tbd-w3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Halina Lehto / Azadeh Ahmadi",
       "table": [
         "Omar Bentahar",
         "Ta-Wei Tu"
       ],
-      "jA": "White",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 8,
       "day": "Sat",
-      "time": "7:35 AM",
+      "time": "3:50 PM",
       "court": 1,
       "division": "M",
       "group": "A",
-      "teamA": "boston",
-      "teamB": "seattle",
-      "scoreA": 8,
-      "scoreB": 7,
-      "status": "final",
+      "teamA": "tbd-a1",
+      "teamB": "tbd-a3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Anastasia Bohoiavlenska / Cristina Molina Hidalgo",
       "table": [
         "Bocheng Yu"
       ],
-      "jA": "Blue",
-      "jB": "Green"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 9,
       "day": "Sat",
-      "time": "8:45 AM",
+      "time": "5:00 PM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "massif",
-      "teamB": "army-w",
-      "scoreA": 9,
-      "scoreB": 8,
-      "status": "final",
+      "teamA": "tbd-w2",
+      "teamB": "tbd-w4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Ezekiel McClintock / Paulo Barr-Gutierrez",
       "table": [
         "Bocheng Yu",
         "Jacqueline  Sandoval"
       ],
-      "jA": "White",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 10,
       "day": "Sat",
-      "time": "9:55 AM",
+      "time": "6:10 PM",
       "court": 1,
       "division": "M",
       "group": "B",
-      "teamA": "denver",
-      "teamB": "ch-blue",
-      "scoreA": 10,
-      "scoreB": 9,
-      "status": "final",
+      "teamA": "tbd-b1",
+      "teamB": "tbd-b3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 9 (TBD) / Referee 10 (TBD)",
       "table": [
         "Bocheng Yu",
         "Omar Bentahar"
       ],
-      "jA": "Black",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 11,
       "day": "Sat",
-      "time": "11:05 AM",
+      "time": "7:20 PM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "ch-w",
-      "teamB": "sd-w",
-      "scoreA": 11,
-      "scoreB": 10,
-      "status": "final",
+      "teamA": "tbd-w1",
+      "teamB": "tbd-w4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 1 (TBD) / Referee 2 (TBD)",
       "table": [
         "Ezekiel McClintock",
         "Marine Dunoguier"
       ],
-      "jA": "White",
-      "jB": "Blue"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 12,
       "day": "Sat",
-      "time": "12:15 PM",
+      "time": "8:30 PM",
       "court": 1,
       "division": "M",
       "group": "A",
-      "teamA": "lathc",
-      "teamB": "ch-orange",
-      "scoreA": 12,
-      "scoreB": 11,
-      "status": "final",
+      "teamA": "tbd-a2",
+      "teamB": "tbd-a4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Halina Lehto / Azadeh Ahmadi",
       "table": [
         "Marine Dunoguier",
         "Natacha Crooks"
       ],
-      "jA": "Blue",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 13,
       "day": "Sat",
-      "time": "1:25 PM",
+      "time": "9:40 PM",
       "court": 1,
       "division": "W",
       "group": "W",
-      "teamA": "nyc",
-      "teamB": "army-w",
-      "scoreA": 13,
-      "scoreB": 12,
-      "status": "final",
+      "teamA": "tbd-w2",
+      "teamB": "tbd-w3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Anastasia Bohoiavlenska / Cristina Molina Hidalgo",
       "table": [
         "Jan Kaiser",
         "Anais Chretien"
       ],
-      "jA": "Black",
-      "jB": "Gold"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 14,
       "day": "Sat",
-      "time": "2:35 PM",
+      "time": "10:50 PM",
       "court": 1,
       "division": "M",
       "group": "B",
-      "teamA": "sd-m",
-      "teamB": "army-m",
-      "scoreA": 14,
-      "scoreB": 13,
-      "status": "final",
+      "teamA": "tbd-b2",
+      "teamB": "tbd-b4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Ezekiel McClintock / Paulo Barr-Gutierrez",
       "table": [
         "Marine Dunoguier",
         "Natacha Crooks"
       ],
-      "jA": "Blue",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 15,
       "day": "Sat",
-      "time": "3:45 PM",
+      "time": "12:00 AM",
       "court": 1,
       "division": "M",
       "group": "A",
-      "teamA": "boston",
-      "teamB": "ch-orange",
-      "scoreA": 15,
-      "scoreB": 14,
-      "status": "final",
+      "teamA": "tbd-a1",
+      "teamB": "tbd-a4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 9 (TBD) / Referee 10 (TBD)",
       "table": [
         "Alexander Ly",
         "Ta-Wei Tu"
       ],
-      "jA": "Blue",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 16,
       "day": "Sat",
-      "time": "4:55 PM",
+      "time": "1:10 AM",
       "court": 1,
-      "division": "W",
-      "group": "W",
-      "teamA": "ch-w",
-      "teamB": "nyc",
-      "scoreA": 16,
-      "scoreB": 15,
-      "status": "final",
+      "division": "M",
+      "group": "B",
+      "teamA": "tbd-b1",
+      "teamB": "tbd-b4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 1 (TBD) / Referee 2 (TBD)",
       "table": [
         "Omar Bentahar",
         "Raphael Renault"
       ],
-      "jA": "White",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 17,
       "day": "Sat",
-      "time": "6:05 PM",
+      "time": "2:20 AM",
       "court": 1,
-      "division": "W",
-      "group": "W",
-      "teamA": "massif",
-      "teamB": "sd-w",
-      "scoreA": 17,
-      "scoreB": 16,
-      "status": "final",
+      "division": "M",
+      "group": "A",
+      "teamA": "tbd-a2",
+      "teamB": "tbd-a3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Halina Lehto / Azadeh Ahmadi",
       "table": [
         "Raphael Renault",
         "Yogev Keidar"
       ],
-      "jA": "White",
-      "jB": "Blue"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 18,
       "day": "Sat",
-      "time": "7:15 PM",
+      "time": "3:30 AM",
       "court": 1,
       "division": "M",
       "group": "B",
-      "teamA": "denver",
-      "teamB": "army-m",
-      "scoreA": 18,
-      "scoreB": 17,
-      "status": "final",
+      "teamA": "tbd-b2",
+      "teamB": "tbd-b3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Anastasia Bohoiavlenska / Cristina Molina Hidalgo",
       "table": [
         "Raphael Renault",
         "Natacha Crooks"
       ],
-      "jA": "Black",
-      "jB": "Gold"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 19,
-      "day": "Sat",
-      "time": "8:25 PM",
+      "day": "Sun",
+      "time": "7:35 AM",
       "court": 1,
       "division": "M",
-      "group": "A",
-      "teamA": "lathc",
-      "teamB": "seattle",
-      "scoreA": 19,
-      "scoreB": 18,
-      "status": "final",
+      "group": "P",
+      "teamA": "tbd-a4",
+      "teamB": "tbd-b4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Ezekiel McClintock / Paulo Barr-Gutierrez",
       "table": [
         "Omar Bentahar",
         "Natacha Crooks"
       ],
-      "jA": "Blue",
-      "jB": "Green"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 20,
-      "day": "Sat",
-      "time": "9:35 PM",
+      "day": "Sun",
+      "time": "8:45 AM",
       "court": 1,
       "division": "M",
-      "group": "B",
-      "teamA": "sd-m",
-      "teamB": "ch-blue",
-      "scoreA": 20,
-      "scoreB": 19,
-      "status": "final",
+      "group": "P",
+      "teamA": "tbd-a3",
+      "teamB": "tbd-b3",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 9 (TBD) / Referee 10 (TBD)",
       "table": [
         "Omar Bentahar",
         "Natacha Crooks"
       ],
-      "jA": "Blue",
-      "jB": "White"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 21,
       "day": "Sun",
-      "time": "7:35 AM",
+      "time": "9:55 AM",
       "court": 1,
       "division": "W",
-      "group": "W",
-      "teamA": "massif",
-      "teamB": "nyc",
-      "scoreA": 21,
-      "scoreB": 20,
-      "status": "final",
+      "group": "P",
+      "teamA": "tbd-w3",
+      "teamB": "tbd-w4",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "Referee 1 (TBD) / Referee 2 (TBD)",
       "table": [
         "Jackson Blackwell",
         "Carmen Anguiano"
       ],
-      "jA": "White",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     },
     {
       "no": 22,
-      "day": "Sun",
-      "time": "8:45 AM",
-      "court": 1,
-      "division": "W",
-      "group": "W",
-      "teamA": "sd-w",
-      "teamB": "army-w",
-      "scoreA": 22,
-      "scoreB": 21,
-      "status": "final",
-      "refs": "Halina Lehto / Azadeh Ahmadi",
-      "table": [
-        "Johanna Rydefalk",
-        "Angelica Palmi"
-      ],
-      "jA": "Blue",
-      "jB": "Black"
-    },
-    {
-      "no": 23,
-      "day": "Sun",
-      "time": "9:55 AM",
-      "court": 1,
-      "division": "M",
-      "group": "P",
-      "teamA": "ch-orange",
-      "teamB": "army-m",
-      "scoreA": 23,
-      "scoreB": 22,
-      "status": "final",
-      "refs": "(assign manually)",
-      "table": [
-        "Casey Swezey",
-        "Marine Dunoguier"
-      ],
-      "jA": "White",
-      "jB": "Black"
-    },
-    {
-      "no": 24,
       "day": "Sun",
       "time": "11:05 AM",
       "court": 1,
       "division": "M",
       "group": "P",
-      "teamA": "seattle",
-      "teamB": "ch-blue",
-      "scoreA": 24,
-      "scoreB": 23,
-      "status": "final",
+      "teamA": "tbd-a2",
+      "teamB": "tbd-b2",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
+      "refs": "Halina Lehto / Azadeh Ahmadi",
+      "table": [
+        "Johanna Rydefalk",
+        "Angelica Palmi"
+      ],
+      "jA": "TBD",
+      "jB": "TBD"
+    },
+    {
+      "no": 23,
+      "day": "Sun",
+      "time": "12:15 PM",
+      "court": 1,
+      "division": "W",
+      "group": "P",
+      "teamA": "tbd-w1",
+      "teamB": "tbd-w2",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
+      "refs": "(assign manually)",
+      "table": [
+        "Casey Swezey",
+        "Marine Dunoguier"
+      ],
+      "jA": "TBD",
+      "jB": "TBD"
+    },
+    {
+      "no": 24,
+      "day": "Sun",
+      "time": "1:25 PM",
+      "court": 1,
+      "division": "M",
+      "group": "P",
+      "teamA": "tbd-a1",
+      "teamB": "tbd-b1",
+      "scoreA": null,
+      "scoreB": null,
+      "status": "upcoming",
       "refs": "(assign manually)",
       "table": [
         "Johanna Rydefalk"
       ],
-      "jA": "Green",
-      "jB": "White"
-    },
-    {
-      "no": 25,
-      "day": "Sun",
-      "time": "12:15 PM",
-      "court": 1,
-      "division": "M",
-      "group": "P",
-      "teamA": "lathc",
-      "teamB": "sd-m",
-      "scoreA": 25,
-      "scoreB": 24,
-      "status": "final",
-      "refs": "(assign manually)",
-      "table": [
-        "Jacqueline  Sandoval",
-        "Alexander Ly"
-      ],
-      "jA": "Blue",
-      "jB": "White"
-    },
-    {
-      "no": 26,
-      "day": "Sun",
-      "time": "1:25 PM",
-      "court": 1,
-      "division": "W",
-      "group": "P",
-      "teamA": "ch-w",
-      "teamB": "massif",
-      "scoreA": 26,
-      "scoreB": 25,
-      "status": "final",
-      "refs": "(assign manually)",
-      "table": [
-        "Loris EMANUELLI",
-        "Ta-Wei Tu"
-      ],
-      "jA": "White",
-      "jB": "Blue"
-    },
-    {
-      "no": 27,
-      "day": "Sun",
-      "time": "2:35 PM",
-      "court": 1,
-      "division": "M",
-      "group": "P",
-      "teamA": "boston",
-      "teamB": "denver",
-      "scoreA": 27,
-      "scoreB": 26,
-      "status": "final",
-      "refs": "(assign manually)",
-      "table": [
-        "Jacqueline  Sandoval"
-      ],
-      "jA": "Blue",
-      "jB": "Black"
+      "jA": "TBD",
+      "jB": "TBD"
     }
   ],
   "standings": {
@@ -3077,49 +3018,7 @@ window.CALCUP = {
     ]
   },
   "scorers": {
-    "M": [
-      {
-        "player": "Khalil Zbiss",
-        "team": "boston",
-        "goals": 456
-      },
-      {
-        "player": "AJ Bulow",
-        "team": "boston",
-        "goals": 240
-      },
-      {
-        "player": "Dave Winniger",
-        "team": "boston",
-        "goals": 120
-      },
-      {
-        "player": "Rod Ante",
-        "team": "boston",
-        "goals": 32
-      }
-    ],
-    "W": [
-      {
-        "player": "Padideh Dehdari",
-        "team": "ch-w",
-        "goals": 458
-      },
-      {
-        "player": "Amber Kaufman",
-        "team": "ch-w",
-        "goals": 120
-      },
-      {
-        "player": "Jacqueline Sandoval",
-        "team": "ch-w",
-        "goals": 23
-      },
-      {
-        "player": "Maria del Carmen Anguiano",
-        "team": "ch-w",
-        "goals": 16
-      }
-    ]
+    "M": [],
+    "W": []
   }
 };
