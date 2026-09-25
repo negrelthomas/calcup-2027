@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Raffle | CalCup 2027</title>
+<meta name="description" content="CalCup 2027 raffle. A game-worn USAM Nîmes Gard jersey donated by EHF Hall of Famer Vid Kavtičnik, drawn live at the Sunday finals in Fremont, CA.">
+<link rel="stylesheet" href="assets/icons.css">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="CalCup home"><span class="brandmark"><span class="bm-cal">CAL</span><span class="bm-cup">CUP</span> <span class="bm-cal">XX</span></span></a>
+    <button class="burger" id="burger" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+    <nav class="menu" id="menu"></nav>
+  </div>
+</header>
+
+<section class="hero" data-hero="7.jpg" style="padding:30px 0">
+  <div class="wrap">
+    <img class="hero-logo" src="assets/calheat-logo.png" alt="San Francisco CalHeat">
+    <p class="kicker">CalCup XX raffle</p>
+    <h1 style="font-size:30px">Raffle</h1>
+    <p class="sub">A game-worn jersey donated by EHF Hall of Famer Vid Kavtičnik. Drawn live at the Sunday finals.</p>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- How it works: same ticket data as the home-page lottery block -->
+  <section>
+    <div id="lottery"></div>
+  </section>
+
+  <!-- Donor 1: Vid Kavticnik -->
+  <section class="donor" id="kavticnik">
+    <div class="sec-head"><h2>Prize: Vid Kavtičnik's game-worn USAM Nîmes Gard away jersey</h2></div>
+
+    <div class="donor-grid">
+      <figure class="donor-photo">
+        <img src="assets/photos/kavticnik-nimes.jpg" onerror="var f=this.closest('.donor-photo');f.parentNode.style.gridTemplateColumns='1fr';f.remove()" alt="Vid Kavtičnik shooting for USAM Nîmes Gard against Paris Saint-Germain, June 2021" loading="lazy">
+        <figcaption>Vid Kavtičnik for USAM Nîmes Gard at Paris Saint-Germain, June 4, 2021. Photo: Panoramic.</figcaption>
+      </figure>
+
+      <div class="donor-body">
+        <p class="donor-tag"><span>Slovenia</span><span>Right wing / right back</span><span>EHF Hall of Fame, 2023</span></p>
+
+        <div class="donor-stats">
+          <div><b>197</b><span>caps for Slovenia</span></div>
+          <div><b>543</b><span>international goals</span></div>
+          <div><b>2</b><span>EHF Champions League titles</span></div>
+          <div><b>17</b><span>years with the national team</span></div>
+        </div>
+
+        <p>Vid Kavtičnik is one of the most decorated wings of his generation. Born in Slovenj Gradec in 1984, he came through the youth ranks of RK Gorenje Velenje and made his debut for Slovenia in 2004. That winter, Slovenia reached the final of the European Championship on home soil and he was named the tournament's best right wing.</p>
+        <p>He joined THW Kiel in 2005 and won the EHF Champions League in 2007, along with four consecutive Bundesliga titles and three German Cups. In 2009 he moved to Montpellier, where he spent ten seasons, won three French championships, four French Cups and five League Cups, and lifted a second Champions League trophy in 2018, eleven years after the first.</p>
+        <p>With Slovenia he played 197 matches and scored 543 goals over seventeen years, competed at the 2004 and 2016 Olympic Games, and captained the team to a bronze medal at the 2017 World Championship in France. After a season with Pays d'Aix, he finished his career at USAM Nîmes Gard in 2020/21 and retired in June 2021. The European Handball Federation inducted him into its Hall of Fame in 2023.</p>
+        <p class="donor-gift"><i class="ti ti-heart-handshake"></i> The jersey in this raffle is the white away jersey he wore in competition for Nîmes during that final season. Vid donated it to support CalCup and youth handball in the Bay Area.</p>
+      </div>
+    </div>
+
+    <div class="donor-career">
+      <h3>Career</h3>
+      <ol class="donor-timeline">
+        <li><span class="yr">1995 to 2005</span><span class="club">RK Gorenje Velenje</span><span class="hl">Slovenian Cup 2003</span></li>
+        <li><span class="yr">2005 to 2009</span><span class="club">THW Kiel</span><span class="hl">Champions League 2007 · Bundesliga 2006, 2007, 2008, 2009 · German Cup 2007, 2008, 2009</span></li>
+        <li><span class="yr">2009 to 2019</span><span class="club">Montpellier Handball</span><span class="hl">Champions League 2018 · French champion 2010, 2011, 2012 · French Cup 2010, 2012, 2013, 2016 · League Cup 2010, 2011, 2012, 2014, 2016</span></li>
+        <li><span class="yr">2019 to 2020</span><span class="club">Pays d'Aix UC</span><span class="hl"></span></li>
+        <li class="now"><span class="yr">2020 to 2021</span><span class="club">USAM Nîmes Gard</span><span class="hl">Final season; the jersey in this raffle</span></li>
+        <li><span class="yr">2004 to 2021</span><span class="club">Slovenia national team</span><span class="hl">EHF EURO silver 2004 · World Championship bronze 2017 (captain) · Olympic Games 2004, 2016</span></li>
+      </ol>
+    </div>
+  </section>
+
+</div>
+
+<script src="data/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

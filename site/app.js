@@ -6,7 +6,7 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html"];
+  var LIVE_PAGES = ["concession.html", "raffle.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -29,6 +29,7 @@
     { href:"physio.html",     nav:"Physio",      tile:"Physio",       icon:"ti-stethoscope",     primary:true },
     { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
     { href:"history.html",    nav:"History",     tile:"History",      icon:"ti-trophy",          primary:true },
+    { href:"raffle.html",     nav:"Raffle",      tile:"Raffle",       icon:"ticket",             primary:true },
     { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
     { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
     { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false }
@@ -53,7 +54,8 @@
     }
   }
   var WHISTLE_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="14.5" r="5.5"/><path d="M14 11.5 21 9v4l-7 1.5"/><path d="M9.5 9V5.5h4"/></svg>';
-  function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : '<i class="ti '+icon+'"></i>'; }
+  var TICKET_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/><path d="M15 5v2M15 11v2M15 17v2"/></svg>';
+  function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : icon==="ticket" ? TICKET_SVG : '<i class="ti '+icon+'"></i>'; }
   var BUNDLE_SVG='<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
   function renderExplore(){
     var el=document.getElementById("explore-grid"); if(!el) return;
@@ -529,11 +531,11 @@
 
   /* ---------- lottery ---------- */
   var LOTTERY = {
-    headline: "Very special handball prizes",
+    headline: "Win a game-worn jersey from an EHF Hall of Famer",
     blurb: "Drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
-    mystery: { item:"Very special handball prizes", src:"Stay tuned &mdash; revealed closer to the tournament" },
+    mystery: { item:"Vid Kavti&#269;nik&rsquo;s game-worn USAM N&icirc;mes Gard away jersey", src:"Two-time Champions League winner and EHF Hall of Famer. <a href=\"raffle.html#kavticnik\">Meet Vid</a>" },
     tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
-    where: "On sale at the concession stand — Friday through Sunday 12 PM.",
+    where: "On sale at the concession stand, Friday through Sunday noon.",
     draw: "Drawn at the finals ceremony on Sunday. You must be present to win.",
     pay: "Venmo · PayPal · Zelle accepted"
   };
@@ -799,7 +801,11 @@
         }
         var _g = document.createElement("div");
         _g.className = "wrap";
-        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament &mdash; Jan 29 &ndash; Feb 1, 2027 &middot; Fremont, CA.</p><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a></section>';
+        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a> <a class="gate-cta" href="raffle.html" style="margin-left:8px">'+TICKET_SVG+' Raffle prizes &rarr;</a></section>';
+        if (currentPage() === "index.html") {
+          // Home only: raffle announcement above the preview notice
+          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win a game-worn USAM N&icirc;mes Gard jersey from Slovenian EHF Hall of Famer Vid Kavti&#269;nik.</span><span class="hr-cta">See the prizes &rarr;</span></a>' + _g.innerHTML;
+        }
         if (_start && _start.parentNode) _start.parentNode.insertBefore(_g, _start.nextSibling); else document.body.appendChild(_g);
         return; // skip all data rendering on gated pages
       }
