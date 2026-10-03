@@ -302,6 +302,7 @@ footer a{color:#C3D0DE}
 .gate p{max-width:540px;margin:0 auto 18px}
 .gate-cta{display:inline-flex;gap:8px;align-items:center;background:var(--navy);color:#fff;font-weight:700;padding:12px 20px;border-radius:10px}
 .gate-cta:hover{background:var(--navy-2);color:#fff}
+.gate-ctas{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:8px}
 .lot-q{display:flex;align-items:center;justify-content:center;flex:none;width:60px;height:60px;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9D4D);color:#fff;font-size:36px;font-weight:900;transform:rotate(-8deg);box-shadow:0 6px 18px rgba(0,0,0,.35)}
 /* --- concession --- */
 .con-list{display:flex;flex-direction:column;gap:2px}

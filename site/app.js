@@ -823,7 +823,7 @@
         }
         var _g = document.createElement("div");
         _g.className = "wrap";
-        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a> <a class="gate-cta" href="raffle.html" style="margin-left:8px">'+TICKET_SVG+' Raffle prizes &rarr;</a></section>';
+        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a></div></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
           _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win a game-worn USAM N&icirc;mes Gard jersey from Slovenian EHF Hall of Famer Vid Kavti&#269;nik.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
