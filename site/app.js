@@ -576,11 +576,11 @@
       capCard('calheat-cap-flat.jpg','CalHeat cap &mdash; flat visor','Flat visor')+
       capCard('calheat-cap-curved.jpg','CalHeat cap &mdash; curved visor','Curved visor')+
       '</div></section>';
-    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Oct 16, 2026.</b></p>';
+    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Oct 15, 2026.</b></p>';
     var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $9 vs. separately</div><div class="gear-price">$109</div></a>';
     var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Oct 16 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
       bundleCard+
-      gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings","$79")+
+      gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings. Runs large: order one size down","$79")+
       gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$39")+
       '</div></section>';
     var foodSec='<section><div class="sec-head"><h2>Food &amp; drink</h2></div><div class="grid cols-3">'+menu+'</div></section>'+
@@ -600,7 +600,7 @@
       '</div></section>';
     var introBlock='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>';
     var hoodieHero='<section><div class="merch-hero"><img class="merch-hero-img zoomable" src="assets/merch/hoodie-model.jpg" alt="CalCup XXth-edition commemorative hoodie" onerror="this.closest(\'section\').style.display=\'none\'"></div>'+
-      '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. Pre-order below and pick it up courtside.</p></div></section>';
+      '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. It runs large, so order one size below your usual size. Pre-order below and pick it up courtside.</p></div></section>';
     el.innerHTML=hoodieHero+gearSec+'<div id="preorder-anchor"></div>'+teeSec+capSec+dealsSec+introBlock+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
     // move it into place directly below the commemorative gear.

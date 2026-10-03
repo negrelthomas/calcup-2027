@@ -41,6 +41,23 @@
   <section id="preorder" class="preorder">
     <div class="sec-head"><h2>Pre-order commemorative gear</h2><span class="note">pre-orders close Oct 15, 2026 · pick up at the tournament or team shipping</span></div>
     <div id="preorder-deadline" style="display:flex;align-items:center;gap:8px;max-width:820px;margin:0 0 14px;padding:10px 14px;border-radius:8px;background:#FCEBDA;color:#3A1B02;font-weight:600"><i class="ti ti-clock"></i> <span>Pre-orders close <b>Thursday, October 15, 2026</b>. These are limited XXth-anniversary runs — reserve before the deadline; there are no reorders after production.</span></div>
+    <div id="hoodie-sizing" class="card" style="max-width:820px;margin:0 0 16px;padding:16px 18px;border-left:4px solid #F47920">
+      <div style="display:flex;align-items:center;gap:8px;font-weight:700;color:#0C2138"><i class="ti ti-ruler-measure"></i> <span>Sizing: the hoodie runs large, please order one size down</span></div>
+      <p class="muted" style="margin:6px 0 12px">The commemorative hoodie is cut about one full size larger than standard. Someone who wears an XL jersey fits comfortably in an L, and the M almost fits. We recommend ordering one size below what you usually wear. The hat is not affected. Already ordered? Email <b>calcup@calheat.com</b> with your new size before October 15.</p>
+      <table style="width:100%;max-width:420px;border-collapse:collapse;font-size:14px;text-align:center">
+        <thead><tr style="background:#F47920;color:#fff"><th style="padding:8px">You usually wear</th><th style="padding:8px">Order this size</th></tr></thead>
+        <tbody>
+          <tr style="background:#E8ECF1"><td style="padding:6px">XXS</td><td style="padding:6px;font-weight:700;color:#0C2138">XXS *</td></tr>
+          <tr><td style="padding:6px">XS</td><td style="padding:6px;font-weight:700;color:#0C2138">XXS</td></tr>
+          <tr style="background:#E8ECF1"><td style="padding:6px">S</td><td style="padding:6px;font-weight:700;color:#0C2138">XS</td></tr>
+          <tr><td style="padding:6px">M</td><td style="padding:6px;font-weight:700;color:#0C2138">S</td></tr>
+          <tr style="background:#E8ECF1"><td style="padding:6px">L</td><td style="padding:6px;font-weight:700;color:#0C2138">M</td></tr>
+          <tr><td style="padding:6px">XL</td><td style="padding:6px;font-weight:700;color:#0C2138">L</td></tr>
+          <tr style="background:#E8ECF1"><td style="padding:6px">XXL</td><td style="padding:6px;font-weight:700;color:#0C2138">XL</td></tr>
+        </tbody>
+      </table>
+      <p class="muted" style="margin:8px 0 0;font-size:12px">* XXS is the smallest size available. <a href="assets/merch/hoodie-sizing.png" target="_blank" rel="noopener">Size guide image</a></p>
+    </div>
     <p class="muted" style="max-width:820px;margin:0 0 16px">Reserve your <b>XXth-edition</b> hoodie or hat below. Add as many items as you want in a single reservation. Orders are confirmed once payment is received — Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b> — and picked up at the tournament. <b>Not joining us this year?</b> Add &ldquo;ship to team&rdquo; and your delivery address in the Notes field — we&rsquo;ll arrange one grouped shipment per team, billed at cost.</p>
     <form name="preorder" method="POST" data-netlify="true" netlify-honeypot="bot-field" class="preorder-form card" id="preorder-form">
       <input type="hidden" name="form-name" value="preorder">
@@ -61,8 +78,8 @@
               <option>Hoodie + hat bundle — $109</option>
             </select>
           </label>
-          <label>Size (apparel)
-            <select name="size"><option value="">—</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+          <label>Size (runs large: order one size down)
+            <select name="size"><option value="">—</option><option>XXS</option><option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
           </label>
           <label>Quantity<input type="number" name="quantity" min="1" value="1"></label>
         </div>
