@@ -3020,5 +3020,46 @@ window.CALCUP = {
   "scorers": {
     "M": [],
     "W": []
+  },
+  "registration": {
+    "M": [
+      {
+        "name": "San Diego Team Handball Club",
+        "logo": "sd-m",
+        "host": false
+      },
+      {
+        "name": "San Francisco CalHeat",
+        "logo": "ch-orange",
+        "host": true
+      },
+      {
+        "name": "San Francisco CalHeat U21",
+        "logo": "ch-blue",
+        "host": true
+      }
+    ],
+    "W": [
+      {
+        "name": "Army West Point",
+        "logo": "army-w",
+        "host": false
+      },
+      {
+        "name": "San Diego Team Handball Club",
+        "logo": "sd-w",
+        "host": false
+      },
+      {
+        "name": "San Francisco CalHeat",
+        "logo": "ch-w",
+        "host": true
+      },
+      {
+        "name": "SoCal Handball Club",
+        "logo": "socal-handball-club",
+        "host": false
+      }
+    ]
   }
 };
