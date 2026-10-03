@@ -45,10 +45,14 @@ async function getSheets(names){
   // Rosters live on an optional tab. Read separately so a missing or renamed tab never aborts the deploy.
   try{ Object.assign(sheets, await getSheets(["Rosters Master"])); }
   catch(e){ console.warn("Rosters Master not read, keeping existing rosters:", e.message); }
+  // Registration list for the public "Registered teams" page. Optional tab, same safety as rosters.
+  try{ Object.assign(sheets, await getSheets(["Registration 2027"])); }
+  catch(e){ console.warn("Registration 2027 not read, keeping existing registration list:", e.message); }
   const model={
     teams: M.mapTeams(sheets), games: M.mapGames(sheets),
     standings: M.mapStandings(sheets), scorers: M.mapScorers(sheets), referees: M.mapReferees(sheets),
-    rosters: M.mapRosters(sheets)
+    rosters: M.mapRosters(sheets),
+    registration: M.mapRegistration(sheets)
   };
   const audit=M.auditTeams(sheets);
   const {mode,errors,warnings}=M.validate(model,{mode:resolveMode(), audit});
@@ -68,6 +72,7 @@ async function getSheets(names){
   out.standings=keep(model.standings, base.standings);
   out.scorers=model.scorers;
   if(model.rosters) out.rosters=model.rosters;
+  if(model.registration) out.registration=model.registration;
   const header="/* AUTO-GENERATED from 2027_Calcup Master File.xlsx. Do not edit by hand. */\n";
   const body="window.CALCUP = "+JSON.stringify(out,null,2)+";\n";
   const next=header+body;

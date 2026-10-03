@@ -6,7 +6,7 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html", "raffle.html"];
+  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -32,7 +32,8 @@
     { href:"raffle.html",     nav:"Raffle",      tile:"Raffle",       icon:"ticket",             primary:true },
     { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
     { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
-    { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false }
+    { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false },
+    { href:"registered.html", nav:"Registered",  tile:"Registered teams", icon:"ti-users",       primary:false }
   ];
   function currentPage(){ var p=(location.pathname.split("/").pop()||"index.html"); return p||"index.html"; }
   function renderNav(){
@@ -486,6 +487,27 @@
   }
 
   /* ---------- physiotherapy ---------- */
+  /* ---------- registered teams (registered.html + home while in preview) ---------- */
+  /* Data: D.registration = {M:[{name,logo,host}], W:[...]}, generated from the
+     Registration 2027 tab (Entry Confirmed, or a Status of host / deposit paid). */
+  function regInitials(n) { return String(n).split(/\s+/).filter(function (w) { return /^[A-Za-z]/.test(w); }).slice(0, 2).map(function (w) { return w.charAt(0).toUpperCase(); }).join(""); }
+  function registeredHTML() {
+    var R = D.registration;
+    if (!R || (!(R.M || []).length && !(R.W || []).length)) return '<p class="muted">The list of registered teams is being updated. Check back shortly.</p>';
+    function col(label, list) {
+      list = list || [];
+      return '<div class="reg-col"><div class="sec-head"><h2>' + label + '</h2><span class="note">' + list.length + (list.length === 1 ? ' team' : ' teams') + '</span></div>' +
+        (list.length ? '<div class="reg-grid">' + list.map(function (t) {
+          var ini = regInitials(t.name);
+          return '<div class="card reg-card"><div class="reg-logo"><img src="assets/logos/' + t.logo + '.png" alt="' + t.name + '" onerror="this.parentNode.innerHTML=\'<span class=&quot;reg-ini&quot;>' + ini + '</span>\'"></div>' +
+            '<div class="reg-name">' + t.name + '</div>' + (t.host ? '<span class="reg-host">Host</span>' : '') + '</div>';
+        }).join("") + '</div>' : '<p class="muted">No team confirmed yet.</p>') + '</div>';
+    }
+    return '<div class="reg-cols">' + col("Men", R.M) + col("Women", R.W) + '</div>' +
+      '<p class="reg-foot muted">Clubs: confirm your entry and $300 deposit by October 15, 2026 at <a href="mailto:calcup@calheat.com">calcup@calheat.com</a>.</p>';
+  }
+  function renderRegistered(el) { el.innerHTML = registeredHTML(); }
+
   function renderPhysio(el) {
     var p = D.physio || {}, L = p.lead || {};
     var c = [];
@@ -804,7 +826,8 @@
         _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a> <a class="gate-cta" href="raffle.html" style="margin-left:8px">'+TICKET_SVG+' Raffle prizes &rarr;</a></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
-          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win a game-worn USAM N&icirc;mes Gard jersey from Slovenian EHF Hall of Famer Vid Kavti&#269;nik.</span><span class="hr-cta">See the prizes &rarr;</span></a>' + _g.innerHTML;
+          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win a game-worn USAM N&icirc;mes Gard jersey from Slovenian EHF Hall of Famer Vid Kavti&#269;nik.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
+            '<section class="home-reg"><div class="sec-head"><h2>Registered teams</h2><a class="note" href="registered.html">Full page &rarr;</a></div>' + registeredHTML() + '</section>' + _g.innerHTML;
         }
         if (_start && _start.parentNode) _start.parentNode.insertBefore(_g, _start.nextSibling); else document.body.appendChild(_g);
         return; // skip all data rendering on gated pages
@@ -858,6 +881,7 @@
     var spn = document.getElementById("sponsors"); if (spn) renderSponsors(spn);
     var his = document.getElementById("history"); if (his) renderHistory(his);
     var phy = document.getElementById("physio"); if (phy) renderPhysio(phy);
+    var reg = document.getElementById("registered"); if (reg) renderRegistered(reg);
     var prs = document.getElementById("press"); if (prs) renderPress(prs);
     var lot = document.getElementById("lottery"); if (lot) renderLottery(lot);
     var cot = document.getElementById("concession-teaser"); if (cot) renderConcessionTeaser(cot);

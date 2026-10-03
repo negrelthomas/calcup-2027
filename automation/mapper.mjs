@@ -127,6 +127,41 @@ export function mapRosters(sheets){
   return Object.keys(out).length?out:null;
 }
 
+// Registration 2027 tab -> public "Registered teams" list (registered.html + home).
+// A team is listed when "Entry Confirmed" is filled, or Status is set (host or deposit paid).
+// Display names and logo files are mapped here; an unmapped team falls back to
+// assets/logos/<slug>.png and the site shows initials if that file does not exist.
+const REG_DISPLAY = {
+  "SF Calheat U21":"San Francisco CalHeat U21",
+  "San Diego M":"San Diego Team Handball Club", "San Diego W":"San Diego Team Handball Club",
+  "West Point - Army M":"Army West Point", "West Point - Army W":"Army West Point",
+  "Massif SLC M":"Massif SLC", "Seattle HC":"Seattle Handball Club"
+};
+const REG_LOGO = {
+  "San Francisco CalHeat":"ch-orange", "SF Calheat U21":"ch-blue", "San Francisco CalHeat W":"ch-w",
+  "San Diego M":"sd-m", "San Diego W":"sd-w", "West Point - Army M":"army-m", "West Point - Army W":"army-w",
+  "Boston Team Handball":"boston", "Denver Wolves":"denver", "LATHC":"lathc",
+  "Massif SLC M":"massif", "Massif SLC":"massif", "NYC M":"nyc", "NYC":"nyc", "Seattle HC":"seattle"
+};
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+export function mapRegistration(sheets){
+  const rows=sheets["Registration 2027"]; if(!rows||!rows.length) return null;
+  let hdr; try{ hdr=findHeader(rows,["Team","Division","Status"]); }catch(e){ return null; }
+  const {r,idx}=hdr; const out={M:[],W:[]};
+  for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+    const name=String(val(row,idx,"Team")||"").trim(); if(!name) continue;
+    const status=String(val(row,idx,"Status")||"").trim();
+    const entry=String(val(row,idx,"Entry Confirmed")||"").trim();
+    if(!status && !entry) continue;
+    const div=String(val(row,idx,"Division")||"").trim().toUpperCase().startsWith("W")?"W":"M";
+    const host=String(val(row,idx,"Host Team")||"").trim().toLowerCase()==="yes";
+    const display=REG_DISPLAY[name]||name.replace(/\s+[MW]$/,"");
+    out[div].push({ name:display, logo:REG_LOGO[name]||slug(display), host });
+  }
+  ["M","W"].forEach(d=>out[d].sort((a,b)=>a.name.localeCompare(b.name)));
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Diagnostics
 // ---------------------------------------------------------------------------
