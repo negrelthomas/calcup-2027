@@ -600,7 +600,7 @@
       '</div></section>';
     var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Oct 15, 2026.</b></p>';
     var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $9 vs. separately</div><div class="gear-price">$109</div></a>';
-    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Oct 16 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Oct 15 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
       bundleCard+
       gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings. Runs large: order one size down","$79")+
       gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$39")+
