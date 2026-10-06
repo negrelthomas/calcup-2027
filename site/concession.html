@@ -125,11 +125,14 @@
     if (!itemEl || !sizeEl) return;
     if (NO_SIZE_ITEMS.has(itemEl.value)) {
       sizeEl.value = '';
+      sizeEl.required = false;
       sizeEl.disabled = true;
       const wrap = sizeEl.closest('label');
       if (wrap) wrap.style.opacity = '0.4';
     } else {
       sizeEl.disabled = false;
+      // Any item that is not in NO_SIZE_ITEMS (hoodie, bundle, future apparel) must carry a size
+      sizeEl.required = !!itemEl.value;
       const wrap = sizeEl.closest('label');
       if (wrap) wrap.style.opacity = '';
     }
@@ -198,6 +201,23 @@
     };
 
     const rows = container.querySelectorAll('.pf-item-row');
+    // Hard stop: no item that needs a size can be submitted without one
+    let missingSize = null;
+    rows.forEach(function (row) {
+      const it = row.querySelector('[name=item]').value;
+      const sz = row.querySelector('[name=size]');
+      if (it && !NO_SIZE_ITEMS.has(it) && !sz.value && !missingSize) missingSize = sz;
+    });
+    if (missingSize) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalLabel;
+      missingSize.required = true;
+      missingSize.setCustomValidity('Please choose a size for this item.');
+      missingSize.reportValidity();
+      missingSize.addEventListener('change', function () { missingSize.setCustomValidity(''); }, { once: true });
+      missingSize.focus();
+      return;
+    }
     const payloads = [];
     rows.forEach(function (row) {
       const item = row.querySelector('[name=item]').value;
