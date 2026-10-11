@@ -586,7 +586,7 @@
     blurb: "Every ticket backs the tournament and the youth handball programs behind it.",
     prizes: [
       { place:"1st prize", item:"France national team jersey signed by Les Bleues", src:"Signed by the French women&rsquo;s national team. <a href=\"raffle.html#bleues\">Details</a>" },
-      { place:"2nd prize", item:"France national team jersey signed by Les Bleus", src:"Signed by the French men&rsquo;s national team. <a href=\"raffle.html#bleus\">Details</a>" },
+      { place:"2nd prize", item:"CalHeat jersey signed by Les Bleus", src:"Signed by the French men&rsquo;s national team. <a href=\"raffle.html#bleus\">Details</a>" },
       { place:"3rd prize", item:"Vid Kavti&#269;nik&rsquo;s game-worn USAM N&icirc;mes Gard away jersey", src:"Two-time Champions League winner and EHF Hall of Famer. <a href=\"raffle.html#kavticnik\">Meet Vid</a>" }
     ],
     tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
@@ -859,7 +859,7 @@
         _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a></div></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
-          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a France jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
+          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a CalHeat jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
             '<section class="home-news">' + newsHTML() + '</section>' +
             '<section class="home-reg"><div class="sec-head"><h2>Registered teams</h2><a class="note" href="registered.html">Full page &rarr;</a></div>' + registeredHTML() + '</section>' + _g.innerHTML;
         }
