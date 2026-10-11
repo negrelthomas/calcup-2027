@@ -551,6 +551,35 @@
       '<div class="grid cols-2">'+tips+'</div>'+src+'</section>';
   }
 
+  /* ---------- club news (home page) ----------
+     Kept here, not in data.js: data.js is regenerated from the Master File. Newest item first. */
+  var NEWS = [
+    {
+      date: "October 2026",
+      tag: "Refereeing",
+      title: "Ezekiel McClintock referees a NORCA semifinal in Puerto Rico",
+      img: "assets/photos/zeke-norca-2026.jpg",
+      alt: "Ezekiel McClintock in his referee jersey",
+      body: [
+        "Ezekiel McClintock, goalkeeper for CalHeat and one of the referees on the CalCup roster, was appointed to officiate the first semifinal of the North America and Caribbean (NORCA) Championships in Salinas, Puerto Rico. The tournament is an official IHF Trophy event and brings together national teams from across the region.",
+        "Semifinal appointments at a continental event go to referees who have been consistent through the group stage, in their decisions, their positioning and the way they manage a game. Zeke earned his place on court with that work, and the club is proud of him.",
+        "Many CalHeat members followed the game from home. As one of them put it in the club chat, it was the first time most of us had ever cheered for a referee.",
+        "Zeke will be on court again at CalCup XX, from January 29 to 31, 2027, at Centerville Middle School in Fremont. If you would like to start refereeing, test yourself on our <a href=\"refquiz.html\">referee quiz</a> and write to <a href=\"mailto:calcup@calheat.com\">calcup@calheat.com</a>."
+      ]
+    }
+  ];
+  function renderNews(el){ el.innerHTML=newsHTML(); }
+  function newsHTML(){
+    if(!NEWS.length) return "";
+    return '<div class="sec-head"><h2>Club news</h2></div>'+NEWS.map(function(n){
+      return '<article class="card news-item">'+
+        (n.img?'<img class="news-img" src="'+n.img+'" alt="'+(n.alt||"")+'" loading="lazy">':'')+
+        '<div class="news-txt"><div class="news-meta"><span class="news-tag">'+n.tag+'</span> '+n.date+'</div>'+
+        '<h3 class="news-title">'+n.title+'</h3>'+
+        n.body.map(function(p){return '<p>'+p+'</p>';}).join("")+'</div></article>';
+    }).join("");
+  }
+
   /* ---------- lottery ---------- */
   var LOTTERY = {
     headline: "Three jerseys, drawn live at the Sunday finals",
@@ -831,6 +860,7 @@
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
           _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a France jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
+            '<section class="home-news">' + newsHTML() + '</section>' +
             '<section class="home-reg"><div class="sec-head"><h2>Registered teams</h2><a class="note" href="registered.html">Full page &rarr;</a></div>' + registeredHTML() + '</section>' + _g.innerHTML;
         }
         if (_start && _start.parentNode) _start.parentNode.insertBefore(_g, _start.nextSibling); else document.body.appendChild(_g);
@@ -887,6 +917,7 @@
     var phy = document.getElementById("physio"); if (phy) renderPhysio(phy);
     var reg = document.getElementById("registered"); if (reg) renderRegistered(reg);
     var prs = document.getElementById("press"); if (prs) renderPress(prs);
+    var nws = document.getElementById("news"); if (nws) renderNews(nws);
     var lot = document.getElementById("lottery"); if (lot) renderLottery(lot);
     var cot = document.getElementById("concession-teaser"); if (cot) renderConcessionTeaser(cot);
     var con = document.getElementById("concession"); if (con) renderConcession(con);
