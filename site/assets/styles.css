@@ -296,6 +296,8 @@ footer a{color:#C3D0DE}
 .lot-pay{color:#fff;font-weight:700}
 @media(max-width:640px){.lot-prizes{grid-template-columns:1fr}}
 .lot-mystery{grid-column:1/-1;align-items:center;gap:16px}
+.lot-prizes.lot-3{grid-template-columns:repeat(3,1fr)}
+@media(max-width:820px){.lot-prizes.lot-3{grid-template-columns:1fr}}
 .gate{text-align:center;padding:48px 20px;margin:26px 0;background:#fff;border:1px solid #E3E9F0;border-radius:14px}
 .gate-q{width:64px;height:64px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;border-radius:16px;background:linear-gradient(135deg,var(--orange),#FF9D4D);color:#fff;font-size:30px;transform:rotate(-6deg);box-shadow:0 6px 18px rgba(16,42,67,.18)}
 .gate h2{margin:0 0 6px;color:var(--navy)}
@@ -571,3 +573,8 @@ table.lb tr.me td{background:var(--orange-tint)}
 .reg-host{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;color:var(--orange);border:1px solid var(--orange);border-radius:999px;padding:2px 8px}
 .reg-foot{margin:18px 0 0;font-size:14px}
 @media (max-width:720px){.reg-cols{grid-template-columns:1fr;gap:10px}}
+
+.jersey-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:820px;margin:0 0 14px}
+.jersey-pair figure{margin:0;background:var(--navy);border-radius:12px;overflow:hidden}
+.jersey-pair img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover}
+.jersey-pair figcaption{color:#B7C6D6;font-size:12px;padding:8px 12px}

@@ -553,12 +553,16 @@
 
   /* ---------- lottery ---------- */
   var LOTTERY = {
-    headline: "Win a game-worn jersey from an EHF Hall of Famer",
-    blurb: "Drawn live at the Sunday finals. Every ticket backs the tournament and the youth handball programs behind it.",
-    mystery: { item:"Vid Kavti&#269;nik&rsquo;s game-worn USAM N&icirc;mes Gard away jersey", src:"Two-time Champions League winner and EHF Hall of Famer. <a href=\"raffle.html#kavticnik\">Meet Vid</a>" },
+    headline: "Three jerseys, drawn live at the Sunday finals",
+    blurb: "Every ticket backs the tournament and the youth handball programs behind it.",
+    prizes: [
+      { place:"1st prize", item:"France national team jersey signed by Les Bleues", src:"Signed by the French women&rsquo;s national team. <a href=\"raffle.html#bleues\">Details</a>" },
+      { place:"2nd prize", item:"France national team jersey signed by Les Bleus", src:"Signed by the French men&rsquo;s national team. <a href=\"raffle.html#bleus\">Details</a>" },
+      { place:"3rd prize", item:"Vid Kavti&#269;nik&rsquo;s game-worn USAM N&icirc;mes Gard away jersey", src:"Two-time Champions League winner and EHF Hall of Famer. <a href=\"raffle.html#kavticnik\">Meet Vid</a>" }
+    ],
     tickets: [ {name:"Single",price:"$5"}, {name:"3-pack",price:"$12"}, {name:"Team 12-pack",price:"$40"}, {name:"School 20-pack",price:"$60"} ],
-    where: "On sale at the concession stand, Friday through Sunday noon.",
-    draw: "Drawn at the finals ceremony on Sunday. You must be present to win.",
+    where: "Tickets are sold on site only, at the concession stand, Friday through Sunday noon. No advance sales.",
+    draw: "Drawn at the finals ceremony on Sunday. You must be present, or represented by someone holding your ticket, to collect your prize. If a number goes unclaimed, we draw another.",
     pay: "Venmo · PayPal · Zelle accepted"
   };
   function renderLottery(el){
@@ -569,7 +573,7 @@
     var tix=(L.tickets||[]).map(function(t){return '<div class="lot-tix"><span class="lot-tname">'+t.name+'</span><span class="lot-tprice">'+t.price+'</span></div>';}).join("");
     el.innerHTML='<div class="lottery"><span class="lot-badge">Grand-prize lottery</span>'+
       '<h2 class="lot-head">'+L.headline+'</h2><p class="lot-blurb">'+L.blurb+'</p>'+
-      '<div class="lot-prizes">'+prizes+'</div>'+
+      '<div class="lot-prizes'+(L.prizes&&L.prizes.length===3?' lot-3':'')+'">'+prizes+'</div>'+
       '<div class="lot-tix-row">'+tix+'</div>'+
       '<div class="lot-meta"><span><i class="ti ti-map-pin"></i> '+L.where+'</span><span><i class="ti ti-trophy"></i> '+L.draw+'</span><span class="lot-pay">'+L.pay+'</span></div></div>';
   }
@@ -826,7 +830,7 @@
         _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a></div></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
-          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win a game-worn USAM N&icirc;mes Gard jersey from Slovenian EHF Hall of Famer Vid Kavti&#269;nik.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
+          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a France jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
             '<section class="home-reg"><div class="sec-head"><h2>Registered teams</h2><a class="note" href="registered.html">Full page &rarr;</a></div>' + registeredHTML() + '</section>' + _g.innerHTML;
         }
         if (_start && _start.parentNode) _start.parentNode.insertBefore(_g, _start.nextSibling); else document.body.appendChild(_g);
