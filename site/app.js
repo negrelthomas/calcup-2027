@@ -6,7 +6,7 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html"];
+  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -30,6 +30,7 @@
     { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
     { href:"history.html",    nav:"History",     tile:"History",      icon:"ti-trophy",          primary:true },
     { href:"raffle.html",     nav:"Raffle",      tile:"Raffle",       icon:"ticket",             primary:true },
+    { href:"toolkit.html",    nav:"Toolkit",     tile:"Organizer toolkit", icon:"ti-tools",      primary:true },
     { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
     { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
     { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false },
