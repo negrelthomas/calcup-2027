@@ -1472,8 +1472,8 @@ window.CALCUP = {
     {
       "id": "r3",
       "refs": [
-        "Anastasia Bohoiavlenska",
-        "Cristina Molina Hidalgo"
+        "Ezekiel McClintock",
+        "Tora"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
@@ -1481,8 +1481,8 @@ window.CALCUP = {
     {
       "id": "r4",
       "refs": [
-        "Referee 9 (TBD)",
-        "Referee 10 (TBD)"
+        "TBD",
+        "TBD"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
