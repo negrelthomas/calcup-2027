@@ -30,7 +30,7 @@
     { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
     { href:"history.html",    nav:"History",     tile:"History",      icon:"ti-trophy",          primary:true },
     { href:"raffle.html",     nav:"Raffle",      tile:"Raffle",       icon:"ticket",             primary:true },
-    { href:"toolkit.html",    nav:"Toolkit",     tile:"Organizer toolkit", icon:"ti-tools",      primary:true },
+    { href:"toolkit.html",    nav:"Organizer toolkit", tile:"Tournament organizer toolkit", icon:"ti-tools", primary:false },
     { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
     { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
     { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false },
@@ -53,6 +53,12 @@
       cta.id="watch-cta"; cta.className="watch-cta"; cta.href="watch.html";
       cta.innerHTML='<i class="ti ti-player-play"></i> Watch live';
       wrap.insertBefore(cta, document.getElementById("burger"));
+    }
+    if(menu && !menu.querySelector(".menu-tk")){
+      var mt=document.createElement("a"); mt.href="toolkit.html"; mt.className="menu-tk"+(currentPage()==="toolkit.html"?" active":"");
+      mt.title="Free toolkit for clubs organizing a handball tournament";
+      mt.innerHTML='<i class="ti ti-tools"></i> Organizer toolkit for clubs';
+      menu.appendChild(mt);
     }
   }
   var WHISTLE_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="14.5" r="5.5"/><path d="M14 11.5 21 9v4l-7 1.5"/><path d="M9.5 9V5.5h4"/></svg>';
@@ -857,10 +863,10 @@
         }
         var _g = document.createElement("div");
         _g.className = "wrap";
-        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a></div></section>';
+        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a><a class="gate-cta" href="toolkit.html"><i class="ti ti-tools"></i> Organizing a tournament? Free toolkit &rarr;</a></div></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
-          _g.innerHTML = '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a CalHeat jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
+          _g.innerHTML = '<a class="home-toolkit" href="toolkit.html"><span class="ht-ico"><i class="ti ti-tools"></i></span><span class="ht-txt"><b>Organizing a handball tournament?</b> Our free organizer toolkit shares what we use to run CalCup: AI prompts, the Excel master workbook and the website starter code, with honest estimates of the time and cost involved.</span><span class="ht-cta">Open the toolkit &rarr;</span></a>' + '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a CalHeat jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
             '<section class="home-news">' + newsHTML() + '</section>' +
             '<section class="home-reg"><div class="sec-head"><h2>Registered teams</h2><a class="note" href="registered.html">Full page &rarr;</a></div>' + registeredHTML() + '</section>' + _g.innerHTML;
         }
