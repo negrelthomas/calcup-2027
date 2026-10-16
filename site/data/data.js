@@ -2403,7 +2403,7 @@ window.CALCUP = {
     {
       "no": 1,
       "day": "Fri",
-      "time": "8:45 PM",
+      "time": "3:50 PM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2423,7 +2423,7 @@ window.CALCUP = {
     {
       "no": 2,
       "day": "Fri",
-      "time": "9:55 PM",
+      "time": "5:00 PM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2443,7 +2443,7 @@ window.CALCUP = {
     {
       "no": 3,
       "day": "Fri",
-      "time": "11:05 PM",
+      "time": "6:10 PM",
       "court": 1,
       "division": "M",
       "group": "B",
@@ -2463,7 +2463,7 @@ window.CALCUP = {
     {
       "no": 4,
       "day": "Fri",
-      "time": "12:15 AM",
+      "time": "7:20 PM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2483,7 +2483,7 @@ window.CALCUP = {
     {
       "no": 5,
       "day": "Fri",
-      "time": "1:25 AM",
+      "time": "8:30 PM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2503,7 +2503,7 @@ window.CALCUP = {
     {
       "no": 6,
       "day": "Fri",
-      "time": "2:35 AM",
+      "time": "9:40 PM",
       "court": 1,
       "division": "M",
       "group": "B",
@@ -2523,7 +2523,7 @@ window.CALCUP = {
     {
       "no": 7,
       "day": "Fri",
-      "time": "3:45 AM",
+      "time": "10:50 PM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2543,7 +2543,7 @@ window.CALCUP = {
     {
       "no": 8,
       "day": "Sat",
-      "time": "3:50 PM",
+      "time": "7:35 AM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2562,7 +2562,7 @@ window.CALCUP = {
     {
       "no": 9,
       "day": "Sat",
-      "time": "5:00 PM",
+      "time": "8:45 AM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2582,7 +2582,7 @@ window.CALCUP = {
     {
       "no": 10,
       "day": "Sat",
-      "time": "6:10 PM",
+      "time": "9:55 AM",
       "court": 1,
       "division": "M",
       "group": "B",
@@ -2602,7 +2602,7 @@ window.CALCUP = {
     {
       "no": 11,
       "day": "Sat",
-      "time": "7:20 PM",
+      "time": "11:05 AM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2622,7 +2622,7 @@ window.CALCUP = {
     {
       "no": 12,
       "day": "Sat",
-      "time": "8:30 PM",
+      "time": "12:15 PM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2642,7 +2642,7 @@ window.CALCUP = {
     {
       "no": 13,
       "day": "Sat",
-      "time": "9:40 PM",
+      "time": "1:25 PM",
       "court": 1,
       "division": "W",
       "group": "W",
@@ -2662,7 +2662,7 @@ window.CALCUP = {
     {
       "no": 14,
       "day": "Sat",
-      "time": "10:50 PM",
+      "time": "2:35 PM",
       "court": 1,
       "division": "M",
       "group": "B",
@@ -2682,7 +2682,7 @@ window.CALCUP = {
     {
       "no": 15,
       "day": "Sat",
-      "time": "12:00 AM",
+      "time": "3:45 PM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2702,7 +2702,7 @@ window.CALCUP = {
     {
       "no": 16,
       "day": "Sat",
-      "time": "1:10 AM",
+      "time": "4:55 PM",
       "court": 1,
       "division": "M",
       "group": "B",
@@ -2722,7 +2722,7 @@ window.CALCUP = {
     {
       "no": 17,
       "day": "Sat",
-      "time": "2:20 AM",
+      "time": "6:05 PM",
       "court": 1,
       "division": "M",
       "group": "A",
@@ -2742,7 +2742,7 @@ window.CALCUP = {
     {
       "no": 18,
       "day": "Sat",
-      "time": "3:30 AM",
+      "time": "7:15 PM",
       "court": 1,
       "division": "M",
       "group": "B",
