@@ -36,7 +36,7 @@
     { href:"press.html",      nav:"Press",       tile:"Press kit",    icon:"ti-file-text",       primary:false },
     { href:"registered.html", nav:"Registered",  tile:"Registered teams", icon:"ti-users",       primary:false }
   ];
-  function currentPage(){ var p=(location.pathname.split("/").pop()||"index.html"); return p||"index.html"; }
+  function currentPage(){ var p=location.pathname.replace(/\/+$/,"").split("/").pop()||"index.html"; if(p.indexOf(".")<0) p+=".html"; return p; } // Netlify serves /toolkit for toolkit.html
   function renderNav(){
     var menu=document.getElementById("menu"); if(menu){
       var cur=currentPage();
