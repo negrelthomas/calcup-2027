@@ -1927,475 +1927,1121 @@ window.CALCUP = {
     }
   },
   "refQuiz": {
-    "perQuestion": 10,
+    "perQuestion": 15,
+    "source": "IHF Catalogue of Rules Questions 2025 (valid from 1 July 2025)",
     "questions": [
       {
-        "q": "Free throw 11m out. The keeper leaves the goal area entirely; the thrower quick-throws (no whistle) into the empty net. Call?",
+        "q": "What are the measurements of the playing court according to the rules?",
         "a": [
-          "Goal — it counts",
-          "Retake the throw",
-          "No goal — free throw out",
-          "7-metre throw"
+          "40 x 20 metres",
+          "42 x 20 metres",
+          "38 x 18 metres",
+          "Length between 38 and 42, width between 18 and 22 metres"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "Goal. For a free throw there is no rule requiring the goalkeeper to be on the goal line. The goalkeeper's position is irrelevant. Only the 7m throw requires the goalkeeper to be on the line. The goal stands.  (Rule 13, 15:2)"
+        "topic": "rule 1",
+        "why": "Correct: 40 x 20 metres. IHF Catalogue 2025, question 1.1, Rule 1:1.",
+        "ihf": "1.1"
       },
       {
-        "q": "A 7m throw is saved. The rebound falls to an attacking teammate who scores immediately. Valid?",
+        "q": "What are the required interior measurements of the goal?",
         "a": [
-          "No — free throw to defenders",
-          "Goal — it counts",
-          "Retake the 7m",
-          "7m throw again"
+          "1.92 x 2.92 metres",
+          "2.00 x 3.00 metres",
+          "2.05 x 3.05 metres",
+          "2.08 x 3.08 metres"
+        ],
+        "c": 1,
+        "topic": "rule 1",
+        "why": "Correct: 2.00 x 3.00 metres. IHF Catalogue 2025, question 1.2, Rule 1:2.",
+        "ihf": "1.2"
+      },
+      {
+        "q": "How wide is the goal line between the posts?",
+        "a": [
+          "5cm",
+          "6cm",
+          "8cm",
+          "10cm"
+        ],
+        "c": 2,
+        "topic": "rule 1",
+        "why": "Correct: 8cm. IHF Catalogue 2025, question 1.3, Rule 1:3.",
+        "ihf": "1.3"
+      },
+      {
+        "q": "After the end of the playing time, a 7-metre throw is still to be executed. The referees wait for the immediate result of the throw. Which referee should then end the game?",
+        "a": [
+          "The first named referee",
+          "One of the two referees",
+          "The court referee",
+          "The goal-line referee"
+        ],
+        "c": 1,
+        "topic": "rule 2",
+        "why": "Correct: One of the two referees. IHF Catalogue 2025, question 2.8, Rule 2:4.",
+        "ihf": "2.8"
+      },
+      {
+        "q": "When does the match begin?",
+        "a": [
+          "When the first named referee whistles",
+          "When the ball leaves the thrower’s hand",
+          "When the timekeeper starts the stopwatch or the public clock",
+          "After the whistle for the throw-off is blown by the court referee"
+        ],
+        "c": 3,
+        "topic": "rule 2",
+        "why": "Correct: After the whistle for the throw-off is blown by the court referee. IHF Catalogue 2025, question 2.9, Rule 2:3.",
+        "ihf": "2.9"
+      },
+      {
+        "q": "For a 7-metre throwing, who decides which goal should be used?",
+        "a": [
+          "The team that wins the coin toss",
+          "The team that loses the coin toss",
+          "The referees",
+          "The first named referee"
+        ],
+        "c": 2,
+        "topic": "rule 2",
+        "why": "Correct: The referees. IHF Catalogue 2025, question 2.10, Rule references: 2:2, comments.",
+        "ihf": "2.10"
+      },
+      {
+        "q": "The game is still tied after overtime, and the regulations require a decision through 7-metre throws. WHITE 7 was given a 2-minute suspension after nine minutes in the last overtime period. He is nominated by the responsible team official to participate in the 7-metre throwing. Correct decision?",
+        "a": [
+          "WHITE 7 is allowed to participate.",
+          "WHITE 7 is not allowed to participate."
+        ],
+        "c": 1,
+        "topic": "rule 2",
+        "why": "Correct: WHITE 7 is not allowed to participate. IHF Catalogue 2025, question 2.24, Rule references: 2:2 comment, 16:3d.",
+        "ihf": "2.24"
+      },
+      {
+        "q": "Who may request a team time-out?",
+        "a": [
+          "One of the team officials",
+          "A player",
+          "Only the responsible team official",
+          "The team captain"
         ],
         "c": 0,
-        "topic": "7m",
-        "why": "No. On a 7m throw, only the thrower and the goalkeeper may play the ball until it has struck the post, crossbar, or the goalkeeper. A teammate touching the rebound before any such contact is a violation — free throw for the defending team.  (Rule 14:6)"
+        "topic": "rule 2",
+        "why": "Correct: One of the team officials. IHF Catalogue 2025, question 2.35, Rule references: Clarification 3.",
+        "ihf": "2.35"
       },
       {
-        "q": "On a free throw, the ball hits a referee standing in front of goal and deflects in. Call?",
+        "q": "At 55:00 the responsible team official from WHITE team requests a team time-out, which is the second in the match. At 59:00 the same responsible team official requests the third team time-out. Correct decision?",
         "a": [
-          "No goal — referee throw",
-          "Goal — it counts",
-          "Retake the free throw",
-          "Throw-in"
+          "Team time-out is possible",
+          "Team time-out is not possible"
+        ],
+        "c": 1,
+        "topic": "rule 2",
+        "why": "Correct: Team time-out is not possible. IHF Catalogue 2025, question 2.43, Rule references: 2:10, Clarification 3.",
+        "ihf": "2.43"
+      },
+      {
+        "q": "How many colours is the ball allowed to have?",
+        "a": [
+          "1",
+          "2",
+          "3",
+          "Unlimited"
+        ],
+        "c": 3,
+        "topic": "rule 3",
+        "why": "Correct: Unlimited. IHF Catalogue 2025, question 3.1, Rule 3:1.",
+        "ihf": "3.1"
+      },
+      {
+        "q": "Which of the following balls must the referees select for a men’s game?",
+        "a": [
+          "Circumference 57cm, weight 450g",
+          "Circumference 58cm, weight 400g",
+          "Circumference 59cm, weight 425g",
+          "Circumference 60cm, weight 500g"
+        ],
+        "c": 2,
+        "topic": "rule 3",
+        "why": "Correct: Circumference 59cm, weight 425g. IHF Catalogue 2025, question 3.2, Rule 3:2.",
+        "ihf": "3.2"
+      },
+      {
+        "q": "Which of the following balls must the referees select for at women’s game?",
+        "a": [
+          "Circumference 53cm, weight 350g",
+          "Circumference 54cm, weight 300g",
+          "Circumference 55cm, weight 425g",
+          "Circumference 56cm, weight 375g"
+        ],
+        "c": 3,
+        "topic": "rule 3",
+        "why": "Correct: Circumference 56cm, weight 375g. IHF Catalogue 2025, question 3.3, Rule 3:2.",
+        "ihf": "3.3"
+      },
+      {
+        "q": "The referees have decided to bring the reserve ball into play. When should the original ball be used again?",
+        "a": [
+          "At the time of the next interruption",
+          "It cannot be used again, unless it becomes impossible to continue to use the reserve ball.",
+          "When the referees find it necessary to use it again",
+          "If one of the teams request it"
+        ],
+        "c": 2,
+        "topic": "rule 3",
+        "why": "Correct: When the referees find it necessary to use it again. IHF Catalogue 2025, question 3.4, Rule 3:4.",
+        "ihf": "3.4"
+      },
+      {
+        "q": "What is the minimum number of players that must be present on the court at the beginning of the game and included in the match score sheet?",
+        "a": [
+          "Five players",
+          "Four court players and one goalkeeper",
+          "Five court players and one goalkeeper",
+          "Six court players"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "Not a goal. When the ball hits a referee and the outcome is materially affected, play is restarted with a referee throw at the location of the contact. The attacking team does not regain the free throw.  (Rule 13:4 Comment)"
+        "topic": "rule 4",
+        "why": "Correct: Five players. IHF Catalogue 2025, question 4.4, Rule 4:1.",
+        "ihf": "4.4"
       },
       {
-        "q": "A player with two prior suspensions commits a third suspension-worthy foul. Result?",
+        "q": "When is it permitted for up to two people from one team (team officials and/or players) to enter the court?",
         "a": [
-          "Disqualification (red card)",
-          "Another 2-minute suspension",
-          "Blue card + report only",
-          "Warning (yellow)"
+          "During a match interruption",
+          "During a match interruption and with permission from a referee",
+          "When a player is injured",
+          "With permission from the timekeeper"
+        ],
+        "c": 1,
+        "topic": "rule 4",
+        "why": "Correct: During a match interruption and with permission from a referee. IHF Catalogue 2025, question 4.9, Rule 4:11.",
+        "ihf": "4.9"
+      },
+      {
+        "q": "Goalkeeper BLACK 1 saves a shot on goal and starts a counter-attack. In doing so, he crosses the goal-area line with his left foot. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "Free throw for WHITE team",
+          "Repeat goalkeeper throw after restart signal"
+        ],
+        "c": 2,
+        "topic": "rule 5",
+        "why": "Correct: Repeat goalkeeper throw after restart signal. IHF Catalogue 2025, question 5.1, Rules 1:3, 5:6, 12:1, 12:2 and 15:5b.",
+        "ihf": "5.1"
+      },
+      {
+        "q": "Goalkeeper WHITE 12 is standing outside his goal area on the court. While receiving the ball from a teammate, the goalkeeper steps back with one foot into the goal area, while the other foot remains where it is. Correct decision?",
+        "a": [
+          "7-metre throw for BLACK team",
+          "Game continues without interruption",
+          "Free throw for BLACK team",
+          "2-minute suspension for goalkeeper WHITE 12"
+        ],
+        "c": 2,
+        "topic": "rule 5",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 5.2, Rules 1:3, 5:3, 5:9, 6:2b and 13:1a.",
+        "ihf": "5.2"
+      },
+      {
+        "q": "Goalkeeper WHITE 12 has not managed to get the ball under control. The ball moves inside the goal area towards the side line. The goalkeeper uses his foot to play the ball across the outer goal line. Correct decision?",
+        "a": [
+          "Goalkeeper throw for WHITE team",
+          "Free throw for BLACK team",
+          "Throw-in for BLACK team",
+          "Progressive punishment against the goalkeeper"
+        ],
+        "c": 1,
+        "topic": "rule 5",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 5.5, Rules 5:10 and 13:1a.",
+        "ihf": "5.5"
+      },
+      {
+        "q": "Goalkeeper BLACK 1 has left his goal area. He jumps up in the playing area, catches a pass from a teammate while in the air, and lands with both feet inside his goal area. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "Goalkeeper throw for BLACK team",
+          "Free throw for WHITE team",
+          "7-metre throw for WHITE team",
+          "Time-out"
+        ],
+        "c": 2,
+        "topic": "rule 5",
+        "why": "Correct: Free throw for WHITE team. IHF Catalogue 2025, question 5.12, Rules 5:9 and 13:1a.",
+        "ihf": "5.12"
+      },
+      {
+        "q": "The ball is on the floor right outside the goal area of WHITE team. Goalkeeper WHITE 1 stands inside the goal area and picks up the ball to prevent an opponent from taking it. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "7-metre throw for BLACK team",
+          "Progressive punishment for WHITE 1",
+          "No intervention because it is allowed"
         ],
         "c": 0,
-        "topic": "2min",
-        "why": "Automatic disqualification (red card). A player's third 2-minute infraction in the same match — regardless of prior yellow cards — triggers disqualification. Team plays shorthanded for 2 minutes. After 2 minutes a replacement may enter.  (Rule 16:6d)"
+        "topic": "rule 5",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 5.13, Rules 5:7 and 5:8.",
+        "ihf": "5.13"
       },
       {
-        "q": "Two teammates are red-carded together for fighting. Players fielded, and when do replacements enter?",
+        "q": "The ball lies on the goal-area line. Attacker WHITE 7 picks it up and tries to score. WHITE 7 has a clear chance of scoring, when he is illegally attacked. Correct decision?",
         "a": [
-          "5 players; both return after 2 min",
-          "5 players; return after 4 min",
-          "6 players; staggered entries",
-          "6 players; after 2 min"
+          "Free throw for BLACK team",
+          "Free throw for WHITE team",
+          "7-metre throw for WHITE team",
+          "Goalkeeper throw for BLACK team"
+        ],
+        "c": 3,
+        "topic": "rule 6",
+        "why": "Correct: Goalkeeper throw for BLACK team. IHF Catalogue 2025, question 6.1, Rules 1:3, 6:5 and 12:1.",
+        "ihf": "6.1"
+      },
+      {
+        "q": "The ball is rolling in the goal area of WHITE team. BLACK 8 picks the ball up and scores a goal. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Goalkeeper throw for WHITE team",
+          "Goal",
+          "Throw-off"
+        ],
+        "c": 1,
+        "topic": "rule 6",
+        "why": "Correct: Goalkeeper throw for WHITE team. IHF Catalogue 2025, question 6.2, Rules 6:5 and 12:1.",
+        "ihf": "6.2"
+      },
+      {
+        "q": "WHITE 3 stands with both feet in the playing area and catches the ball rebounding from his goalkeeper. When WHITE 3 is correctly obstructed by BLACK 10, he bounces the ball several times in his own goal area. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "7-metre throw for BLACK team",
+          "Free throw for BLACK team",
+          "Free throw for WHITE team"
         ],
         "c": 0,
-        "topic": "2min",
-        "why": "The team fields 5 players (7 minus 2). Both 2-minute penalty periods run simultaneously. After 2 game-time minutes, both replacements enter at the same time, returning the team to 7.  (Rule 16:6)"
+        "topic": "rule 6",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 6.3, Rule 6:5.",
+        "ihf": "6.3"
       },
       {
-        "q": "A suspended player returns after 2 min but has swapped jerseys to hide their identity. Call?",
+        "q": "WHITE 7 stands outside the goal area of BLACK team, but grabs the ball that is clearly in the air above the goal area and scores a goal. Correct decision?",
         "a": [
-          "Both players sanctioned",
-          "No action — legal",
-          "Retake the suspension",
-          "Team timeout"
+          "Goal for WHITE team",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team",
+          "Goalkeeper throw for BLACK team after whistle signal"
         ],
         "c": 0,
-        "topic": "2min",
-        "why": "Both players are sanctioned. Jersey swapping to evade disciplinary tracking is grossly unsporting. Both players receive yellow cards at minimum; the originally suspended player may face escalation. The substitute who swapped jerseys may be disqualified for deliberately deceiving the referees.  (Rule 16:1, 16:9)"
+        "topic": "rule 6",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 6.4, Rule 6:5.",
+        "ihf": "6.4"
       },
       {
-        "q": "An airborne attacker shoots; the trailing hand grazes the 6m line AFTER the ball is released. Call?",
+        "q": "WHITE 8, who is attacked correctly by several opponents, intentionally rolls the ball into his own goal area, where the ball comes to rest. Goalkeeper WHITE 1 does not pick up the ball. Correct decision?",
         "a": [
-          "Goal — released before contact",
-          "No goal — line foul",
-          "7-metre throw",
-          "Free throw to defenders"
+          "Goalkeeper throw for WHITE team",
+          "Goalkeeper throw for WHITE team after whistle signal",
+          "7-metre throw for BLACK team",
+          "Free throw for BLACK team"
+        ],
+        "c": 3,
+        "topic": "rule 6",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 6.5, Rules 6:7b and 13:1a.",
+        "ihf": "6.5"
+      },
+      {
+        "q": "WHITE 5 plays the ball into his own team’s goal area. The ball hits the goal post and rolls towards the playing area. Goalkeeper WHITE 12 picks up the ball and passes it to WHITE 7, who scores a goal. Correct decision?",
+        "a": [
+          "7-metre throw for BLACK team",
+          "Goal",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for WHITE team"
+        ],
+        "c": 2,
+        "topic": "rule 6",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 6.6, Rules 6:7b and 13:1a.",
+        "ihf": "6.6"
+      },
+      {
+        "q": "WHITE 7 from the attacking team is in possession of the ball and steps with the ball into the goal area of BLACK team. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team",
+          "Goalkeeper throw for BLACK team after whistle signal",
+          "Free throw for BLACK team after whistle signal"
+        ],
+        "c": 1,
+        "topic": "rule 6",
+        "why": "Correct: Goalkeeper throw for BLACK team. IHF Catalogue 2025, question 6.12, Rules 6:2a and 12:1.",
+        "ihf": "6.12"
+      },
+      {
+        "q": "WHITE 4 catches the ball while standing. He then jumps and lands on the right foot and jumps to his left foot to throw. How many steps did WHITE 4 take?",
+        "a": [
+          "1",
+          "2",
+          "3",
+          "4"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: 2. IHF Catalogue 2025, question 7.3, Rule 7:3a.",
+        "ihf": "7.3"
+      },
+      {
+        "q": "A player jumps to catch the ball passed to him by a teammate. He lands on both feet simultaneously. Then he lifts his right foot to take a step to the side and drags his left foot up to the right foot. How many steps did he take?",
+        "a": [
+          "1",
+          "3",
+          "0",
+          "2"
         ],
         "c": 0,
-        "topic": "other",
-        "why": "Goal. The ball was released before any body contact with the goal area. The grazing of the line after release does not retroactively create a violation — what matters is that the ball was gone before the contact.  (Rule 6:2a)"
+        "topic": "rule 7",
+        "why": "Correct: 1. IHF Catalogue 2025, question 7.4, Rule 7:3d.",
+        "ihf": "7.4"
       },
       {
-        "q": "A defender steps into their own empty goal area to stop a ball rolling toward goal. Call?",
+        "q": "A player catches the ball in mid-air, passed to him by a teammate. He then lands on the right foot and moves off with that foot. Then he puts the left foot down first and then the right one to throw. How many steps did he take?",
         "a": [
-          "7-metre throw",
-          "Goal — it counts",
-          "Free throw to attackers",
-          "Play on — legal"
+          "3",
+          "2",
+          "1",
+          "0"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: 2. IHF Catalogue 2025, question 7.5, Rule 7:3.",
+        "ihf": "7.5"
+      },
+      {
+        "q": "WHITE 5 is fumbling the ball, but finally manages to get it under control. Then he takes three steps, bounces the ball once, and takes another three steps before scoring a goal. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "Goal",
+          "Goalkeeper throw for BLACK team",
+          "Throw-in for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Goal. IHF Catalogue 2025, question 7.6, Rules 7:3, 7:4 and 7:7.",
+        "ihf": "7.6"
+      },
+      {
+        "q": "WHITE 5 wants to start an attack. He bounces the ball repeatedly while taking five steps. He then takes the ball up again to pass it. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "Free throw for WHITE team",
+          "Game continues without interruption",
+          "7-metre throw for BLACK team"
+        ],
+        "c": 2,
+        "topic": "rule 7",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 7.7, Rule 7:4b.",
+        "ihf": "7.7"
+      },
+      {
+        "q": "BLACK 6 catches the ball, slips and falls. Lying on his back, he passes the ball to BLACK 9. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Game continues without interruption",
+          "Free throw for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 7.8, Rule 7:6.",
+        "ihf": "7.8"
+      },
+      {
+        "q": "WHITE 3 runs between two opponents to push the ball in the direction of his path. He grabs the ball again, before it has touched the ground. Now, there is an open space towards the goal of BLACK team. WHITE 3 bounces the ball once and score. Correct decision?",
+        "a": [
+          "Goal",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 7.9, Rules 7:7 and 13:1a.",
+        "ihf": "7.9"
+      },
+      {
+        "q": "How is repeated passive play to be penalised?",
+        "a": [
+          "Free throw and warning",
+          "Free throw and 2-minute suspension",
+          "Free throw",
+          "Free throw and disqualification (red card shown by the referees)"
+        ],
+        "c": 2,
+        "topic": "rule 7",
+        "why": "Correct: Free throw. IHF Catalogue 2025, question 7.11, Rules 7:7 and 13:1a.",
+        "ihf": "7.11"
+      },
+      {
+        "q": "Following a shot on goal by WHITE 4, the ball rebounds from the goal post of BLACK team, and hits the referee who stands inside the goal area next to the goal. Consequently, the ball crosses the sideline and not the outer goal line. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Throw-in for BLACK team",
+          "Goalkeeper throw for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Throw-in for BLACK team. IHF Catalogue 2025, question 7.12, Rules 7:9 and 11:1.",
+        "ihf": "7.12"
+      },
+      {
+        "q": "WHITE team executes a throw-in. WHITE 5 throws the ball onto the court, where it hits the referee and crosses the goal line of BLACK team. Correct decision?",
+        "a": [
+          "Repetition of throw-in after whistle signal",
+          "Free throw for BLACK team",
+          "Free throw for WHITE team",
+          "Goal for WHITE team"
+        ],
+        "c": 3,
+        "topic": "rule 7",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 7.13, Rules 7:9 and 15:2.",
+        "ihf": "7.13"
+      },
+      {
+        "q": "BLACK 3 makes a jump shot, and WHITE 9 blocks the ball. The ball falls to the floor, and WHITE 9 picks it up with both hands and starts dribbling in a counter-attack. He throws the ball into the goal of BLACK team. Correct decision?",
+        "a": [
+          "Goal for WHITE team",
+          "Free throw for BLACK team",
+          "2-minute suspension for WHITE 9",
+          "Time-out"
         ],
         "c": 0,
-        "topic": "7m",
-        "why": "7m throw. A defending field player entering the goal area to prevent a certain goal is penalized by a 7m throw, regardless of whether they succeed in stopping the ball. The successful clearance does not change the call.  (Rule 6:2b)"
+        "topic": "rule 7",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 7.14, Rules 7:4 and 8:1a.",
+        "ihf": "7.14"
       },
       {
-        "q": "The only goalkeeper is disqualified with no backup keeper. What must happen before resuming?",
+        "q": "WHITE 5 dribbles the ball along the sideline. BLACK obstructs him correctly. To get past BLACK 2, WHITE 5 steps over the sideline with one foot during his dribbling. Correct decision?",
         "a": [
-          "Field player becomes keeper (distinct jersey)",
-          "Forfeit the match",
-          "Play with no keeper",
-          "Opponents get a 7m"
+          "Free throw for WHITE team",
+          "Throw-in for BLACK team",
+          "Free throw for BLACK team",
+          "Game continues without interruption"
+        ],
+        "c": 2,
+        "topic": "rule 7",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 7.15, Rules 7:10, 8:1c and 13:1a.",
+        "ihf": "7.15"
+      },
+      {
+        "q": "BLACK 7 of the attacking team assumes a position outside the court without having the ball. The referees indicate to the player that he must return to the court, but he does not react. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "Free throw for WHITE team",
+          "Progressive punishment for BLACK 7",
+          "Throw-in for WHITE team"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Free throw for WHITE team. IHF Catalogue 2025, question 7.17, Rule 7:10.",
+        "ihf": "7.17"
+      },
+      {
+        "q": "WHITE 10 tries to pass the ball to WHITE 8, who is at the goal-area line of BLACK team. BLACK 10 stands completely still in front of WHITE 8, when the ball hits his foot. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Game continues without interruption",
+          "Decision depending on who gets the ball"
+        ],
+        "c": 1,
+        "topic": "rule 7",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 7.20, Rule 7:8.",
+        "ihf": "7.20"
+      },
+      {
+        "q": "WHITE team is in possession of the ball. The referees show the forewarning signal for passive play. After one pass, WHITE 5 takes a shot on goal. The shot is blocked by BLACK 2, and the ball bounces back to WHITE 5, who passes the ball to WHITE 9. How many passes have been completed?",
+        "a": [
+          "3",
+          "4",
+          "5"
         ],
         "c": 0,
-        "topic": "goalkeeper",
-        "why": "A field player must be designated as the new goalkeeper and must wear a distinctly different-colored jersey from all other players on both teams. The team reorganizes; normal substitution rules apply. Play resumes once the jersey change is completed.  (Rule 5:11, 4:8)"
+        "topic": "rule 7",
+        "why": "Correct: 3. IHF Catalogue 2025, question 7.29, Rule references: 7:11-12, Clarification 4, Appendix 1 (Training support “Passive play”).",
+        "ihf": "7.29"
       },
       {
-        "q": "Forewarning shown. After 3 passes a player dribbles twice, then passes. Passes toward the limit?",
+        "q": "During the attack of WHITE team, pivot WHITE 7, who is not in possession of the ball, blocks BLACK 4 with his trunk. Correct decision?",
         "a": [
-          "3 — a dribble isn't a pass",
-          "4 passes",
-          "5 passes",
-          "2 passes"
+          "Free throw for BLACK team",
+          "Progressive punishment against WHITE 7",
+          "Game continues without interruption"
+        ],
+        "c": 2,
+        "topic": "rule 8",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 8.6, Rule 8:1c.",
+        "ihf": "8.6"
+      },
+      {
+        "q": "Due to disappointment over a mistake, WHITE 3 hits one of his teammates in the face. Correct decision?",
+        "a": [
+          "No action, because it involves a teammate",
+          "2-minute suspension for WHITE 3",
+          "Disqualification of WHITE 3 without written report (red card shown by the referees)",
+          "Disqualification for WHITE 3, written report (red and blue cards shown by the referees)"
+        ],
+        "c": 3,
+        "topic": "rule 8",
+        "why": "Correct: Disqualification for WHITE 3, written report (red and blue cards shown by the referees). IHF Catalogue 2025, question 8.25, Rules 8:6b and 16:6a.",
+        "ihf": "8.25"
+      },
+      {
+        "q": "WHITE 6 is pushed by BLACK 3 and spits demonstratively on the floor in front of BLACK 3. How shall WHITE 6 be punished?",
+        "a": [
+          "Progressive punishment",
+          "Always with a 2-minute suspension",
+          "Disqualification without written report (red card shown by the referees)",
+          "Disqualification, written report (red and blue cards shown by the referees)"
+        ],
+        "c": 2,
+        "topic": "rule 8",
+        "why": "Correct: Disqualification without written report (red card shown by the referees). IHF Catalogue 2025, question 8.42, Rules 8:9 and 16:6b.",
+        "ihf": "8.42"
+      },
+      {
+        "q": "Wing player BLACK 3 has a clear chance of scoring and takes a shot on goal. The ball touches the side of the head of goalkeeper WHITE 1 without changing direction. The ball goes into the goal. What is the correct decision?",
+        "a": [
+          "Direct 2-minute suspension for BLACK 3.",
+          "Progressive punishment for WHITE 1.",
+          "Goal.",
+          "Free throw for WHITE team."
+        ],
+        "c": 2,
+        "topic": "rule 8",
+        "why": "Correct: Goal. IHF Catalogue 2025, question 8.78, Rule references: 2:8, 4:11, Clarification 8, 8:8d.",
+        "ihf": "8.78"
+      },
+      {
+        "q": "A shot by WHITE 5 bounces back from the goalpost of BLACK team. It deflects off the foot of BLACK 3, who is standing in the playing area, into the goal of BLACK team. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Goal for WHITE team",
+          "7-metre throw for WHITE team",
+          "Goalkeeper throw for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 9",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 9.2, Rules 7:8, 9:1 and 13:2.",
+        "ihf": "9.2"
+      },
+      {
+        "q": "The ball has been stopped by goalkeeper WHITE 1 and bounces back from defender WHITE 3’s back, who is standing two metres inside the goal area, into the goal of WHITE team. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "7-metre throw for BLACK team",
+          "Progressive punishment against WHITE 3",
+          "Goal for BLACK team"
+        ],
+        "c": 3,
+        "topic": "rule 9",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 9.3, Rules 6:3b, 9:1 and 13:2.",
+        "ihf": "9.3"
+      },
+      {
+        "q": "Goalkeeper WHITE 1 holds the ball for four seconds in a position where three quarters of the ball have already passed the goal line. Correct decision?",
+        "a": [
+          "Goal for BLACK team",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for WHITE team"
+        ],
+        "c": 2,
+        "topic": "rule 9",
+        "why": "Correct: Goalkeeper throw for WHITE team. IHF Catalogue 2025, question 9.4, Rules 6:4, 9:1 and 12:1.",
+        "ihf": "9.4"
+      },
+      {
+        "q": "WHITE 3 enters his team’s goal area and tries to stop a shot with his foot, but the ball deflects off his foot into the goal of WHITE team. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "7-metre throw for BLACK team",
+          "Goal for BLACK team",
+          "Goalkeeper throw for WHITE team"
+        ],
+        "c": 2,
+        "topic": "rule 9",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 9.5, Rules 9:1 and 14:2.",
+        "ihf": "9.5"
+      },
+      {
+        "q": "WHITE team wins the coin toss and decides to start with the ball. The representative of BLACK team wants to change ends. Correct decision?",
+        "a": [
+          "Change ends",
+          "Change ends if WHITE team agrees",
+          "Repeat coin toss",
+          "Do not change ends"
         ],
         "c": 0,
-        "topic": "passive",
-        "why": "3 passes — 4 touches total, but dribbling by the same player does not count as a pass. Only ball transfers from one player to another increment the count. After the dribble the player passes = 4th pass now occurs. Referee must then act if no shot follows.  (Rule 7:11)"
+        "topic": "rule 10",
+        "why": "Correct: Change ends. IHF Catalogue 2025, question 10.1, Rule 10:1.",
+        "ihf": "10.1"
       },
       {
-        "q": "Forewarning shown. A defender fouls; referee plays advantage (no whistle). Does the forewarning reset?",
+        "q": "WHITE team win the coin toss and want to change ends. BLACK team want WHITE team to take the throw-off. Correct decision?",
         "a": [
-          "No — only a whistle cancels it",
-          "Yes — the foul resets it",
-          "Yes — after 3 passes",
-          "No — it never applies in attack"
+          "Throw-off by WHITE team",
+          "Change ends and throw-off by BLACK team",
+          "Repeat coin toss",
+          "The team representatives must come to an agreement."
+        ],
+        "c": 1,
+        "topic": "rule 10",
+        "why": "Correct: Change ends and throw-off by BLACK team. IHF Catalogue 2025, question 10.2, Rule 10:1.",
+        "ihf": "10.2"
+      },
+      {
+        "q": "WHITE team is about to execute a throw-off. Goalkeeper BLACK 1 is not yet in his goal area. The court referee still whistles for the match to begin, and WHITE 9 immediately scores a goal. Correct decision?",
+        "a": [
+          "Free throw for WHITE team from the centre line",
+          "Repeat the throw-off",
+          "Goal for WHITE team",
+          "Free throw for BLACK team"
+        ],
+        "c": 2,
+        "topic": "rule 10",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 10.5, Rules 9:1, 10:4 and 15:2.",
+        "ihf": "10.5"
+      },
+      {
+        "q": "WHITE 3 is executing a throw-in from a position two metres outside the sideline. Correct decision?",
+        "a": [
+          "No decision required, as this is allowed",
+          "Free throw for BLACK team",
+          "Repeat the throw-in without whistle signal",
+          "Repeat the throw-in after whistle signal"
+        ],
+        "c": 3,
+        "topic": "rule 11",
+        "why": "Correct: Repeat the throw-in after whistle signal. IHF Catalogue 2025, question 11.1, Rules 11:4, 15:1 and 15:5.",
+        "ihf": "11.1"
+      },
+      {
+        "q": "BLACK 4 stands with one foot on the sideline and the other foot in the playing area. He executes a throw-in and scores a goal directly. Correct decision?",
+        "a": [
+          "Goal for BLACK team",
+          "Repeat the throw-in for BLACK team after whistle signal",
+          "Free throw for WHITE team",
+          "Goalkeeper throw for WHITE team"
         ],
         "c": 0,
-        "topic": "passive",
-        "why": "No. Advantage applied for a defensive foul does not cancel the forewarning signal. The signal is only cancelled when the referee actually blows the whistle for the foul and awards a free throw. If advantage is applied, the passive play situation and pass count continue.  (Rule 7:11 Comment)"
+        "topic": "rule 11",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 11.2, Rules 11:4 and 15:2.",
+        "ihf": "11.2"
       },
       {
-        "q": "On a clear 2-on-1 fast break, the referee shows the passive-play forewarning. Correct?",
+        "q": "WHITE 6 executes a throw-in standing with one foot inside the court and the other foot one metre outside the sideline. He throws the ball into the goal of BLACK team. Correct decision?",
         "a": [
-          "No — never during a clear break",
-          "Yes — after 6 seconds",
-          "Yes — if no shot in 3 passes",
-          "Only in the last 2 minutes"
+          "Repeated throw-in for WHITE team after whistle signal",
+          "Free throw for BLACK team",
+          "Goal for WHITE team",
+          "Goalkeeper throw for BLACK team"
         ],
         "c": 0,
-        "topic": "passive",
-        "why": "Not correct. The forewarning signal should never be shown during a dynamic attack with clear scoring potential — a fast break with a 2v1 advantage is the antithesis of passive play. Showing the signal here would be an error in judgment.  (Rule 7:10)"
+        "topic": "rule 11",
+        "why": "Correct: Repeated throw-in for WHITE team after whistle signal. IHF Catalogue 2025, question 11.3, Rules 11:4, 15:1 and 15:5.",
+        "ihf": "11.3"
       },
       {
-        "q": "On a goalkeeper throw, an attacker briefly steps on the 6m line before the ball is released. Call?",
+        "q": "WHITE 5 fails to catch a pass. He runs after the ball and stops it before it crosses the sideline, but he himself cannot avoid crossing the sideline afterwards. Correct decision?",
         "a": [
-          "Retake the goalkeeper throw",
-          "Play on — legal",
-          "7-metre throw",
-          "Free throw to attackers"
+          "Game continues without interruption",
+          "Free throw for BLACK team",
+          "Throw-in for BLACK team"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "Retake. Attackers must be outside the 6m line until the ball crosses the line. Stepping onto the line (which belongs to the goal area) before the ball is released = premature entry. The goalkeeper throw must be retaken.  (Rule 12:2)"
+        "topic": "rule 11",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 11.6, Rule 11:1.",
+        "ihf": "11.6"
       },
       {
-        "q": "A referee throw is called but one involved player is injured and can't take part. How is it done?",
+        "q": "While executing a goalkeeper throw, goalkeeper WHITE 1 touches his goal-area line with one foot. Correct decision?",
         "a": [
-          "Proceed with the players present",
-          "Cancel — award a free throw",
-          "Retake once the player returns",
-          "Give it to the healthy team"
+          "Goalkeeper throw is to be retaken after whistle signal",
+          "Free throw for BLACK team",
+          "Let the game continue without interruption"
+        ],
+        "c": 2,
+        "topic": "rule 12",
+        "why": "Correct: Let the game continue without interruption. IHF Catalogue 2025, question 12.1, Rules 1:3 and 12:2.",
+        "ihf": "12.1"
+      },
+      {
+        "q": "Goalkeeper WHITE 12 is executing a goalkeeper throw. BLACK 10, who is standing outside the goal-area line, legally tries to gain possession of the ball. He succeeds and scores a goal. Correct decision?",
+        "a": [
+          "Free throw for WHITE team",
+          "Goal for BLACK team",
+          "Goalkeeper throw for WHITE team",
+          "Progressive punishment against BLACK 10"
+        ],
+        "c": 1,
+        "topic": "rule 12",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 12.6, Rule 12:2.",
+        "ihf": "12.6"
+      },
+      {
+        "q": "Goalkeeper WHITE 12 stops a shot, deflecting the ball across the outer goal line next to the goal. Which hand signals should the goal-line referee show, if necessary?",
+        "a": [
+          "Number 8 (goalkeeper throw)",
+          "Number 9 (free-throw direction)",
+          "First number 9 (free-throw direction), then number 8 (goalkeeper throw)",
+          "First number 8 (goalkeeper throw), then number 9 (free-throw direction)"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "A referee throw is executed between whatever players are present. If one player is unavailable (injured), the referee throw still proceeds — the remaining eligible player participates and the referee throws accordingly. Play must resume.  (Rule 13:4)"
+        "topic": "rule 12",
+        "why": "Correct: Number 8 (goalkeeper throw). IHF Catalogue 2025, question 12.7, Rule references: 12:1 – Hand signals.",
+        "ihf": "12.7"
       },
       {
-        "q": "GK throw to a field player, who immediately passes back to the keeper inside the area, who catches it. Call?",
+        "q": "WHITE 4 executes a 7-metre throw and hits the goalpost. The ball bounces back to WHITE 4 without touching any teammate or opponent. He throws the ball into the goal. Correct decision?",
         "a": [
-          "Back-pass — free throw to opponents",
-          "Legal — play on",
-          "Goalkeeper throw again",
-          "7-metre throw"
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team",
+          "Goal for WHITE team"
+        ],
+        "c": 2,
+        "topic": "rule 14",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 14.3, Rule 14:6.",
+        "ihf": "14.3"
+      },
+      {
+        "q": "WHITE 9 executes a 7-metre throw, and the ball enters the goal. However, before the ball left the thrower’s hand, WHITE 4 had crossed the free-throw line. Correct decision?",
+        "a": [
+          "Goal for WHITE team",
+          "Repeat the 7-metre throw",
+          "Free throw for BLACK team",
+          "Repeat the throw and warning for WHITE 4"
+        ],
+        "c": 2,
+        "topic": "rule 14",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 14.5, Rules 13:1a, 14:7 and 15:7.",
+        "ihf": "14.5"
+      },
+      {
+        "q": "WHITE 3 is executing a 7-metre throw. WHITE 5 crosses the free-throw line after the referee’s whistle, but before the ball has left WHITE 3’s hand. Correct decision?",
+        "a": [
+          "Repeat the 7-metre throw",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team",
+          "Progressive punishment against WHITE 5"
+        ],
+        "c": 1,
+        "topic": "rule 14",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 14.9, Rules 13:1a, 14:7 and 15:7.",
+        "ihf": "14.9"
+      },
+      {
+        "q": "While WHITE 3 is executing a 7-metre throw, WHITE 5 crosses the free-throw line after the referee’s whistle signal, but before the ball has left the thrower’s hand. Goalkeeper BLACK 1 saves the shot. Correct decision?",
+        "a": [
+          "Repeat the 7-metre throw for WHITE team",
+          "Free throw for BLACK team",
+          "Goalkeeper throw for BLACK team"
+        ],
+        "c": 2,
+        "topic": "rule 14",
+        "why": "Correct: Goalkeeper throw for BLACK team. IHF Catalogue 2025, question 14.17, Rules 6:4, 12:1, 13:2 and 14:7.",
+        "ihf": "14.17"
+      },
+      {
+        "q": "WHITE 2 is ready to execute a 7-metre throw. The court referee whistles, but WHITE 2 drops the ball to the floor. BLACK 3 immediately picks up the ball and plays it to BLACK 2, who scores a goal in a counter-attack. Correct decision?",
+        "a": [
+          "Goal for BLACK team",
+          "Repetition of the 7-metre throw",
+          "Free throw for BLACK team",
+          "Time-out"
         ],
         "c": 0,
-        "topic": "goalkeeper",
-        "why": "Back-pass violation. The field player deliberately passed the ball back to the goalkeeper. The sequence (GK throw → teammate → back to GK) is exactly what the back-pass rule prohibits. Free throw for the opponent.  (Rule 6:5a)"
+        "topic": "rule 14",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 14.18, Rules 13:2, 14:4 and 15:2.",
+        "ihf": "14.18"
       },
       {
-        "q": "The goal referee signals goal; the court referee simultaneously signals no-goal. Resolution?",
+        "q": "When carrying out a goalkeeper throw, goalkeeper WHITE 13 swings back the ball in a way that it goes beyond the goal line between the goalposts. Correct decision?",
         "a": [
-          "Confer — goal ref has primacy at that end",
-          "Court referee always wins",
-          "Automatic no-goal",
-          "Retake from center"
+          "Game continues without interruption",
+          "Goalkeeper throw for WHITE team with whistle signal",
+          "Goal for BLACK team",
+          "Free throw for BLACK team"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "The referees confer immediately. General principle: the goal referee has primary authority for decisions at their end of the court (whether the ball fully crossed the line). If the goal referee is certain, their decision prevails. If genuine uncertainty remains, the safer decision is no-goal. Communication between partners is mandatory before play resumes.  (IHF Referees' Guide, Rule 17)"
+        "topic": "rule 15",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 15.1, Rules 12:2 and 15:2.",
+        "ihf": "15.1"
       },
       {
-        "q": "During a granted team timeout, the referee sees the timekeeper never stopped the clock. Action?",
+        "q": "20 seconds before the end of the match, WHITE team is leading 20:19. Goalkeeper WHITE 12 takes his time executing a goalkeeper throw, bouncing the ball back and forth in the goal area. Correct decision?",
         "a": [
-          "Signal to stop the clock and correct time",
-          "Ignore it — play on",
-          "Restart the timeout",
-          "Add the time only at the end"
+          "Time-out",
+          "Free throw against WHITE team",
+          "Whistle signal for goalkeeper throw",
+          "2-minute suspension for WHITE 12",
+          "Show the forewarning signal for passive play"
+        ],
+        "c": 2,
+        "topic": "rule 15",
+        "why": "Correct: Whistle signal for goalkeeper throw. IHF Catalogue 2025, question 15.2, Rules 5:2, 12:2 and 15:5b.",
+        "ihf": "15.2"
+      },
+      {
+        "q": "A throw-in is awarded to WHITE team. WHITE 8 executes the throw-in as a direct shot on goal. The ball hits the goalpost and bounces back to WHITE 8, who catches the ball and scores a goal. Correct decision?",
+        "a": [
+          "Goalkeeper throw for BLACK team",
+          "Goal for WHITE team",
+          "Throw-in is retaken after whistle signal",
+          "Free throw for BLACK team"
+        ],
+        "c": 1,
+        "topic": "rule 15",
+        "why": "Correct: Goal for WHITE team. IHF Catalogue 2025, question 15.5, Rule 15:2.",
+        "ihf": "15.5"
+      },
+      {
+        "q": "Goalkeeper BLACK 12 has saved a shot on goal. He wants to immediately start a counter-attack, but drops the ball in a way that it crosses the goal line into the goal of BLACK team. Correct decision?",
+        "a": [
+          "Goal for WHITE team",
+          "Repeat the goalkeeper throw after whistle signal",
+          "Throw-in for WHITE team",
+          "Free throw for WHITE team"
+        ],
+        "c": 1,
+        "topic": "rule 15",
+        "why": "Correct: Repeat the goalkeeper throw after whistle signal. IHF Catalogue 2025, question 15.6, Rules 12:1, 12:2 and 15:2.",
+        "ihf": "15.6"
+      },
+      {
+        "q": "WHITE 6 executes a throw-in in the direction of his goalkeeper. Goalkeeper WHITE 1 notices the ball too late, and the ball crosses the goal line. Correct decision?",
+        "a": [
+          "Free throw for BLACK team",
+          "Goal for BLACK team",
+          "Goalkeeper throw for WHITE team",
+          "Repeat the throw-in for WHITE team after whistle signal"
+        ],
+        "c": 1,
+        "topic": "rule 15",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 15.7, Rules 9:1 and 15:2.",
+        "ihf": "15.7"
+      },
+      {
+        "q": "WHITE 7 executes a throw-in, and the ball hits the referee. WHITE 7 picks up the ball again and throws it into the goal of BLACK team. Correct decision?",
+        "a": [
+          "Goalkeeper throw for BLACK team",
+          "Goal for WHITE team",
+          "Free throw for BLACK team",
+          "Repeat the throw-in after whistle signal",
+          "Free throw for WHITE team"
+        ],
+        "c": 2,
+        "topic": "rule 15",
+        "why": "Correct: Free throw for BLACK team. IHF Catalogue 2025, question 15.8, Rules 7:9, 13:1a and 15:2.",
+        "ihf": "15.8"
+      },
+      {
+        "q": "Goalkeeper BLACK 12 executes a goalkeeper throw towards the goal of WHITE team. No player from either team touches the ball, and it enters the goal of WHITE team. Correct decision?",
+        "a": [
+          "Goalkeeper throw for WHITE team",
+          "Throw-in for WHITE team",
+          "Goal for BLACK team",
+          "Warning for BLACK 12 for unsportsmanlike conduct"
+        ],
+        "c": 2,
+        "topic": "rule 15",
+        "why": "Correct: Goal for BLACK team. IHF Catalogue 2025, question 15.12, Rule 15:2.",
+        "ihf": "15.12"
+      },
+      {
+        "q": "Goalkeeper BLACK 1 is executing a goalkeeper throw. The ball touches the referee and goes back to BLACK 1, who in the meantime has left the goal area. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "Repeat the goalkeeper throw after whistle signal",
+          "Free throw for WHITE team",
+          "Free throw for BLACK team after whistle signal"
+        ],
+        "c": 2,
+        "topic": "rule 15",
+        "why": "Correct: Free throw for WHITE team. IHF Catalogue 2025, question 15.16, Rules 12:2, 13:1a and 15:2.",
+        "ihf": "15.16"
+      },
+      {
+        "q": "While executing a free throw, BLACK 11 swings back his arm while moving the ball completely over the sideline. Correct decision?",
+        "a": [
+          "Game continues without interruption",
+          "Free throw for WHITE team",
+          "Throw-in for WHITE team",
+          "Free throw for WHITE team, verbal caution for BLACK 11"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "The referee must immediately signal the timekeeper to stop the clock (T signal again, whistle if needed). The elapsed time during the timeout (where it was running) should be corrected. The referee must verify the clock is stopped before the timeout huddles proceed.  (Rule 2:10)"
+        "topic": "rule 15",
+        "why": "Correct: Game continues without interruption. IHF Catalogue 2025, question 15.17, Rules 15:1 and 15:2.",
+        "ihf": "15.17"
       },
       {
-        "q": "In extra time, team timeouts per team — and do unused regulation timeouts carry over?",
+        "q": "Goalkeeper WHITE 1 stops the ball just in front of the goal line. When he tries to pass the ball to WHITE 4, the ball falls out of his hand and into his own goal. Correct decision?",
         "a": [
-          "1 per extra-time period; none carry over",
-          "1 total for all extra time",
-          "Unused timeouts carry over",
-          "2 per period"
+          "Goal for BLACK team",
+          "Free throw for BLACK team",
+          "7-metre throw for BLACK team",
+          "Repeated goalkeeper throw for WHITE team after whistle signal"
         ],
-        "c": 0,
-        "topic": "procedure",
-        "why": "Each team is entitled to 1 team timeout per period of extra time. Unused regulation timeouts do NOT carry over to extra time. Each period (first and second half of extra time) gives each team one new timeout.  (Rule 2:10)"
+        "c": 3,
+        "topic": "rule 15",
+        "why": "Correct: Repeated goalkeeper throw for WHITE team after whistle signal. IHF Catalogue 2025, question 15.18, Rules 6:4, 12:1, 12:2 and 15:2.",
+        "ihf": "15.18"
       },
       {
-        "q": "A field player acting as 'keeper' in a 7-v-6 attack fouls outside the goal area. Which rules apply?",
+        "q": "From which of the following throws is it not possible to score an own goal?",
         "a": [
-          "Field-player rules entirely",
-          "Goalkeeper rules",
-          "No sanction — keeper privilege",
-          "Referee's discretion"
-        ],
-        "c": 0,
-        "topic": "goalkeeper",
-        "why": "Field player rules entirely. A player acting as 'goalkeeper' without being in the goal area is treated as a field player in all respects — including fouls, disciplinary sanctions, and the prohibition on using the legs/feet to play the ball.  (Rule 4:8)"
-      },
-      {
-        "q": "A sub enters while the outgoing player hasn't left yet (8 on court); the sub never touches the ball. Sanction?",
-        "a": [
-          "2-minute suspension",
-          "None — no ball touch",
-          "Free throw only",
-          "Warning (yellow)"
-        ],
-        "c": 0,
-        "topic": "2min",
-        "why": "2-minute suspension for the illegally entering player — even though they didn't touch the ball. Illegal entry (court occupied by too many players) is an infraction regardless of ball contact. The outgoing player must leave first.  (Rule 4:5, 16:3b)"
-      },
-      {
-        "q": "Both teams foul at the exact same instant; one slightly more severe. Correct restart?",
-        "a": [
-          "Referee throw",
-          "Free throw to the lesser-fouling team",
-          "7-metre throw",
+          "Goalkeeper throw",
+          "Free throw",
+          "Throw-in",
           "Throw-off"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "Referee throw. When both teams commit violations simultaneously — regardless of differing severity — the correct restart is always a referee throw. There is no provision for awarding the more severe foul; simultaneity = referee throw.  (Rule 13:4)"
+        "topic": "rule 15",
+        "why": "Correct: Goalkeeper throw. IHF Catalogue 2025, question 15.22, Rules 12:2 and 15:2.",
+        "ihf": "15.22"
       },
       {
-        "q": "A substituted player re-enters from the corner area (not the sub zone) during a stoppage. Call?",
+        "q": "What is the maximum number of warnings that should be given to the officials of a team during a match?",
         "a": [
-          "2-minute suspension",
-          "Legal — play was stopped",
-          "Warning (yellow)",
-          "Free throw to opponents"
+          "None",
+          "1",
+          "2",
+          "3"
         ],
-        "c": 0,
-        "topic": "2min",
-        "why": "2-minute suspension. Players must always enter through the correct substitution zone after the outgoing player has fully left. Entry from any other boundary point is illegal entry regardless of whether play was stopped.  (Rule 4:4, 4:5)"
+        "c": 1,
+        "topic": "rule 16",
+        "why": "Correct: 1. IHF Catalogue 2025, question 16.3, Rule references: 16:1 comment.",
+        "ihf": "16.3"
       },
       {
-        "q": "Last 2 seconds, level score. On a free throw the thrower shoots from clearly inside the 9m line and scores. Result?",
+        "q": "When does the suspension time of a player start?",
         "a": [
-          "No goal — turnover, match ends level",
-          "Goal — it counts",
-          "Retake the free throw",
-          "7-metre throw"
+          "When the referee gives the hand signal for the suspension",
+          "When the suspended player crosses the sideline",
+          "When the referee whistles for the game to be restarted",
+          "When the timekeeper starts the stopwatch"
         ],
-        "c": 0,
-        "topic": "clock",
-        "why": "No goal. The free throw was executed from an illegal position (inside the 9m line). Even in the dying seconds the position rule must be enforced. The throw is awarded to the opposing team (turnover) — time expires and the match ends level.  (Rule 13:1, 15:7)"
+        "c": 2,
+        "topic": "rule 16",
+        "why": "Correct: When the referee whistles for the game to be restarted. IHF Catalogue 2025, question 16.4, Rule 16:5.",
+        "ihf": "16.4"
       },
       {
-        "q": "A player commits a serious offense just after the final whistle, still on court. Can the referee act?",
+        "q": "To whom are suspensions to be indicated?",
         "a": [
-          "Yes — authority lasts until teams leave",
-          "No — whistle already blown",
-          "Only a warning is allowed",
-          "No — the match is over"
+          "The suspended player and the scorekeeper/timekeeper",
+          "The responsible team official and the timekeeper",
+          "Timekeeper/scorekeeper",
+          "The suspended player, the responsible team official, and the scorekeeper"
         ],
         "c": 0,
-        "topic": "procedure",
-        "why": "Yes. Referee authority extends until both teams have left the facility. Post-whistle incidents on or near the court are sanctionable. Serious conduct (assault, spitting, threats) = blue card (disqualification with report). The match result is unaffected.  (Rule 16:9)"
+        "topic": "rule 16",
+        "why": "Correct: The suspended player and the scorekeeper/timekeeper. IHF Catalogue 2025, question 16.5, Rule 16:4.",
+        "ihf": "16.5"
       },
       {
-        "q": "A defender, with one foot inside the goal-area line, catches a rebound after the keeper parries a shot — no attacker was in a position to score. Call?",
+        "q": "When a player is disqualified, the team is reduced by 1 player on the court for 2 minutes, unless the disqualification is given:",
         "a": [
-          "Free throw to the attacking team — advantage gained, but no clear chance destroyed",
-          "7-metre throw",
-          "Play on — the ball was loose",
-          "Goalkeeper throw"
+          "For seriously unsportsmanlike conduct during the half-time break",
+          "For an infringement outside the court",
+          "Before the match begins",
+          "For insulting the referees"
         ],
-        "c": 0,
-        "topic": "7m",
-        "why": "Free throw. A defender who enters the goal area and gains an advantage is penalised, but a 7-metre throw applies only when the illegal entry destroys a clear chance to score. The shot was already parried and no such chance existed, so the correct restart is a free throw to the attackers.  (Rule 6:2b, 6:3)"
+        "c": 2,
+        "topic": "rule 16",
+        "why": "Correct: Before the match begins. IHF Catalogue 2025, question 16.10, Rule 16:11b.",
+        "ihf": "16.10"
       },
       {
-        "q": "An attacker breaks free one-on-one with the keeper and is pulled from behind before releasing a shot. Call?",
+        "q": "After the game, WHITE 10 shouts at the referees: “You stole the game from us, you idiots!” Correct decision?",
         "a": [
-          "7-metre throw — a clear scoring chance was destroyed",
-          "Free throw to the attacking team",
-          "Free throw plus a 2-minute suspension, no 7-metre",
-          "Play on — no shot was taken"
+          "Warning for WHITE 10",
+          "Disqualification of WHITE 10, written report (red and blue cards shown by the referees)",
+          "Written report",
+          "Warning for WHITE 10, written report"
         ],
-        "c": 0,
-        "topic": "7m",
-        "why": "7-metre throw. A foul that destroys a clear chance to score anywhere on court is punished with a 7-metre, whether or not a shot has been released. The pull from behind ends a clear chance, so a 7-metre is awarded and the foul is separately sanctioned — usually a 2-minute suspension.  (Rule 14:1a)"
+        "c": 2,
+        "topic": "rule 16",
+        "why": "Correct: Written report. IHF Catalogue 2025, question 16.14, Rule 16:11c.",
+        "ihf": "16.14"
       },
       {
-        "q": "During a broken play the goalkeeper races out of the goal area and, as a field player, clatters an attacker who had a clear path to the open goal. Call?",
+        "q": "WHITE 7 is disqualified because he has just received his third 2-minute suspension. He tries to argue with the referees and does not leave the court. Correct decision?",
         "a": [
-          "7-metre throw — a clear scoring chance was destroyed",
-          "Free throw to the attacking team",
-          "Goalkeeper throw — keepers may leave the area",
-          "No sanction — a legal challenge"
+          "No further action",
+          "WHITE team is reduced by 1 player on the court for 4 minutes.",
+          "WHITE team is reduced by 2 players on the court for 2 minutes."
         ],
-        "c": 0,
-        "topic": "7m",
-        "why": "7-metre throw. Once outside the goal area the goalkeeper is treated as a field player. Fouling an opponent who has a clear path to the goal destroys a clear scoring chance and is punished with a 7-metre, plus a personal sanction for the manner of the challenge.  (Rule 8:5, 14:1a)"
+        "c": 1,
+        "topic": "rule 16",
+        "why": "Correct: WHITE team is reduced by 1 player on the court for 4 minutes. IHF Catalogue 2025, question 16.16, Rule 16:9b.",
+        "ihf": "16.16"
       },
       {
-        "q": "An attacker charges forearm-first into a set defender, who then reacts by holding. Referees judge the attacker offended first. Call?",
+        "q": "In case of doubt, who decides about the accuracy of the timekeeping?",
         "a": [
-          "Free throw to the defending team — the attacker's offensive foul came first",
-          "7-metre throw to the attacking team",
-          "Referee throw — offsetting fouls",
-          "Play on — advantage to the attack"
+          "The timekeeper and the scorekeeper",
+          "The two referees reach a joint decision.",
+          "The timekeeper",
+          "The two referees and the timekeeper reach a joint decision."
         ],
-        "c": 0,
-        "topic": "7m",
-        "why": "Free throw to the defenders. The first offence decides the restart: an attacker who charges or pushes into a defender commits an offensive foul, so no 7-metre is possible even though the defender also held. Possession turns over to the defending team.  (Rule 8:2, 8:2c)"
+        "c": 1,
+        "topic": "rule 17",
+        "why": "Correct: The two referees reach a joint decision. IHF Catalogue 2025, question 17.4, Rule 17:9.",
+        "ihf": "17.4"
       },
       {
-        "q": "A defender fouls an opponent at midcourt just after that opponent intercepts a pass, but two defenders are still back between the ball and the goal. Call?",
+        "q": "Who is entitled to address the referees during a game?",
         "a": [
-          "Free throw to the attacking team — no clear scoring chance existed",
-          "7-metre throw",
-          "7-metre throw plus a 2-minute suspension",
-          "Play on"
+          "Every player",
+          "Every official",
+          "The responsible team official",
+          "The team captain"
         ],
-        "c": 0,
-        "topic": "7m",
-        "why": "Free throw only. A 7-metre requires that a clear chance to score has been destroyed; with two defenders back covering the goal, no such chance existed at midcourt. The foul is a simple free throw, sanctioned personally only if it was tactical or reckless.  (Rule 14:1, 14:2)"
+        "c": 2,
+        "topic": "rule 17",
+        "why": "Correct: The responsible team official. IHF Catalogue 2025, question 17.6, Rules 4:2 and 17:11.",
+        "ihf": "17.6"
       },
       {
-        "q": "A defender swings an arm across an opponent's throwing shoulder with clear force, spinning them to the floor. Minimum sanction?",
+        "q": "At the start of a match, which referee becomes the court referee, and which referee becomes the goal-line referee?",
         "a": [
-          "2-minute suspension — mandatory for reckless contact with physical impact",
-          "Yellow-card warning",
-          "Free throw only",
-          "Disqualification (red card)"
+          "The first mentioned referee becomes the court referee.",
+          "The first mentioned referee becomes the goal-line referee.",
+          "The referees use a coin toss to decide, who starts where.",
+          "The referees are free to make their own choice."
         ],
-        "c": 0,
-        "topic": "2min",
-        "why": "2-minute suspension at minimum. Actions directed mainly at the opponent's body, carried out with force or reckless disregard for safety, must be suspended. A warning would under-sanction clear physical impact; a red card is reserved for actions that endanger health.  (Rule 8:5, 16:3b)"
+        "c": 3,
+        "topic": "rule 17",
+        "why": "Correct: The referees are free to make their own choice. IHF Catalogue 2025, question 17.8, Rule 17:1.",
+        "ihf": "17.8"
       },
       {
-        "q": "On a clear fast break a defender grabs and holds the breaking attacker to stop the counter, with no attempt to play the ball. Sanction?",
+        "q": "When should the timekeeper/scorekeeper inform the referees about a violation of the Substitution Area Regulations that has not been noticed by the referees?",
         "a": [
-          "2-minute suspension — a foul that stops a fast break must be suspended",
-          "Free throw only",
-          "Yellow-card warning",
-          "7-metre throw with no personal sanction"
+          "Immediately",
+          "At the time of the next interruption of the game"
         ],
-        "c": 0,
-        "topic": "2min",
-        "why": "2-minute suspension. A tactical foul that ends a fast break or is designed only to stop the game must be punished with a suspension, not merely a warning. A 7-metre is also awarded when a clear chance is destroyed, but the suspension is mandatory in either case.  (Rule 8:6, 14:1a)"
+        "c": 1,
+        "topic": "rule 18",
+        "why": "Correct: At the time of the next interruption of the game. IHF Catalogue 2025, question 18.7, Rule references: Clarification 7B.",
+        "ihf": "18.7"
       },
       {
-        "q": "Early in the match a defender is shown a yellow card for holding. Ten minutes later the same defender commits a comparable holding foul. Correct sanction for the second?",
+        "q": "If the technical delegate interrupts the game because of a violation by WHITE team when the ball is in play, the game is restarted with ball possession by BLACK team. Correct?",
         "a": [
-          "2-minute suspension — progressive punishment escalates from the warning",
-          "Another yellow-card warning",
-          "Disqualification (red card)",
-          "Free throw only, no personal sanction"
+          "Yes",
+          "No"
         ],
         "c": 0,
-        "topic": "2min",
-        "why": "2-minute suspension. Fouls of this type are punished progressively: a warning first, then a suspension for a repeat of comparable severity. A second yellow to the same player is not permitted, so the escalation moves to a 2-minute suspension.  (Rule 8:3, 16:1, 16:3)"
-      },
-      {
-        "q": "A defender, feet set and facing the attacker, absorbs a hard chest-to-chest charge and gives no ground; the attacker bounces off and loses the ball. Correct call?",
-        "a": [
-          "No sanction — play on; blocking with the torso is legal",
-          "Free throw to the attacking team",
-          "2-minute suspension for the defender",
-          "7-metre throw"
-        ],
-        "c": 0,
-        "topic": "2min",
-        "why": "Play on. A defender may use the torso to block an opponent, with or without the ball, as long as contact is made with a giving body rather than with arms, hands or a thrust. Standing ground and absorbing the charge is legal — the attacker caused the contact, so there is nothing to sanction.  (Rule 8:1, 8:2)"
-      },
-      {
-        "q": "A player receives his third 2-minute suspension of the match. Beyond the automatic disqualification, what happens to his team?",
-        "a": [
-          "The team plays short for 2 minutes, then a substitute may enter",
-          "The team plays short for the rest of the match",
-          "A substitute enters immediately — no shorthanded time",
-          "Nothing further — only the player is affected"
-        ],
-        "c": 0,
-        "topic": "2min",
-        "why": "A third 2-minute suspension brings automatic disqualification, and a disqualification arising this way still carries the associated 2-minute team penalty. The team therefore plays a player short for two minutes before a substitute may enter; the disqualified player takes no further part.  (Rule 16:6, 16:8)"
-      },
-      {
-        "q": "As the final buzzer sounds, an attacker's shot is already in flight when a defender fouls him; the ball goes in. Result?",
-        "a": [
-          "Goal counts — and the foul is still sanctioned",
-          "No goal — time has expired",
-          "No goal, but a 7-metre is awarded",
-          "Goal disallowed, defender warned"
-        ],
-        "c": 0,
-        "topic": "clock",
-        "why": "The goal counts. A shot already released when time expires is valid if it enters the goal, and the buzzer does not wipe out a foul committed during the action — any personal sanction still stands and is recorded before the result is confirmed.  (Rule 2:4, 2:5)"
-      },
-      {
-        "q": "The final buzzer sounds as a defender hauls down an attacker who had a clear chance but had not yet shot. Correct decision?",
-        "a": [
-          "Prolong time for a 7-metre — and disqualify for destroying a clear chance if warranted",
-          "Match over — the buzzer ends everything",
-          "Free throw, taken after time",
-          "No action — the clock has expired"
-        ],
-        "c": 0,
-        "topic": "clock",
-        "why": "Time is prolonged for a 7-metre throw. A 7-metre awarded before or as time expires must be taken even with the clock at zero, and a foul that destroys a clear scoring chance is separately sanctioned — up to disqualification. The buzzer cancels neither the throw nor the discipline.  (Rule 2:5, 14:1a)"
-      },
-      {
-        "q": "With under 30 seconds left, a defender illegally stops an opponent from taking a quick throw that would create a clear scoring chance. Sanction?",
-        "a": [
-          "Disqualification plus a 7-metre throw",
-          "2-minute suspension only",
-          "Free throw and a warning",
-          "7-metre throw with no personal sanction"
-        ],
-        "c": 0,
-        "topic": "clock",
-        "why": "Disqualification and a 7-metre throw. In the final 30 seconds, an illegal action that prevents a throw or destroys a clear scoring chance to run down the clock is punished more severely than usual: the offender is disqualified and the opponents receive a 7-metre.  (Rule 8:10a)"
-      },
-      {
-        "q": "In the last minute, after conceding, the leading team's goalkeeper deliberately kicks the ball away to stop a quick throw-off. Sanction?",
-        "a": [
-          "A suspension for delaying the game — escalating to disqualification if repeated",
-          "No sanction — the clock simply keeps running",
-          "Only a free throw to the opponents",
-          "A warning is the maximum this late"
-        ],
-        "c": 0,
-        "topic": "clock",
-        "why": "Delaying an opponent's restart by kicking or throwing the ball away is unsporting conduct, sanctioned progressively. Deliberate time-wasting late in the game is punished with a 2-minute suspension, rising to disqualification for a repeat or a particularly cynical act.  (Rule 8:7, 8:8)"
-      },
-      {
-        "q": "At the final buzzer a coach storms onto the court protesting the result. How is it handled?",
-        "a": [
-          "Team-official sanction — progressive discipline against the official",
-          "The result is reviewed and may be changed",
-          "A 7-metre throw to the opponents",
-          "No action — the match is over"
-        ],
-        "c": 0,
-        "topic": "clock",
-        "why": "Sanction the team official, not the players. Officials are disciplined on the same progressive scale — warning, suspension, disqualification — and a coach entering the court to protest is unsporting conduct. Referee authority runs until the teams leave the venue, but the result itself is not open to on-court change.  (Rule 8:7, 16:9)"
+        "topic": "rule 18",
+        "why": "Correct: Yes. IHF Catalogue 2025, question 18.8, Rule references: Clarification 7B.",
+        "ihf": "18.8"
       }
     ]
   },
