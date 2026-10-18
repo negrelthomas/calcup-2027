@@ -335,6 +335,8 @@ footer a{color:#C3D0DE}
 .quiz-opt:disabled{cursor:default}
 .quiz-opt.correct{border-color:var(--green);background:#e8f6ee}
 .quiz-opt.wrong{border-color:var(--red);background:#fdecec}
+.quiz-opt.picked{border-color:var(--navy);background:#e8eef5;box-shadow:inset 0 0 0 1px var(--navy)}
+.quiz-multi{font-size:13px;font-weight:600;color:var(--navy);margin:-6px 0 10px}
 .quiz-fb{font-size:13.5px;color:#33414f;margin-top:12px;line-height:1.45}
 
 /* --- referee carousel (coverflow) --- */

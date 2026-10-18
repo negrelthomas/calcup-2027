@@ -716,15 +716,17 @@
     function postBoard(rec,cb){ saveLocal(rec); if(!boardOpen()){ getBoard(cb); return; } fetch(API,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(rec)}).then(function(r){return r.json();}).then(function(l){cb(l,true);}).catch(function(){cb(loadLocal(),false);}); }
     function shuffle(a){ a=a.slice(); for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;} return a; }
     // Rule-spread round draw: at most one question per rule until every rule has been used,
-    // then fill the remainder at random.
+    // then fill the remainder at random. At most MAX_MULTI "select all" questions per round.
+    var MAX_MULTI=5;
     function drawRound(pool){
-      var byTopic={}, chosen=[];
+      var byTopic={}, chosen=[], multi=0, cap=MAX_MULTI;
       pool.forEach(function(q){ var t=(q&&q.topic)||"other"; (byTopic[t]=byTopic[t]||[]).push(q); });
       var topics=shuffle(Object.keys(byTopic)), lists={};
       topics.forEach(function(t){ lists[t]=shuffle(byTopic[t]); });
       while(chosen.length<ROUND){ var added=false;
-        for(var k=0;k<topics.length&&chosen.length<ROUND;k++){ var l=lists[topics[k]]; if(l.length){ chosen.push(l.shift()); added=true; } }
-        if(!added)break; }
+        for(var k=0;k<topics.length&&chosen.length<ROUND;k++){ var l=lists[topics[k]];
+          for(var j=0;j<l.length;j++){ if(l[j].cs&&multi>=cap)continue; var q=l.splice(j,1)[0]; if(q.cs)multi++; chosen.push(q); added=true; break; } }
+        if(!added){ if(cap===Infinity)break; cap=Infinity; } }
       return shuffle(chosen);
     }
     var name="", qs=[], i=0, score=0, timer=null, left=per, answered=false, qStartTs=0, qElapsedMs=0;
@@ -732,7 +734,7 @@
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
-        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 25 seconds each</b>, depending on length. Questions from the IHF Catalogue of Rules Questions 2025. Add a nickname to join the weekend leaderboard.</p>'+
+        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 45 seconds each</b>, depending on length. Some questions have more than one correct answer. Questions from the IHF Catalogue of Rules Questions 2025. Add a nickname to join the weekend leaderboard.</p>'+
         '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard &rarr; win a <b>$50 CalCup merch gift card</b> &mdash; winner announced at the end of the weekend. Board closes before the Sunday finals.</div>'+
         (boardOpen()?'':'<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b> — winner announced at the concession booth. You can still play for fun!</div>')+
         '<input id="qname" class="quiz-name" maxlength="18" placeholder="Your nickname" autocomplete="off" spellcheck="false">'+
@@ -741,7 +743,7 @@
       var inp=el.querySelector("#qname"); void inp; /* no autofocus — keeps the Refereeing page at the top */
       getBoard(function(l,live){ var w=el.querySelector("#qlb"); if(w)w.innerHTML=boardHTML(l,null,live); });
       function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon"; qElapsedMs=0;
-        qs=drawRound(POOL).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why,t:q.t||per}; });
+        qs=drawRound(POOL).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:q.cs?q.cs.indexOf(idx)>=0:idx===q.c};})); return {q:q.q,opts:opts,why:q.why,t:q.t||per,multi:!!q.cs}; });
         i=0; score=0; show(); }
       el.querySelector("#qstart").addEventListener("click",begin);
       if(inp)inp.addEventListener("keydown",function(e){ if(e.key==="Enter")begin(); });
@@ -751,18 +753,34 @@
       var opts=q.opts.map(function(o,idx){return '<button class="quiz-opt" data-i="'+idx+'">'+esc(o.t)+'</button>';}).join("");
       el.innerHTML='<div class="quiz"><div class="quiz-top"><span class="quiz-count">Q '+(i+1)+' / '+qs.length+'</span><span class="quiz-score">Score '+score+'</span><span class="quiz-timer" id="qtimer">'+left+'</span></div>'+
         '<div class="quiz-bar"><div class="quiz-bar-in" id="qbar"></div></div>'+
-        '<div class="quiz-q">'+esc(q.q)+'</div><div class="quiz-opts">'+opts+'</div><div class="quiz-fb" id="qfb"></div></div>';
-      Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){b.addEventListener("click",function(){choose(+b.getAttribute("data-i"));});});
+        '<div class="quiz-q">'+esc(q.q)+'</div>'+(q.multi?'<div class="quiz-multi">More than one answer is correct. Select every correct answer, then submit.</div>':'')+
+        '<div class="quiz-opts">'+opts+'</div>'+(q.multi?'<div style="margin-top:12px"><button class="btn btn-pri" id="qsubmit">Submit</button></div>':'')+'<div class="quiz-fb" id="qfb"></div></div>';
+      Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){b.addEventListener("click",function(){
+        if(q.multi){ if(!answered){ b.classList.toggle("picked"); b.setAttribute("aria-pressed",b.classList.contains("picked")?"true":"false"); } }
+        else choose(+b.getAttribute("data-i"));});});
+      if(q.multi) el.querySelector("#qsubmit").addEventListener("click",function(){ submitMulti(false); });
       var bar=el.querySelector("#qbar"); if(bar){ bar.style.transition="none"; bar.style.width="100%"; void bar.offsetWidth; bar.style.transition="width "+q.t+"s linear"; bar.style.width="0%"; }
-      clearInterval(timer); timer=setInterval(function(){ left--; var t=el.querySelector("#qtimer"); if(t)t.textContent=left; if(left<=0){clearInterval(timer); if(!answered)choose(-1);} },1000);
+      clearInterval(timer); timer=setInterval(function(){ left--; var t=el.querySelector("#qtimer"); if(t)t.textContent=left; if(left<=0){clearInterval(timer); if(!answered){ if(q.multi)submitMulti(true); else choose(-1);} } },1000);
     }
     function choose(idx){
       if(answered)return; qElapsedMs+=Date.now()-qStartTs; answered=true; clearInterval(timer);
       var q=qs[i], ci=-1; q.opts.forEach(function(o,k){if(o.ok)ci=k;});
       Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){var bi=+b.getAttribute("data-i"); b.disabled=true; if(bi===ci)b.classList.add("correct"); if(bi===idx&&idx!==ci)b.classList.add("wrong");});
-      var ok=(idx===ci); if(ok)score++;
+      feedback(idx===ci, idx===-1);
+    }
+    // "Select all" questions: all or nothing; on time out the current selection is scored.
+    function submitMulti(timedOut){
+      if(answered)return; qElapsedMs+=Date.now()-qStartTs; answered=true; clearInterval(timer);
+      var q=qs[i], ok=true;
+      Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){var o=q.opts[+b.getAttribute("data-i")], picked=b.classList.contains("picked");
+        b.disabled=true; b.classList.remove("picked"); if(o.ok)b.classList.add("correct"); if(picked&&!o.ok)b.classList.add("wrong"); if(picked!==o.ok)ok=false;});
+      var sb=el.querySelector("#qsubmit"); if(sb)sb.parentNode.removeChild(sb);
+      feedback(ok, timedOut);
+    }
+    function feedback(ok, timedOut){
+      var q=qs[i]; if(ok)score++;
       var st=el.querySelector(".quiz-score"); if(st)st.textContent="Score "+score;
-      el.querySelector("#qfb").innerHTML='<b>'+(ok?"Correct! ":(idx===-1?"Time&rsquo;s up! ":"Nope. "))+'</b>'+esc(q.why)+'<div class="muted" style="font-size:12px;margin-top:6px">Take your time — the clock is paused while you read.</div><div style="margin-top:10px"><button class="btn btn-pri" id="qnext">'+(i+1<qs.length?"Next &rarr;":"Finish")+'</button></div>';
+      el.querySelector("#qfb").innerHTML='<b>'+(ok?"Correct! ":(timedOut?"Time&rsquo;s up! ":"Nope. "))+'</b>'+esc(q.why)+'<div class="muted" style="font-size:12px;margin-top:6px">Take your time — the clock is paused while you read.</div><div style="margin-top:10px"><button class="btn btn-pri" id="qnext">'+(i+1<qs.length?"Next &rarr;":"Finish")+'</button></div>';
       el.querySelector("#qnext").addEventListener("click",function(){ i++; if(i<qs.length)show(); else finish(); });
     }
     function finish(){
