@@ -732,7 +732,7 @@
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
-        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>'+per+' seconds each</b>. Questions from the IHF Catalogue of Rules Questions 2025. Add a nickname to join the weekend leaderboard.</p>'+
+        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 25 seconds each</b>, depending on length. Questions from the IHF Catalogue of Rules Questions 2025. Add a nickname to join the weekend leaderboard.</p>'+
         '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard &rarr; win a <b>$50 CalCup merch gift card</b> &mdash; winner announced at the end of the weekend. Board closes before the Sunday finals.</div>'+
         (boardOpen()?'':'<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b> — winner announced at the concession booth. You can still play for fun!</div>')+
         '<input id="qname" class="quiz-name" maxlength="18" placeholder="Your nickname" autocomplete="off" spellcheck="false">'+
@@ -741,19 +741,19 @@
       var inp=el.querySelector("#qname"); void inp; /* no autofocus — keeps the Refereeing page at the top */
       getBoard(function(l,live){ var w=el.querySelector("#qlb"); if(w)w.innerHTML=boardHTML(l,null,live); });
       function begin(){ name=((inp&&inp.value)||"Anon").trim().slice(0,18)||"Anon"; qElapsedMs=0;
-        qs=drawRound(POOL).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why}; });
+        qs=drawRound(POOL).map(function(q){ var opts=shuffle(q.a.map(function(t,idx){return {t:t,ok:idx===q.c};})); return {q:q.q,opts:opts,why:q.why,t:q.t||per}; });
         i=0; score=0; show(); }
       el.querySelector("#qstart").addEventListener("click",begin);
       if(inp)inp.addEventListener("keydown",function(e){ if(e.key==="Enter")begin(); });
     }
     function show(){
-      answered=false; left=per; qStartTs=Date.now(); var q=qs[i];
+      var q=qs[i]; answered=false; left=q.t; qStartTs=Date.now();
       var opts=q.opts.map(function(o,idx){return '<button class="quiz-opt" data-i="'+idx+'">'+esc(o.t)+'</button>';}).join("");
       el.innerHTML='<div class="quiz"><div class="quiz-top"><span class="quiz-count">Q '+(i+1)+' / '+qs.length+'</span><span class="quiz-score">Score '+score+'</span><span class="quiz-timer" id="qtimer">'+left+'</span></div>'+
         '<div class="quiz-bar"><div class="quiz-bar-in" id="qbar"></div></div>'+
         '<div class="quiz-q">'+esc(q.q)+'</div><div class="quiz-opts">'+opts+'</div><div class="quiz-fb" id="qfb"></div></div>';
       Array.prototype.forEach.call(el.querySelectorAll(".quiz-opt"),function(b){b.addEventListener("click",function(){choose(+b.getAttribute("data-i"));});});
-      var bar=el.querySelector("#qbar"); if(bar){ bar.style.transition="none"; bar.style.width="100%"; void bar.offsetWidth; bar.style.transition="width "+per+"s linear"; bar.style.width="0%"; }
+      var bar=el.querySelector("#qbar"); if(bar){ bar.style.transition="none"; bar.style.width="100%"; void bar.offsetWidth; bar.style.transition="width "+q.t+"s linear"; bar.style.width="0%"; }
       clearInterval(timer); timer=setInterval(function(){ left--; var t=el.querySelector("#qtimer"); if(t)t.textContent=left; if(left<=0){clearInterval(timer); if(!answered)choose(-1);} },1000);
     }
     function choose(idx){
@@ -815,7 +815,7 @@
 
     // Shared "you think you can ref?" ribbon — one source of truth for every page.
     var _rbt = document.querySelector(".refbar .refbar-txt");
-    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> 15 second rules quiz. Top the weekend board and win a <b>$50 merch gift card</b>.';
+    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> Timed rules quiz. Top the weekend board and win a <b>$50 merch gift card</b>.';
 
     // Preview gate — see PREVIEW_MODE switch at the top of this file.
     if (PREVIEW_MODE) {
