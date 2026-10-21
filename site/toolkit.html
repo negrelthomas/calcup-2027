@@ -40,9 +40,6 @@
 #tk .dot.mock{background:var(--accent)}
 #tk .dot.prompt{background:var(--court)}
 #tk .dot.live{background:var(--ok)}
-#tk nav.toc{display:flex;flex-wrap:wrap;gap:6px 16px;padding-block:14px;font-weight:600}
-#tk nav.toc a{text-decoration:none;color:var(--muted)}
-#tk nav.toc a:hover{color:var(--court)}
 #tk section{padding-block:34px;border-bottom:1px solid var(--line)}
 #tk section > p.intro{color:var(--muted)}
 #tk .survey{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,300px);gap:22px;align-items:start;margin-top:16px}
@@ -149,9 +146,7 @@
 #tk .tkcard dd{margin:2px 0 0;font-size:.95rem}
 #tk .cardgroup{font:700 1rem/1.2 var(--display);text-transform:uppercase;color:var(--ink);background:var(--accent-soft);border-radius:8px;padding:8px 12px;margin-top:6px}
 #tk #mbar{display:none}
-@media (max-width:640px){#tk nav.toc{position:sticky;top:env(safe-area-inset-top,0px);z-index:6;background:var(--bg);flex-wrap:nowrap;overflow-x:auto;gap:8px;padding-block:10px;margin-inline:-18px;padding-inline:18px;border-bottom:1px solid var(--line);scrollbar-width:none}
-#tk nav.toc::-webkit-scrollbar{display:none}
-#tk nav.toc a{white-space:nowrap;border:1px solid var(--line);border-radius:999px;padding:6px 11px;background:var(--surface);font-size:.88rem}
+@media (max-width:640px){
 #tk section{padding-block:26px}
 #tk .tktbl.has-cards{display:none}
 #tk .tkcards{display:grid}
@@ -182,8 +177,6 @@
 #tk h3{font-size:18px}
 #tk a{color:var(--accent-dark)}
 #tk .eyebrow{color:var(--accent-dark)}
-#tk nav.toc{position:sticky;top:var(--navh);z-index:6;background:var(--bg);border-bottom:1px solid var(--line);margin-inline:-18px;padding-inline:18px}
-#tk nav.toc a{color:var(--court)} #tk nav.toc a:hover{color:var(--accent-dark)}
 #tk section{border-bottom:1px solid var(--line)}
 #tk .about{padding-top:26px}
 #tk .about .lede{font-size:1.06rem;max-width:72ch}
@@ -224,12 +217,27 @@
 #tk #mbar b{font-family:var(--stencil);font-weight:400;color:var(--court);text-transform:none}
 #tk{background:rgba(246,248,250,.94)}
 #tk section,#tk .module{scroll-margin-top:calc(var(--navh) + 70px)}
-#tk nav.toc{font-size:15px}
 #tk .dlitem h3{text-transform:none}
 #tk .dlbtn{border:0}
+/* Section bar */
+#tknav{position:sticky;top:64px;z-index:40;background:linear-gradient(90deg,#0C2138 0%,#17385A 40%,#2C5B86 75%,#3D6F9C 100%);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 2px 8px rgba(12,33,56,.18)}
+#tknav .bar{display:flex;max-width:1240px;margin:0 auto;padding:0 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+#tknav .bar::-webkit-scrollbar{display:none}
+#tknav a{position:relative;flex:1 0 auto;display:flex;align-items:center;justify-content:center;padding:13px 17px;color:#fff;font:600 14.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;letter-spacing:.01em;white-space:nowrap;text-decoration:none;transition:background .15s}
+#tknav a+a::before{content:"";position:absolute;left:0;top:24%;bottom:24%;width:1px;background:rgba(255,255,255,.38);transform:skewX(-20deg)}
+#tknav a:hover{background:rgba(255,255,255,.09)}
+#tknav a.on{box-shadow:inset 0 -3px 0 #F47920}
+#tknav a.new{flex-grow:0;margin:7px 6px 7px 0;padding:6px 22px 6px 16px;background:#F47920;color:#0C2138;font-weight:700;clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);border-radius:3px 0 0 3px}
+#tknav a.new:hover{background:#FF8C3A}
+#tknav a.new.on{box-shadow:none}
+#tknav a.new+a::before{display:none}
+#tknav a:focus-visible{outline:2px solid #F47920;outline-offset:-2px}
+@media (max-width:640px){
+  #tknav .bar{padding:0 6px;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  #tknav a{padding:12px 14px;font-size:14px}
+}
 @media (max-width:600px){.hero .sub{padding-right:64px}}
 @media (max-width:640px){
-  #tk nav.toc{top:var(--navh)}
   #tk .result{position:static}
 }
 </style>
@@ -256,10 +264,11 @@
   </div>
 </section>
 
+<nav id="tknav" aria-label="Sections"><div class="bar">
+  <a href="#new" class="new">What's new</a><a href="#survey">Find your setup</a><a href="#levels">Setup levels</a><a href="#benefits">What you get</a><a href="#effort">What it took</a><a href="#fit">Which modules</a><a href="#modules">Modules and prompts</a><a href="#downloads">Downloads</a><a href="#how">How to use this</a>
+</div></nav>
+
 <main id="tk" class="wrap">
-<nav class="toc" aria-label="Sections">
-  <a href="#new">What's new</a><a href="#survey">Find your setup</a><a href="#levels">Setup levels</a><a href="#benefits">What you get</a><a href="#effort">What it took</a><a href="#fit">Which modules</a><a href="#modules">Modules and prompts</a><a href="#downloads">Downloads</a><a href="#how">How to use this</a>
-</nav>
 <section class="about" id="about">
   <p class="by">Shared by Thomas Negrel, organizer of the California Cup</p>
   <p class="lede">These are the prompts, templates and lessons we use to run the California Cup, the longest running handball tournament in the US. A lot of work went into building them, and we are sharing them so that other organizers can skip part of the time and effort it took us. If it saves you some of that, it helps the sport, which is what we care about.</p>
@@ -649,6 +658,21 @@ Ready made: the website starter in the downloads now includes this quiz with all
     function sel(){var r=document.createRange();r.selectNodeContents(pre);var s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent="Selected, press Ctrl+C";setTimeout(function(){b.textContent="Copy"},2500)}
     try{navigator.clipboard.writeText(t).then(ok,sel)}catch(err){sel()}
   });
+
+  // Section bar: mark the section in view
+  var navLinks=[].slice.call(document.querySelectorAll("#tknav a"));
+  if(navLinks.length&&"IntersectionObserver" in window){
+    var navBar=document.querySelector("#tknav .bar"),navMap={},navCur=null;
+    var spy=new IntersectionObserver(function(es){
+      es.forEach(function(e){
+        if(!e.isIntersecting)return;
+        var a=navMap[e.target.id]; if(!a||a===navCur)return;
+        if(navCur)navCur.classList.remove("on"); navCur=a; a.classList.add("on");
+        if(navBar.scrollWidth>navBar.clientWidth)navBar.scrollTo({left:a.offsetLeft-navBar.clientWidth/2+a.offsetWidth/2,behavior:"smooth"});
+      });
+    },{rootMargin:"-130px 0px -65% 0px"});
+    navLinks.forEach(function(a){var t=document.getElementById(a.getAttribute("href").slice(1));if(t){navMap[t.id]=a;spy.observe(t)}});
+  }
 
 })();
 </script>
