@@ -246,3 +246,113 @@ export function validate(model, opts){
   }
   return { mode, errors, warnings };
 }
+
+// ===== MVP / MVG voting =====
+// Voters: every named referee (Referees Master) and each team's Official A (Rosters
+// Master). One person = one email; a person holding several roles gets one ballot per
+// role, and every ballot excludes all teams that person coaches.
+// Deadline: court time of the earliest placement game for 1st place (the first final,
+// Men or Women) in Games Schedule. Placement number sits in the unnamed column right
+// after "Gr.".
+// Returns { public, private }: public goes into data.js, private (emails) is pushed to
+// the voting function and never published.
+const GK_RE=/^(GK|G|GOALKEEPER|GOALIE|GOAL)$/i;
+function pacificISO(serial){ // Excel serial (date + time fraction, Pacific wall clock) -> ISO with offset
+  if(typeof serial!=="number"||!isFinite(serial)) return null;
+  const ms=Math.round((serial-25569)*86400000); // wall clock expressed as if UTC
+  const wall=new Date(ms);
+  const fmt=new Intl.DateTimeFormat("en-US",{timeZone:"America/Los_Angeles",timeZoneName:"longOffset"});
+  const off=(fmt.formatToParts(wall).find(p=>p.type==="timeZoneName")||{}).value||"GMT-08:00";
+  const m=off.match(/GMT([+-]\d{2}):?(\d{2})?/); const o=m?(m[1]+":"+(m[2]||"00")):"-08:00";
+  return wall.toISOString().slice(0,19)+o;
+}
+const num=(v)=>{ if(typeof v==="number") return v; const n=Number(v); return isFinite(n)?n:null; };
+function shortHash(s){ let h=2166136261; for(const ch of String(s)){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619)>>>0; } return h.toString(36); }
+export function playerId(teamId,n,name){ return teamId+"|"+(n==null?"":n)+"|"+String(name).trim(); }
+
+export function mapVoting(sheets, teams){
+  const teamDiv={}, teamName={};
+  (teams||[]).forEach(t=>{ teamDiv[t.id]=t.division; teamName[t.id]=t.name; });
+  Object.keys(TEAM_ID).forEach(n=>{ const id=TEAM_ID[n]; if(!teamName[id]) teamName[id]=n; if(!teamDiv[id]) teamDiv[id]=/\bW$/.test(n)?"W":"M"; });
+
+  // --- deadline + first game ---
+  let deadline=null, finalGame=null, firstGame=null;
+  try{
+    const rows=sheets["Games Schedule"]; const {r,idx}=findHeader(rows,["Game #","Gr.","Court Time","Date"]);
+    const placeCol=idx["Gr."]+1;
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+      const no=num(val(row,idx,"Game #")); const d=num(val(row,idx,"Date")); const t=num(val(row,idx,"Court Time"));
+      if(no==null||d==null||t==null||d<40000) continue;
+      const when=Math.floor(d)+t; // a time past midnight is stored as 1.xx and rolls to the next day
+      if(firstGame==null||when<firstGame) firstGame=when;
+      const grp=String(val(row,idx,"Gr.")||"").trim().toUpperCase(); const place=num(row[placeCol]);
+      if(grp==="P"&&place===1&&(deadline==null||when<deadline)){ deadline=when; finalGame=no; }
+    }
+  }catch(e){ /* schedule unreadable: no deadline, function falls back to env VOTE_DEADLINE */ }
+
+  // --- players (from rosters) ---
+  const players=[];
+  try{
+    const rows=sheets["Rosters Master"]; const {r,idx}=findHeader(rows,["Team","Type","First Name","Last Name"]);
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+      const id=idOf(val(row,idx,"Team")); if(!id) continue;
+      if(String(val(row,idx,"Type")||"").trim().toLowerCase()!=="player") continue;
+      const name=(String(val(row,idx,"First Name")||"").trim()+" "+String(val(row,idx,"Last Name")||"").trim()).trim(); if(!name) continue;
+      const jv=val(row,idx,"Jersey"); const n=(jv==null||jv==="")?null:(isNaN(Number(jv))?String(jv).trim():Number(jv));
+      const gk=GK_RE.test(String(val(row,idx,"Position")||"").trim());
+      players.push({ id:playerId(id,n,name), team:id, n, name, div:teamDiv[id]||"M", gk });
+    }
+  }catch(e){}
+
+  // --- voters ---
+  const people={}; const missing=[];
+  function add(name,email,role){
+    name=String(name||"").trim(); if(!name) return;
+    const em=String(email||"").split(/[,;\s]+/)[0].trim().toLowerCase();
+    if(!em){ missing.push(name+" ("+role.label+")"); }
+    const key=em||("noemail:"+name.toLowerCase());
+    const p=people[key]||(people[key]={ id:"v"+shortHash(key), name, email:em||null, roles:[], exclude:[] });
+    if(!p.roles.some(x=>x.id===role.id)) p.roles.push(role);
+    if(role.team&&p.exclude.indexOf(role.team)<0) p.exclude.push(role.team);
+  }
+  try{
+    const rows=sheets["Referees Master"]; const {r,idx}=findHeader(rows,["RefID","Name","Email"]);
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+      const rid=String(val(row,idx,"RefID")||"").trim(); const name=String(val(row,idx,"Name")||"").trim();
+      if(!rid||!name||/tbd/i.test(name)) continue;
+      add(name,val(row,idx,"Email"),{ id:"ref-"+rid.toLowerCase(), type:"ref", team:null, label:"Referee", voterTeam:"Referee Crew" });
+    }
+  }catch(e){}
+  try{
+    const rows=sheets["Rosters Master"]; const {r,idx}=findHeader(rows,["Team","Type","First Name","Last Name"]);
+    const roleCol=idx["Role / Official"]!=null?"Role / Official":"Role";
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+      if(String(val(row,idx,roleCol)||"").trim().toLowerCase()!=="official a") continue;
+      const team=String(val(row,idx,"Team")||"").trim(); const id=idOf(team); if(!id) continue;
+      const name=(String(val(row,idx,"First Name")||"").trim()+" "+String(val(row,idx,"Last Name")||"").trim()).trim();
+      add(name,val(row,idx,"Email"),{ id:"coach-"+id, type:"coach", team:id, label:"Head coach, "+team, voterTeam:team });
+    }
+  }catch(e){}
+  // A referee who also coaches: the coach exclusions already sit on the same person.
+  const voters=Object.values(people);
+
+  // Row order of the MVP Voting tab (its voter rows mirror Voters Master: REF1..REF8, then
+  // one Official A per team), so the admin export pastes straight into columns C:E.
+  const sheetOrder=[];
+  try{
+    const rows=sheets["Voters Master"]; const {r,idx}=findHeader(rows,["VoterID","Voter Name","Type","Team"]);
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[];
+      const vid=String(val(row,idx,"VoterID")||"").trim(); if(!vid||vid.indexOf("---")===0) continue;
+      let role=null; const m=vid.match(/^REF(\d+)$/i);
+      if(m) role="ref-r"+m[1];
+      else { const id=idOf(val(row,idx,"Team")); if(id) role="coach-"+id; }
+      sheetOrder.push({ voterId:vid, role, team:String(val(row,idx,"Team")||"").trim() });
+    }
+  }catch(e){}
+
+  const pub={ deadline:pacificISO(deadline), finalGame, firstGame:pacificISO(firstGame),
+    voters:voters.reduce((s,p)=>s+p.roles.length,0) };
+  const priv={ deadline:pub.deadline, finalGame, firstGame:pub.firstGame, voters, players,
+    teams:Object.keys(teamName).map(id=>({id,name:teamName[id],div:teamDiv[id]})), missingEmail:missing, sheetOrder };
+  return { public:pub, private:priv };
+}

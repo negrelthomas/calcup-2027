@@ -34,6 +34,9 @@ jobs:
           SP_FILE:      2027_Calcup Master File.xlsx
           DATA_JS:      ../site/data/data.js
           CHANGED_FLAG: ${{ github.workspace }}/changed.flag
+          # MVP/MVG voting: push the private voter list to the voting function (skipped if the secret is not set)
+          VOTE_SYNC_URL: https://calcup-2027.netlify.app/.netlify/functions/vote
+          VOTE_SYNC_TOKEN: ${{ secrets.VOTE_SYNC_TOKEN }}
         run: node generate.mjs
       - name: Commit refreshed data.js (push auto-triggers Netlify)
         run: |

@@ -33,6 +33,21 @@ function mergeTeams(base, mapped){
     id:m.id, name:m.name, city:b.city||"", division:m.division, group:m.group, logo:"",
     jersey:b.jersey||null, jerseyKit:m.jersey }; });
 }
+// Push the private voter list (names, emails, roles, eligible players, deadline) to the
+// voting function. Runs on every generator run so the function always mirrors the workbook.
+// Never blocks the site deploy: any failure is a warning only.
+async function syncVoters(voting){
+  const url=process.env.VOTE_SYNC_URL, tok=process.env.VOTE_SYNC_TOKEN;
+  if(!voting||!url||!tok){ console.log("Voter sync skipped (no VOTE_SYNC_URL / VOTE_SYNC_TOKEN)."); return; }
+  try{
+    const r=await fetch(url+(url.indexOf("?")<0?"?":"&")+"op=sync",{method:"POST",
+      headers:{"Content-Type":"application/json","x-sync-token":tok},body:JSON.stringify(voting.private)});
+    const t=await r.text();
+    if(!r.ok) console.warn("Voter sync failed: "+r.status+" "+t.slice(0,200));
+    else console.log("Voter sync ok: "+t.slice(0,200));
+    if(voting.private.missingEmail.length) console.warn("VOTERS WITHOUT EMAIL (cannot sign in): "+voting.private.missingEmail.join(", "));
+  }catch(e){ console.warn("Voter sync error: "+e.message); }
+}
 async function getSheets(names){
   const li=process.argv.indexOf("--local");
   if(li>=0){ const {readLocal}=await import("./readLocal.mjs"); return readLocal(process.argv[li+1],names); }
@@ -45,6 +60,9 @@ async function getSheets(names){
   // Rosters live on an optional tab. Read separately so a missing or renamed tab never aborts the deploy.
   try{ Object.assign(sheets, await getSheets(["Rosters Master"])); }
   catch(e){ console.warn("Rosters Master not read, keeping existing rosters:", e.message); }
+  // Voters Master gives the MVP Voting row order for the vote export. Optional tab.
+  try{ Object.assign(sheets, await getSheets(["Voters Master"])); }
+  catch(e){ console.warn("Voters Master not read, vote export falls back to voter list order:", e.message); }
   // Registration list for the public "Registered teams" page. Optional tab, same safety as rosters.
   try{ Object.assign(sheets, await getSheets(["Registration 2027"])); }
   catch(e){ console.warn("Registration 2027 not read, keeping existing registration list:", e.message); }
@@ -54,6 +72,10 @@ async function getSheets(names){
     rosters: M.mapRosters(sheets),
     registration: M.mapRegistration(sheets)
   };
+  // Voting: public block (deadline) goes into data.js; voter emails go only to the voting function.
+  let voting=null;
+  try{ voting=M.mapVoting(sheets, model.teams); }
+  catch(e){ console.warn("Voting data not built, keeping existing voting block:", e.message); }
   const audit=M.auditTeams(sheets);
   const {mode,errors,warnings}=M.validate(model,{mode:resolveMode(), audit});
   if(warnings.length){
@@ -73,6 +95,8 @@ async function getSheets(names){
   out.scorers=model.scorers;
   if(model.rosters) out.rosters=model.rosters;
   if(model.registration) out.registration=model.registration;
+  if(voting) out.voting=voting.public;
+  await syncVoters(voting);
   const header="/* AUTO-GENERATED from 2027_Calcup Master File.xlsx. Do not edit by hand. */\n";
   const body="window.CALCUP = "+JSON.stringify(out,null,2)+";\n";
   const next=header+body;

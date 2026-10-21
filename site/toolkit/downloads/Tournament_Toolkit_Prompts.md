@@ -3,20 +3,46 @@
 Prompts work in Claude, ChatGPT or any capable AI. Fill the [BRACKETS]. Start with M0.
 
 
-# M0 Tournament Context
+# M0 Start Here: Setup Review and Tournament Context
 
-Use this first, once. Every other prompt in the toolkit assumes the AI already has this context.
+Step 1 is a review of where you stand. Prompt 1 asks whether you already run a tournament or are starting from scratch, then takes a different path for each: for an existing event it reviews your files, website and messages; for a new event it interviews you. Both paths end with a plan sized to the time you have and how far you want to go, and a list of legal and compliance points to check. Step 2 (Prompt 2) gives the AI your tournament facts once, so every later prompt can use them.
 
-## How to use it with your AI
+Works in: any chat AI. The review is better with file upload (workbook, invitation, past emails) and web browsing (your website); without browsing, paste the text of your pages.
+
+## Before you start
+* Remove bank details, card numbers, passwords and players' personal data from anything you upload. The review does not need them.
+* The legal section flags points to check; it is not legal advice. Confirm anything important with your federation, your insurer, the venue or a lawyer.
+
+## Prompt 1: Setup review (run this first)
+You are an experienced tournament organizer and operations reviewer. Help me assess my handball tournament setup and plan improvements. Work in steps and wait for my answers at each step.
+
+Step 1. Ask me one question: do I already run this tournament (and want to improve it), or am I building one from scratch? Then follow path A or path B.
+
+Path A, existing tournament:
+1. Ask me to share what I have: workbook or spreadsheets, invitation and registration form, website link or page text, recent emails to teams, budget, schedule, rules, waivers, sponsor material. Ask how many teams, editions, organizers and volunteers.
+2. Review everything I share. For each area (format and schedule, registration and payments, communication, visuals, website and results, referees and volunteers, merch and concessions, livestream, committee and handover, sponsors and funding, venue, compliance and awards), rate it as working, needs work or missing, with one line of evidence from my files.
+3. Point out duplicated data (the same list kept in several places), manual steps that repeat every week, and anything that depends on one person only.
+
+Path B, new tournament:
+1. Interview me in short rounds: dates and city, expected teams and divisions, venue status, budget and entry fee, who helps me, federation and sanctioning, what success looks like for the first edition.
+2. Tell me what a first edition needs at minimum and what can wait for year two.
+
+Both paths, then:
+4. Ask me two questions: how many hours I can put in before the event, and how far I want to go (Level 0: my current spreadsheet plus AI for writing; Level 1: one master workbook; Level 2: workbook plus a public website; Level 3: full automation with an AI agent).
+5. Give me a plan that fits those hours: the 5 to 10 actions with the most impact, in order, each with the time it takes, the cost, the owner role and the toolkit module to use (M1 to M12). Start with the quick wins. Say clearly what to leave out if time is short.
+6. Flag legal and compliance risks you can see in what I shared, or that apply to what I described, with severity (high, medium, low) and the question to ask and to whom. Check at least: sanctioning and membership rules; event liability and participant accident insurance, and the certificate the venue requires; participant waivers and parental consent for minors; safeguarding rules for adults working with minors; photo and video consent, including on the livestream; personal data published on the website or shared in emails (use Bcc for group emails); payments collected into personal accounts instead of a club account, refunds and cancellation policy; sales tax or permits for merch and food; music licensing in the venue and on the stream; use of federation, sponsor or other logos; vendor and venue contracts (cancellation, liability, automatic renewal); invitation letters and entry requirements for foreign teams and referees. Say when a point depends on my state or federation, and that this is not legal advice.
+7. End with a one page summary: where I stand, the plan, the risks, and the next three actions for this week.
+
+Rules: base every finding on what I shared or told you; do not invent facts about my event. When a file is missing, say what you could not check. Do not send anything on my behalf.
+
+## How to use the context prompt (Prompt 2)
 
 * Claude: create a Project, paste the filled block into the project instructions, and upload your workbook and logos to the project. Every chat in that project starts with the context.
 * ChatGPT: create a Project (or a custom GPT), paste the block into its instructions, and upload the same files.
 * Any other AI: paste the block at the top of each new conversation.
 * Update the block when a fact changes (dates, fees, venue). It is your single source of truth; do not correct facts chat by chat.
 
-Works in: any chat AI.
-
-## Prompt (fill the brackets, then save as instructions)
+## Prompt 2: Tournament context (fill the brackets, then save as instructions)
 
 You are helping me organize a handball tournament. Use these facts in everything you write. If a fact you need is missing, ask me instead of inventing it.
 
@@ -77,6 +103,8 @@ Typical time: 2 h to set up, then 15 minutes a week.
 ## Lesson from CalCup
 Rosters arrived at the end of December and too many payment follow ups were needed. Fixed deadlines that reopen the slot if unpaid work better than repeated reminders.
 
+A single flat fee with a single deadline gives a team no reason to decide early, so most of them decide late and the deadline moves. CalCup 2027 ran one price of $850 with an October 15 deadline, reached seven confirmed teams by that date and had to extend. Price the deadline instead of only announcing it: an early rate, a standard rate and a late rate, published together from the first invitation. The gap between tiers has to be large enough to be worth a club meeting, and small enough that a late team still enters. Roughly 5 to 10 percent per step works. Tiers also give the organiser something to say in every follow up that is new information rather than another reminder, and they pull deposits forward, which matters when the format depends on how many teams have paid.
+
 ## Prompt 1: Registration tracker design
 Design a registration tracker as one table. One row per team. Columns: Club, Team name, Division, Contact name, Contact email, Status (Invited, Interested, Confirmed, Withdrawn), Fee due, Amount paid, Payment date, Payment method, Balance (formula), Roster received (Y/N), Notes. Give me the column list, the formulas, and conditional formatting rules that highlight unpaid balances after [DEADLINE].
 
@@ -95,6 +123,12 @@ Write the roster and eligibility rules for our tournament: membership in [FEDERA
 ## Prompt 6: Invitation letter for international teams
 Draft an official invitation letter for [TEAM, COUNTRY] to attend our tournament on [DATES] at [VENUE], signed by [NAME, ROLE] of [HOST CLUB]. Include the purpose of the trip, dates, the fact that participants cover their own travel and lodging unless stated otherwise, and the contact for verification. Keep it factual: embassies read these letters to confirm that the event exists.
 
+## Prompt 7: Tiered entry pricing
+Our entry fee is [AMOUNT] per team and our event is on [DATES]. Build a three tier price schedule that rewards early entry: an early rate closing [EARLY DEADLINE], a standard rate closing [STANDARD DEADLINE], and a late rate after that. Propose the three amounts and the two cut off dates, keeping the standard rate at our current fee so we are not raising prices overall. For each tier give the deposit due at confirmation and the balance due date. Then tell me what each tier is worth to us if [N] teams enter: total entry income per scenario, and how many teams would have to move from late to early for the schedule to pay for itself. Finish with the four lines of copy we put on the invitation, the website and each follow up, stating all three tiers together so a club can see what waiting costs.
+
+## Prompt 8: Tier deadline enforcement
+We published the tier schedule from prompt 7. A team has asked to pay the early rate after the early deadline. Draft a reply that holds the published price without losing the team, and give me the one rule we apply to every similar request so the schedule stays credible. Then list the three cases where an exception is worth making, and the wording that frames each one as an exception rather than a new price.
+
 
 # M3 Communication and Local Media
 
@@ -106,6 +140,7 @@ Typical time: 3 to 5 h to build the calendar and templates; each later message t
 * A fixed communication calendar with templates replaced messages written from scratch each cycle.
 * Designed emails with images must be tested by sending to yourself and opening the received email. Draft previews do not show what recipients get.
 * WhatsApp works better than email for players; email remains the record for captains and payments.
+* Past participants are not the whole market. When entries were slow, CalCup built a prospect list from the national federation's public club directory, added the nearest airport for each club, and sent a late invitation that showed the teams already registered and how many more entries would change the format.
 
 ## Part A: Teams and participants
 
@@ -123,6 +158,9 @@ Write the info pack for confirmed teams: schedule link, arrival and check in, pa
 
 ### Prompt 5: Post event message
 Write a thank you message to teams, referees and volunteers with the final results [PASTE RESULTS], the award winners, a link to photos, and a request for feedback through [FORM LINK].
+
+### Prompt 5b: Prospect list from the federation club directory
+From the public club directory of [NATIONAL FEDERATION] (I will paste it or give the link), build a prospect table: club name, club type (adult, youth, college), city, state, website or social page, nearest major airport, rough travel time or flight time to [VENUE CITY], already invited (yes or no), and notes. Remove clubs that are not eligible for our tournament [ELIGIBILITY RULES]. Sort by travel time. Then write a short late invitation for the clubs not yet contacted that states the entry deadline, the teams registered so far, and how many more confirmed entries in each division change the format. Use only public information and do not guess contact emails.
 
 ## Part B: Local media
 
@@ -196,7 +234,7 @@ Write a script (or step by step design instructions) for an 11x17 inch poster: h
 What it solves: one link (and one QR code in the gym) where players and families find the schedule, results, standings, scorers and visitor information.
 Levels: 2 and 3. Works in: code capable AI; Level 3 needs an agent that can operate git.
 Typical time: 20 to 30 h for Level 2 the first year; Level 3 adds automation and more upkeep.
-Status: the website starter is in the downloads. It was built and tested end to end with mock data (workbook, converter, site, update after a new result) and has not yet been used in a live tournament.
+Status: the website starter is in the downloads. It was built and tested end to end with mock data (workbook, converter, site, update after a new result) and has not yet been used in a live tournament. Since October 21, 2026 it also includes the referee rules quiz and flashcards (IHF Catalogue 2025) and secured MVP and MVG voting, both tested with mock data and running on the CalCup 2027 site.
 
 ## How it works at CalCup
 * The master workbook is the only place where results are typed.
@@ -207,6 +245,8 @@ Status: the website starter is in the downloads. It was built and tested end to 
 * Keep one source of truth. Never edit the website data by hand while the workbook is also being updated.
 * Keep the site folder out of synced folders (OneDrive, Dropbox, Google Drive). Sync tools corrupt git repositories.
 * A strict validation step (for example "exactly 13 teams") will block updates when the real world changes. Make checks warn rather than fail.
+* MVP and MVG voting is the one award task the website does much better than paper. Each head coach (Official A) and each referee receives a personal signed link, votes once from a phone, and the server checks eligibility (no vote for one's own team, goalkeepers only on the MVG ballot) and counts the points. Results are ready the moment voting closes, which matters when the ceremony starts minutes after the last final. It needs the site to run Netlify Functions, so deploy from GitHub (Level 3) or with the Netlify CLI; a drag and drop upload does not run them.
+* Content written by hand (club news, announcements) must live outside the generated data file. CalCup keeps a short news list in the site script, newest first, because the data file is overwritten every time it is regenerated from the workbook.
 
 ## Prompt 1: Site plan
 Using our tournament context, propose a simple static website: pages, what each shows, and the data each needs. Required: home, schedule, standings, top scorers, teams, visitor info, watch live. Mobile first. No login, no database. All data from one data file.
@@ -219,6 +259,9 @@ Write a script that reads our workbook [FILE, TAB NAMES, HEADER ROWS] and writes
 
 ## Prompt 4: Game sheet to workbook (photo)
 Attached is a photo of a completed game sheet. Read both team names, the final score and each player's goals. Find the matching game in the workbook. Propose the entries in a table and flag any difference between the sum of player goals and the final score. Do not write to the file until I approve.
+
+## Prompt 6: Set up MVP and MVG voting
+I use the toolkit website starter with its voting module (vote.html, vote-admin.html, netlify/functions/vote.mjs; see the README section "MVP and MVG voting"). Help me set it up for [TOURNAMENT]. First check our Rosters Master: every team has one Official A with a name, and every goalkeeper has Position GK; list what is missing. Then walk me through adding VOTE_ADMIN_TOKEN in Netlify and testing the vote with a new round afterwards. From the ballot links CSV I download from the admin page, prepare one short email per voter with their personal link, the awards, the point system (3, 2, 1, no vote for one's own team) and the closing time [TIME]. Save them as drafts for me to review; do not send anything.
 
 ## Prompt 5: QR code
 Generate a QR code for [URL] as a high resolution PNG and SVG, and a one page A4 and letter sign: "Schedule and results" above the code, the URL in text below it.
@@ -235,7 +278,14 @@ Typical time: 2 to 4 h to set up.
 * Referee travel windows (for example no departure before late Sunday afternoon) must be in writing early; schedules should not be changed for flights.
 * Local player referees create conflicts of interest in scheduling; track them explicitly.
 * Do not rely on volunteers for referee transport; budget a rental car.
-* Coordinate with your national referee committee early; late coordination created avoidable work.
+* Coordinate with your national referee committee early; late coordination created avoidable work. For a sanctioned event, expect the committee to want a say in nominations, and expect pushback if you bring referees from abroad who are not clearly above the level available at home.
+* Do not assume a central contact exists. For several weeks in fall 2026 CalCup had no national referee committee contact while the role changed hands, and there is no shared bank of referee contacts in the US. Each organizer has to source pairs through their own network, returning referees and neighboring regions. Keep your own referee contact list (name, level, home city, availability, past events) in the workbook Referees tab, and update it after every event so next year starts from it.
+* A mix worked for CalCup: one top international pair plus regional pairs, starting with returning pairs who know the event.
+* Ask referees to book flights as soon as they confirm. Fares rise as the dates get closer, and flights are usually the largest referee cost. Ask them not to book a return flight before the finals end.
+* Put the package in writing before anyone books, so every pair gets the same terms. What CalCup covers per pair: 2 hotel nights with one room per pair; a food stipend of $55 per referee per day; one compact rental car per pair, used on site and for the drive to the airport on the last day; a standard rideshare (UberX) from each referee's home to their departure airport. State what is not covered (extra nights, upgrades, a second car) and how expenses are claimed and paid.
+* Celebrate your own referees in public (a club news item and a social post when one gets a major appointment) and point readers to your referee quiz and a contact. It costs little and is a recruitment channel.
+* Do not write your own rules questions. CalCup first used questions written in house, and a national level referee found errors in them. The quiz and flashcards now use only the official IHF Catalogue of Rules Questions (2025 edition) with its official answer key, and every explanation cites the catalogue number and the rule. Referees trust a source they already study from.
+* If you attach a prize to a quiz leaderboard, decide first how scores are verified. A page that sends its own score to the server can be faked, and one person can post under many names. CalCup paused its prize board in October 2026 to add email verification, server side scoring and a rule that certified referees cannot win. Not yet built or tested.
 
 ## Prompt 1: Referee needs
 From our schedule, calculate how many referee pairs we need so that no pair works more than [N] games a day or [N] games in total, with at least one game of rest between two assignments. Show the result for 4, 5 and 6 pairs.
@@ -258,10 +308,55 @@ Write a one page briefing for scorekeepers and timekeepers: game sheet fields, t
 * Post the nearest emergency room address at every court.
 
 ## Prompt 6: Referee rules quiz (Level 2 and 3)
-Build a single page web quiz on handball rules for referee recruitment and training. 15 questions drawn at random from a pool of [N], a countdown per question, a short rule explanation after each answer, and a final score. Count only decision time (from question shown to answer clicked) so reading the explanation is not penalized. Questions must cite the current rules of the game; mark any question you are unsure of so I can check it against the official text.
+Build a single page web quiz on handball rules for referee recruitment and training. Use only questions from the official IHF Catalogue of Rules Questions, current edition, which I will provide as a file: keep the question text, options and official answer key unchanged, and do not write or reword any question. Each round draws 15 questions with at most one per rule, so a round covers 15 rules. Include questions with more than one correct option as "select all that apply", scored all or nothing, and cap them at [N] per round. Set the time per question from its length (for example 4 words a second plus 2 seconds per option on select all questions, between 15 and 45 seconds). After each answer, show every correct option, the catalogue question number and the rule references. Count only decision time (from question shown to answer submitted) so reading the explanation is not penalized, and end with a final score. Then build a flashcard page from the full catalogue, grouped by rule.
+
+Ready made: the website starter in the downloads now includes this quiz with all 408 questions of the 2025 Catalogue that suit a timed round, the 430 question flashcards and the leaderboard, credited to the IHF. Use the prompt only if you build your own version or need a new edition of the Catalogue.
 
 ## Prompt 7: Referee partnership request
 Draft a request to [NATIONAL OR REGIONAL REFEREE COMMITTEE] asking for support with referee assignments for our tournament on [DATES]: number of games, number of pairs needed, what we cover (travel, lodging, meals, fees), and the deadline to confirm. Ask whether the tournament can count toward referee development or evaluation. Short, formal, factual.
+
+## Prompt 8: Referee offer and travel package
+Draft the written offer we send to each confirmed referee pair for [TOURNAMENT, DATES, CITY]. Include: games expected per day, arrival and departure windows (no return flight before [TIME] on the last day), flights (who books, fare limit, book within [N] days of confirming), hotel ([N] nights, one room per pair), food stipend ([AMOUNT] per referee per day), local transport ([CAR TYPE], one car per pair, also used to return to the airport, plus a rideshare from home to the departure airport), fee if any, what is not covered, and how expenses are claimed and paid. Then build a one page cost table per pair and in total for [N] pairs, with flights as an input I fill in.
+
+## International referees (for example a European pair)
+A top international pair raises the level of the event and gives teams a reason to come. It also costs more and takes longer to secure than a regional pair.
+
+When to start: at least six months before the event. January and February clash with the international calendar (world and continental championships, national league games), and referees at the top level are often committed elsewhere. CalCup lost a confirmed pair to a championship in the same window, so keep a second option open until flights are booked.
+
+Who to target: referees from a first or second national division. If your national referee committee is involved, expect it to object to foreign referees who are not clearly above the level available at home; aim high enough that the choice is easy to defend.
+
+Clearance comes first: elite referees (first or second division) need clearance from their national referee commission before they can officiate abroad. Contact that commission at the start, before or at the same time as any approach to individual referees. It can recommend available pairs, speed up the approval and coordinate with the referees' calendar. Going around it creates friction: a commission that learns about the invitation from the referees may delay or refuse the clearance, and the relationship matters for future editions.
+
+How to reach out, in order:
+* The national referee commission of the country you are targeting: a short formal request for clearance and, if they are open to it, a recommendation of a pair.
+* Your own network: club members, coaches and players with ties to a European federation or club, who can introduce you to the commission or to referees.
+* Pairs who have refereed your event before, and the referees they recommend, always copying or informing their commission.
+* A regional referee association, as a complement.
+
+Share a one page visual pitch with every contact. A single slide with the dates, the city, the level of play, the number of games and what you cover saves long explanations, and the commission can forward it to its referees as is.
+
+How to pitch it: the level and format of play (number of teams, international clubs, games per day); the experience (a well organized event, a full schedule of meaningful games, finals); what you cover; the dates and the time commitment; and the visibility (streamed games, a written evaluation or thank you letter they can use in their file). Keep it short, factual and specific.
+
+What to ask for: current division and international grade; availability for all days including travel; home airport and an indicative economy fare; whether their clearance request is already with their national referee commission; whether they hold an ESTA or a visa; dietary needs; and a reply date.
+
+What changes in the package: add one extra hotel night (3 nights instead of 2) to absorb the long flight and the time difference. Flights are economy, booked as soon as the pair confirms. Check entry requirements early: a travel authorization may not cover paid work, so confirm with the referees whether a fee or only expenses applies, and provide an invitation letter on club letterhead if they need one.
+
+Extra days: invite the referees to add a few days before or after the event to enjoy the host city, at their own cost: you pay the fare for the event dates, and any fare difference and the extra nights are theirs. It makes the invitation more attractive at no cost to the budget. Send a short guide of things to see and do nearby with the offer.
+
+## Prompt 9: International referee outreach
+Write a short, formal message to [REFEREE DEPARTMENT, ASSOCIATION OR REFEREE] inviting a [DIVISION] referee pair to our tournament [NAME, DATES, CITY, COUNTRY]. Include: the level and format of play, number of games per day, what we cover ([N] hotel nights, one room per pair, [AMOUNT] food stipend per person per day, economy flights, rental car, transfer to the airport), and that we provide an invitation letter. Ask for: current division and international grade, availability including travel days, home airport, whether their clearance from their national referee commission is in place or requested, entry documents held, and a reply by [DATE]. Under 200 words. Then give me a version in [LANGUAGE].
+
+## Prompt 10: Referee pipeline tracker
+Build a simple tracker for referee sourcing with one row per pair: source (network, returning, federation, association), level, home city or country, date contacted, status (contacted, interested, confirmed, declined), reason if declined, flights booked (yes or no), estimated cost, and next action with a date. Add a summary of pairs confirmed against pairs needed, and flag any confirmed pair without flights booked after [N] days.
+
+## Prompt 11: Referee clearance request
+I want to invite a [DIVISION] referee pair from [COUNTRY] to officiate at our tournament [NAME, DATES, CITY]. First, tell me which body grants clearance for that country's referees to officiate abroad (usually the national referee commission of the national federation), how to find its current official contact on the federation's website, and whether the continental federation also needs to be informed. Do not guess an email address; tell me where to verify it. Then draft a short formal request to that commission: who we are, the event and its level, the number of games, what we cover, and our request for clearance for a named pair or, if they prefer, a recommendation of an available pair. Ask about their process and lead time. Under 200 words, with a version in [LANGUAGE].
+
+## Prompt 12: One page referee pitch slide
+Using our tournament context [PASTE] and visual spec [PASTE], design one slide (16:9, also exportable as PDF and image) that a referee commission can forward to its referees. Content: event name and edition, dates, city and venue, level and format (teams, international clubs, games per day, finals), what we cover (flights, hotel nights, food stipend, rental car, airport transfer), the option to extend the stay at their own cost, and one contact. Large, readable text, no paragraphs, logo and one photo.
+
+## Prompt 13: Local guide for visiting referees
+Write a one page guide for visiting referees who extend their stay around [CITY] for [N] days in [MONTH]: 8 to 10 things to see or do within [DISTANCE] of the venue (landmarks, nature, food, a sports experience), each with one line on why it is worth it, rough time needed and rough cost. Add two day trip ideas, practical tips (transport, weather that month, tipping) and a note that suggestions should be checked for opening days and hours before going.
 
 
 # M7 Merch and Concessions
@@ -276,6 +371,10 @@ Typical time: 4 to 8 h for merch (design, quotes, preorder); 2 h for concessions
 * Ask vendors for a written quote with unit price by quantity break, setup fees, proof process, production time and shipping date. Get the in hand date in writing.
 * Mockups from image generators are good enough to sell a preorder; the production file for embroidery or print is a separate, exact vector file.
 * Bundles (hoodie plus hat, food plus drink) raise the average sale at concessions.
+* Custom cut and sew items (made in your colors, not printed on a stock blank) come with a factory minimum order quantity. Ask for it in the quote, set it as the preorder target, and say in the announcement that the item is produced only if the minimum is reached. Stock items with printing or embroidery usually have low minimums and are the safer choice when demand is uncertain.
+* Preorders come in slowly and late. CalCup reached about a quarter of its 50 unit minimum after several weeks and had to extend the close date and run a second push to teams and alumni. Set the first close date early enough that one extension still meets the vendor's production deadline, and show progress against the target (for example "14 of 50") in every reminder.
+* Get a physical sample before opening preorders and publish the sizing on the order page. The CalCup sample ran one full size large, which led to a "order one size down" notice, a size chart and a confirmation message to every buyer who had already ordered.
+* Ask buyers to put their name and the item in the payment memo. Payments are reconciled by hand, and a generic memo cannot be matched to an order.
 
 ## Prompt 1: Cost model
 Build a merch cost model in a spreadsheet. Inputs per item: blank cost, decoration cost, inbound freight, delivery buffer, retail price. One time costs: setup and proofs. Outputs: unit cost, unit margin, break even quantity, and total profit at [N1], [N2], [N3] units sold. Include a bundle line. Show the formulas.
@@ -300,6 +399,9 @@ Our merch design is [DESCRIPTION, COLORS WITH HEX OR PANTONE]. Write the product
 
 ## Prompt 8: Prepaid cards and bundles at the stand
 Propose a prepaid card system for the concession stand (for example a $25 card with a small bonus value) and three bundles, with the cash handling rules, how to track card balances simply, and the poster text for each offer.
+
+## Prompt 9: Minimum order push
+Our [ITEM] needs [MINIMUM] units for the factory to produce it, and we have [CURRENT] orders with [DAYS] days left before [CLOSE DATE]. Write a follow up for email and a shorter version for WhatsApp: why the minimum exists, the progress so far, prices, the sizing advice, how to order and pay (name and item in the payment memo), and what happens if the minimum is not reached. Factual and short, no guilt or pressure language. Add one line asking readers to forward it to former players.
 
 
 # M8 Livestream and Highlights
@@ -407,6 +509,7 @@ Typical time: 2 to 4 h, mostly early in the planning.
 * Sanctioning and membership requirements belong in the invitation, not in a reminder a week before the event.
 * Awards named after people who built the event give the ceremony meaning and keep the history alive.
 * Run the ceremony to a written timeline, before teams start leaving for their flights.
+* Publish the voting rules for individual awards before the event (who votes, the point system, no vote for one's own team) and present them at the technical meeting. CalCup's rules: each head coach (Official A) and each referee votes; MVP for field players, MVG for goalkeepers; 1st, 2nd and 3rd choice worth 3, 2 and 1 points; ties broken on the number of 1st choices. If you have a website, the starter's voting module applies these rules and counts the votes (see M5); without one, the MVP Voting tab of the workbook does the count from paper ballots.
 
 ## Prompt 1: Venue request and checklist
 Draft a venue rental request to [VENUE] for [DATES AND HOURS]: number of courts, goals and nets, scoreboards, tables and chairs, locker rooms, spectator seating, parking, food rules, setup and teardown windows, insurance certificate requirements, and cost. Then give me a checklist of what to confirm in writing before signing.
@@ -430,7 +533,7 @@ Write a 20 minute run of show for the closing ceremony: timing, who speaks, awar
 # M12 Audio Identity and Game Day Sound
 
 What it solves: giving the tournament a recognizable sound in the gym and on the stream (intros, stingers, announcer voice, stream music) with every track properly licensed.
-Levels: all; most useful from Level 2, when the event is streamed. Works in: any chat AI; web search for prompt 3; an AI music tool for prompt 7.
+Levels: all; most useful from Level 2, when the event is streamed. Works in: any chat AI; web search for prompts 3 and 9; an AI music tool for prompt 7.
 Typical time: 3 to 6 h to define the identity and source the assets; 1 h to set up the game day playlist.
 
 ## Lessons from CalCup
@@ -438,6 +541,10 @@ Typical time: 3 to 6 h to define the identity and source the assets; 1 h to set 
 * Sourcing music and sound effects from one licensed library meant the same tracks could be used in the gym, on the livestream and in highlight videos without copyright claims.
 * Keep one folder with every audio file and its license certificate. When a platform flags a video, the certificate resolves it.
 * Never play commercial radio songs while the stream is live. If in doubt, mute the stream audio during that moment.
+* Streaming apps are not a source for the gym. Spotify, Apple Music and YouTube Music are licensed for personal listening only, so they cannot be played to a public crowd, even through DJ software such as Serato, and their tracks are the ones the stream's copyright check catches.
+* The gym audio reaches the stream through the camera microphones. YouTube checks live streams in real time and can mute the audio, replace the picture or end the broadcast within seconds, with no review window. A few seconds of a commercial track are enough. YouTube's own Creator Music program does not cover live streams.
+* A paid plan does not always mean clean files. In 2026 CalCup paid for Artlist but its downloads carried a spoken watermark, because the plan had no music tier. Clean music files on Artlist need a plan that includes music (Music Pro or Music and SFX Pro). Its license covers music inside your videos and streams; it does not by itself cover playing tracks over the gym speakers.
+* Tracks for events average just over two minutes, so six to seven hours of game day music takes about 175 tracks, not 70 to 100. Plan blocks by moment of the day rather than one long list.
 
 ## What an audio identity usually includes
 * Main theme (30 to 60 seconds) for openings, team introductions and the ceremony; one version per division if you want them distinct
@@ -459,11 +566,21 @@ Typical time: 3 to 6 h to define the identity and source the assets; 1 h to set 
 | Option | Typical cost | Notes |
 |---|---|---|
 | Free library tracks | $0 | Check each license; fine for warm up and stream breaks |
+| StreamBeats albums (stream cleared) | $0 | Cleared for live streams, replays and clips; ask the label in writing about playing over the venue speakers |
 | Music library subscription | About $10 to $17 a month on annual billing; more on monthly billing | Personal plans often exclude monetized channels and commercial use; for a club event with sponsors, the commercial or "unlimited" tier is the safer choice |
 | Single track license | About $15 to $80 per track | Good when you only need a theme and a few stingers |
 | Custom theme or jingle | About $150 to $1,500 | Depends on length, stems, revisions and ownership |
 | Voice over pack (event intro, team intros, sponsor reads) | About $25 to $150 on marketplaces; $150 to $500 for professional talent with broadcast usage | Ask for separate files per line and a pronunciation check |
 | Sound gear (powered speaker, small mixer, cables) | Often borrowed from the venue or a member; renting about $50 to $150 a day | Confirm what the venue provides before buying |
+
+## Free music you can stream cleanly
+What CalCup 2027 settled on after testing the options (prepared for January 2027, not yet used live):
+* StreamBeats by Harris Heller: free, no credit required, and kept cleared on YouTube Content ID and Twitch by the label, so the stream is not muted and the clips you cut from it are not claimed. The license covers the live stream, the replay and clips. The catalog is mostly hip hop, electronic, lofi and rock in a modern produced sound, which fits warm ups and game breaks. Whole albums download as files from the label's Bandcamp page at $0 or from its public Google Drive.
+* The CalCup game day list uses six full albums in six blocks, 175 tracks and 6 h 43 min in total: doors and setup (Bounce), team warm ups (Supreme), two game rotation blocks (Drop, Ignition), peak energy for the semifinals (Pulse), and finals and awards (Stage).
+* One gap to close in writing: the StreamBeats license is written for streams and videos and does not say whether you may play the tracks over the venue speakers. Ask the label (licensing@streambeats.com) for a short written confirmation for a free amateur tournament. If they decline, Kevin MacLeod's library (Incompetech) allows live events with a credit.
+* Play from downloaded files on a laptop, in an offline player or DJ software crates, never from a streaming app or the gym Wi Fi. Keep a backup copy on a phone.
+* Run a private test stream with the playlist a few weeks before the event and check it for copyright claims. Do the same after any change to the list.
+* If you want an exclusive theme or announcer voice on top, the paid options below apply; the free library covers the hours of background music.
 
 ## Licensing for the venue and the stream
 * Streaming: confirm in writing that your plan covers live streams and monetized channels, and register your channel with the library when it offers channel clearance, so automated copyright systems do not flag the stream.
@@ -493,6 +610,9 @@ Write prompts for [AI MUSIC TOOL] to generate a 60 second instrumental sports th
 
 ## Prompt 8: Game day sound setup
 List what we need to run sound in a gym of [SIZE] with [N] courts: speakers, mixer, cables, a laptop or tablet with a soundboard app that plays cues with one tap, a backup on a phone, and a test plan the day before. Include who runs sound on each shift and how they coordinate with the table crew and the stream.
+
+## Prompt 9: Stream safe game day playlist
+Build the background music plan for our tournament: [DAYS], about [HOURS] of music per day, played over the gym speakers and picked up by our live stream on [PLATFORM]. Use only music that is free or that we already license [LIBRARY OR NONE], and that is cleared for live streams, replays and clips cut from them. Search the web for the current license terms of each source you propose and quote the clause that covers streaming and the clause on public playback; flag any source whose terms do not mention playback to a live audience. Organize the music in blocks by moment of the day (doors open, warm ups, game rotation, peak games, finals and awards), with the albums or tracks, running time per block and in total, and download links. Then draft a two line email asking the label to confirm in writing that we may play the tracks over the venue speakers at a free amateur tournament. Do not suggest Spotify, Apple Music or YouTube Music for playback.
 
 
 # M13 Automation: Inbox, Messages, Trackers and Follow Ups
@@ -609,7 +729,7 @@ Here is our run sheet [UPLOAD] and what is different about our event [DESCRIBE: 
 From the run sheet, produce one card per role (setup, check in, results, concession, media, sponsor host, ceremony, medical liaison): their tasks in time order, who they report to, the phone numbers they need [ROLES ONLY, no personal data in the template], and what to do if something goes wrong.
 
 ## Prompt 4: Ceremony checklist
-Write a ceremony checklist starting 3 hours before the ceremony: trophies and medals counted against the award list, engraving checked, MVP and best goalkeeper votes closed and counted, podium or stage area set, sponsor representatives confirmed, announcer script printed, music cues ready, photographer briefed, order of awards, and what happens if the final runs late.
+Write a ceremony checklist starting 3 hours before the ceremony: trophies and medals counted against the award list, engraving checked, MVP and best goalkeeper votes closed and counted (with the website vote: close it at the end of the last final, open Results and copy the winners into the script), podium or stage area set, sponsor representatives confirmed, announcer script printed, music cues ready, photographer briefed, order of awards, and what happens if the final runs late.
 
 ## Prompt 5: Consumables plan
 Estimate the consumables for [N] players, [N] referees and [N] spectators a day over [N] days: ice (for drinks and for injuries), water, drinks, snacks, tape, first aid supplies, cleaning supplies, printed game sheets. Give quantities per day, when to restock, and who buys what.
