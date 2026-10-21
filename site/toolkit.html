@@ -220,7 +220,7 @@
 #tk .dlitem h3{text-transform:none}
 #tk .dlbtn{border:0}
 /* Section bar */
-#tknav{position:sticky;top:64px;z-index:40;background:linear-gradient(90deg,#0C2138 0%,#17385A 40%,#2C5B86 75%,#3D6F9C 100%);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 2px 8px rgba(12,33,56,.18)}
+#tknav{position:sticky;top:78px;z-index:40;background:linear-gradient(90deg,#0C2138 0%,#17385A 40%,#2C5B86 75%,#3D6F9C 100%);box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 2px 8px rgba(12,33,56,.18)}
 #tknav .bar{display:flex;max-width:1240px;margin:0 auto;padding:0 12px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 #tknav .bar::-webkit-scrollbar{display:none}
 #tknav a{position:relative;flex:1 0 auto;display:flex;align-items:center;justify-content:center;padding:13px 17px;color:#fff;font:600 14.5px/1.2 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;letter-spacing:.01em;white-space:nowrap;text-decoration:none;transition:background .15s}
@@ -660,6 +660,9 @@ Ready made: the website starter in the downloads now includes this quiz with all
   });
 
   // Section bar: mark the section in view
+  var siteHead=document.querySelector("header.nav"),tkNav=document.getElementById("tknav");
+  function navTop(){if(siteHead&&tkNav)tkNav.style.top=siteHead.offsetHeight+"px"}
+  navTop(); addEventListener("resize",navTop);
   var navLinks=[].slice.call(document.querySelectorAll("#tknav a"));
   if(navLinks.length&&"IntersectionObserver" in window){
     var navBar=document.querySelector("#tknav .bar"),navMap={},navCur=null;
