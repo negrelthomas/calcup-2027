@@ -48,6 +48,12 @@
   function doneCats(roleId) { var b = ballotOf(roleId); return S.me.cats.filter(function (c) { return b.cats && b.cats[c.id] && b.cats[c.id].picks && b.cats[c.id].picks.length; }); }
 
   /* ---------- static landing content ---------- */
+  var DOC_URL = "assets/docs/CalCup_2027_Technical_Document.pdf";
+  function ackIntroHTML(firstGame) {
+    return '<div class="card vt-card vt-ackintro"><h3><i class="ti ti-file-text"></i> Head coaches: technical document</h3>' +
+      '<p>Before the first game of the tournament (' + esc(fmtWhen(firstGame)) + '), each head coach reads the technical document and confirms on this page that they have read it and shared it with their team. The organizers check that every team has confirmed before play starts.</p>' +
+      '<p class="vt-docbtns"><a class="btn vt-btn2" href="' + DOC_URL + '" target="_blank" rel="noopener"><i class="ti ti-file-text"></i> Read the technical document</a> <a class="btn vt-btn2" href="' + DOC_URL + '" download="CalCup_2027_Technical_Document.pdf"><i class="ti ti-download"></i> Download to share with your team</a></p></div>';
+  }
   function rulesHTML(deadline) {
     return '' +
       '<div class="vt-grid">' +
@@ -82,8 +88,8 @@
 
   /* ---------- sign in ---------- */
   function renderSignIn(msg) {
-    root.innerHTML = rulesHTML(PUB.deadline) +
-      '<div class="card vt-card vt-signin" id="signin"><h3><i class="ti ti-mail"></i> Sign in to vote</h3>' +
+    root.innerHTML = ackIntroHTML(PUB.firstGame) + rulesHTML(PUB.deadline) +
+      '<div class="card vt-card vt-signin" id="signin"><h3><i class="ti ti-mail"></i> Sign in</h3>' +
       '<form id="f-email" class="vt-form"><label for="vt-email">Email address</label>' +
       '<div class="vt-row"><input id="vt-email" type="email" autocomplete="email" required placeholder="name@example.com">' +
       '<button class="btn btn-pri" type="submit">Send my code</button></div></form>' +
@@ -146,7 +152,7 @@
         '<div class="muted vt-small">' + esc(r.label) + '</div></div>' + state +
         (me.closed ? '' : '<button class="btn btn-pri" data-vote="' + esc(r.id) + '">' + (done ? 'Review or change' : 'Vote') + '</button>') + '</div>';
     }).join("");
-    root.innerHTML = headerHTML() +
+    root.innerHTML = headerHTML() + ackHTML() +
       '<section><div class="sec-head"><h2>' + (me.person.roles.length > 1 ? 'Your ballots' : 'Your ballot') + '</h2></div>' + cards +
       (ex.length ? '<p class="muted vt-small">Players of ' + esc(ex.join(" and ")) + ' do not appear on your ballot' + (me.person.roles.length > 1 ? 's' : '') + ' because you coach ' + (ex.length > 1 ? 'these teams' : 'this team') + '.</p>' : '') +
       '</section>' +
@@ -161,12 +167,45 @@
         .map(function (t) { return '<option value="' + esc(t.id) + '"' + (S.starTeam === t.id ? ' selected' : '') + '>' + esc(t.name) + '</option>'; }).join("") +
       '</select></div><div id="vt-teamlist"></div></section>' +
       '<details class="vt-rules"><summary>Rules and scoring</summary>' + rulesHTML(me.deadline) + '</details>';
-    bindHeader();
+    bindHeader(); bindAck();
     Array.prototype.forEach.call(root.querySelectorAll("[data-vote]"), function (b) { b.addEventListener("click", function () { S.role = b.getAttribute("data-vote"); S.step = 0; renderWizard(); window.scrollTo(0, 0); }); });
     var ta = document.getElementById("vt-notes");
     ta.addEventListener("input", function () { setSaved("Saving..."); clearTimeout(S.notesTimer); S.notesTimer = setTimeout(saveNotes, 1200); });
     document.getElementById("vt-starteam").addEventListener("change", function (e) { S.starTeam = e.target.value; renderTeamList(); });
     renderStarred(); renderTeamList();
+  }
+  /* ---------- technical document acknowledgment (head coaches) ---------- */
+  function coachRolesOf() { return S.me.person.roles.filter(function (r) { return r.type === "coach"; }); }
+  function ackHTML() {
+    var roles = coachRolesOf(); if (!roles.length) return "";
+    var A = S.me.ack || { items: {} }, items = A.items || {};
+    var teams = roles.map(function (r) { return r.voterTeam; });
+    var done = roles.filter(function (r) { return items[r.id]; });
+    var url = (A.doc && A.doc.url) || DOC_URL;
+    if (done.length === roles.length) {
+      var a = items[roles[0].id];
+      return '<section><div class="card vt-card vt-ackdone"><h3>&#10003; Technical document acknowledged</h3>' +
+        '<p class="muted">Confirmed for ' + esc(teams.join(" and ")) + ' on ' + esc(fmtWhen(a.ts)) + (a.late ? ' (after the first game started)' : '') + ', version ' + esc(a.version) + '. <a href="' + esc(url) + '" target="_blank" rel="noopener">Open the document</a> or <a href="' + esc(url) + '" download="CalCup_2027_Technical_Document.pdf">download it</a> to share with your team.</p></div></section>';
+    }
+    return '<section><div class="card vt-card vt-ack"><h3><i class="ti ti-file-text"></i> Action needed: technical document</h3>' +
+      '<p>Read the technical document, then confirm below for ' + esc(teams.join(" and ")) + '. Please confirm before the first game of the tournament: <b>' + esc(fmtWhen(A.deadline)) + '</b>' +
+      (A.deadline ? ' <span class="vt-cd" data-countdown="' + esc(A.deadline) + '">' + esc(countdown(A.deadline)) + '</span>' : '') + '.</p>' +
+      '<p class="vt-docbtns"><a class="btn vt-btn2" href="' + esc(url) + '" target="_blank" rel="noopener"><i class="ti ti-file-text"></i> Read the technical document</a> <a class="btn vt-btn2" href="' + esc(url) + '" download="CalCup_2027_Technical_Document.pdf"><i class="ti ti-download"></i> Download to share with your team</a> <span class="muted vt-small">Version ' + esc(A.version || "") + '</span></p>' +
+      '<label class="vt-check"><input type="checkbox" id="vt-ackbox"> <span>I have read the ' + esc((A.doc && A.doc.title) || "technical document") + ', I accept its rules on behalf of ' + esc(teams.join(" and ")) + ', and I have shared it with my players and team officials.</span></label>' +
+      '<button class="btn btn-pri" id="vt-ackbtn">Confirm</button><p class="vt-msg" id="vt-ackmsg"></p></div></section>';
+  }
+  function bindAck() {
+    var b = document.getElementById("vt-ackbtn"); if (!b) return;
+    b.addEventListener("click", function () {
+      var m = document.getElementById("vt-ackmsg");
+      if (!document.getElementById("vt-ackbox").checked) { m.textContent = "Tick the box to confirm."; m.className = "vt-msg bad"; return; }
+      b.disabled = true; m.textContent = "Saving..."; m.className = "vt-msg";
+      api("ack", { method: "PUT", body: { accept: true } }).then(function (r) {
+        b.disabled = false;
+        if (r.ok) { S.me.ack.items = Object.assign(S.me.ack.items || {}, r.items); renderHome(); }
+        else { m.textContent = r.message || "Not saved. Try again."; m.className = "vt-msg bad"; }
+      });
+    });
   }
   function setSaved(t) { var el = document.getElementById("vt-saved"); if (el) el.textContent = t; }
   function saveNotes() {
@@ -315,6 +354,16 @@
         r.cats.map(function (c) { return '<span class="vt-dot' + (x.r.done.indexOf(c.id) >= 0 ? ' on' : '') + '" title="' + esc(c.label) + '"></span>'; }).join("") +
         '</td><td class="muted vt-small">' + (x.r.updated ? esc(new Date(x.r.updated).toLocaleString("en-US", { timeZone: "America/Los_Angeles", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })) : '') + '</td></tr>';
     }).join("");
+    var A = r.ack || { items: [] };
+    var ackOk = A.items.filter(function (x) { return x.status === "on_time"; }).length;
+    var ackLabel = { on_time: '<span class="pill vt-ok">On time</span>', late: '<span class="pill vt-part">Late</span>', missing: '<span class="pill vt-bad">Missing</span>', no_coach: '<span class="pill vt-bad">No head coach on file</span>' };
+    var ackRows = A.items.map(function (x) {
+      return '<tr><td>' + esc(x.team) + '</td><td>' + esc(x.coach || "") + (x.coach && !x.email ? ' <span class="pill vt-bad">no email</span>' : '') + '</td><td>' + (ackLabel[x.status] || "") +
+        (x.status !== "missing" && x.status !== "no_coach" && x.current === false ? ' <span class="pill vt-part">old version</span>' : '') + '</td><td class="muted vt-small">' +
+        (x.ts ? esc(new Date(x.ts).toLocaleString("en-US", { timeZone: "America/Los_Angeles", month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })) + ', ' + esc(x.version) : '') + '</td></tr>';
+    }).join("");
+    var ackSection = '<section><div class="sec-head"><h2>Technical document acknowledgments</h2><span class="note">Due ' + esc(fmtWhen(A.deadline)) + ', current version ' + esc(A.version || "") + '</span></div>' +
+      '<div class="vt-tablewrap"><table class="vt-table"><thead><tr><th>Team</th><th>Head coach</th><th>Status</th><th>Confirmed</th></tr></thead><tbody>' + ackRows + '</tbody></table></div></section>';
     var tallies = r.cats.map(function (c) {
       var t = r.tally[c.id] || [];
       var body = t.slice(0, 10).map(function (x, i) {
@@ -328,8 +377,10 @@
       '<div class="vt-grid">' +
       '<div class="card vt-card"><h3>Deadline</h3><p class="vt-when">' + esc(fmtWhen(r.deadline)) + '</p>' + (r.deadline ? '<p class="vt-cd" data-countdown="' + esc(r.deadline) + '">' + esc(countdown(r.deadline)) + '</p>' : '') + '</div>' +
       '<div class="card vt-card"><h3>Ballots</h3><p class="vt-when">' + complete + ' of ' + roles.length + ' complete</p><p class="muted">' + (started - complete) + ' in progress, ' + (roles.length - started) + ' not started</p></div>' +
+      '<div class="card vt-card"><h3>Technical document</h3><p class="vt-when">' + ackOk + ' of ' + A.items.length + ' teams confirmed on time</p>' + (A.deadline ? '<p class="vt-cd" data-countdown="' + esc(A.deadline) + '">' + esc(countdown(A.deadline)) + '</p>' : '') + '</div>' +
       '<div class="card vt-card"><h3>Voter list</h3><p class="muted">Synced from the workbook ' + esc(r.syncedAt ? new Date(r.syncedAt).toLocaleString("en-US", { timeZone: "America/Los_Angeles" }) : "never") + '.</p>' +
       (r.missingEmail.length ? '<p class="vt-msg bad">No email, cannot sign in: ' + esc(r.missingEmail.join(", ")) + '</p>' : '') + '</div></div>' +
+      ackSection +
       '<section><div class="sec-head"><h2>Results</h2><span class="note">Confidential until the ceremony</span></div><div class="vt-grid vt-grid-2">' + tallies + '</div>' +
       '<p class="muted vt-small">Copy pastes 21 rows into columns C to E of the MVP Voting tab: at C6 for MVP Men, C30 for MVP Women, C54 for MVG Men, C78 for MVG Women. Rows follow the Voters Master order, so the workbook rankings and the Control Panel update on their own.</p>' +
       '<p class="vt-msg" id="vt-copymsg"></p></section>' +

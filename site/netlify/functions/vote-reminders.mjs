@@ -8,7 +8,7 @@
 //   last-call deadline minus 45 minutes, voters with an incomplete ballot
 // Each stage goes once per voter. If several stages are due at once (switched on late),
 // only the latest is sent.
-import { CATS, store, loadRoster, deadlineOf, sendEmail } from "../voting-core.mjs";
+import { CATS, store, loadRoster, deadlineOf, sendEmail, ackDeadlineOf, coachRoles, TECH_DOC } from "../voting-core.mjs";
 
 export const config = { schedule: "*/10 * * * *" };
 
@@ -76,7 +76,7 @@ export async function run(st, now = Date.now(), send = sendEmail) {
     if (latest.all || missing.length) {
       const m = message(latest.id, person, missing, d);
       const r = await send(person.email, m.subject, m.text);
-      if (r.ok) sent[latest.id] = new Date(now).toISOString(); // a failed send is retried on the next run
+      if (r.ok) sent[latest.id] = new Date(now).toISOString(); else delete sent[latest.id]; // a failed send is retried on the next run
       log.push(person.email + " " + latest.id + " " + (r.ok ? "sent" : "failed " + r.reason));
     } else sent[latest.id] = "complete";
     await st.setJSON(key, sent);
@@ -84,7 +84,57 @@ export async function run(st, now = Date.now(), send = sendEmail) {
   return { sent: log };
 }
 
+// ===== Technical document acknowledgment reminders (head coaches) =====
+// Off unless ACK_EMAILS_ON=1. Stages before the first game: 7 days, 3 days, 1 day, 30 minutes.
+// Sent only to head coaches who have not acknowledged yet; each stage once; if several are due
+// at once, only the latest goes.
+export function ackStages(roster) {
+  const g = ackDeadlineOf(roster); if (g == null) return [];
+  return [{ id: "ack-7d", at: g - 168 * H }, { id: "ack-3d", at: g - 72 * H }, { id: "ack-1d", at: g - 24 * H }, { id: "ack-30m", at: g - 0.5 * H }];
+}
+export function ackMessage(stage, person, teams, firstGame) {
+  const base = (process.env.VOTE_URL || "https://calcup-2027.netlify.app/vote.html").replace(/vote\.html.*$/, "");
+  const url = base + "vote.html";
+  const lead = stage === "ack-30m" ? "The first game of CalCup starts in 30 minutes" : ("The first game of CalCup starts " + when(firstGame));
+  return {
+    subject: stage === "ack-30m" ? "CalCup 2027: last call to acknowledge the technical document" : "CalCup 2027: please acknowledge the technical document",
+    text: "Hello " + person.name + ",\n\n" + lead + ". As head coach of " + teams.join(" and ") +
+      ", please read the " + TECH_DOC.title + " and confirm on the CalCup site that you have read it and shared it with your team. " +
+      "We need this confirmation from every head coach before the first game.\n\n" +
+      "The document: " + base + TECH_DOC.url + "\n" +
+      "Confirm here: " + url + " (sign in with this email address, you will receive a 6 digit code).\n\n" +
+      "CalCup 2027 organizing committee\ncalcup@calheat.com\n"
+  };
+}
+export async function runAck(st, now = Date.now(), send = sendEmail) {
+  if (process.env.ACK_EMAILS_ON !== "1") return { skipped: "ACK_EMAILS_ON is not 1" };
+  const roster = await loadRoster(st); if (!roster) return { skipped: "no roster" };
+  const g = ackDeadlineOf(roster); if (g == null || now >= g) return { skipped: "no first game or started" };
+  const due = ackStages(roster).filter((s) => s.at <= now);
+  if (!due.length) return { skipped: "nothing due" };
+  const latest = due[due.length - 1], log = [];
+  for (const person of roster.voters) {
+    const roles = coachRoles(person); if (!roles.length || !person.email) continue;
+    const key = "remindack/" + person.id;
+    const sent = (await st.get(key, { type: "json" })) || {};
+    if (sent[latest.id]) continue;
+    const open = [];
+    for (const r of roles) { if (!(await st.get("ack/" + r.id, { type: "json" }))) open.push(r.voterTeam); }
+    due.forEach((s) => { if (!sent[s.id]) sent[s.id] = "skipped"; });
+    if (open.length) {
+      const m = ackMessage(latest.id, person, open, g);
+      const r = await send(person.email, m.subject, m.text);
+      if (r.ok) sent[latest.id] = new Date(now).toISOString(); else delete sent[latest.id];
+      log.push(person.email + " " + latest.id + " " + (r.ok ? "sent" : "failed " + r.reason));
+    } else sent[latest.id] = "done";
+    await st.setJSON(key, sent);
+  }
+  return { sent: log };
+}
+
 export default async () => {
-  const out = await run(store());
+  const st0 = store();
+  const ack = await runAck(st0);
+  const out = { vote: await run(st0), ack };
   return new Response(JSON.stringify(out), { headers: { "Content-Type": "application/json" } });
 };

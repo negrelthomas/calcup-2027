@@ -353,6 +353,6 @@ export function mapVoting(sheets, teams){
   const pub={ deadline:pacificISO(deadline), finalGame, firstGame:pacificISO(firstGame),
     voters:voters.reduce((s,p)=>s+p.roles.length,0) };
   const priv={ deadline:pub.deadline, finalGame, firstGame:pub.firstGame, voters, players,
-    teams:Object.keys(teamName).map(id=>({id,name:teamName[id],div:teamDiv[id]})), missingEmail:missing, sheetOrder };
+    teams:Object.keys(teamName).map(id=>({id,name:teamName[id],div:teamDiv[id]})), registeredTeams:(teams||[]).map(t=>t.id), missingEmail:missing, sheetOrder };
   return { public:pub, private:priv };
 }

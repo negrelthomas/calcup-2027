@@ -18,7 +18,7 @@
 //   VOTE_DEV_CODES=1  testing only: returns the code in the response instead of emailing it
 import { randomBytes, randomInt } from "node:crypto";
 const CODE_TTL = 10 * 60 * 1000, SESSION_TTL = 21 * 24 * 3600 * 1000;
-import { CATS, store, sha, normEmail, json, err, safeEq, loadRoster, deadlineOf, isClosed, eligible, sendEmail, tally, allBallots } from "../voting-core.mjs";
+import { CATS, store, sha, normEmail, json, err, safeEq, loadRoster, deadlineOf, isClosed, eligible, sendEmail, tally, allBallots, TECH_DOC, techDocVersion, ackDeadlineOf, coachRoles } from "../voting-core.mjs";
 
 async function session(req, st) {
   const h = req.headers.get("authorization") || "";
@@ -111,7 +111,21 @@ export default async (req) => {
           return { id: r.id, label: r.label, voterTeam: r.voterTeam, done, updated: b ? b.updated : null };
         })
       }));
-      return json({ ready: true, deadline: deadlineOf(roster) ? new Date(deadlineOf(roster)).toISOString() : null,
+      const ad = ackDeadlineOf(roster);
+      const coachByTeam = {};
+      roster.voters.forEach((v) => v.roles.forEach((r) => { if (r.type === "coach") coachByTeam[r.team] = { v, r }; }));
+      const ackTeams = (roster.registeredTeams && roster.registeredTeams.length ? roster.registeredTeams : Object.keys(coachByTeam));
+      const acks = [];
+      for (const tid of ackTeams) {
+        const c = coachByTeam[tid];
+        const t = (roster.teams || []).find((x) => x.id === tid);
+        const a = c ? await st.get("ack/" + c.r.id, { type: "json" }) : null;
+        acks.push({ team: t ? t.name : tid, coach: c ? c.v.name : null, email: c ? c.v.email : null,
+          status: !c ? "no_coach" : !a ? "missing" : a.late ? "late" : "on_time", ts: a ? a.ts : null,
+          version: a ? a.version : null, current: a ? a.version === techDocVersion() : null });
+      }
+      const ackInfo = { deadline: ad ? new Date(ad).toISOString() : null, version: techDocVersion(), doc: TECH_DOC, items: acks };
+      return json({ ack: ackInfo, ready: true, deadline: deadlineOf(roster) ? new Date(deadlineOf(roster)).toISOString() : null,
         closed: isClosed(roster), syncedAt: roster.syncedAt, missingEmail: roster.missingEmail || [],
         cats: CATS, teams: roster.teams, players: roster.players, sheetOrder: roster.sheetOrder || [], voters, ballots, tally: tally(roster, ballots) });
     }
@@ -130,7 +144,11 @@ export default async (req) => {
       const notes = (await st.get("notes/" + person.id, { type: "json" })) || { text: "", stars: [] };
       const pool = {}; CATS.forEach((c) => (pool[c.id] = eligible(roster, person, c.id).map((p) => p.id)));
       const d = deadlineOf(roster);
-      return json({ person: { name: person.name, email: person.email, roles: person.roles, exclude: person.exclude },
+      const ackItems = {};
+      for (const r of coachRoles(person)) ackItems[r.id] = await st.get("ack/" + r.id, { type: "json" });
+      const ad = ackDeadlineOf(roster);
+      const ack = { doc: TECH_DOC, version: techDocVersion(), deadline: ad ? new Date(ad).toISOString() : null, items: ackItems };
+      return json({ ack, person: { name: person.name, email: person.email, roles: person.roles, exclude: person.exclude },
         deadline: d ? new Date(d).toISOString() : null, closed: isClosed(roster),
         cats: CATS, teams: roster.teams, players: roster.players, pool, ballots, notes });
     }
@@ -142,6 +160,18 @@ export default async (req) => {
       const rec = { text, stars, updated: new Date().toISOString() };
       await st.setJSON("notes/" + person.id, rec);
       return json({ ok: true, updated: rec.updated });
+    }
+
+    if (op === "ack" && req.method === "PUT") {
+      if (!body || body.accept !== true) return err(400, "not_accepted", "Tick the box to confirm.");
+      const roles = coachRoles(person);
+      if (!roles.length) return err(403, "not_a_coach", "Only head coaches acknowledge the technical document.");
+      const ad = ackDeadlineOf(roster);
+      const now = Date.now();
+      const rec = { name: person.name, email: person.email, ts: new Date(now).toISOString(), version: techDocVersion(), late: ad != null && now > ad };
+      const out = {};
+      for (const r of roles) { await st.setJSON("ack/" + r.id, { ...rec, team: r.voterTeam }); out[r.id] = { ...rec, team: r.voterTeam }; }
+      return json({ ok: true, items: out });
     }
 
     if (op === "ballot" && req.method === "PUT") {

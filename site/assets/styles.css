@@ -681,3 +681,14 @@ table.lb tr.me td{background:var(--orange-tint)}
 .vt-table tr.vt-lead td{background:var(--orange-tint)}
 .vt-dot{display:inline-block;width:11px;height:11px;border-radius:50%;background:#E1E7EE;margin-right:5px}
 .vt-dot.on{background:var(--green)}
+/* Technical document acknowledgment */
+.vt-ackintro{margin-bottom:14px;border-left:4px solid var(--orange)}
+.vt-ack{border:2px solid var(--orange);background:var(--orange-tint)}
+.vt-ackdone{border-color:#BFE3D4;background:#F1FAF6}
+.vt-ackdone h3{color:var(--green)}
+.vt-check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:15px;cursor:pointer}
+.vt-check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--orange-dark)}
+.vt-grid:not(.vt-grid-2):has(> :nth-child(4)){grid-template-columns:repeat(4,1fr)}
+@media (max-width:980px){.vt-grid:not(.vt-grid-2):has(> :nth-child(4)){grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.vt-grid:not(.vt-grid-2):has(> :nth-child(4)){grid-template-columns:1fr}}
+.vt-docbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}

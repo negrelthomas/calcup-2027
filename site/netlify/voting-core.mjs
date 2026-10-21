@@ -78,3 +78,20 @@ export async function allBallots(st) {
   return out;
 }
 
+
+// ===== Technical document acknowledgment (head coaches) =====
+// Version string shown to coaches and stored with each acknowledgment. Change it when the
+// document changes materially (Netlify env TECH_DOC_VERSION); acknowledgments of an older
+// version then show as "old version" on the admin page.
+export const TECH_DOC = {
+  url: "assets/docs/CalCup_2027_Technical_Document.pdf",
+  title: "2027 California Cup technical document"
+};
+export const techDocVersion = () => process.env.TECH_DOC_VERSION || "v1 (Oct 2026)";
+// Deadline: court time of the first game of the tournament (from Games Schedule), or env ACK_DEADLINE.
+export function ackDeadlineOf(roster) {
+  const d = process.env.ACK_DEADLINE || (roster && roster.firstGame);
+  const t = d ? Date.parse(d) : NaN;
+  return isFinite(t) ? t : null;
+}
+export const coachRoles = (person) => (person.roles || []).filter((r) => r.type === "coach");
