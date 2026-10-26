@@ -6,7 +6,7 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html"];
+  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "referees.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -363,7 +363,7 @@
     // Game counts come from the actual assignments in the schedule (exactly what the schedule shows).
     var byGame={}, gameOrder=[];
     games.forEach(function(g){
-      if(!isRealRef(g.refs)) return;
+      if(PREVIEW_MODE || !isRealRef(g.refs)) return; // draft schedule assignments stay private until the site goes live
       var k=refKey(g.refs);
       if(!byGame[k]){ byGame[k]={ names:String(g.refs).split(/\s*\/\s*/), nums:[] }; gameOrder.push(k); }
       byGame[k].nums.push(g.no);
@@ -850,6 +850,7 @@
     // Preview gate — see PREVIEW_MODE switch at the top of this file.
     if (PREVIEW_MODE) {
       var _rb = document.querySelector(".refbar"); if (_rb) _rb.remove(); // quiz opens with the rest of the site
+      var _rq = document.getElementById("refquiz"); if (_rq && _rq.closest(".wrap")) _rq.closest(".wrap").remove(); // referee page is live, its quiz section is not
       if (LIVE_PAGES.indexOf(currentPage()) < 0) {
         var _start = document.querySelector(".hero") || document.querySelector("header");
         if (_start) {

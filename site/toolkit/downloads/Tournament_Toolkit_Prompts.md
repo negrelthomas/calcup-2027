@@ -72,6 +72,8 @@ Typical time: 1 to 3 h for the first version.
 ## Lesson from CalCup
 An unbalanced format (5 teams in one division, 8 in the other) left no margin: a Thursday game was added, some referees worked 8 games in 3 days, and any delay had nowhere to go. Size the format from capacity first, then fit the demand.
 
+A technical meeting on the first day reaches only the officials who attend, and late arrivals miss it. For 2027 CalCup publishes the technical document in advance and asks each head coach to confirm, before the first game, that they have read it, accept its rules for the team and have shared it with players and officials. The confirmation is recorded per team with the date and the document version, so a coach who confirmed an older version is asked again, and coaches who have not confirmed get reminders 7 days, 3 days and 1 day before the first game. Without a website, a reply to a fixed email or a signed line on the check in sheet does the same job. Set for 2027, not yet used live.
+
 ## Prompt 1: Capacity check
 Using the tournament context, calculate how many games fit in our available court time. Inputs: [COURTS] courts, [HOURS PER DAY] hours on day 1, [HOURS] on day 2, [HOURS] on day 3, game length [MINUTES] plus [MINUTES] changeover, minimum rest between two games of the same team [MINUTES]. Show the total game slots, then the slots left after a 15% buffer for delays. Present it as a small table.
 
@@ -91,7 +93,7 @@ Write a short survey (8 questions maximum) for club captains, to send before we 
 Run a group draw for these confirmed teams: [LIST WITH DIVISION AND CLUB]. Rules: [N] groups of [N]; two teams from the same club never in the same group; seed the top [N] teams from last year's results [LIST] into different groups. Show the draw, explain how each rule was respected, then produce the group codes (A1, A2, B1...) in a table I can paste into the workbook. If you will run the draw publicly, write a short script for announcing it live.
 
 ## Prompt 7: Technical meeting pack
-Using the tournament context and the attached schedule, write the technical meeting pack for team officials: format and tiebreakers, game duration and timeouts, roster and eligibility rules, jersey color rules for clashes, protest procedure, medical protocol, venue rules, and contacts on the day. Produce it as an 8 to 10 slide outline with speaker notes, plus a one page summary to email to teams before the meeting.
+Using the tournament context and the attached schedule, write the technical meeting pack for team officials: format and tiebreakers, game duration and timeouts, roster and eligibility rules, jersey color rules for clashes, protest procedure, medical protocol, venue rules, and contacts on the day. Produce it as an 8 to 10 slide outline with speaker notes, plus a one page summary to email to teams before the meeting. Give the document a version number and end it with the confirmation each head coach gives before the first game: read, accepted for the team, shared with players and officials.
 
 
 # M2 Registration and Payments
@@ -104,6 +106,8 @@ Typical time: 2 h to set up, then 15 minutes a week.
 Rosters arrived at the end of December and too many payment follow ups were needed. Fixed deadlines that reopen the slot if unpaid work better than repeated reminders.
 
 A single flat fee with a single deadline gives a team no reason to decide early, so most of them decide late and the deadline moves. CalCup 2027 ran one price of $850 with an October 15 deadline, reached seven confirmed teams by that date and had to extend. Price the deadline instead of only announcing it: an early rate, a standard rate and a late rate, published together from the first invitation. The gap between tiers has to be large enough to be worth a club meeting, and small enough that a late team still enters. Roughly 5 to 10 percent per step works. Tiers also give the organiser something to say in every follow up that is new information rather than another reminder, and they pull deposits forward, which matters when the format depends on how many teams have paid.
+
+For 2027 CalCup also set two deadlines tied to the event itself: rosters are final 48 hours before the tournament, and each team pays a roster bond (minimum $200) and a sportsmanship bond ($300) no later than its first game, or forfeits that game. A bond that is returned when the team meets the rules is easier to enforce than a fine, and tying it to the first game gives the organizer one check at the table instead of a chase by email. Publish both rules in the invitation and the technical document. Set for 2027, not yet used live.
 
 ## Prompt 1: Registration tracker design
 Design a registration tracker as one table. One row per team. Columns: Club, Team name, Division, Contact name, Contact email, Status (Invited, Interested, Confirmed, Withdrawn), Fee due, Amount paid, Payment date, Payment method, Balance (formula), Roster received (Y/N), Notes. Give me the column list, the formulas, and conditional formatting rules that highlight unpaid balances after [DEADLINE].
@@ -180,6 +184,11 @@ Write a 50 word event listing for community calendars and a 300 word press note 
 Create a media tracker with columns: Outlet, Type, Contact or submission route, Angle, Date contacted, Follow up date, Status (Not contacted, Pitched, Interested, Covered, Declined), Coverage link. Add a rule to follow up once, 7 days after the first contact, and stop after that.
 
 ## Part C: Schools and youth (optional)
+Lessons from CalCup:
+* Many US school districts distribute flyers to families only through an approved digital flyer platform (Peachjar is a common one). Expect Letter size, a review before release, and a disclaimer stating that the district does not sponsor the event; some districts want their own name in that line, so keep one file per district.
+* Timing matters more than volume. CalCup asks the district and the city to relay the event about two months before, and puts posters up in schools about four weeks before. Earlier posters are forgotten by the tournament weekend.
+* Keep print sizes (11x17 or A3) and the platform version (Letter) from the same source file, with a QR code to the tournament site, so every version carries the same dates.
+
 Search for schools and youth clubs within [DISTANCE] miles of [VENUE]. Return name, type, address, and a public contact route (athletics department, PE department, main office). Then draft a short note to a PE teacher inviting their students to watch, with the free entry, the schedule highlights and a poster attached.
 
 ## Part D: Social media and designed emails
@@ -280,7 +289,8 @@ Typical time: 2 to 4 h to set up.
 * Do not rely on volunteers for referee transport; budget a rental car.
 * Coordinate with your national referee committee early; late coordination created avoidable work. For a sanctioned event, expect the committee to want a say in nominations, and expect pushback if you bring referees from abroad who are not clearly above the level available at home.
 * Do not assume a central contact exists. For several weeks in fall 2026 CalCup had no national referee committee contact while the role changed hands, and there is no shared bank of referee contacts in the US. Each organizer has to source pairs through their own network, returning referees and neighboring regions. Keep your own referee contact list (name, level, home city, availability, past events) in the workbook Referees tab, and update it after every event so next year starts from it.
-* A mix worked for CalCup: one top international pair plus regional pairs, starting with returning pairs who know the event.
+* A mix worked for CalCup: one top international pair plus regional pairs, starting with returning pairs who know the event. For 2027 this secured all four pair slots by late October, three months out: two returning or local pairs, one pair from a neighboring country, and one top division pair from Europe committed through its national referee commission, with names to follow.
+* When a pair books its own rental car, say in writing what is reimbursed (standard insurance coverage, tank refilled before return) and that it is repaid after the tournament against receipts. Costs paid in a foreign currency go into the budget in your own currency at a one month average exchange rate, so the budget and the reimbursement use the same number.
 * Ask referees to book flights as soon as they confirm. Fares rise as the dates get closer, and flights are usually the largest referee cost. Ask them not to book a return flight before the finals end.
 * Put the package in writing before anyone books, so every pair gets the same terms. What CalCup covers per pair: 2 hotel nights with one room per pair; a food stipend of $55 per referee per day; one compact rental car per pair, used on site and for the drive to the airport on the last day; a standard rideshare (UberX) from each referee's home to their departure airport. State what is not covered (extra nights, upgrades, a second car) and how expenses are claimed and paid.
 * Celebrate your own referees in public (a club news item and a social post when one gets a major appointment) and point readers to your referee quiz and a contact. It costs little and is a recruitment channel.
