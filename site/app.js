@@ -360,18 +360,28 @@
     // Optional bio/country metadata, keyed by referee name.
     var meta={};
     (D.referees||[]).forEach(function(r){ var k=refKey((r.refs||[]).join(" ")); if(k) meta[k]={country:r.country,bio:r.bio}; });
-    // Confirmed pairs come from the actual game assignments (exactly what the schedule shows).
-    var order=[], seen={};
+    // Game counts come from the actual assignments in the schedule (exactly what the schedule shows).
+    var byGame={}, gameOrder=[];
     games.forEach(function(g){
       if(!isRealRef(g.refs)) return;
       var k=refKey(g.refs);
-      if(!seen[k]){ seen[k]={ names:String(g.refs).split(/\s*\/\s*/), nums:[] }; order.push(k); }
-      seen[k].nums.push(g.no);
+      if(!byGame[k]){ byGame[k]={ names:String(g.refs).split(/\s*\/\s*/), nums:[] }; gameOrder.push(k); }
+      byGame[k].nums.push(g.no);
     });
-    var pairs=order.map(function(k){ return { real:true, names:seen[k].names, nums:seen[k].nums, meta:meta[k] }; });
-    // Pad to the full referee roster so unconfirmed slots show clearly as TBD.
-    var target=Math.max((D.referees||[]).length, pairs.length);
-    for(var t=pairs.length; t<target; t++){ pairs.push({ real:false, names:["To be confirmed"], nums:[] }); }
+    // Named pairs come from the referee roster, so they show before the schedule assigns games.
+    var pairs=[], used={};
+    (D.referees||[]).forEach(function(r){
+      var names=(r.refs||[]).filter(Boolean), k=refKey(names.join(" "));
+      if(names.length && names.every(isRealRef)){
+        used[k]=true;
+        pairs.push({ real:true, names:names, nums:byGame[k]?byGame[k].nums:[], meta:{country:r.country,bio:r.bio} });
+      } else if(r.tba){
+        pairs.push({ real:false, tba:true, names:[r.country==="FRA"?"D1 pair from France":"To be announced"], nums:[], meta:{country:r.country,bio:r.bio} });
+      } else {
+        pairs.push({ real:false, names:["To be confirmed"], nums:[] });
+      }
+    });
+    // The roster is the reference: a pair named in the schedule but not on the roster is not shown.
     if(!pairs.length){ el.innerHTML='<div class="muted">Referee pairs will appear here once assignments are confirmed.</div>'; return; }
     var cards=pairs.map(function(p){
       var m=p.meta||{country:"USA",bio:"USATH-certified referee pair."};
@@ -382,7 +392,9 @@
         return '<div class="ref-person"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+photo+'</div><div class="ref-name">'+n+'</div></div>';
       }).join("");
       var asg, bio;
-      if(p.real){ var nums=p.nums.sort(function(a,b){return a-b;}).join(" · "); asg='Officiates '+p.nums.length+' game'+(p.nums.length>1?'s':'')+' · Game'+(p.nums.length>1?'s':'')+' '+nums; bio=m.bio; }
+      if(p.real && p.nums.length){ var nums=p.nums.sort(function(a,b){return a-b;}).join(" · "); asg='Officiates '+p.nums.length+' game'+(p.nums.length>1?'s':'')+' · Game'+(p.nums.length>1?'s':'')+' '+nums; bio=m.bio; }
+      else if(p.real){ asg='Game assignments follow with the schedule'; bio=m.bio; }
+      else if(p.tba){ asg='Names to be announced'; bio=m.bio; }
       else { asg='Assignment to be confirmed'; bio='Referee pair to be confirmed.'; }
       return '<div class="rc-card"><div class="ref-people">'+people+'</div>'+
         (bio?'<div class="muted rc-bio">'+bio+'</div>':'')+

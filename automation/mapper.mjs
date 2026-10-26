@@ -95,11 +95,35 @@ export function mapScorers(sheets){ return { M: mapScorerSheet(sheets["Individua
 
 export function mapReferees(sheets){
   const rows=sheets["Referees Master"]; const {r,idx}=findHeader(rows,["Pair #","Referee 1","Referee 2"]);
+  // Preferred path: group the per-referee rows (Name, Location) by Pair #. The Referee 1 / Referee 2
+  // block on the right of the tab is a label table whose rows do not line up with Pair #, so it is
+  // only used as a fallback when the tab has no Name column (older layouts, self test).
+  const CC={ "usa":"USA", "united states":"USA", "us":"USA", "france":"FRA", "canada":"CAN" };
+  const isTbd=(s)=>!s || /tbd/i.test(s);
   const pairs={};
-  for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[]; const p=val(row,idx,"Pair #"); if(p==null||p==="") continue;
-    if(!pairs[p]) pairs[p]={ id:"r"+p, refs:[String(val(row,idx,"Referee 1")||"TBD").trim(), String(val(row,idx,"Referee 2")||"TBD").trim()], country:"USA", bio:"USATH-certified referee pair." };
+  if(idx["Name"]!=null){
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[]; const p=val(row,idx,"Pair #"); if(p==null||p==="") continue;
+      const name=String(val(row,idx,"Name")||"").trim(); if(!name) continue;
+      const loc=String(val(row,idx,"Location")||"").trim().toLowerCase();
+      if(!pairs[p]) pairs[p]={ id:"r"+p, refs:[], country: CC[loc]||"USA" };
+      pairs[p].refs.push(name);
+    }
+  } else {
+    for(let i=r+1;i<rows.length;i++){ const row=rows[i]||[]; const p=val(row,idx,"Pair #"); if(p==null||p==="") continue;
+      if(!pairs[p]) pairs[p]={ id:"r"+p, refs:[String(val(row,idx,"Referee 1")||"TBD").trim(), String(val(row,idx,"Referee 2")||"TBD").trim()], country:"USA" };
+    }
   }
-  return Object.keys(pairs).sort().map(k=>pairs[k]);
+  const BIO={
+    USA:"USATH-certified referee pair.",
+    CAN:"Referee pair from Canada.",
+    FRA:"First division referee pair from France."
+  };
+  return Object.keys(pairs).sort((a,b)=>Number(a)-Number(b)).map(k=>{
+    const p=pairs[k]; const tba=p.refs.every(isTbd);
+    if(tba){ p.tba=true; p.refs=["TBD","TBD"]; p.bio = p.country==="FRA" ? "First division referee pair, to be announced." : "Referee pair to be announced."; }
+    else p.bio=BIO[p.country]||BIO.USA;
+    return p;
+  });
 }
 
 // Rosters Master tab: one row per person. Columns: Team, Type (Player/Official),

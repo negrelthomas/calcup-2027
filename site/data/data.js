@@ -1463,14 +1463,24 @@ window.CALCUP = {
     {
       "id": "r2",
       "refs": [
-        "Referee 1 (TBD)",
-        "Referee 2 (TBD)"
+        "TBD",
+        "TBD"
+      ],
+      "country": "FRA",
+      "tba": true,
+      "bio": "First division referee pair, to be announced."
+    },
+    {
+      "id": "r3",
+      "refs": [
+        "Halina Lehto",
+        "Azadeh Ahmadi"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r3",
+      "id": "r4",
       "refs": [
         "Ezekiel McClintock",
         "Tora"
@@ -1479,31 +1489,13 @@ window.CALCUP = {
       "bio": "USATH-certified referee pair."
     },
     {
-      "id": "r4",
-      "refs": [
-        "TBD",
-        "TBD"
-      ],
-      "country": "USA",
-      "bio": "USATH-certified referee pair."
-    },
-    {
       "id": "r5",
       "refs": [
-        "TBD",
-        "TBD"
+        "Teodora Bosonea",
+        "Keira Hopkinson"
       ],
-      "country": "USA",
-      "bio": "USATH-certified referee pair."
-    },
-    {
-      "id": "r6",
-      "refs": [
-        "TBD",
-        "TBD"
-      ],
-      "country": "USA",
-      "bio": "USATH-certified referee pair."
+      "country": "CAN",
+      "bio": "Referee pair from Canada."
     }
   ],
   "volunteers": [
