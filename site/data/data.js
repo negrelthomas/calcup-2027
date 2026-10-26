@@ -1483,7 +1483,7 @@ window.CALCUP = {
       "id": "r4",
       "refs": [
         "Ezekiel McClintock",
-        "Tora Oline"
+        "Oline"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
@@ -9394,6 +9394,6 @@ window.CALCUP = {
     "deadline": "2027-01-31T12:10:00-08:00",
     "finalGame": 23,
     "firstGame": "2027-01-29T15:45:00-08:00",
-    "voters": 4
+    "voters": 6
   }
 };
