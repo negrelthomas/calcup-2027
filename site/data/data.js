@@ -1483,7 +1483,7 @@ window.CALCUP = {
       "id": "r4",
       "refs": [
         "Ezekiel McClintock",
-        "Tora"
+        "Tora Oline"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
