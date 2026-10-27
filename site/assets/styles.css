@@ -692,3 +692,7 @@ table.lb tr.me td{background:var(--orange-tint)}
 @media (max-width:980px){.vt-grid:not(.vt-grid-2):has(> :nth-child(4)){grid-template-columns:repeat(2,1fr)}}
 @media (max-width:560px){.vt-grid:not(.vt-grid-2):has(> :nth-child(4)){grid-template-columns:1fr}}
 .vt-docbtns{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.champs .ch-team{display:inline-flex;align-items:center;gap:8px}
+.champs .ch-logo{height:26px;width:26px;object-fit:contain;flex:0 0 26px}
+.champs .ch-ed{display:block;font-size:11px;color:var(--muted);font-weight:400}
+.champs .ch-tc{font-size:11px;color:#9aa6b2;font-style:italic}

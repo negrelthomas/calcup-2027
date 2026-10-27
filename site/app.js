@@ -447,10 +447,7 @@
   /* ---------- history ---------- */
   function renderHistory(el) {
     var h = D.history || {};
-    // Corrections/additions sourced from the CalCup 2026 Final Rankings & Awards
-    (h.champions || []).forEach(function (c) { if (c.year === 2026) { c.men = "San Diego"; c.women = "San Diego"; } });
     if (h.timeline && !h.timeline.some(function (e) { return e.year === 2025; })) { h.timeline.push({ year: 2025, text: "Welcomed a guest team from Brisbane, Australia in both the men's and women's divisions." }); h.timeline.sort(function (a, b) { return a.year - b.year; }); }
-    if (h.championsNote) h.championsNote = "2026 results are final, from the official CalCup rankings. Earlier years' roll of honour is still being verified — corrections welcome.";
     // 2026 podium & individual awards — official CalCup 2026 final rankings.
     function w26logo(id){ return teamLogo(id, "aw-logo"); }
     function podRow(p, id, name){ var n=p.replace(/\D/g,""); return '<div class="pod-row"><span class="pod-rank pod-'+n+'">'+p+'</span><span class="pod-team">'+w26logo(id)+'<span>'+name+'</span></span></div>'; }
@@ -458,7 +455,7 @@
     var podiumSection =
       '<div class="sec-head" style="margin-top:8px"><h2>2026 podium</h2><span class="note">Jack Holleman Trophy &middot; 19th edition</span></div>' +
       '<div class="grid cols-2">' +
-        podCol('Men’s Division','ac-m', podRow('1st','sd-m','San Diego')+podRow('2nd','ch-orange','CalHeat')+podRow('3rd','army-m','West Point–Army')) +
+        podCol('Men’s Division','ac-m', podRow('1st','sd-m','San Diego')+podRow('2nd','ch-orange','CalHeat')+podRow('3rd','army-m','West Point Army')) +
         podCol('Women’s Division','ac-w', podRow('1st','sd-w','San Diego')+podRow('2nd','nyc','NYC')+podRow('3rd','ch-w','CalHeat')) +
       '</div>';
     function winner(w){ if(!w) return ''; var init=(w.name||'').split(/\s+/).map(function(x){return x[0]||'';}).slice(0,2).join('').toUpperCase(); var slug=(w.name||'').toLowerCase().replace(/[^a-z]+/g,'-').replace(/^-|-$/g,''); return '<div class="aw-win"><div class="aw-photo"><span class="aw-ph-init">'+init+'</span><img src="assets/awards/'+slug+'.jpg" alt="'+w.name+'" onerror="this.remove()"></div><div class="aw-wmeta"><div class="aw-wname">'+w.name+'</div><div class="aw-wteam">'+w26logo(w.id)+'<span>'+w.team+(w.extra?' · '+w.extra:'')+'</span></div></div></div>'; }
@@ -472,11 +469,16 @@
       '</div>';
     var tl = (h.timeline || []).map(function (e) { return '<div class="tlrow"><div class="tlyear">' + e.year + '</div><div class="tltext">' + e.text + '</div></div>'; }).join("");
     // Award names are merged into the 2026 winners cards above (no separate names-only list).
+    function champCell(name, logo, toConfirm, none) {
+      if (!name) return none ? '<span class="tbd">Not on record</span>' : '<span class="tbd">To be confirmed</span>';
+      var src = logo === 'calheat' ? 'assets/calheat-logo.png' : (logo ? 'assets/logos/' + logo + '.png' : '');
+      return '<span class="ch-team">' + (src ? '<img class="ch-logo" src="' + src + '" alt="" onerror="this.remove()">' : '') + '<span>' + name + (toConfirm ? ' <span class="ch-tc">to confirm</span>' : '') + '</span></span>';
+    }
     var champ = (h.champions && h.champions.length)
       ? '<table class="tbl champs"><thead><tr><th>Year</th><th style="text-align:left">Men\'s champion</th><th style="text-align:left">Women\'s champion</th></tr></thead><tbody>' +
         h.champions.map(function (c) {
-          if (c.notHeld) return '<tr class="notheld"><td>' + c.year + '</td><td colspan="2" class="tm">Not held — COVID-19</td></tr>';
-          return '<tr><td>' + c.year + '</td><td class="tm">' + (c.men || '<span class="tbd">TBD</span>') + '</td><td class="tm">' + (c.women || '<span class="tbd">TBD</span>') + '</td></tr>';
+          if (c.notHeld) return '<tr class="notheld"><td>' + c.year + '</td><td colspan="2" class="tm">Not held (COVID-19)</td></tr>';
+          return '<tr><td>' + c.year + (c.edition ? '<span class="ch-ed">' + c.edition + '</span>' : '') + '</td><td class="tm">' + champCell(c.men, c.menLogo, c.menToConfirm, false) + '</td><td class="tm">' + champCell(c.women, c.womenLogo, false, c.womenNone) + '</td></tr>';
         }).join("") + '</tbody></table>' +
         (h.championsNote ? '<p class="muted" style="font-size:13px;margin-top:10px">' + h.championsNote + '</p>' : '')
       : '<div class="callout">Two decades of champions are being compiled. Have results or photos from past editions? Email <a href="mailto:' + M.contactEmail + '">' + M.contactEmail + '</a>.</div>';

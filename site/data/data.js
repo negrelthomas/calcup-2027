@@ -1569,37 +1569,47 @@ window.CALCUP = {
       }
     ],
     "trophyImage": "assets/women-trophy.jpg",
-    "championsNote": "Women's champions are from the trophy record (2024–25 to be confirmed). Men's champions shown here are placeholder examples — the men's roll of honour is still being confirmed.",
+    "championsNote": "Champions from the engraved trophy plates, post event reports and official results. Men's 2013 and 2014 are still being confirmed, and men's 2015 to 2017 are not yet on record. Corrections and photos welcome at calcup@calheat.com.",
     "champions": [
       {
         "year": 2026,
         "edition": "XIX",
-        "men": "Boston TH",
-        "women": "San Diego"
+        "men": "San Diego THC",
+        "menLogo": "sd-m",
+        "women": "San Diego THC",
+        "womenLogo": "sd-w"
       },
       {
         "year": 2025,
         "edition": "XVIII",
-        "men": "LATHC",
-        "women": ""
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "San Diego THC",
+        "womenLogo": "sd-w"
       },
       {
         "year": 2024,
         "edition": "XVII",
-        "men": "Chicago Inter",
-        "women": ""
+        "men": "California Eagles",
+        "menLogo": "",
+        "women": "New York City THC",
+        "womenLogo": "nyc"
       },
       {
         "year": 2023,
         "edition": "XVI",
-        "men": "New York City THC",
-        "women": "New York City THC"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "New York City THC",
+        "womenLogo": "nyc"
       },
       {
         "year": 2022,
         "edition": "XV",
-        "men": "Boston TH",
-        "women": "New York City THC"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "New York City THC",
+        "womenLogo": "nyc"
       },
       {
         "year": 2021,
@@ -1609,62 +1619,120 @@ window.CALCUP = {
       {
         "year": 2020,
         "edition": "XIV",
-        "men": "West Point",
-        "women": "Alberta THF"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "Alberta THF",
+        "womenLogo": ""
       },
       {
         "year": 2019,
         "edition": "XIII",
-        "men": "New York City THC",
-        "women": "New York City THC"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "New York City THC",
+        "womenLogo": "nyc"
       },
       {
         "year": 2018,
         "edition": "XII",
-        "men": "San Francisco CalHeat",
-        "women": "Houston Firehawks"
+        "men": "Chicago Inter",
+        "menLogo": "",
+        "women": "Houston Firehawks",
+        "womenLogo": ""
       },
       {
         "year": 2017,
         "edition": "XI",
-        "men": "LATHC",
-        "women": "Alberta THF"
+        "men": "",
+        "menLogo": "",
+        "women": "Alberta THF",
+        "womenLogo": ""
       },
       {
         "year": 2016,
         "edition": "X",
-        "men": "Los Angeles / Baja",
-        "women": "Los Angeles / Baja"
+        "men": "",
+        "menLogo": "",
+        "women": "Los Angeles / Baja",
+        "womenLogo": ""
       },
       {
         "year": 2015,
         "edition": "IX",
-        "men": "San Francisco CalHeat",
-        "women": "San Francisco CalHeat"
+        "men": "",
+        "menLogo": "",
+        "women": "San Francisco CalHeat",
+        "womenLogo": "calheat"
       },
       {
         "year": 2014,
         "edition": "VIII",
-        "men": "Boston TH",
-        "women": "San Francisco CalHeat"
+        "men": "Los Angeles THC",
+        "menLogo": "lathc",
+        "women": "San Francisco CalHeat",
+        "womenLogo": "calheat",
+        "menToConfirm": true
       },
       {
         "year": 2013,
         "edition": "VII",
-        "men": "Los Angeles THC",
-        "women": "Los Angeles THC"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "Los Angeles THC",
+        "womenLogo": "lathc",
+        "menToConfirm": true
       },
       {
         "year": 2012,
         "edition": "VI",
-        "men": "San Francisco CalHeat",
-        "women": "San Francisco CalHeat"
+        "men": "Army West Point",
+        "menLogo": "army-m",
+        "women": "San Francisco CalHeat",
+        "womenLogo": "calheat"
       },
       {
         "year": 2011,
         "edition": "V",
-        "men": "Vancouver BC",
-        "women": "Vancouver BC"
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "Vancouver BC",
+        "womenLogo": ""
+      },
+      {
+        "year": 2010,
+        "edition": "IV",
+        "men": "Los Angeles THC",
+        "menLogo": "lathc",
+        "women": "",
+        "womenLogo": "",
+        "womenNone": true
+      },
+      {
+        "year": 2009,
+        "edition": "III",
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "",
+        "womenLogo": "",
+        "womenNone": true
+      },
+      {
+        "year": 2008,
+        "edition": "II",
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "",
+        "womenLogo": "",
+        "womenNone": true
+      },
+      {
+        "year": 2007,
+        "edition": "I",
+        "men": "San Francisco CalHeat",
+        "menLogo": "calheat",
+        "women": "",
+        "womenLogo": "",
+        "womenNone": true
       }
     ]
   },
