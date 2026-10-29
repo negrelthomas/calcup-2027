@@ -1463,12 +1463,11 @@ window.CALCUP = {
     {
       "id": "r2",
       "refs": [
-        "TBD",
-        "TBD"
+        "Mathilde Cournil",
+        "Loriane Lamour"
       ],
       "country": "FRA",
-      "tba": true,
-      "bio": "First division referee pair, to be announced."
+      "bio": "IHF referee pair designated by the French Handball Federation."
     },
     {
       "id": "r3",
@@ -1483,7 +1482,7 @@ window.CALCUP = {
       "id": "r4",
       "refs": [
         "Ezekiel McClintock",
-        "Oline"
+        "Tora Oline"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
@@ -9464,6 +9463,6 @@ window.CALCUP = {
     "deadline": "2027-01-31T12:10:00-08:00",
     "finalGame": 23,
     "firstGame": "2027-01-29T15:45:00-08:00",
-    "voters": 6
+    "voters": 8
   }
 };
