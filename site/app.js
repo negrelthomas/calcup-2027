@@ -353,6 +353,7 @@
   }
 
   /* ---------- referees ---------- */
+  function flagBadge(c){ var m={USA:["flag-us.png","United States"],FRA:["flag-fr.png","France"],CAN:["flag-ca.png","Canada"]}; return m[c]?'<img class="rp-badge" src="assets/'+m[c][0]+'" alt="'+m[c][1]+'" title="'+m[c][1]+'">':''; }
   function flagFace(c){ var m={USA:"flag-us.png",FRA:"flag-fr.png",CAN:"flag-ca.png"}; return m[c]?'<img class="rp-flag" src="assets/'+m[c]+'" alt="'+c+'">':''; }
   function renderReferees(el){
     function refKey(s){ return String(s||"").toLowerCase().replace(/[^a-z]+/g," ").trim().split(" ").filter(Boolean).sort().join(""); }
@@ -389,7 +390,7 @@
         var init=p.real?((n.replace(/[^A-Za-z ]/g,"").trim().split(/\s+/).map(function(w){return w[0]||"";}).join("").slice(0,2).toUpperCase())||"?"):"?";
         var slug=n.toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
         var photo=p.real?'<img class="rp-photo" src="assets/refs/'+slug+'.jpg" alt="'+n+'" loading="lazy" onerror="this.remove()">':'';
-        return '<div class="ref-person"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+photo+'</div><div class="ref-name">'+n+'</div></div>';
+        return '<div class="ref-person"><div class="ref-ph"><div class="ref-portrait'+(p.real?'':' ref-tbd')+'"><span class="rp-init">'+init+'</span>'+photo+'</div>'+flagBadge(m.country)+'</div><div class="ref-name">'+n+'</div></div>';
       }).join("");
       var asg, bio;
       if(p.real && p.nums.length){ var nums=p.nums.sort(function(a,b){return a-b;}).join(" · "); asg='Officiates '+p.nums.length+' game'+(p.nums.length>1?'s':'')+' · Game'+(p.nums.length>1?'s':'')+' '+nums; bio=m.bio; }
