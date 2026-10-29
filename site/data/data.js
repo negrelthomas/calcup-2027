@@ -1569,7 +1569,7 @@ window.CALCUP = {
       }
     ],
     "trophyImage": "assets/women-trophy.jpg",
-    "championsNote": "Champions from the engraved trophy plates, post event reports and official results. Men's 2013 and 2014 are still being confirmed, and men's 2015 to 2017 are not yet on record. Corrections and photos welcome at calcup@calheat.com.",
+    "championsNote": "Champions from the engraved trophy plates, post event reports and official results. Men's 2013 to 2016 are still being confirmed. Corrections and photos welcome at calcup@calheat.com.",
     "champions": [
       {
         "year": 2026,
@@ -1643,7 +1643,7 @@ window.CALCUP = {
       {
         "year": 2017,
         "edition": "XI",
-        "men": "",
+        "men": "Houston Firehawks",
         "menLogo": "",
         "women": "Alberta THF",
         "womenLogo": ""
@@ -1651,18 +1651,20 @@ window.CALCUP = {
       {
         "year": 2016,
         "edition": "X",
-        "men": "",
-        "menLogo": "",
+        "men": "Los Angeles THC",
+        "menLogo": "lathc",
         "women": "Los Angeles / Baja",
-        "womenLogo": ""
+        "womenLogo": "",
+        "menToConfirm": true
       },
       {
         "year": 2015,
         "edition": "IX",
-        "men": "",
+        "men": "Chicago Inter",
         "menLogo": "",
         "women": "San Francisco CalHeat",
-        "womenLogo": "calheat"
+        "womenLogo": "calheat",
+        "menToConfirm": true
       },
       {
         "year": 2014,

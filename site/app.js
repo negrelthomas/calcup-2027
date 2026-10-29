@@ -525,7 +525,7 @@
         }).join("") + '</div>' : '<p class="muted">No team confirmed yet.</p>') + '</div>';
     }
     return '<div class="reg-cols">' + col("Men", R.M) + col("Women", R.W) + '</div>' +
-      '<p class="reg-foot muted">Clubs: confirm your entry and $300 deposit by October 15, 2026 at <a href="mailto:calcup@calheat.com">calcup@calheat.com</a>.</p>';
+      '<p class="reg-foot muted">Clubs: confirm your entry and $300 deposit at <a href="mailto:calcup@calheat.com">calcup@calheat.com</a>.</p>';
   }
   function renderRegistered(el) { el.innerHTML = registeredHTML(); }
 
