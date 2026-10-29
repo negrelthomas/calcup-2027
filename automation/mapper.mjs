@@ -116,7 +116,7 @@ export function mapReferees(sheets){
   const BIO={
     USA:"USATH-certified referee pair.",
     CAN:"Referee pair from Canada.",
-    FRA:"First division referee pair from France."
+    FRA:"IHF referee pair designated by the French Handball Federation."
   };
   return Object.keys(pairs).sort((a,b)=>Number(a)-Number(b)).map(k=>{
     const p=pairs[k]; const tba=p.refs.every(isTbd);
