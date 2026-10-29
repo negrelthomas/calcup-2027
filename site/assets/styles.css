@@ -352,6 +352,8 @@ footer a{color:#C3D0DE}
 .rc-p1:hover,.rc-pm1:hover{opacity:.72}
 .rc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 18px 16px;box-shadow:0 12px 30px rgba(16,42,67,.13);text-align:center;min-height:300px}
 .rc-card .ref-people{display:flex;justify-content:center;gap:22px;margin-bottom:12px}
+.rc-fed{display:flex;justify-content:center;align-items:center;height:40px;margin:0 0 10px}
+.rc-fed img{max-height:40px;max-width:150px;width:auto;object-fit:contain}
 .ref-person{display:flex;flex-direction:column;align-items:center;gap:9px}
 .ref-portrait{position:relative;width:86px;height:86px;border-radius:50%;overflow:hidden;background:var(--orange-tint);display:flex;align-items:center;justify-content:center;box-shadow:inset 0 0 0 2px rgba(244,121,32,.28)}
 .ref-portrait .rp-init{font-family:'Saira Stencil One',var(--font);font-size:27px;color:var(--orange-dark);line-height:1}

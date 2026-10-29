@@ -354,6 +354,8 @@
 
   /* ---------- referees ---------- */
   function flagBadge(c){ var m={USA:["flag-us.png","United States"],FRA:["flag-fr.png","France"],CAN:["flag-ca.png","Canada"]}; return m[c]?'<img class="rp-badge" src="assets/'+m[c][0]+'" alt="'+m[c][1]+'" title="'+m[c][1]+'">':''; }
+  // Federation logo under a pair: IHF for the French pair, USATH for US pairs, none for Canada (for now).
+  function fedLogo(c){ var m={FRA:["ihf-logo.png","International Handball Federation"],USA:["usath-logo.png","USA Team Handball"]}; return m[c]?'<div class="rc-fed"><img src="assets/'+m[c][0]+'" alt="'+m[c][1]+'" title="'+m[c][1]+'" loading="lazy"></div>':''; }
   function flagFace(c){ var m={USA:"flag-us.png",FRA:"flag-fr.png",CAN:"flag-ca.png"}; return m[c]?'<img class="rp-flag" src="assets/'+m[c]+'" alt="'+c+'">':''; }
   function renderReferees(el){
     function refKey(s){ return String(s||"").toLowerCase().replace(/[^a-z]+/g," ").trim().split(" ").filter(Boolean).sort().join(""); }
@@ -397,7 +399,7 @@
       else if(p.real){ asg='Game assignments follow with the schedule'; bio=m.bio; }
       else if(p.tba){ asg='Names to be announced'; bio=m.bio; }
       else { asg='Assignment to be confirmed'; bio='Referee pair to be confirmed.'; }
-      return '<div class="rc-card"><div class="ref-people">'+people+'</div>'+
+      return '<div class="rc-card"><div class="ref-people">'+people+'</div>'+fedLogo(m.country)+
         (bio?'<div class="muted rc-bio">'+bio+'</div>':'')+
         '<div class="rc-assign">'+asg+'</div></div>';
     });
