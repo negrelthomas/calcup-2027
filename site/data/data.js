@@ -1568,7 +1568,7 @@ window.CALCUP = {
       }
     ],
     "trophyImage": "assets/women-trophy.jpg",
-    "championsNote": "Champions from the engraved trophy plates, post event reports and official results. Men's 2013 to 2016 are still being confirmed. Corrections and photos welcome at calcup@calheat.com.",
+    "championsNote": "Champions from the engraved trophy plates, post event reports and official results. Corrections and photos welcome at calcup@calheat.com.",
     "champions": [
       {
         "year": 2026,
@@ -1590,7 +1590,7 @@ window.CALCUP = {
         "year": 2024,
         "edition": "XVII",
         "men": "California Eagles",
-        "menLogo": "",
+        "menLogo": "california-eagles",
         "women": "New York City THC",
         "womenLogo": "nyc"
       },
@@ -1621,7 +1621,7 @@ window.CALCUP = {
         "men": "San Francisco CalHeat",
         "menLogo": "calheat",
         "women": "Alberta THF",
-        "womenLogo": ""
+        "womenLogo": "alberta-thf"
       },
       {
         "year": 2019,
@@ -1635,17 +1635,17 @@ window.CALCUP = {
         "year": 2018,
         "edition": "XII",
         "men": "Chicago Inter",
-        "menLogo": "",
+        "menLogo": "chicago-inter",
         "women": "Houston Firehawks",
-        "womenLogo": ""
+        "womenLogo": "houston-firehawks"
       },
       {
         "year": 2017,
         "edition": "XI",
         "men": "Houston Firehawks",
-        "menLogo": "",
+        "menLogo": "houston-firehawks",
         "women": "Alberta THF",
-        "womenLogo": ""
+        "womenLogo": "alberta-thf"
       },
       {
         "year": 2016,
@@ -1653,17 +1653,15 @@ window.CALCUP = {
         "men": "Los Angeles THC",
         "menLogo": "lathc",
         "women": "Los Angeles / Baja",
-        "womenLogo": "",
-        "menToConfirm": true
+        "womenLogo": ""
       },
       {
         "year": 2015,
         "edition": "IX",
         "men": "Chicago Inter",
-        "menLogo": "",
+        "menLogo": "chicago-inter",
         "women": "San Francisco CalHeat",
-        "womenLogo": "calheat",
-        "menToConfirm": true
+        "womenLogo": "calheat"
       },
       {
         "year": 2014,
@@ -1671,8 +1669,7 @@ window.CALCUP = {
         "men": "Los Angeles THC",
         "menLogo": "lathc",
         "women": "San Francisco CalHeat",
-        "womenLogo": "calheat",
-        "menToConfirm": true
+        "womenLogo": "calheat"
       },
       {
         "year": 2013,
@@ -1680,8 +1677,7 @@ window.CALCUP = {
         "men": "San Francisco CalHeat",
         "menLogo": "calheat",
         "women": "Los Angeles THC",
-        "womenLogo": "lathc",
-        "menToConfirm": true
+        "womenLogo": "lathc"
       },
       {
         "year": 2012,
@@ -1697,7 +1693,7 @@ window.CALCUP = {
         "men": "San Francisco CalHeat",
         "menLogo": "calheat",
         "women": "Vancouver BC",
-        "womenLogo": ""
+        "womenLogo": "vancouver"
       },
       {
         "year": 2010,
