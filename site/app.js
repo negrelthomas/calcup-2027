@@ -6,7 +6,7 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "referees.html"];
+  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "referees.html", "history.html", "info.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
