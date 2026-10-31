@@ -1467,7 +1467,7 @@ window.CALCUP = {
         "Loriane Lamour"
       ],
       "country": "FRA",
-      "bio": "IHF referee pair designated by the French Handball Federation."
+      "bio": "IHF referee pair designated by the French Handball Federation. Both 30 and from Brittany, they have refereed in the Daikin Starligue, the French first division, for three years, at EHF level since 2024 and at IHF level since July 2026."
     },
     {
       "id": "r3",
