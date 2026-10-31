@@ -116,7 +116,7 @@ export function mapReferees(sheets){
   const BIO={
     USA:"USATH-certified referee pair.",
     CAN:"Referee pair from Canada.",
-    FRA:"IHF referee pair designated by the French Handball Federation."
+    FRA:"IHF referee pair designated by the French Handball Federation. Both 30 and from Brittany, they have refereed in the Daikin Starligue, the French first division, for three years, at EHF level since 2024 and at IHF level since July 2026."
   };
   return Object.keys(pairs).sort((a,b)=>Number(a)-Number(b)).map(k=>{
     const p=pairs[k]; const tba=p.refs.every(isTbd);
