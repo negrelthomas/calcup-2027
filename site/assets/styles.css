@@ -1,5 +1,5 @@
 :root{
-  --navy:#102A43; --navy-deep:var(--navy); --navy-2:#1B3A5B; /* only two navies sitewide: --navy (nav) + --navy-2 (refbar) */
+  --navy:#0C2138; --navy-deep:var(--navy); --navy-2:#1B3A5B; /* only two navies sitewide: --navy (nav) + --navy-2 (refbar) */
   --orange:#F47920; --orange-dark:#C75E12; --orange-tint:#FCEBDA;
   --ink:#13202E; --muted:#5A6B7B; --line:#E5EAF0; --bg:#F6F8FA; --card:#FFFFFF;
   --green:#0F6E56; --red:#A32D2D;
