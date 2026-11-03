@@ -700,3 +700,16 @@ table.lb tr.me td{background:var(--orange-tint)}
 .champs .ch-logo{height:26px;width:26px;object-fit:contain;flex:0 0 26px}
 .champs .ch-ed{display:block;font-size:11px;color:var(--muted);font-weight:400}
 .champs .ch-tc{font-size:11px;color:#9aa6b2;font-style:italic}
+
+/* --- quiz: email sign in, declaration, rules (server scored quiz, Nov 2026) --- */
+.quiz-sign{max-width:360px;margin:14px auto 0;text-align:left;display:flex;flex-direction:column;gap:10px}
+.quiz-sign label{font-size:13px;font-weight:600;color:var(--navy);display:flex;flex-direction:column;gap:4px}
+.quiz-sign .quiz-name{max-width:none;text-align:left}
+.quiz-sign label.quiz-check{flex-direction:row;align-items:flex-start;gap:8px;font-weight:500;color:var(--ink)}
+.quiz-check input{margin-top:3px;flex:none}
+.quiz-err{color:var(--red);font-size:13px;min-height:1em;margin-top:4px}
+.quiz-rules{max-width:520px;margin:16px auto 0;text-align:left;font-size:13px;color:#33414f}
+.quiz-rules summary{cursor:pointer;font-weight:700;color:var(--navy);text-align:center}
+.quiz-rules ul{margin:8px 0 0;padding-left:18px}
+.quiz-rules li{margin:0 0 6px}
+.quiz .btn-ghost,.qa-bar .btn-ghost{color:var(--navy);border-color:var(--navy)}

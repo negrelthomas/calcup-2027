@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Referee quiz admin | CalCup 2027</title>
+<meta name="robots" content="noindex">
+<link rel="stylesheet" href="assets/icons.css">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/styles.css">
+<link rel="icon" href="/favicon.ico" sizes="any">
+<style>
+  .qa-table{width:100%;border-collapse:collapse;font-size:13px;background:var(--card)}
+  .qa-table th,.qa-table td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+  .qa-table th{font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
+  .qa-flag{color:var(--red);font-weight:700}
+  .qa-bar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:0 0 14px}
+  .qa-bar input{padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px}
+  .qa-scroll{overflow-x:auto}
+</style>
+</head>
+<body>
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="CalCup home"><span class="brandmark"><span class="bm-cal">CAL</span><span class="bm-cup">CUP</span> <span class="bm-cal">XX</span></span></a>
+    <button class="burger" id="burger" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+    <nav class="menu" id="menu"></nav>
+  </div>
+</header>
+<section class="hero" data-hero="16.jpg" style="padding:30px 0">
+  <div class="wrap">
+    <img class="hero-logo" src="assets/calheat-logo.png" alt="San Francisco CalHeat">
+    <p class="kicker">Organizing committee</p>
+    <h1 style="font-size:30px">Referee quiz: admin</h1>
+    <p class="sub">Verified players, best rounds, referee declarations, news consent, and the leaderboard reset.</p>
+  </div>
+</section>
+<div class="wrap"><section><div id="qa"><p class="muted">Loading...</p></div></section></div>
+<script src="data/data.js"></script>
+<script src="app.js"></script>
+<script>
+(function(){
+  var API="/.netlify/functions/refquiz", K="calcup_vote_admin", el=document.getElementById("qa");
+  function tok(v){ try{ if(v===undefined) return sessionStorage.getItem(K)||""; sessionStorage.setItem(K,v); }catch(e){} return v||""; }
+  function esc(x){ return String(x==null?"":x).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
+  function ms(v){ if(v==null)return ""; var s=v/1000; return Math.floor(s/60)+":"+("0"+Math.floor(s%60)).slice(-2)+"."+Math.floor((s*10)%10); }
+  function dt(v){ return v?new Date(v).toLocaleString("en-US",{timeZone:"America/Los_Angeles",month:"short",day:"numeric",hour:"numeric",minute:"2-digit"}):""; }
+  function ask(msg){
+    el.innerHTML='<div class="qa-bar"><input id="qat" type="password" placeholder="Admin token (same as voting admin)" style="min-width:280px"><button class="btn btn-pri" id="qago">Open</button></div>'+(msg?'<p class="quiz-err">'+esc(msg)+'</p>':'');
+    document.getElementById("qago").addEventListener("click",function(){ tok(document.getElementById("qat").value.trim()); load(); });
+  }
+  function load(){
+    if(!tok()) return ask();
+    fetch(API+"?op=admin",{headers:{"x-admin-token":tok()}}).then(function(r){ return r.json().then(function(j){ return [r.ok,j]; }); }).then(function(x){
+      if(!x[0]) return ask(x[1].error==="unauthorized"?"Token not accepted.":"Error: "+x[1].error);
+      render(x[1]);
+    }).catch(function(){ ask("No connection."); });
+  }
+  function render(d){
+    var rows=d.players;
+    var csv=["rank,nickname,email,score,total,time_ms,secs_per_question,plays,not_referee_declared,news_opt_in,verified"].concat(rows.map(function(r){
+      return [r.rank||"",r.name,r.email,r.best?r.best.score:"",r.best?r.best.total:"",r.best?r.best.ms:"",r.secsPerQ||"",r.plays,dt(r.notRefereeAt),r.news?"yes":"no",dt(r.verifiedAt)].map(function(v){ v=String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(",");
+    })).join("\n");
+    el.innerHTML='<div class="qa-bar"><span>Board closes <b>'+esc(dt(Date.parse(d.closesAt)))+'</b> Pacific</span>'+
+      '<span>Sender: <b>'+(d.senderReady?'ready':'not set up (RESEND_API_KEY)')+'</b></span><span>Rank emails: <b>'+(d.emailsOn?'on':'off')+'</b></span>'+
+      '<a class="btn btn-ghost" id="qacsv" download="refquiz_players.csv" href="data:text/csv;charset=utf-8,'+encodeURIComponent(csv)+'">Download CSV</a></div>'+
+      '<p class="muted" style="font-size:12px">'+rows.length+' verified players. A red time means under 4 seconds per question on the best round: check before awarding the prize. Check the winner against referee rosters as well.</p>'+
+      '<div class="qa-scroll"><table class="qa-table"><thead><tr><th>#</th><th>Nickname</th><th>Email</th><th>Best</th><th>Time</th><th>s/question</th><th>Plays</th><th>Not referee</th><th>News</th></tr></thead><tbody>'+
+      rows.map(function(r){ return '<tr><td>'+(r.rank||"")+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.email)+(r.unsub?' <span class="muted">(no emails)</span>':'')+'</td><td>'+(r.best?r.best.score+'/'+r.best.total:'')+'</td><td>'+(r.best?ms(r.best.ms):'')+'</td><td'+(r.fast?' class="qa-flag"':'')+'>'+(r.secsPerQ||'')+'</td><td>'+r.plays+'</td><td>'+esc(dt(r.notRefereeAt))+'</td><td>'+(r.news?'yes':'')+'</td></tr>'; }).join("")+
+      '</tbody></table></div>'+
+      '<h3 style="margin-top:26px">Reset the leaderboard</h3><p class="muted" style="font-size:13px">Clears every best round and empties the board. Players keep their sign in and nickname. Type RESET to confirm.</p>'+
+      '<div class="qa-bar"><input id="qarc" placeholder="RESET"><button class="btn btn-ghost" id="qarb">Reset the leaderboard</button><span id="qarm" class="muted"></span></div>';
+    document.getElementById("qarb").addEventListener("click",function(){
+      var c=document.getElementById("qarc").value.trim(), m=document.getElementById("qarm");
+      if(c!=="RESET"){ m.textContent="Type RESET first."; return; }
+      fetch(API+"?op=reset",{method:"POST",headers:{"x-admin-token":tok(),"Content-Type":"application/json"},body:JSON.stringify({confirm:"RESET"})})
+        .then(function(r){return r.json();}).then(function(j){ m.textContent=j.reset?"Leaderboard cleared.":"Error: "+j.error; if(j.reset) setTimeout(load,800); });
+    });
+  }
+  load();
+})();
+</script>
+</body>
+</html>
