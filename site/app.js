@@ -697,7 +697,7 @@
   // each round, times each question and scores it. This page only shows questions and sends picks.
   // Leaderboard: players who verified their email and declared they are not a certified referee.
   var QAPI="/.netlify/functions/refquiz", QTOK="calcup_quiz_tok";
-  var QUIZ_PRIZE='a <b>$50 CalCup merch gift card</b>'; // one place to change the prize wording
+  var QUIZ_PRIZE='a <b>signed jersey from a former international player</b>'; // one place to change the prize wording
   function qEsc(x){ return String(x==null?"":x).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
   function qMs(ms){ if(ms==null||isNaN(ms))return "&mdash;"; var s=ms/1000,m=Math.floor(s/60),sec=Math.floor(s%60),t=Math.floor((s*10)%10); return m+":"+("0"+sec).slice(-2)+"."+t; }
   function qTok(v){ try{ if(v===undefined) return localStorage.getItem(QTOK)||""; if(v) localStorage.setItem(QTOK,v); else localStorage.removeItem(QTOK); }catch(e){} return v||""; }
@@ -720,9 +720,10 @@
   function qRules(closesAt){
     return '<details class="quiz-rules"><summary>Leaderboard rules</summary><ul>'+
       '<li>Anyone can play. To appear on the leaderboard, verify your email with a 6 digit code and choose a nickname.</li>'+
-      '<li>Certified referees, in the USA or any other country, can play but cannot appear on the leaderboard or win the prize. The winner is checked against referee rosters before the prize is awarded.</li>'+
+      '<li>Certified referees, in the USA or any other country, can play but cannot appear on the leaderboard or win the prize. The organizers confirm the winner is not a certified referee before awarding it.</li>'+
       '<li>Play as often as you like. Your best round counts. Ties go to the fastest total time.</li>'+
       '<li>Prize: '+QUIZ_PRIZE+' for the top of the board when it closes'+(closesAt?', '+qWhen(closesAt):'')+'.</li>'+
+      '<li>The winner must be at the venue, or represented by a proxy, when the prize is awarded at the Sunday finals. Otherwise the prize goes to the next player on the board.</li>'+
       '<li>Your email is used only to identify you and, unless you opt out, to tell you when someone takes your place in the top 10. It goes on no mailing list unless you tick the news box.</li>'+
       '</ul></details>';
   }
@@ -885,7 +886,7 @@
 
     // Shared "you think you can ref?" ribbon — one source of truth for every page.
     var _rbt = document.querySelector(".refbar .refbar-txt");
-    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> Timed rules quiz. Top the weekend board and win a <b>$50 merch gift card</b>.';
+    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> Timed rules quiz. Top the weekend board and win a <b>signed jersey</b>.';
 
     // Preview gate — see PREVIEW_MODE switch at the top of this file.
     // Organizers can test the quiz before launch with refquiz.html?preview=quiz (not linked anywhere).
