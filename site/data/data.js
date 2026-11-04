@@ -1494,7 +1494,7 @@ window.CALCUP = {
         "Keira Hopkinson"
       ],
       "country": "CAN",
-      "bio": "Referee pair from Canada."
+      "bio": "Referee pair from Edmonton, Alberta, Canada, refereeing together for two and a half years. They have officiated at two IHF Trophy competitions and at several Canadian and USA National Championships."
     }
   ],
   "volunteers": [
