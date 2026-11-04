@@ -115,7 +115,7 @@ export function mapReferees(sheets){
   }
   const BIO={
     USA:"USATH-certified referee pair.",
-    CAN:"Referee pair from Edmonton, Alberta, Canada, refereeing together for two and a half years. They have officiated at two IHF Trophy competitions and at several Canadian and USA National Championships.",
+    CAN:"Referee pair from Edmonton, Alberta, Canada, involved in handball since their high school years. Refereeing together for two and a half years, they have built a strong partnership and gained experience at international and national level, including two IHF Trophy competitions and several Canadian and USA National Championships.",
     FRA:"IHF referee pair designated by the French Handball Federation. Both 30 and from Brittany, they have refereed in the Daikin Starligue, the French first division, for three years, at EHF level since 2024 and at IHF level since July 2026."
   };
   return Object.keys(pairs).sort((a,b)=>Number(a)-Number(b)).map(k=>{
