@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Donated jerseys | CalCup 2027</title>
+<link rel="stylesheet" href="assets/icons.css">
+<link rel="stylesheet" href="assets/fonts.css">
+<link rel="stylesheet" href="assets/styles.css">
+<style>
+  /* Full screen carousel of donated jerseys: one prize per screen, swipe or arrows. */
+  html,body{height:100%}
+  body{display:flex;flex-direction:column;min-height:100vh}
+  .dc-bar{background:var(--navy);color:#fff;padding:12px 0 0}
+  .dc-bar .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
+  .dc-title{margin:0;font-size:22px;line-height:1.15}
+  .dc-title small{display:block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:3px}
+  .dc-tabs{display:flex;gap:4px;margin:0;padding:0;list-style:none;max-width:100%;overflow-x:auto;scrollbar-width:none}
+  .dc-tabs button{font:inherit;font-size:13px;font-weight:700;color:#B7C6D6;background:transparent;border:0;border-bottom:3px solid transparent;padding:8px 12px 9px;cursor:pointer;white-space:nowrap}
+  .dc-tabs button .n{display:inline-block;min-width:18px;height:18px;line-height:18px;border-radius:9px;background:#22405E;color:#fff;font-size:11px;margin-right:6px;text-align:center}
+  .dc-tabs button[aria-selected="true"]{color:#fff;border-bottom-color:var(--orange)}
+  .dc-tabs button[aria-selected="true"] .n{background:var(--orange);color:#3A1B02}
+  .dc{position:relative;flex:1;min-height:520px;display:flex}
+  .dc-track{flex:1;display:flex;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-behavior:smooth;scrollbar-width:none}
+  .dc-track::-webkit-scrollbar{display:none}
+  .dc-slide{flex:0 0 100%;scroll-snap-align:start;height:100%;padding:0;margin:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:0}
+  .dc-photo{position:relative;background:var(--navy);margin:0;overflow:hidden}
+  .dc-photo img{width:100%;height:100%;object-fit:cover;display:block}
+  .dc-slot{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#B7C6D6;text-align:center;padding:24px;font-size:14px}
+  .dc-slot .ti{font-size:44px;color:var(--orange)}
+  .dc-photo figcaption{position:absolute;left:0;right:0;bottom:0;padding:10px 16px;font-size:12px;color:#DCE6F0;background:linear-gradient(transparent,rgba(12,33,56,.92))}
+
+  .dc-photo .dc-bg{position:absolute;inset:-20px;background-size:cover;background-position:center;filter:blur(18px) brightness(.55)}
+  .dc-photo .dc-main{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+  .dc-photo.fit-contain .dc-main{object-fit:contain;object-position:center}
+  .dc-thumbs{position:absolute;right:14px;bottom:46px;display:flex;gap:8px;z-index:1}
+  .dc-thumbs button{padding:0;border:2px solid rgba(255,255,255,.7);border-radius:8px;overflow:hidden;width:62px;height:78px;background:var(--navy);cursor:pointer}
+  .dc-thumbs button[aria-pressed="true"]{border-color:var(--orange)}
+  .dc-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+  .dc-head{display:flex;align-items:center;gap:14px;margin:0 0 10px}
+  .dc-head h2{margin:0}
+  .dc-avatar{width:68px;height:68px;border-radius:50%;object-fit:cover;object-position:50% 50%;flex:none;border:2px solid var(--orange)}
+  .dc-prize{position:absolute;top:16px;left:16px;background:var(--orange);color:#3A1B02;font-weight:800;font-size:12px;letter-spacing:.6px;text-transform:uppercase;padding:6px 12px;border-radius:20px}
+  .dc-body{overflow-y:auto;padding:26px 76px 30px 34px;display:flex;flex-direction:column}
+  .dc-body h2{margin:0 0 10px;font-size:27px;line-height:1.15;color:var(--navy)}
+  .dc-body .donor-stats{margin:0 0 14px}
+  .dc-body p{margin:0 0 11px;font-size:15px;line-height:1.5}
+  .dc-body .donor-gift{margin:4px 0 12px}
+  .dc-career summary{cursor:pointer;font-weight:700;color:var(--navy);font-size:14px;margin:2px 0 8px}
+  .dc-career .donor-timeline li{grid-template-columns:104px 180px 1fr;padding:8px 12px;font-size:13px}
+  .dc-nav{position:absolute;top:50%;transform:translateY(-50%);width:46px;height:46px;border-radius:50%;border:0;background:rgba(255,255,255,.95);color:var(--navy);font-size:24px;line-height:46px;text-align:center;box-shadow:0 6px 18px rgba(12,33,56,.25);cursor:pointer;z-index:2}
+  .dc-nav:disabled{opacity:.35;cursor:default}
+  .dc-prev{left:12px}.dc-next{right:12px}
+  .dc-count{position:absolute;right:16px;bottom:14px;background:rgba(12,33,56,.85);color:#fff;font-size:12px;font-weight:700;padding:5px 11px;border-radius:14px;z-index:2}
+  .mock-note{font-size:12px;color:#B7C6D6;padding:6px 0 8px;margin:0}
+  @media (max-width:860px){
+    .dc{min-height:0}
+    .dc-slide{grid-template-columns:1fr;grid-template-rows:34vh auto;height:auto;min-height:0}
+    .dc-count{display:none}
+    .dc-track{align-items:flex-start}
+    .dc-body{overflow:visible;padding:18px 18px 28px}
+    .dc-body h2{font-size:22px}
+    .dc-nav{top:17vh}
+    .dc-thumbs button{width:48px;height:60px}
+    .dc-tabs button{padding:8px 8px 9px;font-size:12px}
+    .dc-career .donor-timeline li{grid-template-columns:1fr;gap:2px}
+  }
+</style>
+</head>
+<body>
+
+
+<header class="nav">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="CalCup home"><span class="brandmark"><span class="bm-cal">CAL</span><span class="bm-cup">CUP</span> <span class="bm-cal">XX</span></span></a>
+    <button class="burger" id="burger" aria-label="Menu"><i class="ti ti-menu-2"></i></button>
+    <nav class="menu" id="menu"></nav>
+  </div>
+</header>
+
+<div class="dc-bar">
+  <div class="wrap">
+    <h1 class="dc-title"><small>CalCup XX prizes</small>Donated jerseys</h1>
+    <ul class="dc-tabs" role="tablist" aria-label="Donated jerseys">
+      <li><button role="tab" aria-selected="true" data-go="0"><span class="n">1</span>Henning Fritz</button></li>
+      <li><button role="tab" aria-selected="false" data-go="1"><span class="n">2</span>Siraba Dembélé</button></li>
+      <li><button role="tab" aria-selected="false" data-go="2"><span class="n">3</span>Guillaume Gille</button></li>
+    </ul>
+  </div>
+</div>
+
+<div class="dc">
+  <button class="dc-nav dc-prev" aria-label="Previous jersey">&lsaquo;</button>
+  <button class="dc-nav dc-next" aria-label="Next jersey">&rsaquo;</button>
+  <span class="dc-count" aria-live="polite">1 / 3</span>
+  <div class="dc-track" tabindex="0">
+
+    <!-- 1. Henning Fritz -->
+    <section class="dc-slide" id="fritz" aria-label="1 of 3: Henning Fritz">
+      <figure class="dc-photo fit-contain">
+        <div class="dc-bg" style="background-image:url('assets/photos/donors/fritz-jersey-front.jpg')"></div>
+        <img class="dc-main" src="assets/photos/donors/fritz-jersey-front.jpg" alt="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front">
+        <span class="dc-prize">Donated jersey</span>
+        <div class="dc-thumbs"><button type="button" aria-label="Jersey front" aria-pressed="true" data-src="assets/photos/donors/fritz-jersey-front.jpg" data-fit="contain" data-cap="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front."><img src="assets/photos/donors/fritz-jersey-front.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/fritz-jersey-back.jpg" data-fit="contain" data-cap="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, back."><img src="assets/photos/donors/fritz-jersey-back.jpg" alt=""></button></div>
+        <figcaption>Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front.</figcaption>
+      </figure>
+      <div class="dc-body">
+        <p class="donor-tag"><span>Germany</span><span>Goalkeeper</span><span>IHF World Player of the Year, 2004</span></p>
+        <h2>Henning Fritz's jersey</h2>
+        <div class="donor-stats">
+          <div><b>235</b><span>caps for Germany</span></div>
+          <div><b>5</b><span>German championships</span></div>
+          <div><b>4</b><span>EHF Cup titles</span></div>
+          <div><b>2004</b><span>IHF World Player of the Year</span></div>
+        </div>
+        <p>Henning Fritz is one of the great goalkeepers of the modern game. Born in Magdeburg in 1974, he won the German Cup, two EHF Cups and the 2001 German title with SC Magdeburg, then became one of the best goalkeepers in the world at THW Kiel, where he won four more German championships and the 2007 EHF Champions League. He finished with five seasons at the Rhein-Neckar Löwen and retired in 2012, returning briefly in 2021 and, at 49, in 2024.</p>
+        <p>For Germany he played 235 internationals and won the European title and Olympic silver in 2004, then the World Championship on home soil in 2007. He was named best goalkeeper of the 2003 and 2007 World Championships, EURO 2004 and the Athens Olympics, and in 2004 became the first goalkeeper named IHF World Player of the Year.</p>
+        <p class="donor-gift"><i class="ti ti-heart-handshake"></i> The jersey is his number 12 Rhein-Neckar Löwen goalkeeper jersey, which Henning will sign. He donated it to support CalCup and youth handball in the Bay Area.</p>
+        <details class="dc-career"><summary>Full career</summary>
+          <ol class="donor-timeline">
+            <li><span class="yr">1992 to 2001</span><span class="club">SC Magdeburg</span><span class="hl">German champion 2001 · German Cup 1996 · EHF Cup 1999, 2001</span></li>
+            <li><span class="yr">2001 to 2007</span><span class="club">THW Kiel</span><span class="hl">Champions League 2007 · Bundesliga 2002, 2005, 2006, 2007 · German Cup 2007 · EHF Cup 2002, 2004 · Supercup 2005</span></li>
+            <li class="now"><span class="yr">2007 to 2012</span><span class="club">Rhein-Neckar Löwen</span><span class="hl">Number 12: the jersey on this page</span></li>
+            <li><span class="yr">2021</span><span class="club">SG Flensburg-Handewitt</span><span class="hl">Comeback at the end of the 2020/21 season</span></li>
+            <li><span class="yr">2024</span><span class="club">SSV Bozen (Italy)</span><span class="hl">Comeback at 49, January 2024</span></li>
+            <li><span class="yr">235 caps</span><span class="club">Germany national team</span><span class="hl">World Championship gold 2007 · EHF EURO gold 2004 · Olympic silver 2004 · World Championship silver 2003 · EHF EURO silver 2002 · EHF EURO bronze 1998 · Olympic Games 2000, 2004</span></li>
+          </ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- 2. Siraba Dembélé -->
+    <section class="dc-slide" id="dembele" aria-label="2 of 3: Siraba Dembélé">
+      <figure class="dc-photo">
+        <div class="dc-slot"><i class="ti ti-heart-handshake"></i>Photo of the jersey coming soon</div>
+        <span class="dc-prize">Donated jersey</span>
+        <figcaption>Siraba Dembélé's jersey. Photo coming soon.</figcaption>
+      </figure>
+      <div class="dc-body">
+        <p class="donor-tag"><span>France</span><span>Left wing</span><span>World champion 2017, captain</span></p>
+        <h2>Siraba Dembélé's jersey</h2>
+        <div class="donor-stats">
+          <div><b>291</b><span>caps for France</span></div>
+          <div><b>848</b><span>international goals</span></div>
+          <div><b>2nd</b><span>all-time top scorer for Les Bleues</span></div>
+          <div><b>15</b><span>years with the national team</span></div>
+        </div>
+        <p>Siraba Dembélé is one of the best left wings the women's game has produced. Born in Dreux in 1986, she was named best left wing of the French league five years in a row and won two French Cups with Toulon Saint-Cyr, then spent a decade with leading clubs abroad: Randers HK, HC Vardar and Rostov-Don, where she won the 2017 EHF Cup and two Russian titles. She was twice named best left wing of the EHF Champions League and retired in 2023 at CSM București.</p>
+        <p>With France she played 291 matches and scored 848 goals between 2006 and 2021, second only to Véronique Pecqueux-Rolland, and no one has captained the team longer. She won Olympic silver in Rio in 2016, then captained France to the 2017 World Championship, where she was named best left wing, and to the 2018 European title on home soil.</p>
+        <p class="donor-gift"><i class="ti ti-heart-handshake"></i> Siraba donated one of her jerseys to support CalCup and youth handball in the Bay Area.</p>
+        <details class="dc-career"><summary>Full career</summary>
+          <ol class="donor-timeline">
+            <li><span class="yr">2003 to 2004</span><span class="club">Dreux AC</span><span class="hl"></span></li>
+            <li><span class="yr">2004 to 2008</span><span class="club">Mérignac Handball</span><span class="hl">Best left wing of the French league 2008</span></li>
+            <li><span class="yr">2008 to 2009</span><span class="club">Issy-les-Moulineaux</span><span class="hl">Best left wing of the French league 2009</span></li>
+            <li><span class="yr">2009 to 2012</span><span class="club">Toulon Saint-Cyr</span><span class="hl">French Cup 2011, 2012 · Best player of the French league 2011</span></li>
+            <li><span class="yr">2012 to 2013</span><span class="club">Randers HK</span><span class="hl"></span></li>
+            <li><span class="yr">2013 to 2016</span><span class="club">HC Vardar</span><span class="hl">Macedonian Cup 2014, 2015, 2016 · Champions League best left wing 2015</span></li>
+            <li><span class="yr">2016 to 2018</span><span class="club">Rostov-Don</span><span class="hl">EHF Cup 2017 · Russian champion 2017, 2018 · Russian Cup 2017 · Champions League best left wing 2018</span></li>
+            <li><span class="yr">2018 to 2020</span><span class="club">Toulon Saint-Cyr</span><span class="hl"></span></li>
+            <li><span class="yr">2020 to 2023</span><span class="club">CSM București</span><span class="hl">Two Romanian championships · Two Romanian Cups · Final season 2022/23</span></li>
+            <li><span class="yr">2006 to 2021</span><span class="club">France national team</span><span class="hl">World Championship gold 2017 (captain) · EHF EURO gold 2018 · Olympic silver 2016 · World Championship silver 2009, 2011 · EHF EURO silver 2020 · EHF EURO bronze 2006, 2016 · Olympic Games 2012, 2016</span></li>
+          </ol>
+        </details>
+      </div>
+    </section>
+
+    <!-- 3. Guillaume Gille: Dylan Nahi's France jersey -->
+    <section class="dc-slide" id="gille" aria-label="3 of 3: Guillaume Gille">
+      <figure class="dc-photo fit-contain">
+        <div class="dc-bg" style="background-image:url('assets/photos/donors/nahi-jersey-front.jpg')"></div>
+        <img class="dc-main" src="assets/photos/donors/nahi-jersey-front.jpg" alt="Dylan Nahi's white France jersey, number 31, front">
+        <a class="dc-prize" href="refquiz.html" style="text-decoration:none">Referee quiz prize</a>
+        <div class="dc-thumbs"><button type="button" aria-label="Jersey front" aria-pressed="true" data-src="assets/photos/donors/nahi-jersey-front.jpg" data-fit="contain" data-cap="Dylan Nahi's white France jersey, number 31, front."><img src="assets/photos/donors/nahi-jersey-front.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/nahi-jersey-back.jpg" data-fit="contain" data-cap="Dylan Nahi's white France jersey, number 31, back."><img src="assets/photos/donors/nahi-jersey-back.jpg" alt=""></button></div>
+        <figcaption>Dylan Nahi's white France jersey, number 31, front.</figcaption>
+      </figure>
+      <div class="dc-body">
+        <p class="donor-tag"><span>France</span><span>Centre back</span><span>Olympic champion 2008, 2012</span><span>Head coach of France 2020 to 2026</span></p>
+        <div class="dc-head"><h2>Dylan Nahi's France jersey, donated by Guillaume Gille</h2></div>
+        <div class="donor-stats">
+          <div><b>308</b><span>caps for France</span></div>
+          <div><b>678</b><span>international goals</span></div>
+          <div><b>2</b><span>Olympic titles as a player</span></div>
+          <div><b>6</b><span>years as head coach of France</span></div>
+        </div>
+        <p>Guillaume Gille was the playmaker of the French generation that won everything. Born in Valence in 1976, he played his whole club career alongside his brother Bertrand: French champion with Chambéry in 2001, then ten seasons at HSV Hamburg, with the 2007 Cup Winners' Cup and the 2011 German title, before returning to Chambéry and retiring in 2015. For France he played 308 matches and won Olympic gold in 2008 and 2012, two World Championships and two European titles.</p>
+        <p>He became assistant coach of France in 2016 and head coach in January 2020. His teams won Olympic gold in Tokyo, the 2024 European Championship and World Championship bronze in 2025. He left the post in February 2026.</p>
+        <p class="donor-gift"><i class="ti ti-heart-handshake"></i> The jersey is Dylan Nahi's white France jersey, number 31. Nahi was European champion in 2024 under Guillaume and best left wing of the 2025 World Championship. Guillaume donated it to support CalCup and youth handball in the Bay Area.</p>
+        <details class="dc-career"><summary>Full career</summary>
+          <ol class="donor-timeline">
+            <li><span class="yr">1996 to 2002</span><span class="club">Chambéry Savoie</span><span class="hl">French champion 2001 · League Cup 2002</span></li>
+            <li><span class="yr">2002 to 2012</span><span class="club">HSV Hamburg</span><span class="hl">Cup Winners' Cup 2007 · German champion 2011 · German Supercup 2004, 2006, 2009</span></li>
+            <li><span class="yr">2012 to 2015</span><span class="club">Chambéry Savoie</span><span class="hl">Trophée des champions 2013 · Retired 2015</span></li>
+            <li><span class="yr">1996 to 2012</span><span class="club">France national team</span><span class="hl">Olympic gold 2008, 2012 · World Championship gold 2009, 2011 · EHF EURO gold 2006, 2010 · 308 caps, 678 goals</span></li>
+            <li><span class="yr">2016 to 2020</span><span class="club">France, assistant coach</span><span class="hl"></span></li>
+            <li class="now"><span class="yr">2020 to 2026</span><span class="club">France, head coach</span><span class="hl">Olympic gold Tokyo 2020 · EHF EURO gold 2024 · World Championship bronze 2025</span></li>
+          </ol>
+        </details>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  var track=document.querySelector(".dc-track"), slides=[].slice.call(document.querySelectorAll(".dc-slide")),
+      tabs=[].slice.call(document.querySelectorAll(".dc-tabs button")), prev=document.querySelector(".dc-prev"),
+      next=document.querySelector(".dc-next"), count=document.querySelector(".dc-count"), cur=0;
+  function go(i){ i=Math.max(0,Math.min(slides.length-1,i)); track.scrollTo({left:i*track.clientWidth,behavior:"smooth"}); }
+  function mark(i){ cur=i; tabs.forEach(function(t,k){ t.setAttribute("aria-selected",k===i?"true":"false"); });
+    prev.disabled=i===0; next.disabled=i===slides.length-1; count.textContent=(i+1)+" / "+slides.length;
+    if(history.replaceState) history.replaceState(null,"","#"+slides[i].id); }
+  track.addEventListener("scroll",function(){ var i=Math.round(track.scrollLeft/track.clientWidth); if(i!==cur) mark(i); },{passive:true});
+  tabs.forEach(function(t){ t.addEventListener("click",function(){ go(+t.getAttribute("data-go")); }); });
+  prev.addEventListener("click",function(){ go(cur-1); }); next.addEventListener("click",function(){ go(cur+1); });
+  document.addEventListener("keydown",function(e){ if(e.target.closest&&e.target.closest("input,textarea"))return; if(e.key==="ArrowRight")go(cur+1); if(e.key==="ArrowLeft")go(cur-1); });
+  window.addEventListener("resize",function(){ track.style.scrollBehavior="auto"; track.scrollLeft=cur*track.clientWidth; track.style.scrollBehavior=""; });
+  var start=slides.findIndex(function(s){ return "#"+s.id===location.hash; });
+  if(start>0){ track.style.scrollBehavior="auto"; track.scrollLeft=start*track.clientWidth; track.style.scrollBehavior=""; }
+  mark(start>0?start:0);
+  [].forEach.call(document.querySelectorAll(".dc-thumbs button"),function(b){ b.addEventListener("click",function(){
+    var f=b.closest(".dc-photo"), m=f.querySelector(".dc-main");
+    m.src=b.getAttribute("data-src"); f.querySelector(".dc-bg").style.backgroundImage="url('"+b.getAttribute("data-src")+"')";
+    f.classList.toggle("fit-contain",b.getAttribute("data-fit")==="contain"); m.style.objectPosition=b.getAttribute("data-pos")||""; f.querySelector("figcaption").textContent=b.getAttribute("data-cap");
+    [].forEach.call(f.querySelectorAll(".dc-thumbs button"),function(x){ x.setAttribute("aria-pressed",x===b?"true":"false"); });
+  }); });
+})();
+</script>
+<script src="data/data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
