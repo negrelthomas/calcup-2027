@@ -31,7 +31,7 @@
     { href:"concession.html", nav:"Concession",  tile:"Concession",   icon:"ti-bolt",            primary:true },
     { href:"history.html",    nav:"History",     tile:"History",      icon:"ti-trophy",          primary:true },
     { href:"raffle.html",     nav:"Raffle",      tile:"Raffle",       icon:"ticket",             primary:true },
-    { href:"donors.html",     nav:"Donated jerseys", tile:"Donated jerseys", icon:"ti-heart-handshake",     primary:false },
+    { href:"donors.html",     nav:"Donors",      tile:"Donated jerseys", icon:"ti-heart-handshake", primary:true },
     { href:"toolkit.html",    nav:"Organizer toolkit", tile:"Tournament organizer toolkit", icon:"ti-tools", primary:false },
     { href:"watch.html",      nav:"Watch live",  tile:"Watch live",   icon:"ti-player-play",     primary:false },
     { href:"sponsors.html",   nav:"Sponsors",    tile:"Sponsors",     icon:"ti-heart-handshake", primary:false },
@@ -745,7 +745,7 @@
         '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 45 seconds each</b>, depending on length. Some questions have more than one correct answer. Questions from the IHF Catalogue of Rules Questions 2025.</p>'+
         '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard and win '+QUIZ_PRIZE+'.'+
           '<div class="quiz-prize-pics"><img class="zoomable" src="assets/photos/donors/nahi-jersey-front.jpg" alt="Dylan Nahi\'s white France jersey, number 31, front" loading="lazy"><img class="zoomable" src="assets/photos/donors/nahi-jersey-back.jpg" alt="Dylan Nahi\'s white France jersey, Nahi 31, back" loading="lazy"></div>'+
-          '<div class="quiz-prize-cap">Dylan Nahi&rsquo;s white number 31 France jersey, donated by Guillaume Gille. Tap a photo to enlarge.</div></div>'+
+          '<div class="quiz-prize-cap">Dylan Nahi&rsquo;s white number 31 France jersey, donated by Guillaume Gille. Tap a photo to enlarge. <a href="donors.html#gille">See all donated jerseys &rarr;</a></div></div>'+
         '<div id="qclosed"></div><div id="qwho"></div>'+
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>'+
         '<div id="qrules"></div></div>';
