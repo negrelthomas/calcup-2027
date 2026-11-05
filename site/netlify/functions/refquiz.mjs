@@ -20,11 +20,18 @@
 //   POST op=logout  Bearer
 //   GET  op=unsub   ?u=&s=            stops rank emails for one player
 //   GET  op=admin   x-admin-token     full board with emails, declarations, consent, timing flags
-//   POST op=reset   x-admin-token     clears the leaderboard (players keep their sign in)
+//   POST op=reset   x-admin-token     {confirm:"RESET", board:"all"|"practice"|"prize"} clears a board (players keep their sign in)
+//   POST op=dq      x-admin-token     {id, on, reason} removes a player from both boards, or restores them
+//
+// Two boards. Before the prize board opens (court time of the first game, from Games Schedule,
+// or QUIZ_OPEN), every signed in round goes on the practice board, which never counts for the
+// prize. The prize board ("board") starts empty when it opens and closes at the voting deadline.
 //
 // Environment (Netlify > Site configuration > Environment variables):
 //   VOTE_ADMIN_TOKEN   reused as the quiz admin token (same organizing committee)
 //   RESEND_API_KEY     email sender, shared with voting; QUIZ_FROM optional sender override
+//   QUIZ_OPEN          optional ISO override of the prize board opening; default is the first game
+//                      of the tournament, then Friday Jan 29, 2027 at noon Pacific
 //   QUIZ_CLOSE         optional ISO override of the closing time; default is the voting deadline
 //                      (court time of the first final), then Sunday Jan 31, 2027 at noon Pacific
 //   QUIZ_EMAILS_ON=1   turns on the "X took your rank" emails and the final call email
@@ -32,11 +39,15 @@
 import { randomBytes, randomInt, createHmac } from "node:crypto";
 import { getStore } from "@netlify/blobs";
 import bank from "../quiz-bank.json";
-import { sha, json, err, safeEq, loadRoster, deadlineOf, store as voteStore } from "../voting-core.mjs";
+import { sha, json, err, safeEq, loadRoster, deadlineOf, ackDeadlineOf, store as voteStore } from "../voting-core.mjs";
 
-export const ROUND = 15, MAX_MULTI = 5, GRACE_MS = 2500, BOARD_SHOW = 15;
+// TOPIC_CAP and MAX_MULTI keep a round varied without favouring small rule topics: every question in
+// the bank has close to the same chance (2.5% to 4.5%) of being drawn in a round.
+// MIN_MS: each answer is credited at least 3 seconds, so answering faster than a person can read
+// the question gains nothing on the time tiebreak.
+export const ROUND = 15, MAX_MULTI = 9, TOPIC_CAP = 4, GRACE_MS = 2500, MIN_MS = 3000, BOARD_SHOW = 15;
 const CODE_TTL = 10 * 60 * 1000, SESSION_TTL = 60 * 24 * 3600 * 1000, ROUND_TTL = 3 * 3600 * 1000;
-const DEFAULT_CLOSE = "2027-01-31T12:00:00-08:00";
+const DEFAULT_CLOSE = "2027-01-31T12:00:00-08:00", DEFAULT_OPEN = "2027-01-29T12:00:00-08:00";
 const QS = bank.questions;
 
 export const qstore = () => getStore({ name: "calcup-refquiz", consistency: "strong" });
@@ -52,6 +63,29 @@ export function canonEmail(e) {
   return local + "@" + dom;
 }
 export const cleanName = (n) => String(n || "").replace(/[<>&"\u0000-\u001f]/g, "").replace(/\s+/g, " ").trim().slice(0, 18);
+// Nickname filter. The site rules list the categories; this list is not exhaustive and the
+// organizers can still remove any nickname from refquiz-admin.html. Text is lower cased, common
+// look alike characters are mapped back to letters and everything else is stripped before the check.
+// STEMS match anywhere in the name; WORDS only as a whole word (so "Cassidy" or "Dickson" pass).
+const LEET = { "0": "o", "1": "i", "!": "i", "3": "e", "4": "a", "@": "a", "5": "s", "$": "s", "7": "t", "8": "b", "9": "g" };
+const STEMS = ["fuck", "fuk", "fck", "fvck", "phuck", "fock", "shit", "cunt", "bitch", "biatch", "whore", "slut", "nigg", "nigr", "fagg", "faggot", "retard", "rapist",
+  "pussy", "penis", "vagina", "dildo", "porn", "boob", "jizz", "wank", "bastard", "asshole", "arsehole", "motherf", "nazi", "hitler",
+  "kkk", "jihad", "terroris", "pedo", "paedo", "molest", "incest", "cocaine", "murder", "suicide", "tranny", "chink", "gook", "kike",
+  "wetback", "beaner", "towelhead", "cripple", "spaz", "lesbo", "sexy", "horny", "nude", "naked", "milf", "onlyfans", "http", "www", "dotcom"];
+const WORDS = ["ass", "arse", "dick", "cock", "tit", "tits", "fag", "hoe", "ho", "sex", "anal", "piss", "crap", "damn", "hell", "jerk", "idiot",
+  "moron", "loser", "stupid", "dumb", "suck", "sucks", "nut", "nuts", "balls", "butt", "poop", "turd", "drug", "drugs", "gun", "bomb", "88", "1488", "14", "666",
+  "rape", "raped", "kill", "killer", "cum", "gay", "spic", "heroin", "isis", "heil", "meth", "crack", "weed", "homo", "mong", "dyke",
+  "admin", "calcup", "calheat", "organizer", "organiser", "official", "referee", "ref", "ihf", "usath", "nrc", "moderator", "staff"];
+function nameProblem(name) {
+  const low = String(name || "").toLowerCase();
+  if (/@|https?:|www\.|\.(com|net|org|io)\b|\d{6,}/.test(low)) return true; // contact details, links, phone numbers
+  const mapped = low.replace(/[0-9!@$]/g, (c) => LEET[c] || c);
+  const squashed = mapped.replace(/[^a-z]/g, "").replace(/(.)\1{2,}/g, "$1$1");
+  if (STEMS.some((w) => squashed.indexOf(w) >= 0 || squashed.replace(/(.)\1+/g, "$1").indexOf(w) >= 0)) return true;
+  const words = low.split(/[^a-z0-9]+/).filter(Boolean).concat(mapped.split(/[^a-z]+/).filter(Boolean));
+  return words.some((w) => WORDS.indexOf(w) >= 0);
+}
+export { nameProblem };
 const pid = (email) => sha("p:" + canonEmail(email)).slice(0, 24);
 const secret = () => process.env.QUIZ_SECRET || process.env.VOTE_ADMIN_TOKEN || "calcup-dev";
 export const unsubSig = (id) => createHmac("sha256", secret()).update("unsub:" + id).digest("hex").slice(0, 32);
@@ -64,24 +98,32 @@ export async function closeAt() {
   return Date.parse(DEFAULT_CLOSE);
 }
 
+export async function openAt() {
+  const env = process.env.QUIZ_OPEN && Date.parse(process.env.QUIZ_OPEN);
+  if (env && isFinite(env)) return env;
+  try { const d = ackDeadlineOf(await loadRoster(voteStore())); if (d) return d; } catch (e) { /* voting store not available */ }
+  return Date.parse(DEFAULT_OPEN);
+}
+// "practice" before the prize board opens, "prize" while it is open, "closed" after.
+export async function phaseNow(now = Date.now()) {
+  const [open, close] = await Promise.all([openAt(), closeAt()]);
+  return { open, close, phase: now < open ? "practice" : now < close ? "prize" : "closed" };
+}
+
 function shuffle(a) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = randomInt(0, i + 1); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
-// Rule spread draw: at most one question per rule until every rule is used, then the rest at
-// random; at most MAX_MULTI "select all" questions per round (same rule as the old client draw).
+// Flat draw: walk the whole bank in random order and keep a question unless its rule topic already
+// has TOPIC_CAP questions in the round or the round already has MAX_MULTI "select all" questions.
 export function drawRound(pool = QS) {
-  const byTopic = {}; pool.forEach((q) => (byTopic[q.topic] = byTopic[q.topic] || []).push(q));
-  const topics = shuffle(Object.keys(byTopic)), lists = {}; topics.forEach((t) => (lists[t] = shuffle(byTopic[t])));
-  const chosen = []; let multi = 0, cap = MAX_MULTI;
-  while (chosen.length < ROUND) {
-    let added = false;
-    for (const t of topics) {
-      if (chosen.length >= ROUND) break;
-      const l = lists[t];
-      for (let j = 0; j < l.length; j++) { if (l[j].cs && multi >= cap) continue; const q = l.splice(j, 1)[0]; if (q.cs) multi++; chosen.push(q); added = true; break; }
-    }
-    if (!added) { if (cap === Infinity) break; cap = Infinity; }
+  const per = {}, chosen = []; let multi = 0;
+  for (const q of shuffle(pool)) {
+    if (chosen.length >= ROUND) break;
+    if ((per[q.topic] || 0) >= TOPIC_CAP) continue;
+    if (q.cs && multi >= MAX_MULTI) continue;
+    per[q.topic] = (per[q.topic] || 0) + 1; if (q.cs) multi++;
+    chosen.push(q);
   }
-  return shuffle(chosen).map((q) => ({ id: q.id, perm: shuffle(q.a.map((_, i) => i)) }));
+  return chosen.map((q) => ({ id: q.id, perm: shuffle(q.a.map((_, i) => i)) }));
 }
 const correctSet = (q) => (q.cs ? q.cs.slice() : [q.c]);
 // Question as the player sees it: options in the round's shuffled order, no answer.
@@ -115,17 +157,24 @@ export async function sendMail(to, subject, text) {
 // ---------- board ----------
 // "board" holds one entry per player who has a best round: {id,name,score,total,ms,at}.
 // Player records ("p/<id>") are the source of truth; the board is rebuilt from them if it is lost.
-export async function loadBoard(st) { return (await st.get("board", { type: "json" })) || []; }
-export async function putEntry(st, entry) {
+// "board" is the prize board (also read by refquiz-final); "board-practice" is the practice board.
+const boardKey = (which) => (which === "practice" ? "board-practice" : "board");
+export const bestField = (which) => (which === "practice" ? "pbest" : "best");
+export async function loadBoard(st, which = "prize") { return (await st.get(boardKey(which), { type: "json" })) || []; }
+export async function dropEntry(st, id, which) {
+  const b = (await loadBoard(st, which)).filter((e) => e.id !== id);
+  await st.setJSON(boardKey(which), b); return b;
+}
+export async function putEntry(st, entry, which = "prize") {
   for (let k = 0; k < 4; k++) {
-    const b = (await loadBoard(st)).filter((e) => e.id !== entry.id);
+    const b = (await loadBoard(st, which)).filter((e) => e.id !== entry.id);
     b.push(entry); b.sort(rankCmp);
-    await st.setJSON("board", b);
-    const check = await loadBoard(st);
+    await st.setJSON(boardKey(which), b);
+    const check = await loadBoard(st, which);
     const mine = check.find((e) => e.id === entry.id);
     if (mine && mine.at === entry.at) return check;
   }
-  return loadBoard(st);
+  return loadBoard(st, which);
 }
 const pub = (b) => b.slice(0, BOARD_SHOW).map((e, i) => ({ rank: i + 1, name: e.name, score: e.score, total: e.total, ms: e.ms }));
 
@@ -168,8 +217,10 @@ export default async (req) => {
 
   try {
     if (op === "board") {
-      const close = await closeAt();
-      return json({ board: pub(await loadBoard(st)), closesAt: new Date(close).toISOString(), closed: Date.now() >= close, round: ROUND, pool: QS.length });
+      const { open, close, phase } = await phaseNow();
+      const which = phase === "practice" ? "practice" : "prize";
+      return json({ board: pub(await loadBoard(st, which)), phase, opensAt: new Date(open).toISOString(), closesAt: new Date(close).toISOString(),
+        closed: phase === "closed", round: ROUND, pool: QS.length });
     }
 
     // ---------- sign in ----------
@@ -202,9 +253,11 @@ export default async (req) => {
       const prev = await st.get("p/" + id, { type: "json" });
       const name = cleanName(body && body.name) || (prev && prev.name) || "";
       if (!name) return err(400, "name_required", "Choose a nickname for the leaderboard.");
+      if (nameProblem(name)) return err(400, "name_not_accepted", "This nickname is not accepted. Choose a family friendly nickname (see the leaderboard rules).");
       if (!(body && body.notReferee === true)) return err(400, "declaration_required", "Confirm that you are not a certified referee to join the leaderboard.");
       // Nicknames are unique on the board (case insensitive)
-      const taken = (await loadBoard(st)).find((e) => e.id !== id && e.name.toLowerCase() === name.toLowerCase());
+      const boards = (await loadBoard(st, "prize")).concat(await loadBoard(st, "practice"));
+      const taken = boards.find((e) => e.id !== id && e.name.toLowerCase() === name.toLowerCase());
       if (taken) return err(409, "name_taken", "This nickname is already on the board. Choose another one.");
       await st.setJSON(key, { sent: rec.sent || [] }); // code is single use
       const now = Date.now();
@@ -214,7 +267,10 @@ export default async (req) => {
       p.news = body && body.news === true ? (p.news && p.news.on ? p.news : { on: true, at: now }) : { on: false, at: now };
       p.verifiedAt = now;
       await st.setJSON("p/" + id, p);
-      if (p.best) await putEntry(st, { id, name, score: p.best.score, total: p.best.total, ms: p.best.ms, at: p.best.at });
+      if (!p.dq) for (const which of ["prize", "practice"]) {
+        const bb = p[bestField(which)];
+        if (bb) await putEntry(st, { id, name, score: bb.score, total: bb.total, ms: bb.ms, at: bb.at }, which);
+      }
       const tok = randomBytes(32).toString("hex");
       await st.setJSON("sess/" + sha(tok), { pid: id, exp: now + SESSION_TTL });
       return json({ ok: true, token: tok, name });
@@ -227,12 +283,13 @@ export default async (req) => {
 
     if (op === "me") {
       const s = await session(req, st); if (!s) return err(401, "signed_out");
-      const p = s.p, b = await loadBoard(st);
+      const p = s.p, { phase } = await phaseNow(), which = phase === "practice" ? "practice" : "prize";
+      const b = await loadBoard(st, which);
       const idx = b.findIndex((e) => e.id === p.id);
       const above = idx < 0 ? [] : b.slice(0, idx).map((e) => e.id);
       const passed = idx < 0 || !p.seenAbove ? [] : b.slice(0, idx).filter((e) => p.seenAbove.indexOf(e.id) < 0).map((e) => e.name);
       p.seenAbove = above; await st.setJSON("p/" + p.id, p);
-      return json({ name: p.name, best: p.best, rank: idx < 0 ? null : idx + 1, passed, unsub: !!p.unsub });
+      return json({ name: p.name, best: p[bestField(which)] || null, rank: idx < 0 ? null : idx + 1, passed, unsub: !!p.unsub, phase, removed: !!p.dq });
     }
 
     if (op === "unsub") {
@@ -246,11 +303,12 @@ export default async (req) => {
     // ---------- rounds ----------
     if (op === "start") {
       const s = await session(req, st);
-      const close = await closeAt();
+      const { phase } = await phaseNow();
       const id = randomBytes(16).toString("hex"), now = Date.now();
-      const r = { id, pid: s ? s.p.id : null, items: drawRound(), i: 0, score: 0, ms: 0, issued: now, answered: false, created: now, ranked: !!s && now < close };
+      const r = { id, pid: s ? s.p.id : null, items: drawRound(), i: 0, score: 0, ms: 0, issued: now, answered: false, created: now,
+        board: phase === "practice" ? "practice" : "prize", ranked: !!s && phase !== "closed" && !s.p.dq };
       await st.setJSON("r/" + id, r);
-      return json({ round: id, ranked: r.ranked, question: publicQ(r, 0) });
+      return json({ round: id, ranked: r.ranked, phase, question: publicQ(r, 0) });
     }
 
     if (op === "answer" || op === "next") {
@@ -276,61 +334,81 @@ export default async (req) => {
       const want = correctSet(q).sort();
       const ok = !late && chosen.length === want.length && chosen.every((v, k) => v === want[k]);
       if (ok) r.score++;
-      r.ms += Math.min(elapsed, limit);
+      r.ms += Math.min(Math.max(elapsed, MIN_MS), limit);
       r.answered = true;
       const correct = it.perm.map((k, pos) => (want.indexOf(k) >= 0 ? pos : -1)).filter((x) => x >= 0);
       const out = { ok, late, correct, why: q.why, score: r.score, last: r.i + 1 >= r.items.length };
 
       if (out.last) {
-        const total = r.items.length, close = await closeAt();
+        const total = r.items.length, close = await closeAt(), which = r.board || "prize", f = bestField(which);
         out.final = { score: r.score, total, ms: r.ms };
-        if (r.pid && r.ranked && Date.now() < close) {
-          const p = await st.get("p/" + r.pid, { type: "json" });
-          if (p) {
-            p.plays = (p.plays || 0) + 1;
-            const cand = { score: r.score, total, ms: r.ms, at: Date.now() };
-            const better = !p.best || rankCmp(cand, p.best) < 0;
-            if (better) {
-              p.best = cand; p.bestSecsPerQ = Math.round(r.ms / total / 100) / 10;
-              await st.setJSON("p/" + p.id, p);
-              const before = (await loadBoard(st)).map((e) => e.id);
-              const b = await putEntry(st, { id: p.id, name: p.name, score: cand.score, total, ms: cand.ms, at: cand.at });
-              await notifyPassed(st, b, { id: p.id, name: p.name }, before, close).catch(() => 0);
-            } else await st.setJSON("p/" + p.id, p);
-            const b = await loadBoard(st);
-            out.rank = b.findIndex((e) => e.id === p.id) + 1;
-            out.improved = better;
-            out.best = p.best;
-          }
-        } else out.unranked = r.pid ? "closed" : "guest";
-        out.board = pub(await loadBoard(st));
+        out.which = which;
+        const p = r.pid ? await st.get("p/" + r.pid, { type: "json" }) : null;
+        if (p && r.ranked && !p.dq && Date.now() < close) {
+          p.plays = (p.plays || 0) + 1;
+          const cand = { score: r.score, total, ms: r.ms, at: Date.now() };
+          const better = !p[f] || rankCmp(cand, p[f]) < 0;
+          if (better) {
+            p[f] = cand;
+            if (which === "prize") p.bestSecsPerQ = Math.round(r.ms / total / 100) / 10;
+            await st.setJSON("p/" + p.id, p);
+            const before = (await loadBoard(st, which)).map((e) => e.id);
+            const b = await putEntry(st, { id: p.id, name: p.name, score: cand.score, total, ms: cand.ms, at: cand.at }, which);
+            if (which === "prize") await notifyPassed(st, b, { id: p.id, name: p.name }, before, close).catch(() => 0);
+          } else await st.setJSON("p/" + p.id, p);
+          const b = await loadBoard(st, which);
+          out.rank = b.findIndex((e) => e.id === p.id) + 1;
+          out.improved = better;
+          out.best = p[f];
+        } else out.unranked = !r.pid ? "guest" : p && p.dq ? "removed" : "closed";
+        out.board = pub(await loadBoard(st, which));
       }
       await st.setJSON("r/" + rid, r);
       return json(out);
     }
 
     // ---------- admin ----------
-    if (op === "admin" || op === "reset") {
+    if (op === "admin" || op === "reset" || op === "dq") {
       if (!safeEq(req.headers.get("x-admin-token"), process.env.VOTE_ADMIN_TOKEN)) return err(401, "unauthorized");
       if (op === "reset") {
         if (!body || body.confirm !== "RESET") return err(400, "confirm_required");
+        const which = ["practice", "prize"].indexOf(body.board) >= 0 ? [body.board] : ["practice", "prize"];
         const { blobs } = await st.list({ prefix: "p/" });
-        for (const x of blobs) { const p = await st.get(x.key, { type: "json" }); if (p) { p.best = null; p.seenAbove = null; p.plays = 0; await st.setJSON(x.key, p); } }
-        await st.setJSON("board", []);
-        try { await getStore("refquiz").setJSON("scores", []); } catch (e) { /* old nickname board */ }
-        return json({ ok: true, reset: true, players: blobs.length });
+        for (const x of blobs) {
+          const p = await st.get(x.key, { type: "json" }); if (!p) continue;
+          for (const w of which) p[bestField(w)] = null;
+          if (which.indexOf("prize") >= 0) { p.plays = 0; p.bestSecsPerQ = null; }
+          p.seenAbove = null; await st.setJSON(x.key, p);
+        }
+        for (const w of which) await st.setJSON(boardKey(w), []);
+        if (which.indexOf("prize") >= 0) { try { await getStore("refquiz").setJSON("scores", []); } catch (e) { /* old nickname board */ } }
+        return json({ ok: true, reset: true, boards: which, players: blobs.length });
       }
-      const b = await loadBoard(st), close = await closeAt();
+      if (op === "dq") {
+        const id = String((body && body.id) || "").replace(/[^a-f0-9]/g, "");
+        const p = id && (await st.get("p/" + id, { type: "json" }));
+        if (!p) return err(404, "no_player");
+        if (body.on === false) {
+          p.dq = null; await st.setJSON("p/" + id, p);
+          for (const w of ["prize", "practice"]) { const bb = p[bestField(w)]; if (bb) await putEntry(st, { id, name: p.name, score: bb.score, total: bb.total, ms: bb.ms, at: bb.at }, w); }
+        } else {
+          p.dq = { at: Date.now(), reason: String(body.reason || "").slice(0, 200) }; await st.setJSON("p/" + id, p);
+          for (const w of ["prize", "practice"]) await dropEntry(st, id, w);
+        }
+        return json({ ok: true, id, removed: !!p.dq });
+      }
+      const b = await loadBoard(st, "prize"), pb = await loadBoard(st, "practice"), { open, close, phase } = await phaseNow();
       const { blobs } = await st.list({ prefix: "p/" });
       const players = [];
       for (const x of blobs) { const p = await st.get(x.key, { type: "json" }); if (p) players.push(p); }
       const rows = players.map((p) => {
-        const rank = b.findIndex((e) => e.id === p.id);
-        return { rank: rank < 0 ? null : rank + 1, name: p.name, email: p.email, canon: p.canon, best: p.best, secsPerQ: p.bestSecsPerQ || null,
+        const rank = b.findIndex((e) => e.id === p.id), prank = pb.findIndex((e) => e.id === p.id);
+        return { id: p.id, rank: rank < 0 ? null : rank + 1, practiceRank: prank < 0 ? null : prank + 1, practiceBest: p.pbest || null,
+          removed: !!p.dq, removedReason: p.dq ? p.dq.reason : null, name: p.name, email: p.email, canon: p.canon, best: p.best, secsPerQ: p.bestSecsPerQ || null,
           fast: !!(p.bestSecsPerQ && p.bestSecsPerQ < 4), plays: p.plays || 0, notRefereeAt: p.notReferee ? p.notReferee.at : null,
           news: !!(p.news && p.news.on), newsAt: p.news ? p.news.at : null, verifiedAt: p.verifiedAt || null, unsub: !!p.unsub };
-      }).sort((a, b2) => (a.rank || 1e9) - (b2.rank || 1e9));
-      return json({ closesAt: new Date(close).toISOString(), emailsOn: process.env.QUIZ_EMAILS_ON === "1", senderReady: !!process.env.RESEND_API_KEY, players: rows });
+      }).sort((a, b2) => ((a.rank || 1e9) - (b2.rank || 1e9)) || ((a.practiceRank || 1e9) - (b2.practiceRank || 1e9)));
+      return json({ phase, opensAt: new Date(open).toISOString(), closesAt: new Date(close).toISOString(), emailsOn: process.env.QUIZ_EMAILS_ON === "1", senderReady: !!process.env.RESEND_API_KEY, players: rows });
     }
 
     return err(404, "unknown_op");

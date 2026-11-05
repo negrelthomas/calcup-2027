@@ -32,7 +32,7 @@
     <img class="hero-logo" src="assets/calheat-logo.png" alt="San Francisco CalHeat">
     <p class="kicker">Organizing committee</p>
     <h1 style="font-size:30px">Referee quiz: admin</h1>
-    <p class="sub">Verified players, best rounds, referee declarations, news consent, and the leaderboard reset.</p>
+    <p class="sub">Verified players, best rounds on the practice and prize boards, referee declarations, news consent, removals and resets.</p>
   </div>
 </section>
 <div class="wrap"><section><div id="qa"><p class="muted">Loading...</p></div></section></div>
@@ -58,23 +58,33 @@
   }
   function render(d){
     var rows=d.players;
-    var csv=["rank,nickname,email,score,total,time_ms,secs_per_question,plays,not_referee_declared,news_opt_in,verified"].concat(rows.map(function(r){
-      return [r.rank||"",r.name,r.email,r.best?r.best.score:"",r.best?r.best.total:"",r.best?r.best.ms:"",r.secsPerQ||"",r.plays,dt(r.notRefereeAt),r.news?"yes":"no",dt(r.verifiedAt)].map(function(v){ v=String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(",");
+    var csv=["rank,nickname,email,score,total,time_ms,secs_per_question,plays,practice_rank,practice_score,practice_time_ms,removed,not_referee_declared,news_opt_in,verified"].concat(rows.map(function(r){
+      var pb=r.practiceBest;
+      return [r.rank||"",r.name,r.email,r.best?r.best.score:"",r.best?r.best.total:"",r.best?r.best.ms:"",r.secsPerQ||"",r.plays,r.practiceRank||"",pb?pb.score:"",pb?pb.ms:"",r.removed?("yes "+(r.removedReason||"")):"",dt(r.notRefereeAt),r.news?"yes":"no",dt(r.verifiedAt)].map(function(v){ v=String(v); return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v; }).join(",");
     })).join("\n");
-    el.innerHTML='<div class="qa-bar"><span>Board closes <b>'+esc(dt(Date.parse(d.closesAt)))+'</b> Pacific</span>'+
+    var ph={practice:"practice (prize board not open yet)",prize:"prize board open",closed:"closed"}[d.phase]||d.phase;
+    el.innerHTML='<div class="qa-bar"><span>Phase: <b>'+esc(ph)+'</b></span><span>Prize board opens <b>'+esc(dt(Date.parse(d.opensAt)))+'</b></span><span>Closes <b>'+esc(dt(Date.parse(d.closesAt)))+'</b> Pacific</span>'+
       '<span>Sender: <b>'+(d.senderReady?'ready':'not set up (RESEND_API_KEY)')+'</b></span><span>Rank emails: <b>'+(d.emailsOn?'on':'off')+'</b></span>'+
       '<a class="btn btn-ghost" id="qacsv" download="refquiz_players.csv" href="data:text/csv;charset=utf-8,'+encodeURIComponent(csv)+'">Download CSV</a></div>'+
-      '<p class="muted" style="font-size:12px">'+rows.length+' verified players. A red time means under 4 seconds per question on the best round: check before awarding the prize. Check the winner against referee rosters as well.</p>'+
-      '<div class="qa-scroll"><table class="qa-table"><thead><tr><th>#</th><th>Nickname</th><th>Email</th><th>Best</th><th>Time</th><th>s/question</th><th>Plays</th><th>Not referee</th><th>News</th></tr></thead><tbody>'+
-      rows.map(function(r){ return '<tr><td>'+(r.rank||"")+'</td><td>'+esc(r.name)+'</td><td>'+esc(r.email)+(r.unsub?' <span class="muted">(no emails)</span>':'')+'</td><td>'+(r.best?r.best.score+'/'+r.best.total:'')+'</td><td>'+(r.best?ms(r.best.ms):'')+'</td><td'+(r.fast?' class="qa-flag"':'')+'>'+(r.secsPerQ||'')+'</td><td>'+r.plays+'</td><td>'+esc(dt(r.notRefereeAt))+'</td><td>'+(r.news?'yes':'')+'</td></tr>'; }).join("")+
+      '<p class="muted" style="font-size:12px">'+rows.length+' verified players. A red time means under 4 seconds per question on the best prize round: check before awarding the prize. Check the winner against the NRC Referee Hub as well. Remove takes a player off both boards (certified referee, offensive nickname); Restore puts their best rounds back.</p>'+
+      '<div class="qa-scroll"><table class="qa-table"><thead><tr><th>#</th><th>Nickname</th><th>Email</th><th>Best</th><th>Time</th><th>s/question</th><th>Plays</th><th>Practice</th><th>Not referee</th><th>News</th><th></th></tr></thead><tbody>'+
+      rows.map(function(r){ var pb=r.practiceBest; return '<tr'+(r.removed?' style="opacity:.55"':'')+'><td>'+(r.rank||"")+'</td><td>'+esc(r.name)+(r.removed?' <span class="qa-flag">removed</span>'+(r.removedReason?' <span class="muted">('+esc(r.removedReason)+')</span>':''):'')+'</td><td>'+esc(r.email)+(r.unsub?' <span class="muted">(no emails)</span>':'')+'</td><td>'+(r.best?r.best.score+'/'+r.best.total:'')+'</td><td>'+(r.best?ms(r.best.ms):'')+'</td><td'+(r.fast?' class="qa-flag"':'')+'>'+(r.secsPerQ||'')+'</td><td>'+r.plays+'</td><td>'+(pb?(r.practiceRank?'#'+r.practiceRank+' ':'')+pb.score+'/'+pb.total+' '+ms(pb.ms):'')+'</td><td>'+esc(dt(r.notRefereeAt))+'</td><td>'+(r.news?'yes':'')+'</td>'+
+        '<td><button class="btn btn-ghost qa-dq" data-id="'+esc(r.id)+'" data-on="'+(r.removed?'0':'1')+'" style="padding:4px 10px;font-size:12px">'+(r.removed?'Restore':'Remove')+'</button></td></tr>'; }).join("")+
       '</tbody></table></div>'+
-      '<h3 style="margin-top:26px">Reset the leaderboard</h3><p class="muted" style="font-size:13px">Clears every best round and empties the board. Players keep their sign in and nickname. Type RESET to confirm.</p>'+
-      '<div class="qa-bar"><input id="qarc" placeholder="RESET"><button class="btn btn-ghost" id="qarb">Reset the leaderboard</button><span id="qarm" class="muted"></span></div>';
+      '<h3 style="margin-top:26px">Reset a leaderboard</h3><p class="muted" style="font-size:13px">Clears every best round on the chosen board and empties it. Players keep their sign in and nickname. The prize board opens empty on its own; a reset is only needed to clear test rounds. Type RESET to confirm.</p>'+
+      '<div class="qa-bar"><select id="qarw" style="padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;font-size:14px"><option value="practice">Practice board</option><option value="prize">Prize board</option><option value="all">Both boards</option></select><input id="qarc" placeholder="RESET"><button class="btn btn-ghost" id="qarb">Reset</button><span id="qarm" class="muted"></span></div>';
+    Array.prototype.forEach.call(el.querySelectorAll(".qa-dq"),function(b){ b.addEventListener("click",function(){
+      var on=b.getAttribute("data-on")==="1", reason="";
+      if(on){ reason=window.prompt("Reason for removing this player (kept in the admin list):",""); if(reason===null) return; }
+      b.disabled=true;
+      fetch(API+"?op=dq",{method:"POST",headers:{"x-admin-token":tok(),"Content-Type":"application/json"},body:JSON.stringify({id:b.getAttribute("data-id"),on:on,reason:reason})})
+        .then(function(r){return r.json();}).then(function(j){ if(j.ok) load(); else { b.disabled=false; b.textContent="Error: "+j.error; } });
+    }); });
     document.getElementById("qarb").addEventListener("click",function(){
       var c=document.getElementById("qarc").value.trim(), m=document.getElementById("qarm");
       if(c!=="RESET"){ m.textContent="Type RESET first."; return; }
-      fetch(API+"?op=reset",{method:"POST",headers:{"x-admin-token":tok(),"Content-Type":"application/json"},body:JSON.stringify({confirm:"RESET"})})
-        .then(function(r){return r.json();}).then(function(j){ m.textContent=j.reset?"Leaderboard cleared.":"Error: "+j.error; if(j.reset) setTimeout(load,800); });
+      fetch(API+"?op=reset",{method:"POST",headers:{"x-admin-token":tok(),"Content-Type":"application/json"},body:JSON.stringify({confirm:"RESET",board:document.getElementById("qarw").value})})
+        .then(function(r){return r.json();}).then(function(j){ m.textContent=j.reset?"Cleared: "+j.boards.join(" and ")+".":"Error: "+j.error; if(j.reset) setTimeout(load,800); });
     });
   }
   load();

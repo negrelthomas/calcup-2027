@@ -6,7 +6,8 @@
              The ref-quiz ribbon is hidden site-wide.
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
-  var LIVE_PAGES = ["concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html"];
+  var QUIZ_LIVE = true; // referee quiz and flashcards open while the rest of the site is in preview (practice board until the first game)
+  var LIVE_PAGES = ["refquiz.html", "handball-referee-flashcards.html", "concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -697,7 +698,7 @@
   // each round, times each question and scores it. This page only shows questions and sends picks.
   // Leaderboard: players who verified their email and declared they are not a certified referee.
   var QAPI="/.netlify/functions/refquiz", QTOK="calcup_quiz_tok";
-  var QUIZ_PRIZE='a <b>signed jersey from a former international player</b>'; // one place to change the prize wording
+  var QUIZ_PRIZE='<b>Dylan Nahi&rsquo;s France national team jersey</b>'; // one place to change the prize wording
   function qEsc(x){ return String(x==null?"":x).replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];}); }
   function qMs(ms){ if(ms==null||isNaN(ms))return "&mdash;"; var s=ms/1000,m=Math.floor(s/60),sec=Math.floor(s%60),t=Math.floor((s*10)%10); return m+":"+("0"+sec).slice(-2)+"."+t; }
   function qTok(v){ try{ if(v===undefined) return localStorage.getItem(QTOK)||""; if(v) localStorage.setItem(QTOK,v); else localStorage.removeItem(QTOK); }catch(e){} return v||""; }
@@ -709,27 +710,31 @@
   }
   function qOrd(n){ var t=n%100; if(t>=11&&t<=13)return n+'th'; return n+(['th','st','nd','rd'][n%10]||'th'); }
   function qWhen(iso){ try{ return new Date(iso).toLocaleString("en-US",{timeZone:"America/Los_Angeles",weekday:"long",month:"long",day:"numeric",hour:"numeric",minute:"2-digit"})+" Pacific time"; }catch(e){ return ""; } }
-  function qBoard(list,meName){
+  function qBoard(list,meName,phase){
     list=list||[];
-    var head='<div class="quiz-lb-h">Weekend leaderboard <span class="lb-live">live</span></div>';
+    var prac=phase==="practice";
+    var head='<div class="quiz-lb-h">'+(prac?'Practice leaderboard':'Weekend leaderboard')+' <span class="lb-live">live</span></div>'+
+      (prac?'<div class="muted" style="font-size:12px;text-align:center;margin:-4px 0 8px">Practice only. It does not count for the prize.</div>':'');
     if(!list.length) return head+'<div class="muted" style="font-size:13px;text-align:center">No scores yet. Be the first on the board.</div>';
     return head+'<table class="lb"><thead><tr><th>#</th><th style="text-align:left">Player</th><th>Score</th><th>Time</th></tr></thead><tbody>'+
       list.map(function(r){ return '<tr'+(meName&&r.name===meName?' class="me"':'')+'><td>'+r.rank+'</td><td class="lb-name">'+qEsc(r.name)+'</td><td>'+r.score+'/'+r.total+'</td><td>'+qMs(r.ms)+'</td></tr>'; }).join("")+'</tbody></table>'+
       '<div class="muted" style="font-size:11px;text-align:center;margin-top:6px">Best round per player. Ranked by score, then fastest total time.</div>';
   }
-  function qRules(closesAt){
+  function qRules(closesAt,opensAt){
     return '<details class="quiz-rules"><summary>Leaderboard rules</summary><ul>'+
+      '<li>Until the first game of the tournament'+(opensAt?', '+qWhen(opensAt):'')+', scores go on a practice leaderboard that does not count for the prize. The prize leaderboard starts empty at that time.</li>'+
       '<li>Anyone can play. To appear on the leaderboard, verify your email with a 6 digit code and choose a nickname.</li>'+
       '<li>Certified referees, in the USA or any other country, can play but cannot appear on the leaderboard or win the prize. The organizers confirm the winner is not a certified referee before awarding it.</li>'+
       '<li>Play as often as you like. Your best round counts. Ties go to the fastest total time.</li>'+
       '<li>Prize: '+QUIZ_PRIZE+' for the top of the board when it closes'+(closesAt?', '+qWhen(closesAt):'')+'.</li>'+
       '<li>The winner must be at the venue, or represented by a proxy, when the prize is awarded at the Sunday finals. Otherwise the prize goes to the next player on the board.</li>'+
+      '<li>Nicknames must suit a family event. Not accepted, among others: swear words and crude language, including disguised spellings; insults, slurs or hateful terms about anyone&rsquo;s origin, religion, gender, sexuality or disability; sexual references; references to drugs, alcohol abuse, weapons, violence or extremist groups, symbols and number codes; names that mock or target a player, referee, team or club; names that impersonate a real person, an official or the organizers (for example &ldquo;Referee&rdquo;, &ldquo;CalCup&rdquo; or &ldquo;Admin&rdquo;); email addresses, phone numbers, links or advertising. The organizers may change or remove any nickname, or remove a player from the leaderboard, at their discretion. A removed player cannot win the prize.</li>'+
       '<li>Your email is used only to identify you and, unless you opt out, to tell you when someone takes your place in the top 10. It goes on no mailing list unless you tick the news box.</li>'+
       '</ul></details>';
   }
   function renderQuizBoard(el){
     el.innerHTML='<div class="quiz-lb-wrap"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>';
-    qCall("board",null,function(e,j){ el.innerHTML='<div class="quiz-lb-wrap">'+(e?'<div class="muted" style="font-size:13px;text-align:center">The leaderboard is not available right now.</div>':qBoard(j.board))+'</div>'; });
+    qCall("board",null,function(e,j){ el.innerHTML='<div class="quiz-lb-wrap">'+(e?'<div class="muted" style="font-size:13px;text-align:center">The leaderboard is not available right now.</div>':qBoard(j.board,null,j.phase))+'</div>'; });
   }
   function renderRefQuiz(el){
     var me=null, info={}, round=null, q=null, score=0, timer=null, left=0, answered=false, ROUND=(D.refQuiz&&D.refQuiz.round)||15;
@@ -742,9 +747,11 @@
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>'+
         '<div id="qrules"></div></div>';
       qCall("board",null,function(e,j){
-        info=j||{}; var w=el.querySelector("#qlb"); if(w)w.innerHTML=e?'<div class="muted" style="font-size:13px;text-align:center">The leaderboard is not available right now.</div>':qBoard(info.board,me&&me.name);
-        var r=el.querySelector("#qrules"); if(r)r.innerHTML=qRules(info.closesAt);
-        var c=el.querySelector("#qclosed"); if(c&&info.closed)c.innerHTML='<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b>. You can still play for fun.</div>';
+        info=j||{}; var w=el.querySelector("#qlb"); if(w)w.innerHTML=e?'<div class="muted" style="font-size:13px;text-align:center">The leaderboard is not available right now.</div>':qBoard(info.board,me&&me.name,info.phase);
+        var r=el.querySelector("#qrules"); if(r)r.innerHTML=qRules(info.closesAt,info.opensAt);
+        var c=el.querySelector("#qclosed");
+        if(c&&info.closed)c.innerHTML='<div class="callout" style="margin:0 0 12px">The leaderboard is <b>closed</b>. You can still play for fun.</div>';
+        else if(c&&info.phase==="practice")c.innerHTML='<div class="callout" style="margin:0 0 12px">Practice is open. The prize leaderboard starts empty at the first game of the tournament'+(info.opensAt?', '+qWhen(info.opensAt):'')+'.</div>';
       });
       if(qTok()) qCall("me",null,function(e,j){ if(e){ if(e.error==="signed_out")qTok(null); me=null; } else me=j; who(); });
       else who();
@@ -752,7 +759,7 @@
     function who(){
       var w=el.querySelector("#qwho"); if(!w)return;
       if(me){
-        var line='Playing as <b>'+qEsc(me.name)+'</b>'+(me.best?' &middot; best '+me.best.score+'/'+me.best.total+(me.rank?' &middot; rank '+me.rank:''):'');
+        var line='Playing as <b>'+qEsc(me.name)+'</b>'+(me.removed?' &middot; not on the leaderboard (contact calcup@calheat.com)':me.best?' &middot; '+(me.phase==="practice"?'practice best ':'best ')+me.best.score+'/'+me.best.total+(me.rank?' &middot; rank '+me.rank:''):'');
         var pass=(me.passed&&me.passed.length)?'<div class="callout" style="margin:8px auto 0;max-width:460px">Since your last game, '+qEsc(me.passed.slice(0,3).join(", "))+(me.passed.length>3?' and '+(me.passed.length-3)+' more':'')+' passed you.'+(me.rank?' You are now '+qOrd(me.rank)+'.':'')+'</div>':'';
         w.innerHTML='<p style="margin:0 0 4px">'+line+'</p>'+pass+'<div style="margin:14px 0"><button class="btn btn-pri btn-lg" id="qstart">'+(me.best?'Play again':'Start the test')+'</button></div><p class="muted" style="font-size:12px;margin:0"><a href="#" id="qout">Sign out</a></p>';
         w.querySelector("#qstart").addEventListener("click",start);
@@ -779,7 +786,7 @@
       var s=el.querySelector("#qsign");
       s.innerHTML='<div class="quiz-sign"><p class="muted" style="margin:0">We sent a 6 digit code to <b>'+qEsc(email)+'</b>. It expires in 10 minutes.'+(dev?' (test code '+dev+')':'')+'</p>'+
         '<label>Code<input id="qcode" class="quiz-name" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="123456"></label>'+
-        '<label>Nickname on the leaderboard<input id="qnick" class="quiz-name" maxlength="18" autocomplete="nickname" spellcheck="false" placeholder="Your nickname"></label>'+
+        '<label>Nickname on the leaderboard<input id="qnick" class="quiz-name" maxlength="18" autocomplete="nickname" spellcheck="false" placeholder="Your nickname"></label><p class="muted" style="font-size:12px;margin:-4px 0 4px">Family friendly, shown publicly. See the leaderboard rules below.</p>'+
         '<label class="quiz-check"><input type="checkbox" id="qnotref" onchange="var e=document.getElementById(\'qerr\');if(e)e.textContent=\'\'"> I am not a certified referee in the USA or any other country.</label>'+
         '<label class="quiz-check"><input type="checkbox" id="qnews"> Send me CalCup and CalHeat news (optional).</label>'+
         '<button class="btn btn-pri" id="qverify">Confirm and join</button> <a href="#" id="qback" style="font-size:13px">Use another email</a><div class="quiz-err" id="qerr"></div></div>';
@@ -837,11 +844,13 @@
     }
     function finish(r){
       var f=r.final, x=f.score/f.total, g=x>=0.86?["Certified referee","You could officiate the final."]:x>=0.6?["Table official","Strong rules knowledge."]:x>=0.33?["Rookie","Keep studying the rulebook."]:["Spectator","Best leave the whistle to the pros!"];
+      var board=r.which==="practice"?'practice board':'board';
       var note=r.unranked==="guest"?'You played without signing in, so this score is not on the leaderboard.':r.unranked==="closed"?'The leaderboard is closed. This round was for fun.':
-        (r.improved?'New personal best. You are <b>'+qOrd(r.rank)+'</b> on the board.':'Your best round ('+r.best.score+'/'+r.best.total+', '+qMs(r.best.ms)+') still counts. You are <b>'+qOrd(r.rank)+'</b>.');
+        r.unranked==="removed"?'Your scores are not on the leaderboard. Contact calcup@calheat.com if you think this is a mistake.':
+        (r.improved?'New personal best. You are <b>'+qOrd(r.rank)+'</b> on the '+board+'.':'Your best round ('+r.best.score+'/'+r.best.total+', '+qMs(r.best.ms)+') still counts. You are <b>'+qOrd(r.rank)+'</b> on the '+board+'.');
       el.innerHTML='<div class="quiz quiz-result"><div class="quiz-bigscore"><span class="bs-num">'+f.score+'</span> / '+f.total+'</div><h2 style="margin:8px 0 2px">'+g[0]+'</h2><p class="muted" style="margin:0 0 4px">'+g[1]+' Time: '+qMs(f.ms)+'.</p>'+
         '<p style="margin:6px 0 0">'+note+'</p>'+
-        '<div class="quiz-lb-wrap">'+qBoard(r.board,me&&me.name)+'</div>'+
+        '<div class="quiz-lb-wrap">'+qBoard(r.board,me&&me.name,r.which==="practice"?"practice":"prize")+'</div>'+
         '<div style="margin-top:14px"><button class="btn btn-pri" id="qretry">Play again</button> <a class="btn btn-ghost" href="referees.html">Meet the real refs</a></div></div>';
       el.querySelector("#qretry").addEventListener("click",function(){ if(me) qCall("me",null,function(e,m){ if(!e)me=m; intro(); }); else intro(); });
     }
@@ -886,14 +895,16 @@
 
     // Shared "you think you can ref?" ribbon — one source of truth for every page.
     var _rbt = document.querySelector(".refbar .refbar-txt");
-    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> Timed rules quiz. Top the weekend board and win a <b>signed jersey</b>.';
+    if (_rbt) _rbt.innerHTML = '<i class="ti ti-flag"></i> <b>You think you can ref?</b> Timed rules quiz. Top the weekend board and win <b>Dylan Nahi&rsquo;s France jersey</b>.';
 
     // Preview gate — see PREVIEW_MODE switch at the top of this file.
     // Organizers can test the quiz before launch with refquiz.html?preview=quiz (not linked anywhere).
     var _qprev = /[?&]preview=quiz\b/.test(location.search) && currentPage() === "refquiz.html";
     if (PREVIEW_MODE) {
-      var _rb = document.querySelector(".refbar"); if (_rb) _rb.remove(); // quiz opens with the rest of the site
-      var _rq = document.getElementById("refquiz"); if (!_qprev && _rq && _rq.closest(".wrap")) _rq.closest(".wrap").remove(); // referee page is live, its quiz section is not
+      if (!QUIZ_LIVE) {
+        var _rb = document.querySelector(".refbar"); if (_rb) _rb.remove(); // quiz opens with the rest of the site
+        var _rq = document.getElementById("refquiz"); if (!_qprev && _rq && _rq.closest(".wrap")) _rq.closest(".wrap").remove(); // referee page is live, its quiz section is not
+      }
       if (!_qprev && LIVE_PAGES.indexOf(currentPage()) < 0) {
         var _start = document.querySelector(".hero") || document.querySelector("header");
         if (_start) {
