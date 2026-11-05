@@ -648,7 +648,7 @@
     var merchExtras='';
     function gcard(img,name,desc,price){
       var im=img?'<div class="gear-img"><img class="zoomable" src="assets/merch/'+img+'" alt="'+name+'" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div>':'';
-      return '<a class="card gear-card" href="#preorder"><span class="preorder-tag">Pre-order</span>'+im+'<div class="gear-name">'+name+'</div><div class="muted" style="font-size:13px">'+desc+'</div><div class="gear-price">'+price+'</div></a>';
+      return '<div class="card gear-card"><span class="preorder-tag">Pre-orders closed</span>'+im+'<div class="gear-name">'+name+'</div><div class="muted" style="font-size:13px">'+desc+'</div><div class="gear-price">'+price+'</div></div>';
     }
     var teeSec='<section class="con-hero card"><div class="con-hero-img"><img class="zoomable" src="assets/merch/calcup-tshirt.jpg" alt="CalCup T-shirt" onerror="this.closest(\'.con-hero\').classList.add(\'noimg\');this.remove()"></div>'+
       '<div class="con-hero-txt"><span class="con-tag">Best seller</span><h2 style="margin:.2em 0">The CalCup tee</h2><p class="muted">Sport-grey heavyweight cotton, three-colour print. Available in <b>men&rsquo;s, women&rsquo;s and kids&rsquo;</b> sizes &mdash; <b>$20</b>, grab yours at the booth.</p></div></section>';
@@ -657,9 +657,9 @@
       capCard('calheat-cap-flat.jpg','CalHeat cap &mdash; flat visor','Flat visor')+
       capCard('calheat-cap-curved.jpg','CalHeat cap &mdash; curved visor','Curved visor')+
       '</div></section>';
-    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat &mdash; <b>pre-order only</b>. Reserve below, then confirm with payment (Venmo <b>@CalHeat-Handball</b> / Zelle / PayPal <b>calcup@calheat.com</b>) &mdash; pick up at the tournament. <b>Pre-orders close Oct 31, 2026.</b></p>';
-    var bundleCard='<a class="card gear-card gear-bundle" href="#preorder"><span class="preorder-tag">Pre-order</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $9 vs. separately</div><div class="gear-price">$109</div></a>';
-    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-order only &middot; closes Oct 31 &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
+    var gearMsg='<p class="muted" style="max-width:820px;margin:2px 0 14px">Special <b>XXth-edition</b> hoodie and hat. Pre-orders are closed; thank you to everyone who reserved.</p>';
+    var bundleCard='<div class="card gear-card gear-bundle"><span class="preorder-tag">Pre-orders closed</span><div class="gear-img"><img class="zoomable" src="assets/merch/hoodie-hat-bundle.jpg" alt="Commemorative hoodie and hat" onerror="this.closest(\'.gear-img\').style.display=\'none\'"></div><div class="gear-name">Hoodie + hat bundle</div><div class="muted" style="font-size:13px">Both XXth-edition pieces &mdash; save $9 vs. separately</div><div class="gear-price">$109</div></div>';
+    var gearSec='<section><div class="sec-head"><h2>Commemorative gear</h2><span class="note">pre-orders closed &middot; XXth edition</span></div>'+gearMsg+'<div class="grid cols-3">'+
       bundleCard+
       gcard("calcup-hoodie.jpg","Commemorative hoodie","XXth-edition, orange strings. Runs large: order one size down","$79")+
       gcard("calcup-hat.jpg","Commemorative hat","XXth-edition flat-visor snapback","$39")+
@@ -681,7 +681,7 @@
       '</div></section>';
     var introBlock='<section><p style="font-size:17px;max-width:760px">'+C.intro+'</p>'+(C.card?'<div class="callout" style="margin-top:10px"><b>'+C.card+'</b></div>':'')+'</section>';
     var hoodieHero='<section><div class="merch-hero"><img class="merch-hero-img zoomable" src="assets/merch/hoodie-model.jpg" alt="CalCup XXth-edition commemorative hoodie" onerror="this.closest(\'section\').style.display=\'none\'"></div>'+
-      '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. It runs large, so order one size below your usual size. Pre-order below and pick it up courtside.</p></div></section>';
+      '<div class="merch-hero-cap"><span class="con-tag">New &middot; XXth edition</span><h2 style="margin:.15em 0">Wear the 20th California Cup</h2><p class="muted" style="max-width:640px">The commemorative <b>navy hoodie</b> &mdash; CalHeat crest, orange trim. Pre-orders are now closed.</p></div></section>';
     el.innerHTML=hoodieHero+gearSec+'<div id="preorder-anchor"></div>'+teeSec+capSec+dealsSec+introBlock+foodSec;
     // The Netlify pre-order form stays static in concession.html (so Netlify detects it);
     // move it into place directly below the commemorative gear.
@@ -920,7 +920,7 @@
         }
         var _g = document.createElement("div");
         _g.className = "wrap";
-        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch pre-orders &amp; concession are open &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a><a class="gate-cta" href="toolkit.html"><i class="ti ti-tools"></i> Organizing a tournament? Free toolkit &rarr;</a></div></section>';
+        _g.innerHTML = '<section class="gate"><div class="gate-q"><i class="ti ti-lock"></i></div><h2>This page goes live as we get closer to CalCup 2027</h2><p class="muted">Schedule, teams and results open closer to the tournament: Jan 29 to 31, 2027 &middot; Fremont, CA.</p><div class="gate-ctas"><a class="gate-cta" href="concession.html"><i class="ti ti-shopping-bag"></i> Merch &amp; concession &rarr;</a><a class="gate-cta" href="raffle.html">'+TICKET_SVG+' Raffle prizes &rarr;</a><a class="gate-cta" href="toolkit.html"><i class="ti ti-tools"></i> Organizing a tournament? Free toolkit &rarr;</a></div></section>';
         if (currentPage() === "index.html") {
           // Home only: raffle announcement above the preview notice
           _g.innerHTML = '<a class="home-toolkit" href="toolkit.html"><span class="ht-ico"><i class="ti ti-tools"></i></span><span class="ht-txt"><b>Organizing a handball tournament?</b> Our free organizer toolkit shares what we use to run CalCup: AI prompts, the Excel master workbook and the website starter code, with honest estimates of the time and cost involved.</span><span class="ht-cta">Open the toolkit &rarr;</span></a>' + '<a class="home-raffle" href="raffle.html"><span class="hr-ico">'+TICKET_SVG+'</span><span class="hr-txt"><b>Enter our raffle at the tournament</b> for a chance to win one of three jerseys: a France jersey signed by Les Bleues, a CalHeat jersey signed by Les Bleus, or Vid Kavti&#269;nik&rsquo;s game-worn N&icirc;mes jersey.</span><span class="hr-cta">See the prizes &rarr;</span></a>' +
