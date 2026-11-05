@@ -11,8 +11,9 @@
   /* Full screen carousel of donated jerseys: one prize per screen, swipe or arrows. */
   html,body{height:100%}
   body{display:flex;flex-direction:column;min-height:100vh}
-  .dc-bar{background:var(--navy);color:#fff;padding:12px 0 0}
-  .dc-bar .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px}
+  .dc-bar{background:var(--navy);color:#fff;padding:14px 0 12px}
+  /* align with the logo: the nav bar wrap has no side padding */
+  .dc-bar .wrap{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:10px;padding-left:0;padding-right:0}
   .dc-title{margin:0;font-size:22px;line-height:1.15}
   .dc-title small{display:block;font-size:12px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--orange);margin-bottom:3px}
   .dc-tabs{display:flex;gap:4px;margin:0;padding:0;list-style:none;max-width:100%;overflow-x:auto;scrollbar-width:none}
@@ -97,12 +98,12 @@
 
     <!-- 1. Henning Fritz -->
     <section class="dc-slide" id="fritz" aria-label="1 of 3: Henning Fritz">
-      <figure class="dc-photo fit-contain">
-        <div class="dc-bg" style="background-image:url('assets/photos/donors/fritz-jersey-front.jpg')"></div>
-        <img class="dc-main" src="assets/photos/donors/fritz-jersey-front.jpg" alt="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front">
-        <span class="dc-prize">Donated jersey</span>
-        <div class="dc-thumbs"><button type="button" aria-label="Jersey front" aria-pressed="true" data-src="assets/photos/donors/fritz-jersey-front.jpg" data-fit="contain" data-cap="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front."><img src="assets/photos/donors/fritz-jersey-front.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/fritz-jersey-back.jpg" data-fit="contain" data-cap="Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, back."><img src="assets/photos/donors/fritz-jersey-back.jpg" alt=""></button></div>
-        <figcaption>Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front.</figcaption>
+      <figure class="dc-photo">
+        <div class="dc-bg" style="background-image:url('assets/photos/donors/fritz-action.jpg')"></div>
+        <img class="dc-main" style="object-position:50% 20%" src="assets/photos/donors/fritz-action.jpg" alt="Henning Fritz in goal for the Rhein-Neckar Löwen in his number 12 jersey">
+        <span class="dc-prize">Prize to assign</span>
+        <div class="dc-thumbs"><button type="button" aria-label="Henning Fritz in goal" aria-pressed="true" data-src="assets/photos/donors/fritz-action.jpg" data-fit="cover" data-pos="50% 20%" data-cap="Henning Fritz in goal for the Rhein-Neckar Löwen, number 12. Photo: Getty Images."><img src="assets/photos/donors/fritz-action.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/fritz-jersey-back.jpg" data-fit="cover" data-cap="The jersey: Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, back."><img src="assets/photos/donors/fritz-jersey-back.jpg" alt=""></button><button type="button" aria-label="Jersey front" aria-pressed="false" data-src="assets/photos/donors/fritz-jersey-front.jpg" data-fit="cover" data-cap="The jersey: Henning Fritz's number 12 Rhein-Neckar Löwen goalkeeper jersey, front."><img src="assets/photos/donors/fritz-jersey-front.jpg" alt=""></button></div>
+        <figcaption>Henning Fritz in goal for the Rhein-Neckar Löwen, number 12. Photo: Getty Images.</figcaption>
       </figure>
       <div class="dc-body">
         <p class="donor-tag"><span>Germany</span><span>Goalkeeper</span><span>IHF World Player of the Year, 2004</span></p>
@@ -133,7 +134,7 @@
     <section class="dc-slide" id="dembele" aria-label="2 of 3: Siraba Dembélé">
       <figure class="dc-photo">
         <div class="dc-slot"><i class="ti ti-heart-handshake"></i>Photo of the jersey coming soon</div>
-        <span class="dc-prize">Donated jersey</span>
+        <span class="dc-prize">Prize to assign</span>
         <figcaption>Siraba Dembélé's jersey. Photo coming soon.</figcaption>
       </figure>
       <div class="dc-body">
@@ -167,16 +168,16 @@
 
     <!-- 3. Guillaume Gille: Dylan Nahi's France jersey -->
     <section class="dc-slide" id="gille" aria-label="3 of 3: Guillaume Gille">
-      <figure class="dc-photo fit-contain">
-        <div class="dc-bg" style="background-image:url('assets/photos/donors/nahi-jersey-front.jpg')"></div>
-        <img class="dc-main" src="assets/photos/donors/nahi-jersey-front.jpg" alt="Dylan Nahi's white France jersey, number 31, front">
-        <a class="dc-prize" href="refquiz.html" style="text-decoration:none">Referee quiz prize</a>
-        <div class="dc-thumbs"><button type="button" aria-label="Jersey front" aria-pressed="true" data-src="assets/photos/donors/nahi-jersey-front.jpg" data-fit="contain" data-cap="Dylan Nahi's white France jersey, number 31, front."><img src="assets/photos/donors/nahi-jersey-front.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/nahi-jersey-back.jpg" data-fit="contain" data-cap="Dylan Nahi's white France jersey, number 31, back."><img src="assets/photos/donors/nahi-jersey-back.jpg" alt=""></button></div>
-        <figcaption>Dylan Nahi's white France jersey, number 31, front.</figcaption>
+      <figure class="dc-photo">
+        <div class="dc-bg" style="background-image:url('assets/photos/donors/nahi-action-white.jpg')"></div>
+        <img class="dc-main" style="object-position:39% 50%" src="assets/photos/donors/nahi-action-white.jpg" alt="Dylan Nahi shooting for France in the white number 31 jersey">
+        <span class="dc-prize">Refereeing Quiz</span>
+        <div class="dc-thumbs"><button type="button" aria-label="Dylan Nahi in action" aria-pressed="true" data-src="assets/photos/donors/nahi-action-white.jpg" data-fit="cover" data-pos="39% 50%" data-cap="Dylan Nahi in the France white jersey, number 31. Photo: Getty Images."><img src="assets/photos/donors/nahi-action-white.jpg" alt=""></button><button type="button" aria-label="Jersey front" aria-pressed="false" data-src="assets/photos/donors/nahi-jersey-front.jpg" data-fit="cover" data-cap="The jersey: Dylan Nahi's white France jersey, number 31, front."><img src="assets/photos/donors/nahi-jersey-front.jpg" alt=""></button><button type="button" aria-label="Jersey back" aria-pressed="false" data-src="assets/photos/donors/nahi-jersey-back.jpg" data-fit="cover" data-cap="The jersey: Dylan Nahi's white France jersey, number 31, back."><img src="assets/photos/donors/nahi-jersey-back.jpg" alt=""></button></div>
+        <figcaption>Dylan Nahi in the France white jersey, number 31. Photo: Getty Images.</figcaption>
       </figure>
       <div class="dc-body">
         <p class="donor-tag"><span>France</span><span>Centre back</span><span>Olympic champion 2008, 2012</span><span>Head coach of France 2020 to 2026</span></p>
-        <div class="dc-head"><h2>Dylan Nahi's France jersey, donated by Guillaume Gille</h2></div>
+        <div class="dc-head"><img class="dc-avatar" src="assets/photos/donors/gille-coach.jpg" alt="Guillaume Gille as head coach of France"><h2>Dylan Nahi's France jersey, donated by Guillaume Gille</h2></div>
         <div class="donor-stats">
           <div><b>308</b><span>caps for France</span></div>
           <div><b>678</b><span>international goals</span></div>
