@@ -741,8 +741,10 @@
     function intro(){
       el.innerHTML='<div class="quiz quiz-intro"><div class="quiz-badge"><i class="ti ti-flag"></i></div>'+
         '<h2 style="margin:10px 0 4px">You think you can ref?</h2>'+
-        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 45 seconds each</b>, depending on length. Some questions have more than one correct answer. Questions from the IHF Catalogue of Rules Questions 2025.</p>'+
-        '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard and win '+QUIZ_PRIZE+'.</div>'+
+        '<p class="muted" style="max-width:520px;margin:0 auto 14px">'+ROUND+' questions &middot; <b>15 to 45 seconds each</b>, depending on length. Some questions have more than one correct answer. Rounds draw from the 408 questions of the IHF Catalogue of Rules Questions 2025 that suit a timed round.</p>'+
+        '<div class="quiz-prize"><i class="ti ti-trophy"></i> Top the weekend leaderboard and win '+QUIZ_PRIZE+'.'+
+          '<div class="quiz-prize-pics"><img class="zoomable" src="assets/photos/donors/nahi-jersey-front.jpg" alt="Dylan Nahi\'s white France jersey, number 31, front" loading="lazy"><img class="zoomable" src="assets/photos/donors/nahi-jersey-back.jpg" alt="Dylan Nahi\'s white France jersey, Nahi 31, back" loading="lazy"></div>'+
+          '<div class="quiz-prize-cap">Dylan Nahi&rsquo;s white number 31 France jersey, donated by Guillaume Gille. Tap a photo to enlarge.</div></div>'+
         '<div id="qclosed"></div><div id="qwho"></div>'+
         '<div class="quiz-lb-wrap" id="qlb"><div class="quiz-lb-h">Weekend leaderboard</div><div class="muted" style="font-size:13px;text-align:center">Loading&hellip;</div></div>'+
         '<div id="qrules"></div></div>';

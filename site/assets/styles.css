@@ -232,6 +232,9 @@ footer a{color:#C3D0DE}
 .tile .ico svg{color:var(--orange-dark)}
 .quiz-prize{background:var(--orange-tint);border:1px solid var(--orange);border-radius:12px;padding:10px 14px;max-width:520px;margin:0 auto 14px;font-size:14px;color:var(--ink)}
 .quiz-prize i{color:var(--orange-dark);margin-right:4px}
+.quiz-prize-pics{display:flex;gap:10px;justify-content:center;margin:10px 0 4px}
+.quiz-prize-pics img{width:46%;max-width:200px;aspect-ratio:1/1;object-fit:cover;border-radius:8px;border:1px solid var(--line);background:#fff;cursor:zoom-in}
+.quiz-prize-cap{font-size:12px;color:var(--muted);text-align:center}
 /* more vivid food bundles */
 .con-bundle{border-color:var(--orange);background:linear-gradient(180deg,var(--orange-tint),var(--card));text-align:center;position:relative;overflow:hidden}
 .con-bundle::before{content:"SAVE";position:absolute;top:9px;right:-24px;transform:rotate(45deg);background:var(--orange);color:#3A1B02;font-size:10px;font-weight:700;letter-spacing:.5px;padding:2px 26px}
