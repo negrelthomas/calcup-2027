@@ -7,7 +7,7 @@
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
   var QUIZ_LIVE = true; // referee quiz and flashcards open while the rest of the site is in preview (practice board until the first game)
-  var LIVE_PAGES = ["refquiz.html", "handball-referee-flashcards.html", "concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html"];
+  var LIVE_PAGES = ["refquiz.html", "handball-referee-flashcards.html", "concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};

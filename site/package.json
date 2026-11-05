@@ -1,0 +1,8 @@
+{
+  "name": "calcup-2027-site",
+  "private": true,
+  "description": "Dependencies for the Netlify Functions in netlify/functions (quiz, voting). Netlify installs them at deploy time.",
+  "dependencies": {
+    "@netlify/blobs": "^11.1.7"
+  }
+}

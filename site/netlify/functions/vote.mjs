@@ -15,9 +15,19 @@
 //   VOTE_ADMIN_TOKEN  for vote-admin.html
 //   RESEND_API_KEY    email sender; VOTE_FROM e.g. "CalCup 2027 <calcup@calheat.com>"
 //   VOTE_DEADLINE     optional ISO override of the deadline computed from the schedule
+//   VOTE_OPEN         optional ISO override of the ballot opening; default is the court time of the
+//                     first game of the tournament (Games Schedule), then Friday Jan 29, 2027 at noon PT.
+//                     Before it, sign in, notes and the technical document acknowledgment work, ballots do not.
 //   VOTE_DEV_CODES=1  testing only: returns the code in the response instead of emailing it
 import { randomBytes, randomInt } from "node:crypto";
 const CODE_TTL = 10 * 60 * 1000, SESSION_TTL = 21 * 24 * 3600 * 1000;
+const DEFAULT_OPEN = "2027-01-29T12:00:00-08:00";
+function openOf(roster) {
+  const env = process.env.VOTE_OPEN && Date.parse(process.env.VOTE_OPEN);
+  if (env && isFinite(env)) return env;
+  const t = roster && roster.firstGame ? Date.parse(roster.firstGame) : NaN;
+  return isFinite(t) ? t : Date.parse(DEFAULT_OPEN);
+}
 import { CATS, store, sha, normEmail, json, err, safeEq, loadRoster, deadlineOf, isClosed, eligible, sendEmail, tally, allBallots, TECH_DOC, techDocVersion, ackDeadlineOf, coachRoles } from "../voting-core.mjs";
 
 async function session(req, st) {
@@ -150,6 +160,7 @@ export default async (req) => {
       const ack = { doc: TECH_DOC, version: techDocVersion(), deadline: ad ? new Date(ad).toISOString() : null, items: ackItems };
       return json({ ack, person: { name: person.name, email: person.email, roles: person.roles, exclude: person.exclude },
         deadline: d ? new Date(d).toISOString() : null, closed: isClosed(roster),
+        opensAt: new Date(openOf(roster)).toISOString(), notOpen: Date.now() < openOf(roster),
         cats: CATS, teams: roster.teams, players: roster.players, pool, ballots, notes });
     }
 
@@ -176,6 +187,7 @@ export default async (req) => {
 
     if (op === "ballot" && req.method === "PUT") {
       if (isClosed(roster)) return err(403, "closed", "Voting is closed.");
+      if (Date.now() < openOf(roster)) return err(403, "not_open", "Voting opens at the first game of the tournament.");
       const role = person.roles.find((r) => r.id === (body && body.role));
       if (!role) return err(403, "not_your_ballot");
       const cat = CATS.find((c) => c.id === (body && body.cat));

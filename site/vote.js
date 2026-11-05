@@ -136,6 +136,7 @@
     return '<div class="vt-bar"><div><b>' + esc(me.person.name) + '</b> <span class="muted">' + esc(me.person.email) + '</span></div>' +
       '<button class="vt-link" id="vt-out">Sign out</button></div>' +
       (me.closed ? '<div class="vt-banner closed"><i class="ti ti-alert-triangle"></i> Voting is closed. Thank you for voting. Winners are announced at the awards ceremony.</div>'
+        : me.notOpen ? '<div class="vt-banner"><i class="ti ti-clock"></i> Voting opens at the first game of the tournament, ' + esc(fmtWhen(me.opensAt)) + '. You can already read the rules and take private notes.</div>'
         : '<div class="vt-banner"><i class="ti ti-clock"></i> Voting closes ' + esc(fmtWhen(me.deadline)) + ' <span class="vt-cd" data-countdown="' + esc(me.deadline || "") + '">' + esc(me.deadline ? countdown(me.deadline) : "") + '</span></div>');
   }
   function bindHeader() {
@@ -150,7 +151,7 @@
       var state = done === total ? '<span class="pill vt-ok">Complete</span>' : done ? '<span class="pill vt-part">' + done + ' of ' + total + ' done</span>' : '<span class="pill up">Not started</span>';
       return '<div class="card vt-ballot"><div><div class="vt-blabel">' + esc(r.type === "ref" ? "Referee ballot" : r.voterTeam + " ballot") + '</div>' +
         '<div class="muted vt-small">' + esc(r.label) + '</div></div>' + state +
-        (me.closed ? '' : '<button class="btn btn-pri" data-vote="' + esc(r.id) + '">' + (done ? 'Review or change' : 'Vote') + '</button>') + '</div>';
+        (me.closed || me.notOpen ? '' : '<button class="btn btn-pri" data-vote="' + esc(r.id) + '">' + (done ? 'Review or change' : 'Vote') + '</button>') + '</div>';
     }).join("");
     root.innerHTML = headerHTML() + ackHTML() +
       '<section><div class="sec-head"><h2>' + (me.person.roles.length > 1 ? 'Your ballots' : 'Your ballot') + '</h2></div>' + cards +
