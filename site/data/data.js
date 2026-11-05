@@ -1482,7 +1482,7 @@ window.CALCUP = {
       "id": "r4",
       "refs": [
         "Ezekiel McClintock",
-        "Tora Oline"
+        "Tora Johnsen"
       ],
       "country": "USA",
       "bio": "USATH-certified referee pair."
@@ -1494,7 +1494,7 @@ window.CALCUP = {
         "Keira Hopkinson"
       ],
       "country": "CAN",
-      "bio": "Referee pair from Edmonton, Alberta, Canada, refereeing together for two and a half years. They have officiated at two IHF Trophy competitions and at several Canadian and USA National Championships."
+      "bio": "Referee pair from Edmonton, Alberta, Canada, involved in handball since their high school years. Refereeing together for two and a half years, they have built a strong partnership and gained experience at international and national level, including two IHF Trophy competitions and several Canadian and USA National Championships."
     }
   ],
   "volunteers": [
