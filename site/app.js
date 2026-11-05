@@ -768,7 +768,7 @@
         w.querySelector("#qstart").addEventListener("click",start);
         w.querySelector("#qout").addEventListener("click",function(ev){ ev.preventDefault(); qCall("logout",{},function(){}); qTok(null); me=null; who(); });
       } else {
-        w.innerHTML='<div style="margin:6px 0 14px"><button class="btn btn-pri btn-lg" id="qjoin">Join the leaderboard</button> <button class="btn btn-ghost btn-lg" id="qguest">Play without signing in</button></div>'+
+        w.innerHTML='<div class="btn-row"><button class="btn btn-pri btn-lg" id="qjoin">Join the leaderboard</button><button class="btn btn-ghost btn-lg" id="qguest">Play without signing in</button></div>'+
           '<p class="muted" style="font-size:12px;margin:-6px 0 0">Without signing in, your score is not saved.</p><div id="qsign"></div>';
         w.querySelector("#qguest").addEventListener("click",start);
         w.querySelector("#qjoin").addEventListener("click",function(){ this.parentNode.style.display="none"; this.parentNode.nextSibling.style.display="none"; signStep1(); });
