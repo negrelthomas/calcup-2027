@@ -2628,6 +2628,11 @@ window.CALCUP = {
         "name": "San Francisco CalHeat U21",
         "logo": "ch-blue",
         "host": true
+      },
+      {
+        "name": "Seattle Handball Club",
+        "logo": "seattle",
+        "host": false
       }
     ],
     "W": [
