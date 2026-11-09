@@ -7,7 +7,7 @@
      false = full site back on. Nothing else to change. */
   var PREVIEW_MODE = true;
   var QUIZ_LIVE = true; // referee quiz and flashcards open while the rest of the site is in preview (practice board until the first game)
-  var LIVE_PAGES = ["refquiz.html", "handball-referee-flashcards.html", "donors.html", "concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html"];
+  var LIVE_PAGES = ["refquiz.html", "handball-referee-flashcards.html", "donors.html", "concession.html", "raffle.html", "physio.html", "registered.html", "toolkit.html", "vote-admin.html", "refquiz-admin.html", "referees.html", "history.html", "info.html", "live.html"];
 
   var D = window.CALCUP || {};
   var M = D.meta || {};
@@ -263,7 +263,7 @@
         schedTeam(g,"A")+schedTeam(g,"B")+
         '<div class="goff">Refs: '+refName(g.refs)+' · Table: '+tableNames(g.table)+'</div>'+
       '</div>'+
-      '<div class="gstat">'+statusPill(g.status)+'</div>'+
+      '<div class="gstat">'+statusPill(g.status)+'<br><a class="lc-link" href="live.html?game='+g.no+'">Live stats</a></div>'+
     '</div>';
   }
   function renderSchedule(el) {
@@ -580,6 +580,17 @@
   /* ---------- club news (home page) ----------
      Kept here, not in data.js: data.js is regenerated from the Master File. Newest item first. */
   var NEWS = [
+    {
+      date: "November 2026",
+      tag: "Registration",
+      title: "Seattle Handball Club joins the men's tournament",
+      img: "assets/photos/news-seattle-2026-11.jpg",
+      alt: "Seattle Handball Club crest in front of the Golden Gate Bridge",
+      body: [
+        "Seattle Handball Club has registered for the men's tournament at CalCup XX, which takes place from January 29 to 31, 2027, at Centerville Middle School in Fremont. Seattle joins San Diego Team Handball Club and the two host teams, San Francisco CalHeat and CalHeat U21, in the men's field.",
+        "Entries remain open in both divisions. Clubs that would like to take part can write to <a href=\"mailto:calcup@calheat.com\">calcup@calheat.com</a>, and the current field is on the <a href=\"registered.html\">registered teams</a> page."
+      ]
+    },
     {
       date: "October 2026",
       tag: "Refereeing",
