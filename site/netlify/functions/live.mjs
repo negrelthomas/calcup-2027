@@ -16,7 +16,9 @@
 // the match center cost about one function call per game every few seconds.
 //
 // Environment (Netlify > Site configuration > Environment variables):
-//   SCORER_PIN        code given to the table crews to open the scorer app (at least 6 characters)
+//   SCORER_PIN        code given to the table crews to open the scorer app (at least 6 characters).
+//                     One code for every game. Changing it signs every scorer out; their unsent entries
+//                     stay on their phones and go out after they sign in with the new code.
 //   VOTE_ADMIN_TOKEN  also opens the scorer app, with reset rights
 import { getStore } from "@netlify/blobs";
 import { createHash, randomBytes, timingSafeEqual } from "node:crypto";
@@ -46,7 +48,11 @@ async function session(req, st) {
   const tok = h.startsWith("Bearer ") ? h.slice(7).trim() : "";
   if (!tok) return null;
   const s = await st.get("sess/" + sha(tok), { type: "json" });
-  return s && s.exp > Date.now() ? s : null;
+  if (!s || s.exp < Date.now()) return null;
+  // a session only lives as long as the code it was opened with: changing SCORER_PIN in Netlify
+  // signs every scorer out at once (same for VOTE_ADMIN_TOKEN and organizer sessions)
+  const code = s.role === "admin" ? process.env.VOTE_ADMIN_TOKEN : process.env.SCORER_PIN;
+  return code && s.code === sha(code) ? s : null;
 }
 
 // Read, change, write with a version check, retried if another write landed in between.
@@ -101,15 +107,17 @@ export default async (req) => {
     if (op === "login" && req.method === "POST") {
       const pin = str(body && body.pin, 80), name = str(body && body.name, 40);
       if (!name) return err(400, "name_required", "Enter your name.");
-      const hour = "fail/" + new Date().toISOString().slice(0, 13);
+      // wrong codes are counted per connection, so someone guessing cannot lock the table crews out
+      const ip = req.headers.get("x-nf-client-connection-ip") || req.headers.get("x-forwarded-for") || "unknown";
+      const hour = "fail/" + new Date().toISOString().slice(0, 13) + "/" + sha(ip).slice(0, 16);
       const fails = (await st.get(hour, { type: "json" })) || { n: 0 };
-      if (fails.n >= 30) return err(429, "locked", "Too many wrong codes. Try again in an hour.");
+      if (fails.n >= 10) return err(429, "locked", "Too many wrong codes from this connection. Try again in an hour.");
       let role = null;
       if (process.env.VOTE_ADMIN_TOKEN && safeEq(pin, process.env.VOTE_ADMIN_TOKEN)) role = "admin";
       else if (process.env.SCORER_PIN && process.env.SCORER_PIN.length >= 6 && safeEq(pin, process.env.SCORER_PIN)) role = "scorer";
       if (!role) { await st.setJSON(hour, { n: fails.n + 1 }); return err(401, "bad_pin", "This code is not valid."); }
       const tok = randomBytes(24).toString("hex");
-      await st.setJSON("sess/" + sha(tok), { role, name, exp: Date.now() + SESSION_TTL });
+      await st.setJSON("sess/" + sha(tok), { role, name, code: sha(pin), exp: Date.now() + SESSION_TTL });
       return json({ token: tok, role, name });
     }
 
