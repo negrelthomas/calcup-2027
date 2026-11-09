@@ -141,7 +141,7 @@
           if (run.team === e.team) { run.len++; run.to = e.t; } else { run = { team: e.team, len: 1, from: e.t, to: e.t }; }
           if (!out.runs.best || run.len > out.runs.best.len) out.runs.best = { team: run.team, len: run.len, from: run.from, to: run.to };
         }
-        out.timeline.push({ e: e, kind: e.r === "goal" ? (e.z === "7M" ? "7m goal" : "Goal") : e.r === "saved" ? (e.z === "7M" ? "7m saved" : "Saved") : e.r === "blocked" ? "Blocked" : (e.z === "7M" ? "7m missed" : "Missed shot"),
+        out.timeline.push({ e: e, kind: e.r === "goal" ? (e.z === "7M" ? "7m goal" : "Goal") : e.r === "saved" ? (e.z === "7M" ? "7m saved" : "Shot saved") : e.r === "blocked" ? "Blocked" : (e.z === "7M" ? "7m missed, off target" : "Missed, off target"),
           who: nm(e.team, e.n), keeper: e.r === "saved" ? (gk == null ? null : nm(other(e.team), gk)) : null, keeperN: e.r === "saved" ? gk : null, score: { A: out.score.A, B: out.score.B } });
       } else if (e.type === "pun") {
         var TT = out.team[e.team];

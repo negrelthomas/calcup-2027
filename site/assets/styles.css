@@ -923,3 +923,25 @@ table.lb tr.me td{background:var(--orange-tint)}
 .lc-ic-to{background:var(--navy-2)}
 .lc-ic-gk{background:#9AA8B6}
 @media (max-width:640px){.lc-big{font-size:40px}.lc-prow{grid-template-columns:52px repeat(5,1fr);gap:3px}.lc-pc b{font-size:13px}.lc-tlr{grid-template-columns:1fr 40px 1fr}.lc-tlb{padding:4px 4px}.lc-shoot td.tm{max-width:150px}}
+/* team logos in place of colored dots; small jersey color dot */
+.lc-tl{width:18px;height:18px;object-fit:contain;vertical-align:-4px;margin-right:6px;display:inline-block;flex:none}
+.lc-tl-lg{width:26px;height:26px;margin:0}
+.lc-tlf{border-radius:50%;color:#fff;font-size:8px;font-weight:800;line-height:18px;text-align:center}
+.lc-tlf.lc-tl-lg{line-height:26px;font-size:10px}
+.lc-jd{display:inline-block;width:10px;height:10px;border-radius:50%;border:1.5px solid #9AA8B6;margin:0 6px;vertical-align:0;box-sizing:border-box}
+.lc-badge{background:#fff;border:2px solid var(--line)}
+.lc-sA .lc-badge{border-color:var(--navy)}.lc-sB .lc-badge{border-color:var(--orange)}
+.lc-badge img{padding:6px}
+.lc-dots{gap:4px}
+.lc-tls .lc-tl{margin:0;background:#fff;border-radius:50%;padding:1px;width:20px;height:20px}
+.lc-tlt span{display:flex;align-items:center}
+.lc-lu h4{display:flex;align-items:center}
+.lc-tlw{position:relative;display:inline-flex;vertical-align:-4px;margin-right:6px;flex:none}
+.lc-tlw .lc-tl{margin:0;vertical-align:0}
+.lc-jo{position:absolute;right:-3px;bottom:-2px;width:8px;height:8px;border-radius:50%;border:1.5px solid #fff;box-shadow:0 0 0 1px #9AA8B6}
+.lc-tls .lc-tlw{margin:0}
+.lc-dots .lc-tlw{margin:0}
+
+.lc-ic-ss{background:linear-gradient(45deg,transparent 42%,#7A4CC2 42%,#7A4CC2 58%,transparent 58%),linear-gradient(-45deg,transparent 42%,#7A4CC2 42%,#7A4CC2 58%,transparent 58%)}
+.lc-ic-bl{background:#9AA8B6;border-radius:3px}
+.lc-six{fill:#E9EDF2;stroke:#5A6B7B;stroke-width:1.4}

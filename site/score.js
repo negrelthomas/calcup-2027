@@ -271,9 +271,9 @@
       var title = { goal: "Goal", saved: "Shot saved", missed: "Missed shot" }[a];
       var zone = null;
       openSheet('<h2>' + title + ' · ' + esc(nm) + '<button data-close>&times;</button></h2>' +
-        '<p class="hint">Tap the zone if you saw it, then the shooter. The shooter alone is enough.</p>' +
+        '<p class="hint">' + (a === "saved" ? 'Saved: on target and stopped by the goalkeeper. ' : a === "missed" ? 'Missed: off target (wide, over, post) or blocked by a defender. It does not count as a save. ' : '') + 'Tap the zone if you saw it, then the shooter.</p>' +
         '<div class="zones">' + L.ZONES.map(function (z) { return '<button data-z="' + z.id + '">' + zl(z.id) + '</button>'; }).join("") + '</div>' +
-        (a === "missed" ? '<div class="mini" style="margin-bottom:12px"><button class="act sm" data-r="missed" style="border-color:var(--navy)">Wide or post</button><button class="act sm" data-r="blocked">Blocked</button></div>' : '') +
+        (a === "missed" ? '<div class="mini" style="margin-bottom:12px"><button class="act sm" data-r="missed" style="border-color:var(--navy)">Off target</button><button class="act sm" data-r="blocked">Blocked</button></div>' : '') +
         playerGrid(side));
       var res = a;
       Array.prototype.forEach.call($sheet.querySelectorAll("[data-z]"), function (b) {
