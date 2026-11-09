@@ -23,6 +23,7 @@
   var SECTIONS = [
     { href:"schedule.html",   nav:"Schedule",    tile:"Schedule",     icon:"ti-clock",           primary:true },
     { href:"standings.html",  nav:"Standings",   tile:"Standings",    icon:"ti-friends",         primary:true },
+    { href:"live.html",       nav:"Live stats",  tile:"Live game stats", icon:"chart",          primary:true },
     { href:"scorers.html",    nav:"Top scorers", tile:"Top scorers",  icon:"ti-run",             primary:true },
     { href:"teams.html",      nav:"Teams",       tile:"Teams",        icon:"ti-users",           primary:true },
     { href:"referees.html",   nav:"Refereeing",  tile:"Refereeing",   icon:"whistle",            primary:true },
@@ -55,6 +56,12 @@
       cta.id="watch-cta"; cta.className="watch-cta"; cta.href="watch.html";
       cta.innerHTML='<i class="ti ti-player-play"></i> Watch live';
       wrap.insertBefore(cta, document.getElementById("burger"));
+      // "Live stats" pinned next to it: the match center (live.html)
+      var st=document.createElement("a");
+      st.id="stats-cta"; st.className="watch-cta stats-cta"; st.href="live.html";
+      st.innerHTML='<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M7 18v-6M12 18V6M17 18v-9"/></svg><span class="cta-lbl"> Live stats</span>';
+      st.setAttribute("aria-label","Live stats"); st.title="Live stats";
+      wrap.insertBefore(st, cta);
     }
     if(menu && !menu.querySelector(".menu-tk")){
       var mt=document.createElement("a"); mt.href="toolkit.html"; mt.className="menu-tk"+(currentPage()==="toolkit.html"?" active":"");
@@ -65,7 +72,8 @@
   }
   var WHISTLE_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9.5" cy="14.5" r="5.5"/><path d="M14 11.5 21 9v4l-7 1.5"/><path d="M9.5 9V5.5h4"/></svg>';
   var TICKET_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4z"/><path d="M15 5v2M15 11v2M15 17v2"/></svg>';
-  function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : icon==="ticket" ? TICKET_SVG : '<i class="ti '+icon+'"></i>'; }
+  var CHART_SVG='<svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h16"/><path d="M7 16v-5M12 16V6M17 16v-8"/></svg>';
+  function iconHTML(icon){ return icon==="whistle" ? WHISTLE_SVG : icon==="ticket" ? TICKET_SVG : icon==="chart" ? CHART_SVG : '<i class="ti '+icon+'"></i>'; }
   var BUNDLE_SVG='<svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8h12l-1 11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>';
   function renderExplore(){
     var el=document.getElementById("explore-grid"); if(!el) return;
@@ -281,7 +289,8 @@
   /* ---------- watch ---------- */
   function renderWatch(el) {
     if (M.streamUrl) {
-      el.innerHTML = '<div class="video"><iframe src="' + M.streamUrl + '" title="CalCup live stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>';
+      el.innerHTML = '<div class="video"><iframe src="' + M.streamUrl + '" title="CalCup live stream" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></div>' +
+        '<p class="watch-stats"><a class="btn btn-pri" href="live.html">Live game stats &rarr;</a></p>';
     } else {
       el.innerHTML = '<div class="video placeholder"><div><i class="ti ti-player-play" style="font-size:34px;color:var(--orange)"></i><p>The live stream goes live when the tournament begins.</p><p style="font-size:13px;color:var(--muted)">All games are streamed. Bookmark this page.</p></div></div>';
     }

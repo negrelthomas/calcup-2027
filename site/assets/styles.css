@@ -40,7 +40,10 @@ img{max-width:100%;display:block}
 .watch-cta{display:inline-flex;align-items:center;gap:6px;margin-left:auto;background:var(--red);color:#fff;font-size:13px;font-weight:700;padding:8px 14px;border-radius:22px;white-space:nowrap}
 .watch-cta:hover{text-decoration:none;filter:brightness(1.08)}
 .watch-cta i{font-size:15px}
-@media (max-width:720px){.watch-cta{margin-right:10px;font-size:12px;padding:7px 12px}}
+.stats-cta{background:var(--orange);color:#3A1B02}
+.stats-cta + .watch-cta{margin-left:8px}
+.watch-stats{margin:14px 0 0}
+@media (max-width:720px){.watch-cta{margin-right:10px;font-size:12px;padding:7px 12px}.nav .wrap{column-gap:8px}.stats-cta{margin-right:0;padding:7px 9px}.stats-cta .cta-lbl{display:none}.stats-cta + .watch-cta{margin-left:6px}}
 .menu a:hover,.menu a.active{color:var(--orange);text-decoration:none}
 .burger{display:none;background:none;border:0;color:#fff;font-size:24px;cursor:pointer}
 
