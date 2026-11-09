@@ -25,7 +25,7 @@
     get("op=all").then(function (j) {
       off = j.serverNow - Date.now();
       var s = j.games || {};
-      $board.innerHTML = '<p class="kicker">Match center</p><h1 style="font-size:28px">Live game stats</h1><p class="sub" style="margin:0">Goals, shots, saves and suspensions, entered at the table as they happen.</p>';
+      $board.innerHTML = '<p class="kicker">Match center</p><h1 style="font-size:28px">Live game stats</h1>';
       var rows = games.slice().sort(function (a, b) { return a.no - b.no; }).map(function (g) {
         var x = s[String(g.no)];
         var st = x ? statusLine(x) : '<span class="pill up">' + esc(g.day + " " + g.time) + '</span>';
@@ -65,7 +65,7 @@
     var g = sched(no);
     if (!data.exists) {
       var a = g ? tname(g.teamA) : "", b = g ? tname(g.teamB) : "";
-      $board.innerHTML = '<p class="kicker">Match center · Game ' + esc(no) + '</p><h1 style="font-size:28px">' + (g ? esc(a) + ' v ' + esc(b) : 'Game ' + esc(no)) + '</h1><p class="sub" style="margin:0">' + (g ? esc(g.day + " " + g.time) + ' · ' : '') + 'Live stats start at throw off.</p>';
+      $board.innerHTML = '<p class="kicker">Match center · Game ' + esc(no) + '</p><h1 style="font-size:28px">' + (g ? esc(a) + ' v ' + esc(b) : 'Game ' + esc(no)) + '</h1>' + (g ? '<p class="sub" style="margin:0">' + esc(g.day + " " + g.time) + '</p>' : '');
       $app.innerHTML = '<p class="muted" style="margin-top:18px"><a href="live.html">All games</a></p>';
       return;
     }
