@@ -108,7 +108,7 @@
     function nm(team, n) { if (n == null || n === "") return "Unknown player"; return names[team][n] || ("#" + n); }
 
     var out = { score: { A: 0, B: 0 }, half: { A: [0, 0], B: [0, 0] }, players: { A: {}, B: {} }, keepers: { A: {}, B: {} },
-      team: { A: tz(), B: tz() }, zones: { A: {}, B: {} }, puns: [], timeouts: { A: 0, B: 0 }, timeline: [], prog: [], quarters: [],
+      team: { A: tz(), B: tz() }, zones: { A: {}, B: {} }, puns: [], timeouts: { A: 0, B: 0 }, timeline: [], prog: [], periods: [], lastGoals: [],
       runs: { best: null }, H: H };
     function tz() { return { goals: 0, shots: 0, saves: 0, faced: 0, m7g: 0, m7: 0, y: 0, s2: 0, r: 0, b: 0, noShooter: 0, noZone: 0 }; }
 
@@ -142,7 +142,7 @@
           if (!out.runs.best || run.len > out.runs.best.len) out.runs.best = { team: run.team, len: run.len, from: run.from, to: run.to };
         }
         out.timeline.push({ e: e, kind: e.r === "goal" ? (e.z === "7M" ? "7m goal" : "Goal") : e.r === "saved" ? (e.z === "7M" ? "7m saved" : "Saved") : e.r === "blocked" ? "Blocked" : (e.z === "7M" ? "7m missed" : "Missed shot"),
-          who: nm(e.team, e.n), keeper: e.r === "saved" ? (gk == null ? null : nm(other(e.team), gk)) : null, score: { A: out.score.A, B: out.score.B } });
+          who: nm(e.team, e.n), keeper: e.r === "saved" ? (gk == null ? null : nm(other(e.team), gk)) : null, keeperN: e.r === "saved" ? gk : null, score: { A: out.score.A, B: out.score.B } });
       } else if (e.type === "pun") {
         var TT = out.team[e.team];
         if (e.k === "yellow") TT.y++; else if (e.k === "2min") TT.s2++; else if (e.k === "red") TT.r++; else if (e.k === "blue") TT.b++;
@@ -159,13 +159,23 @@
         out.timeline.push({ e: e, kind: lab, who: "", score: { A: out.score.A, B: out.score.B }, phase: true });
       }
     });
-    // quarters: each half split in two
-    var Q = H / 2;
-    for (var q = 0; q < 4; q++) {
-      var qa = 0, qb = 0;
-      list.forEach(function (e) { if (e.type === "shot" && e.r === "goal" && e.t >= q * Q && (e.t < (q + 1) * Q || (q === 3 && e.t >= q * Q))) { if (e.team === "A") qa++; else qb++; } });
-      out.quarters.push({ q: q + 1, from: q * Q, to: (q + 1) * Q, A: qa, B: qb });
-    }
+    // score by period: each half in blocks of 10 minutes when the half length allows, else 5
+    var B = (H % 600 === 0 ? 600 : 300), n = Math.round(H / B);
+    out.blockMin = B / 60;
+    [0, 1].forEach(function (h) {
+      for (var b = 0; b < n; b++) {
+        var from = h * H + b * B, to = from + B, ga = 0, gb = 0;
+        list.forEach(function (e) {
+          if (e.type !== "shot" || e.r !== "goal") return;
+          var last = b === n - 1; // goals entered after the buzzer of a half stay in its last block
+          var inHalf = h === 0 ? e.t < H : e.t >= H;
+          if (!inHalf) return;
+          if (e.t >= from && (e.t < to || (last && e.t >= from))) { if (e.team === "A") ga++; else gb++; }
+        });
+        out.periods.push({ half: h + 1, from: from, to: to, A: ga, B: gb });
+      }
+    });
+    out.lastGoals = out.prog.slice(-5).map(function (p) { return p.team; });
     out.timeline.reverse();
     return out;
   }

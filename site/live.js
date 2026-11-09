@@ -8,7 +8,7 @@
   var byTeam = {}; (D.teamStyles || []).concat(D.teams || []).forEach(function (t) { byTeam[t.id] = t; });
   var $app = document.getElementById("lc-app"), $board = document.getElementById("lc-board");
   var no = new URLSearchParams(location.search).get("game");
-  var data = null, off = 0, tab = "summary", showAll = { A: false, B: false }, timer = null;
+  var data = null, off = 0, showAll = false, lineupsOpen = false, timer = null;
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); }
   function tname(id, fb) { if (byTeam[id]) return byTeam[id].name; if (fb) return fb; if (id && id.indexOf("tbd-") === 0) return "TBD"; return id || "TBD"; }
@@ -61,6 +61,17 @@
     }).catch(function () { if (!data) $app.innerHTML = '<p class="muted">Live stats are not available right now.</p>'; clearTimeout(timer); timer = setTimeout(loadGame, 15000); });
   }
 
+  function initials(name) {
+    var w = String(name || "").trim().split(/\s+/);
+    if (w.length === 1) return w[0].slice(0, 3).toUpperCase();
+    return w.map(function (x) { return /\d/.test(x) ? x : x.charAt(0); }).join("").slice(0, 4).toUpperCase();
+  }
+  function badge(id, name, side) {
+    return '<span class="lc-badge lc-b' + side + '">' + (byTeam[id] ? '<img src="assets/logos/' + id + '.png" alt="" onerror="this.remove()">' : '') + '<b>' + esc(initials(name)) + '</b></span>';
+  }
+  function num(n) { return n == null || n === "" ? "" : '<span class="lc-sh">#' + esc(n) + '</span>'; }
+
+  var M, ST, NA, NB, SH;
   function paint() {
     var g = sched(no);
     if (!data.exists) {
@@ -69,153 +80,209 @@
       $app.innerHTML = '<p class="muted" style="margin-top:18px"><a href="live.html">All games</a></p>';
       return;
     }
-    var m = data.meta, ev = data.events, R = { A: roster(m.teamA), B: roster(m.teamB) };
-    var st = L.stats(m, ev, R), c = L.clock(m, ev, now());
-    var nA = m.nameA || tname(m.teamA), nB = m.nameB || tname(m.teamB);
+    M = data.meta; var ev = data.events, R = { A: roster(M.teamA), B: roster(M.teamB) };
+    ST = L.stats(M, ev, R); var c = L.clock(M, ev, now());
+    NA = M.nameA || tname(M.teamA); NB = M.nameB || tname(M.teamB);
+    SH = { A: initials(NA), B: initials(NB) };
     var official = g && g.status === "final" && g.scoreA != null ? g : null;
-    var label = { pre: "Not started", h1: "1st half", ht: "Half time", h2: "2nd half", end: "Full time" }[c.phase];
     var liveNow = c.phase === "h1" || c.phase === "h2";
-    $board.innerHTML = '<div class="lc-top"><span class="kicker" style="margin:0">' + (m.practice ? "Practice game " : "Game ") + esc(no) + (m.label && !m.practice ? " · " + esc(m.label) : (g ? " · " + esc(g.division === "W" ? "Women" : "Men") : "")) + '</span>' +
-      '<button class="lc-share" id="share"><i class="ti ti-share"></i> Share</button></div>' +
-      '<div class="lc-score"><div class="lc-t">' + logo(m.teamA) + '<span>' + esc(nA) + '</span></div>' +
-      '<div class="lc-num"><span>' + st.score.A + '</span><span class="lc-dash">:</span><span>' + st.score.B + '</span></div>' +
-      '<div class="lc-t lc-tb">' + logo(m.teamB) + '<span>' + esc(nB) + '</span></div></div>' +
-      '<div class="lc-state">' + (liveNow ? '<span class="lc-live">LIVE</span> <span id="lc-clock">' + L.fmt(c.now) + '</span> · ' : '') + label +
-      (c.phase !== "pre" && c.phase !== "h1" ? ' · Half time ' + st.half.A[0] + '-' + st.half.B[0] : '') + '</div>' +
-      (official && (official.scoreA !== st.score.A || official.scoreB !== st.score.B) ? '<div class="lc-off">Official result from the score sheet: ' + official.scoreA + '-' + official.scoreB + '. The live log below may differ slightly.</div>' : '') +
-      (m.practice ? '<div class="lc-off">Practice game, used to train the table crew. It does not count.</div>' : '');
+    var pill = liveNow ? '<span class="lc-pill lc-pl-live">LIVE <span id="lc-clock">' + L.fmt(c.now) + '</span></span>'
+      : '<span class="lc-pill">' + ({ pre: "NOT STARTED", ht: "HALF TIME", end: "FULL TIME" }[c.phase] || "") + '</span>';
+    var when = g ? esc(g.day + " " + g.time) : "";
+    $board.innerHTML = '<div class="lc-card">' +
+      '<div class="lc-ch"><span class="lc-code">' + (M.practice ? "PRACTICE " : "GAME ") + esc(no) + (g ? " · " + (g.division === "W" ? "WOMEN" : "MEN") : "") + '</span></div>' +
+      '<div class="lc-ch2">' + pill + '<button class="lc-share" id="share">Share</button></div>' +
+      '<div class="lc-sides"><div class="lc-side lc-sA"><span class="lc-ha">HOME</span>' + badge(M.teamA, NA, "A") + '<span class="lc-tn">' + esc(NA) + '</span><span class="lc-big">' + ST.score.A + '</span></div>' +
+      '<div class="lc-side lc-sB"><span class="lc-ha">AWAY</span>' + badge(M.teamB, NB, "B") + '<span class="lc-tn">' + esc(NB) + '</span><span class="lc-big">' + ST.score.B + '</span></div></div>' +
+      '<div class="lc-cf">' + (c.phase !== "pre" && c.phase !== "h1" ? 'Half time ' + ST.half.A[0] + '-' + ST.half.B[0] + (when ? ' · ' : '') : '') + when + '</div></div>' +
+      (official && (official.scoreA !== ST.score.A || official.scoreB !== ST.score.B) ? '<div class="lc-off">Official result from the score sheet: ' + official.scoreA + '-' + official.scoreB + '. The live log may differ slightly.</div>' : '') +
+      (M.practice ? '<div class="lc-off">Practice game, used to train the table crew. It does not count.</div>' : '');
     var sh = document.getElementById("share");
-    if (sh) sh.onclick = function () { var u = location.href, t = nA + " " + st.score.A + "-" + st.score.B + " " + nB + " | CalCup 2027"; if (navigator.share) navigator.share({ title: t, url: u }).catch(function () {}); else if (navigator.clipboard) { navigator.clipboard.writeText(u); sh.textContent = "Link copied"; } };
+    if (sh) sh.onclick = function () { var u = location.href, t = NA + " " + ST.score.A + "-" + ST.score.B + " " + NB + " | CalCup 2027"; if (navigator.share) navigator.share({ title: t, url: u }).catch(function () {}); else if (navigator.clipboard) { navigator.clipboard.writeText(u); sh.textContent = "Link copied"; } };
 
-    var tabs = [["summary", "Summary"], ["players", "Players"], ["shots", "Shot map"], ["timeline", "Play by play"]];
-    var body = tab === "players" ? players(st, nA, nB) : tab === "shots" ? shotmap(st, nA, nB) : tab === "timeline" ? timeline(st, m, nA, nB) : summary(st, m, nA, nB);
-    $app.innerHTML = '<div class="filterbar lc-tabs">' + tabs.map(function (x) { return '<button data-tab="' + x[0] + '" class="' + (tab === x[0] ? "on" : "") + '">' + x[1] + '</button>'; }).join("") + '</div>' + body +
-      notes(st) + '<p class="muted lc-foot"><a href="live.html">All games</a> · Entered live at the scorer&rsquo;s table. The official score sheet is the record.</p>';
-    Array.prototype.forEach.call(document.querySelectorAll("[data-tab]"), function (b) { b.onclick = function () { tab = b.getAttribute("data-tab"); paint(); }; });
-    Array.prototype.forEach.call(document.querySelectorAll("[data-all]"), function (b) { b.onclick = function () { var s = b.getAttribute("data-all"); showAll[s] = !showAll[s]; paint(); }; });
+    $app.innerHTML = lineups(R) + matchAnalysis() + analysis(c) + timeline() + notes(ST) +
+      '<p class="muted lc-foot"><a href="live.html">All games</a> · Entered live at the scorer&rsquo;s table. The official score sheet is the record.</p>';
+    var lu = document.getElementById("lc-lu"); if (lu) lu.addEventListener("toggle", function () { lineupsOpen = lu.open; });
+    var sa = document.getElementById("lc-all"); if (sa) sa.onclick = function () { showAll = !showAll; paint(); };
   }
   setInterval(function () {
     var el = document.getElementById("lc-clock");
     if (el && data && data.exists) el.textContent = L.fmt(L.clock(data.meta, data.events, now()).now);
   }, 500);
 
-  function notes(st) {
-    var n = [];
-    var us = st.team.A.noShooter + st.team.B.noShooter, uz = st.team.A.noZone + st.team.B.noZone;
-    if (us) n.push(us + (us > 1 ? " shots have" : " shot has") + " no recorded shooter.");
-    if (uz) n.push(uz + (uz > 1 ? " shots have" : " shot has") + " no recorded zone.");
-    if (st.keepers.A["?"] || st.keepers.B["?"]) n.push("Some shots were faced before the goalkeeper was set at the table.");
-    return n.length ? '<p class="muted lc-note">' + n.join(" ") + '</p>' : '';
-  }
-
-  /* ---------- summary ---------- */
-  function summary(st, m, nA, nB) {
-    var A = st.team.A, B = st.team.B;
-    function row(label, a, b, na, nb) {
-      var tot = (na || 0) + (nb || 0), wa = tot ? Math.round(100 * na / tot) : 50;
-      return '<div class="lc-cmp"><span class="v">' + a + '</span><span class="lab">' + label + '<span class="bar"><i style="width:' + wa + '%"></i></span></span><span class="v">' + b + '</span></div>';
+  /* ---------- lineups ---------- */
+  function lineups(R) {
+    var nA = R.A.length, nB = R.B.length;
+    function list(side) {
+      var r = R[side]; if (!r.length) return '<p class="muted">No roster on file.</p>';
+      var goals = {}, two = {}, yc = {}, rc = {};
+      Object.keys(ST.players[side]).forEach(function (k) { goals[k] = ST.players[side][k].g; });
+      ST.puns.forEach(function (p) { if (p.e.team !== side) return; var k = String(p.e.n); if (p.e.k === "2min") two[k] = (two[k] || 0) + 1; else if (p.e.k === "yellow") yc[k] = 1; else rc[k] = 1; });
+      return '<ul class="lc-lul">' + r.slice().sort(function (a, b) { return a.n - b.n; }).map(function (p) {
+        var k = String(p.n);
+        return '<li><span class="lc-ln">' + p.n + '</span><span class="lc-lnm">' + esc(p.name) + '</span>' +
+          (yc[k] ? '<i class="lc-cd lc-cy"></i>' : '') + (two[k] ? '<span class="lc-2m">' + (two[k] > 1 ? two[k] + "×" : "") + "2'</span>" : '') + (rc[k] ? '<i class="lc-cd lc-cr"></i>' : '') +
+          '<span class="lc-lg">' + (goals[k] || "") + '</span></li>';
+      }).join("") + '</ul>';
     }
-    var cmp = '<div class="card"><div class="lc-cmph"><b>' + esc(nA) + '</b><b>' + esc(nB) + '</b></div>' +
-      row("Goals", A.goals, B.goals, A.goals, B.goals) +
-      row("Shots", A.shots, B.shots, A.shots, B.shots) +
-      row("Shooting", pct(A.goals, A.shots), pct(B.goals, B.shots), A.shots ? A.goals / A.shots : 0, B.shots ? B.goals / B.shots : 0) +
-      row("Saves", A.saves + " / " + A.faced, B.saves + " / " + B.faced, A.faced ? A.saves / A.faced : 0, B.faced ? B.saves / B.faced : 0) +
-      row("7 m", A.m7g + " / " + A.m7, B.m7g + " / " + B.m7, A.m7g, B.m7g) +
-      row("2 min", A.s2, B.s2, A.s2, B.s2) +
-      row("Yellow / red", A.y + " / " + (A.r + A.b), B.y + " / " + (B.r + B.b), A.y + A.r, B.y + B.r) +
-      row("Timeouts", st.timeouts.A, st.timeouts.B, st.timeouts.A, st.timeouts.B) + '</div>';
-    var q = st.quarters, half = m.halfLen;
-    var won = { A: 0, B: 0 }; q.forEach(function (x) { if (x.A > x.B) won.A++; else if (x.B > x.A) won.B++; });
-    var qt = '<div class="card"><h3>Score by period</h3><table class="tbl lc-q"><thead><tr><th></th>' + q.map(function (x) { return '<th>Q' + x.q + '</th>'; }).join("") + '<th>Total</th></tr></thead><tbody>' +
-      '<tr><td class="tm">' + esc(nA) + '</td>' + q.map(function (x) { return '<td' + (x.A > x.B ? ' class="lc-win"' : '') + '>' + x.A + '</td>'; }).join("") + '<td class="pts">' + st.score.A + '</td></tr>' +
-      '<tr><td class="tm">' + esc(nB) + '</td>' + q.map(function (x) { return '<td' + (x.B > x.A ? ' class="lc-win"' : '') + '>' + x.B + '</td>'; }).join("") + '<td class="pts">' + st.score.B + '</td></tr></tbody></table>' +
-      '<p class="muted" style="margin:8px 0 0">Periods won: ' + esc(nA) + ' ' + won.A + ', ' + esc(nB) + ' ' + won.B + '. Q1 and Q2 are the two parts of the first half, Q3 and Q4 of the second, ' + (half / 2) + ' minutes each.</p></div>';
-    var r = st.runs.best;
-    var run = r && r.len >= 2 ? '<div class="card"><h3>Biggest run</h3><p style="margin:0"><b>' + esc(r.team === "A" ? nA : nB) + '</b> scored ' + r.len + ' unanswered goals between ' + L.minuteLabel(r.from) + ' and ' + L.minuteLabel(r.to) + '.</p></div>' : '';
-    return cmp + '<div class="card"><h3>Momentum</h3>' + momentum(st, nA, nB) + '</div>' + qt + run;
+    return '<details class="card lc-lu" id="lc-lu"' + (lineupsOpen ? " open" : "") + '><summary><span><b>Lineups</b><small>' + nA + ' and ' + nB + ' players · goals update live</small></span></summary>' +
+      '<div class="lc-two"><div><h4 class="lc-tA">' + esc(NA) + '</h4>' + list("A") + '</div><div><h4 class="lc-tB">' + esc(NB) + '</h4>' + list("B") + '</div></div></details>';
   }
 
-  function momentum(st, nA, nB) {
-    var H = st.H, W = 520, Hh = 200, pad = 16, mid = (Hh - 16) / 2 + 2;
-    var pts = [{ t: 0, d: 0 }]; st.prog.forEach(function (p) { pts.push({ t: p.t, d: p.A - p.B }); });
+  /* ---------- match analysis: momentum dots, shooting, goalkeeping ---------- */
+  function matchAnalysis() {
+    var lg = ST.lastGoals, ca = lg.filter(function (t) { return t === "A"; }).length, cb = lg.length - ca;
+    var mom = lg.length ? '<div class="lc-dots">' + lg.map(function (t) { return '<i class="lc-dot lc-d' + t + '"></i>'; }).join("") + '<span>' + esc(ca >= cb ? NA : NB) + ' ' + Math.max(ca, cb) + '/' + lg.length + '</span></div>' : '<p class="muted">No goals yet.</p>';
+    function rows(side) {
+      var list = Object.keys(ST.players[side]).map(function (k) { return ST.players[side][k]; });
+      var unk = list.filter(function (p) { return p.n == null; })[0];
+      list = list.filter(function (p) { return p.n != null; }).sort(function (a, b) { return (b.g - a.g) || (b.a - a.a); });
+      var top = showAll ? list : list.slice(0, 5), rest = showAll ? [] : list.slice(5), T = ST.team[side];
+      var html = top.map(function (p) { return '<tr><td class="tm"><i class="lc-dot lc-d' + side + '"></i>' + num(p.n) + esc(p.name.charAt(0) === "#" ? "" : p.name) + '</td><td class="pts">' + p.g + '</td><td>' + p.a + '</td><td>' + pct(p.g, p.a) + '</td></tr>'; }).join("");
+      if (rest.length) { var rg = 0, ra = 0; rest.forEach(function (p) { rg += p.g; ra += p.a; }); html += '<tr><td class="tm"><i class="lc-dot lc-d' + side + '"></i>Other players (' + rest.length + ')</td><td class="pts">' + rg + '</td><td>' + ra + '</td><td>' + pct(rg, ra) + '</td></tr>'; }
+      if (unk) html += '<tr class="lc-unk"><td class="tm"><i class="lc-dot lc-d' + side + '"></i>Unknown shooter</td><td class="pts">' + unk.g + '</td><td>' + unk.a + '</td><td>' + pct(unk.g, unk.a) + '</td></tr>';
+      html += '<tr class="lc-tot"><td class="tm"><i class="lc-dot lc-d' + side + '"></i>' + esc(side === "A" ? NA : NB) + ' total</td><td class="pts">' + T.goals + '</td><td>' + T.shots + '</td><td>' + pct(T.goals, T.shots) + '</td></tr>';
+      return { html: html, more: rest.length };
+    }
+    var a = rows("A"), b = rows("B"), more = a.more + b.more;
+    var unkN = ST.team.A.noShooter + ST.team.B.noShooter;
+    var shooting = '<table class="lc-shoot"><thead><tr><th style="text-align:left">Player</th><th>G</th><th>Att</th><th>Conv</th></tr></thead><tbody>' + a.html + b.html + '</tbody></table>' +
+      (more || showAll ? '<button class="lc-more" id="lc-all">' + (showAll ? "Show fewer players" : "Show all players (" + more + " more)") + '</button>' : '') +
+      '<p class="lc-legend">G = goals, Att = recorded attempts, Conv = goals divided by attempts.' + (unkN ? ' ' + unkN + (unkN > 1 ? ' shots have' : ' shot has') + ' no shooter recorded, so a player&rsquo;s real rate may be lower than shown.' : '') + '</p>';
+    function gk(side) {
+      var other = side === "A" ? "B" : "A", K = ST.keepers[side], T = ST.team[side];
+      var list = Object.keys(K).map(function (k) { return K[k]; }).sort(function (x, y) { return y.faced - x.faced; });
+      return list.map(function (k) { return '<div class="lc-gk"><span><i class="lc-dot lc-d' + side + '"></i>' + num(k.n) + esc(k.n == null ? "Keeper not set" : (k.name.charAt(0) === "#" ? "" : k.name)) + '</span><span><b>' + pct(k.saves, k.faced) + '</b> (' + k.saves + '/' + k.faced + ')</span></div>'; }).join("") +
+        '<p class="lc-legend">' + esc(side === "A" ? NA : NB) + ' keepers: ' + T.saves + ' saves of ' + T.faced + ' shots on goal · ' + pct(T.saves, T.faced) + '</p>';
+    }
+    return '<div class="card lc-sec"><h3>Match analysis</h3><h5>Momentum</h5>' + mom + '<h5>Shooting</h5>' + shooting + '<h5>Goalkeeping</h5>' + gk("A") + gk("B") + '</div>';
+  }
+
+  /* ---------- game analysis: run, momentum chart, keepers, periods, distribution, shot map ---------- */
+  function analysis(c) {
+    var r = ST.runs.best;
+    var run = r && r.len >= 2 ? '<div class="lc-run"><div><b>Biggest run: ' + esc(r.team === "A" ? SH.A : SH.B) + ' scored ' + r.len + ' unanswered</b><small>Between ' + L.minuteLabel(r.from) + ' and ' + L.minuteLabel(r.to) + '</small></div><span>' + ST.score.A + ' - ' + ST.score.B + '</span></div>' : '';
+    function gkCard(side) {
+      var K = ST.keepers[side], T = ST.team[side];
+      var list = Object.keys(K).map(function (k) { return K[k]; }).sort(function (x, y) { return y.faced - x.faced; });
+      var k = list[0];
+      return '<div class="lc-gkc"><small>' + esc(SH[side]) + ' GK</small>' + (k ? '<div class="lc-gkb lc-gk' + side + '"><b>' + (k.n == null ? "Not set" : '#' + k.n + ' ' + esc(k.name.charAt(0) === "#" ? "" : k.name)) + '</b><span class="lc-gkp">' + pct(k.saves, k.faced) + '</span><small>' + k.saves + '/' + k.faced + ' saves</small></div>' : '<div class="lc-gkb">No shots yet</div>') +
+        '<small class="lc-gkt">Team ' + T.saves + '/' + T.faced + ' · <b>' + pct(T.saves, T.faced) + '</b></small></div>';
+    }
+    var per = ST.periods, won = { A: 0, B: 0 };
+    per.forEach(function (p) { if (p.A > p.B) won.A++; else if (p.B > p.A) won.B++; });
+    function perRow(h) {
+      return '<div class="lc-prow"><span class="lc-plab">' + (h === 1 ? "1st half" : "2nd half") + '</span>' + per.filter(function (p) { return p.half === h; }).map(function (p) {
+        var w = p.A > p.B ? "A" : p.B > p.A ? "B" : "";
+        var future = p.from > c.now && !w && !p.A && !p.B;
+        return '<div class="lc-pc' + (w ? " lc-pw" + w : "") + (future ? " lc-pf" : "") + '"><small>' + Math.round(p.from / 60) + "'-" + Math.round(p.to / 60) + "'</small><b>" + p.A + '-' + p.B + '</b><small>' + (w ? esc(SH[w]) : future ? "" : "Level") + '</small></div>';
+      }).join("") + '</div>';
+    }
+    var periods = perRow(1) + perRow(2) + '<p class="lc-legend">Periods of ' + ST.blockMin + ' minutes won: ' + esc(SH.A) + ' ' + won.A + ' · ' + esc(SH.B) + ' ' + won.B + '</p>';
+    function dist(side) {
+      var T = ST.team[side]; if (!T.goals) return '<div class="lc-dist"><small>' + esc(SH[side]) + '</small><div class="lc-bar"></div></div>';
+      var list = Object.keys(ST.players[side]).map(function (k) { return ST.players[side][k]; }).filter(function (p) { return p.g; }).sort(function (a, b) { return b.g - a.g; });
+      var segs = list.slice(0, 3), rest = 0; list.slice(3).forEach(function (p) { rest += p.g; });
+      var op = [1, .72, .5];
+      return '<div class="lc-dist"><small>' + esc(SH[side]) + '</small><div class="lc-bar">' + segs.map(function (p, i) { return '<i class="lc-seg lc-g' + side + '" style="width:' + (100 * p.g / T.goals) + '%;opacity:' + op[i] + '" title="' + esc(p.name) + ' ' + p.g + '">' + (p.g / T.goals > .12 ? (p.n == null ? "?" : "#" + p.n) : "") + '</i>'; }).join("") +
+        (rest ? '<i class="lc-seg lc-g' + side + '" style="width:' + (100 * rest / T.goals) + '%;opacity:.28" title="Other players ' + rest + '"></i>' : '') + '</div></div>';
+    }
+    return '<div class="card lc-sec"><div class="lc-sh2"><h3>Game analysis</h3><span class="lc-pill lc-pill-s">' + ({ pre: "NOT STARTED", h1: "LIVE", ht: "HALF TIME", h2: "LIVE", end: "FULL TIME" }[c.phase]) + '</span></div>' + run +
+      '<h5>Momentum</h5>' + momentum() +
+      '<h5>Goalkeeping</h5><div class="lc-two lc-two-k">' + gkCard("A") + gkCard("B") + '</div>' +
+      '<h5>Score by period</h5>' + periods +
+      '<h5>Goal distribution</h5>' + dist("A") + dist("B") +
+      '<h5>Shot map</h5>' + court("A") + court("B") + insight() + '</div>';
+  }
+
+  function momentum() {
+    var H = ST.H, W = 520, Hh = 190, pad = 18, mid = 92;
+    var pts = [{ t: 0, d: 0 }]; ST.prog.forEach(function (p) { pts.push({ t: p.t, d: p.A - p.B }); });
     var maxd = 3; pts.forEach(function (p) { maxd = Math.max(maxd, Math.abs(p.d)); });
-    var end = Math.max(pts[pts.length - 1].t, 60);
-    var span = Math.max(2 * H, end);
+    var span = Math.max(2 * H, pts[pts.length - 1].t);
     function x(t) { return pad + (W - 2 * pad) * t / span; }
-    function y(d) { return mid - (mid - 14) * d / maxd; }
+    function y(d) { return mid - (mid - 16) * d / maxd; }
+    var cur = Math.min(span, L.clock(data.meta, data.events, now()).now);
     var d = "M" + x(0) + "," + y(0), last = 0;
     pts.forEach(function (p, i) { if (i) { d += " L" + x(p.t) + "," + y(last) + " L" + x(p.t) + "," + y(p.d); last = p.d; } });
-    var cur = data && data.exists ? Math.min(span, L.clock(data.meta, data.events, now()).now) : end;
-    d += " L" + x(cur) + "," + y(last);
-    var area = d + " L" + x(cur) + "," + y(0) + " L" + x(0) + "," + y(0) + " Z";
-    return '<svg class="lc-mom" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Goal difference over the game">' +
-      '<defs><clipPath id="up"><rect x="0" y="0" width="' + W + '" height="' + mid + '"/></clipPath><clipPath id="dn"><rect x="0" y="' + mid + '" width="' + W + '" height="' + mid + '"/></clipPath></defs>' +
-      '<path d="' + area + '" fill="#0C2138" opacity=".28" clip-path="url(#up)"/><path d="' + area + '" fill="#F47920" opacity=".35" clip-path="url(#dn)"/>' +
+    d += " L" + x(Math.max(cur, pts[pts.length - 1].t)) + "," + y(last);
+    var area = d + " L" + x(Math.max(cur, pts[pts.length - 1].t)) + "," + y(0) + " L" + x(0) + "," + y(0) + " Z";
+    var diff = ST.score.A - ST.score.B;
+    return '<div class="lc-momw"><svg class="lc-mom" viewBox="0 0 ' + W + ' ' + Hh + '" role="img" aria-label="Goal difference over the game">' +
+      '<defs><clipPath id="up"><rect x="0" y="0" width="' + W + '" height="' + mid + '"/></clipPath><clipPath id="dn"><rect x="0" y="' + mid + '" width="' + W + '" height="' + Hh + '"/></clipPath></defs>' +
+      '<path d="' + area + '" fill="#0C2138" opacity=".3" clip-path="url(#up)"/><path d="' + area + '" fill="#F47920" opacity=".45" clip-path="url(#dn)"/>' +
+      '<path d="' + d + '" fill="none" stroke="#0C2138" stroke-width="1.6" clip-path="url(#up)"/><path d="' + d + '" fill="none" stroke="#C75E12" stroke-width="1.6" clip-path="url(#dn)"/>' +
       '<line x1="' + pad + '" x2="' + (W - pad) + '" y1="' + mid + '" y2="' + mid + '" stroke="#C9D3DD"/>' +
-      '<line x1="' + x(H) + '" x2="' + x(H) + '" y1="8" y2="' + (Hh - 8) + '" stroke="#C9D3DD" stroke-dasharray="4 4"/>' +
-      '<path d="' + d + '" fill="none" stroke="#13202E" stroke-width="2"/>' +
-      '<text x="' + pad + '" y="14" class="lc-svt">' + esc(nA) + ' ahead</text><text x="' + pad + '" y="' + (Hh - 4) + '" class="lc-svt">' + esc(nB) + ' ahead</text>' +
-      '<text x="' + x(H) + '" y="' + (Hh - 4) + '" class="lc-svt" text-anchor="middle">HT</text><text x="' + (W - pad) + '" y="' + (Hh - 4) + '" class="lc-svt" text-anchor="end">' + Math.round(span / 60) + "'</text></svg>";
+      '<line x1="' + x(H) + '" x2="' + x(H) + '" y1="22" y2="' + (Hh - 26) + '" stroke="#9AA8B6" stroke-dasharray="3 3"/>' +
+      '<text x="' + pad + '" y="14" class="lc-svt lc-svA">&#8593; ' + esc(SH.A) + '</text><text x="' + (W - pad) + '" y="14" class="lc-svt" text-anchor="end">' + (diff > 0 ? "+" : "") + diff + '</text>' +
+      '<text x="' + pad + '" y="' + (Hh - 14) + '" class="lc-svt">0\'</text><text x="' + x(H) + '" y="' + (Hh - 14) + '" class="lc-svt" text-anchor="middle">HT</text><text x="' + (W - pad) + '" y="' + (Hh - 14) + '" class="lc-svt" text-anchor="end">' + Math.round(span / 60) + '\'</text>' +
+      '<text x="' + pad + '" y="' + (Hh - 1) + '" class="lc-svt lc-svB">&#8595; ' + esc(SH.B) + '</text></svg></div>';
   }
 
-  /* ---------- players ---------- */
-  function players(st, nA, nB) {
-    function shoot(side, nm) {
-      var list = Object.keys(st.players[side]).map(function (k) { return st.players[side][k]; }).sort(function (a, b) { return (b.g - a.g) || (b.a - a.a); });
-      var T = st.team[side], cut = showAll[side] ? list.length : 8;
-      var rows = list.slice(0, cut).map(function (p) {
-        return '<tr><td class="tm">' + (p.n == null ? '' : '<span class="lc-sh">' + p.n + '</span>') + esc(p.name) + '</td><td class="pts">' + p.g + '</td><td>' + p.a + '</td><td>' + pct(p.g, p.a) + '</td><td>' + (p.m7 ? p.m7g + "/" + p.m7 : "") + '</td></tr>';
-      }).join("");
-      return '<div class="card"><h3>' + esc(nm) + ' · shooting</h3><table class="tbl lc-tbl"><thead><tr><th style="text-align:left">Player</th><th>G</th><th>Att</th><th>Conv</th><th>7 m</th></tr></thead><tbody>' + (rows || '<tr><td colspan="5" class="muted">No shots yet</td></tr>') +
-        '<tr class="lc-tot"><td class="tm">Team</td><td class="pts">' + T.goals + '</td><td>' + T.shots + '</td><td>' + pct(T.goals, T.shots) + '</td><td>' + (T.m7 ? T.m7g + "/" + T.m7 : "") + '</td></tr></tbody></table>' +
-        (list.length > 8 ? '<button class="lc-more" data-all="' + side + '">' + (showAll[side] ? "Show fewer" : "Show all players (" + (list.length - 8) + " more)") + '</button>' : '') + '</div>';
+  // shot map on a half court: zones placed where the shots are taken
+  function court(side) {
+    var Z = ST.zones[side], T = ST.team[side];
+    var pos = { LW: [34, 40], RW: [266, 40], PV: [150, 92], LB: [76, 140], RB: [224, 140], CB: [150, 168] };
+    function pill(z) {
+      var v = Z[z] || { g: 0, a: 0 }, p = pos[z], r = v.a ? v.g / v.a : 0;
+      var op = v.a ? (0.45 + 0.55 * r).toFixed(2) : 0.15;
+      return '<g transform="translate(' + p[0] + ',' + p[1] + ')"><rect x="-21" y="-12" width="42" height="24" rx="8" class="lc-zp' + side + '" style="opacity:' + op + '"/><text y="5" text-anchor="middle" class="lc-zt">' + v.g + '/' + v.a + '</text></g>';
     }
-    function keepers(side, nm) {
-      var list = Object.keys(st.keepers[side]).map(function (k) { return st.keepers[side][k]; });
-      var T = st.team[side];
-      return '<div class="card"><h3>' + esc(nm) + ' · goalkeeping</h3><table class="tbl lc-tbl"><thead><tr><th style="text-align:left">Goalkeeper</th><th>Saves</th><th>Shots</th><th>Save %</th><th>7 m</th></tr></thead><tbody>' +
-        (list.map(function (k) { return '<tr><td class="tm">' + (k.n == null ? '' : '<span class="lc-sh">' + k.n + '</span>') + esc(k.name) + '</td><td class="pts">' + k.saves + '</td><td>' + k.faced + '</td><td>' + pct(k.saves, k.faced) + '</td><td>' + (k.m7 ? k.m7s + "/" + k.m7 : "") + '</td></tr>'; }).join("") || '<tr><td colspan="5" class="muted">No shots on target yet</td></tr>') +
-        '<tr class="lc-tot"><td class="tm">Team</td><td class="pts">' + T.saves + '</td><td>' + T.faced + '</td><td>' + pct(T.saves, T.faced) + '</td><td></td></tr></tbody></table><p class="muted" style="margin:8px 0 0">Shots on target, empty net goals excluded.</p></div>';
-    }
-    var pun = st.puns.slice().sort(function (a, b) { return a.e.t - b.e.t; });
-    var disc = '<div class="card"><h3>Discipline</h3>' + (pun.length ? '<table class="tbl lc-tbl"><thead><tr><th>Time</th><th style="text-align:left">Team</th><th style="text-align:left">Player</th><th style="text-align:left">Decision</th></tr></thead><tbody>' +
-      pun.map(function (p) { return '<tr><td>' + L.fmt(p.e.t) + '</td><td class="tm">' + esc(p.e.team === "A" ? nA : nB) + '</td><td style="text-align:left">' + (p.e.n != null && !/^[A-D]$/.test(String(p.e.n)) ? '<span class="lc-sh">' + p.e.n + '</span>' : '') + esc(p.who) + '</td><td style="text-align:left">' + esc(L.PUNS[p.e.k]) + '</td></tr>'; }).join("") + '</tbody></table>' : '<p class="muted" style="margin:0">No cards or suspensions.</p>') + '</div>';
-    return '<div class="lc-two">' + shoot("A", nA) + shoot("B", nB) + '</div><div class="lc-two">' + keepers("A", nA) + keepers("B", nB) + '</div>' + disc;
+    var svg = '<svg class="lc-court" viewBox="0 0 300 196" role="img" aria-label="Goals and attempts by zone">' +
+      '<rect x="1" y="1" width="298" height="194" rx="10" class="lc-cbg"/>' +
+      '<rect x="126" y="2" width="48" height="7" class="lc-goal"/>' +
+      '<path d="M66 2 A84 84 0 0 0 150 86 A84 84 0 0 0 234 2" class="lc-six"/>' +
+      '<path d="M26 2 A124 124 0 0 0 150 126 A124 124 0 0 0 274 2" class="lc-nine"/>' +
+      '<line x1="146" x2="154" y1="98" y2="98" class="lc-sev"/>' +
+      ["LW", "RW", "PV", "LB", "RB", "CB"].map(pill).join("") + '</svg>';
+    function s(z, lab) { var v = Z[z]; return v ? lab + ' ' + v.g + '/' + v.a : null; }
+    var extra = [s("7M", "7 metre"), s("FB", "Fast break"), s("BT", "Breakthrough"), s("EN", "Empty net")].filter(Boolean);
+    if (Z["?"]) extra.push(Z["?"].a + (Z["?"].a > 1 ? " shots" : " shot") + " without a zone");
+    return '<div class="lc-cw"><small>' + esc(SH[side]) + ' · ' + T.goals + ' of ' + T.shots + '</small>' + svg + (extra.length ? '<p class="lc-legend">' + extra.join(" · ") + '</p>' : '') + '</div>';
+  }
+  function insight() {
+    var out = [];
+    ["A", "B"].forEach(function (side) {
+      var Z = ST.zones[side], best = null;
+      Object.keys(Z).forEach(function (k) { if (k !== "?" && Z[k].a >= 3 && (!best || Z[k].g / Z[k].a > Z[best].g / Z[best].a || (Z[k].g / Z[k].a === Z[best].g / Z[best].a && Z[k].a > Z[best].a))) best = k; });
+      if (best) out.push(esc(SH[side]) + ': ' + Z[best].g + ' of ' + Z[best].a + ' from the ' + esc(L.ZONE_LABEL[best].toLowerCase()) + '.');
+    });
+    return out.length ? '<p class="lc-ins">' + out.join(" ") + '</p>' : '';
   }
 
-  /* ---------- shot map ---------- */
-  function shotmap(st, nA, nB) {
-    var LAY = [["LW", "LB", "CB", "RB", "RW"], ["PV", "BT", "FB", "7M", "EN"]];
-    function map(side, nm) {
-      var Z = st.zones[side], best = null; // zone with the best conversion, 3 attempts or more
-      Object.keys(Z).forEach(function (k) { if (k !== "?" && Z[k].a >= 3 && (!best || Z[k].g / Z[k].a > Z[best].g / Z[best].a)) best = k; });
-      var cells = LAY.map(function (row) {
-        return '<div class="lc-zr">' + row.map(function (z) {
-          var v = Z[z] || { g: 0, a: 0 }, r = v.a ? v.g / v.a : 0;
-          return '<div class="lc-z" style="background:' + (v.a ? "rgba(244,121,32," + (0.12 + 0.6 * r).toFixed(2) + ")" : "#F6F8FA") + '"><span class="zl">' + esc(L.ZONE_LABEL[z]) + '</span><b>' + v.g + '/' + v.a + '</b><span class="zp">' + (v.a ? pct(v.g, v.a) : "") + '</span></div>';
-        }).join("") + '</div>';
-      }).join("");
-      var nz = Z["?"] ? '<p class="muted" style="margin:8px 0 0">' + Z["?"].a + ' shots without a zone (' + Z["?"].g + ' goals).</p>' : '';
-      return '<div class="card"><h3>' + esc(nm) + ' · goals / attempts by zone</h3>' + cells + nz +
-        (best ? '<p style="margin:8px 0 0;font-size:14px">Most efficient: <b>' + esc(L.ZONE_LABEL[best]) + '</b>, ' + Z[best].g + ' of ' + Z[best].a + '.</p>' : '') + '</div>';
-    }
-    return map("A", nA) + map("B", nB);
+  /* ---------- play by play: home on the left, away on the right ---------- */
+  function timeline() {
+    var H = M.halfLen * 60, items = [];
+    function who(team, n, name) { return (n != null && !/^[A-D]$/.test(String(n)) ? '#' + n + ' ' : '') + (name && name.charAt(0) !== "#" ? name : (n == null ? "Unknown" : "")); }
+    ST.timeline.forEach(function (x) {
+      var e = x.e;
+      if (x.phase) { items.push({ mid: true, t: e.t, label: x.kind, score: x.score }); return; }
+      if (e.type === "shot") {
+        var zone = e.z && e.z !== "7M" ? e.z : (e.z === "7M" ? "7M" : "");
+        if (e.r === "saved") {
+          var kp = x.keeper ? who(L.other(e.team), x.keeperN, x.keeper) : "";
+          items.push({ side: L.other(e.team), t: e.t, ic: "sv", title: "Save", who: kp || "Keeper not set", sub: "Shot by " + who(e.team, e.n, x.who) });
+          items.push({ side: e.team, t: e.t, ic: "ms", title: e.z === "7M" ? "7m saved" : "Missed shot", who: who(e.team, e.n, x.who), zone: zone, sub: kp ? "Saved by " + kp : "" });
+        } else items.push({ side: e.team, t: e.t, ic: e.r === "goal" ? "gl" : "ms", title: x.kind, who: who(e.team, e.n, x.who), zone: zone, score: e.r === "goal" ? x.score : null });
+      } else if (e.type === "pun") items.push({ side: e.team, t: e.t, ic: e.k === "2min" ? "p2" : e.k === "yellow" ? "py" : "pr", title: x.kind, who: x.who });
+      else if (e.type === "timeout") items.push({ side: e.team, t: e.t, ic: "to", title: "Timeout", who: e.team === "A" ? NA : NB });
+      else if (e.type === "gk") items.push({ side: e.team, t: e.t, ic: "gk", title: "In goal", who: who(e.team, e.n, x.who) });
+    });
+    var lastHalf = null, html = "";
+    items.forEach(function (it) {
+      var half = it.t >= H && !(it.mid && it.label === "Half time") ? 2 : 1;
+      if (half !== lastHalf) { html += '<div class="lc-tlh">' + (half === 2 ? "2ND HALF" : "1ST HALF") + '</div>'; lastHalf = half; }
+      if (it.mid) { html += '<div class="lc-tlm"><span>' + esc(it.label) + ' · ' + it.score.A + '-' + it.score.B + '</span></div>'; return; }
+      var body = '<div class="lc-tlb"><span class="lc-ic lc-ic-' + it.ic + '"></span><div><b>' + esc(it.who) + '</b><span>' + esc(it.title) + (it.zone ? ' <em>' + esc(it.zone) + '</em>' : '') + (it.score ? ' <strong>' + it.score.A + '-' + it.score.B + '</strong>' : '') + '</span>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></div>';
+      html += '<div class="lc-tlr">' + (it.side === "A" ? body : '<div></div>') + '<div class="lc-tls"><i class="lc-dot lc-d' + it.side + '"></i><small>' + L.fmt(it.t) + '</small></div>' + (it.side === "B" ? body : '<div></div>') + '</div>';
+    });
+    return '<div class="card lc-tl2"><div class="lc-tlt"><span class="lc-tA">' + esc(NA) + '</span><span class="lc-tB">' + esc(NB) + '</span></div>' + (html || '<p class="muted" style="padding:12px">Nothing entered yet.</p>') + '</div>';
   }
 
-  /* ---------- play by play ---------- */
-  function timeline(st, m, nA, nB) {
-    var H = m.halfLen * 60, lastHalf = null;
-    var rows = st.timeline.map(function (x) {
-      var e = x.e, half = e.t >= H && !(e.type === "phase" && e.p === "ht") ? 2 : 1, head = "";
-      if (half !== lastHalf) { head = '<div class="lc-half">' + (half === 2 ? "2nd half" : "1st half") + '</div>'; lastHalf = half; }
-      if (x.phase) return head + '<div class="lc-ev lc-ph"><span class="t">' + L.fmt(e.t) + '</span><span>' + esc(x.kind) + '</span><span class="s">' + x.score.A + '-' + x.score.B + '</span></div>';
-      var goal = e.type === "shot" && e.r === "goal";
-      var cls = goal ? "g" : e.type === "pun" ? (e.k === "2min" ? "p2" : e.k === "yellow" ? "py" : "pr") : e.type === "shot" && e.r === "saved" ? "sv" : "";
-      return head + '<div class="lc-ev ' + cls + ' side' + e.team + '"><span class="t">' + L.fmt(e.t) + '</span><span class="w"><b>' + esc(x.kind) + '</b> · ' + esc(e.team === "A" ? nA : nB) +
-        (x.who ? '<br><span class="muted">' + (e.n != null && !/^[A-D]$/.test(String(e.n)) ? '#' + e.n + ' ' : '') + esc(x.who.charAt(0) === "#" ? "" : x.who) + (e.z && e.z !== "7M" ? " · " + esc(L.ZONE_LABEL[e.z]) : "") + (x.keeper ? " · saved by " + esc(x.keeper) : "") + '</span>' : '') +
-        '</span>' + (goal ? '<span class="s">' + x.score.A + '-' + x.score.B + '</span>' : '<span class="s"></span>') + '</div>';
-    }).join("");
-    return '<div class="card lc-tl">' + (rows || '<p class="muted" style="margin:0">Nothing entered yet.</p>') + '</div>';
+  function notes(st) {
+    var n = [];
+    if (st.keepers.A["?"] || st.keepers.B["?"]) n.push("Some shots were faced before the goalkeeper was set at the table.");
+    return n.length ? '<p class="muted lc-note">' + n.join(" ") + '</p>' : '';
   }
 
   if (no) loadGame(); else loadIndex();
