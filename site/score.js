@@ -264,6 +264,7 @@
   }
 
   var lastZone = null;
+  function zl(id) { return id === "EN" ? "E. Net" : id; } // short zone labels on the buttons and in the log
   function action(a, side) {
     var nm = sideName(side);
     if (a === "goal" || a === "saved" || a === "missed") {
@@ -271,7 +272,7 @@
       var zone = null;
       openSheet('<h2>' + title + ' · ' + esc(nm) + '<button data-close>&times;</button></h2>' +
         '<p class="hint">Tap the zone if you saw it, then the shooter. The shooter alone is enough.</p>' +
-        '<div class="zones">' + L.ZONES.map(function (z) { return '<button data-z="' + z.id + '">' + z.id + '</button>'; }).join("") + '</div>' +
+        '<div class="zones">' + L.ZONES.map(function (z) { return '<button data-z="' + z.id + '">' + zl(z.id) + '</button>'; }).join("") + '</div>' +
         (a === "missed" ? '<div class="mini" style="margin-bottom:12px"><button class="act sm" data-r="missed" style="border-color:var(--navy)">Wide or post</button><button class="act sm" data-r="blocked">Blocked</button></div>' : '') +
         playerGrid(side));
       var res = a;
@@ -285,7 +286,7 @@
         closeSheet();
         add({ type: "shot", team: side, n: n, r: res, z: zone || undefined });
         var sc = L.score(G.events);
-        toast((res === "goal" ? "Goal " : res === "saved" ? "Saved " : res === "blocked" ? "Blocked " : "Missed ") + (n == null ? "unknown" : "#" + n) + (zone ? " · " + zone : "") + (res === "goal" ? " · " + sc.A + "-" + sc.B : ""));
+        toast((res === "goal" ? "Goal " : res === "saved" ? "Saved " : res === "blocked" ? "Blocked " : "Missed ") + (n == null ? "unknown" : "#" + n) + (zone ? " · " + zl(zone) : "") + (res === "goal" ? " · " + sc.A + "-" + sc.B : ""));
       });
     } else if (a === "2min" || a === "yellow" || a === "red") {
       var k = a;
@@ -306,7 +307,7 @@
   /* ---------- log ---------- */
   function describe(e) {
     var who = e.n == null ? "unknown" : (/^[A-D]$/.test(String(e.n)) ? "Official " + e.n : "#" + e.n);
-    if (e.type === "shot") return ({ goal: "Goal", saved: "Saved", missed: "Missed", blocked: "Blocked" }[e.r]) + " " + who + (e.z ? " · " + e.z : "");
+    if (e.type === "shot") return ({ goal: "Goal", saved: "Saved", missed: "Missed", blocked: "Blocked" }[e.r]) + " " + who + (e.z ? " · " + zl(e.z) : "");
     if (e.type === "pun") return L.PUNS[e.k] + " " + who;
     if (e.type === "timeout") return "Timeout";
     if (e.type === "gk") return "In goal " + who;
