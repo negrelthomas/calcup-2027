@@ -63,166 +63,6 @@ window.CALCUP = {
         "home": "White",
         "away": "Blue"
       }
-    },
-    {
-      "id": "boston",
-      "name": "Boston TH",
-      "city": "Boston, MA",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#1E8449",
-        "n": "Green"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "seattle",
-      "name": "Seattle",
-      "city": "Seattle, WA",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#138D75",
-        "n": "Teal"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "lathc",
-      "name": "LATHC",
-      "city": "Los Angeles, CA",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#1C1C1C",
-        "n": "Black"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "denver",
-      "name": "Denver Wolves",
-      "city": "Denver, CO",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#566573",
-        "n": "Grey"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "sd-m",
-      "name": "San Diego M",
-      "city": "San Diego, CA",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#2E86C1",
-        "n": "Blue"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "army-m",
-      "name": "West Point - Army M",
-      "city": "West Point, NY",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#B8860B",
-        "n": "Gold"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "massif",
-      "name": "Massif SLC",
-      "city": "Salt Lake City, UT",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#C0392B",
-        "n": "Red"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "nyc",
-      "name": "NYC",
-      "city": "New York, NY",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#1C1C1C",
-        "n": "Black"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "sd-w",
-      "name": "San Diego W",
-      "city": "San Diego, CA",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#2E86C1",
-        "n": "Blue"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
-    },
-    {
-      "id": "army-w",
-      "name": "West Point - Army W",
-      "city": "West Point, NY",
-      "division": "M",
-      "group": "",
-      "logo": "",
-      "jersey": {
-        "c": "#B8860B",
-        "n": "Gold"
-      },
-      "jerseyKit": {
-        "home": "",
-        "away": ""
-      }
     }
   ],
   "rosters": {
@@ -2663,5 +2503,111 @@ window.CALCUP = {
     "finalGame": 23,
     "firstGame": "2027-01-29T15:45:00-08:00",
     "voters": 8
-  }
+  },
+  "teamStyles": [
+    {
+      "id": "ch-orange",
+      "name": "Calheat",
+      "jersey": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "ch-blue",
+      "name": "Calheat U21",
+      "jersey": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "ch-w",
+      "name": "Calheat W",
+      "jersey": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "boston",
+      "name": "Boston TH",
+      "jersey": {
+        "home": "Blue",
+        "away": "White"
+      }
+    },
+    {
+      "id": "seattle",
+      "name": "Seattle",
+      "jersey": {
+        "home": "Green",
+        "away": "White"
+      }
+    },
+    {
+      "id": "lathc",
+      "name": "LATHC",
+      "jersey": {
+        "home": "Blue",
+        "away": "White"
+      }
+    },
+    {
+      "id": "denver",
+      "name": "Denver Wolves",
+      "jersey": {
+        "home": "Black",
+        "away": "White"
+      }
+    },
+    {
+      "id": "sd-m",
+      "name": "San Diego M",
+      "jersey": {
+        "home": "Blue",
+        "away": "White"
+      }
+    },
+    {
+      "id": "army-m",
+      "name": "West Point - Army M",
+      "jersey": {
+        "home": "Black",
+        "away": "Gold"
+      }
+    },
+    {
+      "id": "massif",
+      "name": "Massif SLC",
+      "jersey": {
+        "home": "White",
+        "away": "Blue"
+      }
+    },
+    {
+      "id": "nyc",
+      "name": "NYC",
+      "jersey": {
+        "home": "Black",
+        "away": "White"
+      }
+    },
+    {
+      "id": "sd-w",
+      "name": "San Diego W",
+      "jersey": {
+        "home": "Blue",
+        "away": "White"
+      }
+    },
+    {
+      "id": "army-w",
+      "name": "West Point - Army W",
+      "jersey": {
+        "home": "Black",
+        "away": "Gold"
+      }
+    }
+  ]
 };
