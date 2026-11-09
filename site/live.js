@@ -11,7 +11,7 @@
   var data = null, off = 0, showAll = false, lineupsOpen = false, timer = null;
 
   function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) { return { "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]; }); }
-  function tname(id, fb) { if (byTeam[id]) return byTeam[id].name; if (fb) return fb; if (id && id.indexOf("tbd-") === 0) return "TBD"; return id || "TBD"; }
+  function tname(id, fb) { if (byTeam[id]) return byTeam[id].name; if (fb) return fb; if (/^tbd-/i.test(id || "")) return "TBD " + id.slice(4).toUpperCase(); return id || "TBD"; }
   function logo(id) { return byTeam[id] ? '<img class="lc-logo" src="assets/logos/' + id + '.png" alt="" onerror="this.style.display=\'none\'">' : ""; }
   function pct(a, b) { return b ? Math.round(100 * a / b) + "%" : "–"; }
   function roster(id) { return (rosters[id] || []).filter(function (p) { return !p.official && p.n != null && p.n !== ""; }).map(function (p) { return { n: Number(p.n), name: p.name }; }); }
@@ -62,6 +62,7 @@
   }
 
   function initials(name) {
+    if (/^TBD /.test(name || "")) return name.slice(4, 8);
     var w = String(name || "").trim().split(/\s+/);
     if (w.length === 1) return w[0].slice(0, 3).toUpperCase();
     return w.map(function (x) { return /\d/.test(x) ? x : x.charAt(0); }).join("").slice(0, 4).toUpperCase();
@@ -100,7 +101,7 @@
     }
     M = data.meta; var ev = data.events, R = { A: roster(M.teamA), B: roster(M.teamB) };
     ST = L.stats(M, ev, R); var c = L.clock(M, ev, now());
-    NA = M.nameA || tname(M.teamA); NB = M.nameB || tname(M.teamB);
+    NA = M.nameA && !/^tbd-/i.test(M.nameA) ? M.nameA : tname(M.teamA); NB = M.nameB && !/^tbd-/i.test(M.nameB) ? M.nameB : tname(M.teamB);
     SH = { A: initials(NA), B: initials(NB) };
     var official = g && g.status === "final" && g.scoreA != null ? g : null;
     var liveNow = c.phase === "h1" || c.phase === "h2";
@@ -293,7 +294,7 @@
       var half = it.t >= H && !(it.mid && it.label === "Half time") ? 2 : 1;
       if (half !== lastHalf) { html += '<div class="lc-tlh">' + (half === 2 ? "2ND HALF" : "1ST HALF") + '</div>'; lastHalf = half; }
       if (it.mid) { html += '<div class="lc-tlm"><span>' + esc(it.label) + ' · ' + it.score.A + '-' + it.score.B + '</span></div>'; return; }
-      var body = '<div class="lc-tlb"><span class="lc-ic lc-ic-' + it.ic + '"></span><div><b>' + esc(it.who) + '</b><span>' + esc(it.title) + (it.zone ? ' <em>' + esc(it.zone) + '</em>' : '') + (it.score ? ' <strong>' + it.score.A + '-' + it.score.B + '</strong>' : '') + '</span>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></div>';
+      var body = '<div class="lc-tlb' + (it.ic === "gl" ? " lc-tlg" : "") + '">' + (it.ic === "py" || it.ic === "pr" ? '<span class="lc-ic lc-ic-' + it.ic + '"></span>' : it.ic === "p2" ? '<span class="lc-2m lc-2mb">2&prime;</span>' : '') + '<div><b>' + esc(it.who) + '</b><span>' + esc(it.title) + (it.zone ? ' <em>' + esc(it.zone) + '</em>' : '') + (it.score ? ' <strong>' + it.score.A + '-' + it.score.B + '</strong>' : '') + '</span>' + (it.sub ? '<small>' + esc(it.sub) + '</small>' : '') + '</div></div>';
       html += '<div class="lc-tlr">' + (it.side === "A" ? body : '<div></div>') + '<div class="lc-tls">' + mk(it.side) + '<small>' + L.fmt(it.t) + '</small></div>' + (it.side === "B" ? body : '<div></div>') + '</div>';
     });
     return '<div class="card lc-tl2"><div class="lc-tlt"><span class="lc-tA">' + mk("A") + esc(NA) + jersey("A") + '</span><span class="lc-tB">' + jersey("B") + esc(NB) + mk("B") + '</span></div>' + (html || '<p class="muted" style="padding:12px">Nothing entered yet.</p>') + '</div>';

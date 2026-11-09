@@ -26,7 +26,7 @@
   }
 
   /* ---------- teams and rosters ---------- */
-  function tname(id, fallback) { return (byTeam[id] && byTeam[id].name) || fallback || id || "TBD"; }
+  function tname(id, fallback) { return (byTeam[id] && byTeam[id].name) || fallback || (/^tbd-/i.test(id || "") ? "TBD " + id.slice(4).toUpperCase() : id) || "TBD"; }
   function roster(id) {
     return (rosters[id] || []).filter(function (p) { return !p.official && p.n != null && p.n !== ""; })
       .map(function (p) { return { n: Number(p.n), name: p.name, pos: p.pos || "", gk: /^(GK|G|GOALKEEPER|GOALIE)$/i.test(p.pos || "") }; })

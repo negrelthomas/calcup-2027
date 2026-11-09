@@ -945,3 +945,12 @@ table.lb tr.me td{background:var(--orange-tint)}
 .lc-ic-ss{background:linear-gradient(45deg,transparent 42%,#7A4CC2 42%,#7A4CC2 58%,transparent 58%),linear-gradient(-45deg,transparent 42%,#7A4CC2 42%,#7A4CC2 58%,transparent 58%)}
 .lc-ic-bl{background:#9AA8B6;border-radius:3px}
 .lc-six{fill:#E9EDF2;stroke:#5A6B7B;stroke-width:1.4}
+
+/* play by play: team shown by logo or initials on the center line, events in words; only cards keep their color */
+.lc-tls .lc-tlw .lc-tlf{background:var(--navy)}
+.lc-tls .lc-tlw .lc-tlf.lc-bB{background:var(--orange)}
+.lc-tls .lc-tlf{padding:0;width:20px;height:20px;line-height:20px;font-size:7.5px}
+.lc-tlt .lc-tB .lc-tlw{margin:0 0 0 6px}
+.lc-tlb b.lc-ev-goal{color:var(--green)}
+.lc-2mb{border:1.5px solid var(--red);border-radius:4px;padding:0 3px;font-size:10.5px;line-height:15px;flex:none;margin-top:1px}
+.lc-tlg>div>span{color:var(--ink);font-weight:700}
