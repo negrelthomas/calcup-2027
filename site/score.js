@@ -73,6 +73,7 @@
       '<label>Home team</label><select id="pa">' + opts + '</select><label>Away team</label><select id="pb">' + opts + '</select>' +
       '<label>Practice slot</label><select id="ps"><option>P1</option><option>P2</option><option>P3</option></select>' +
       '<div style="margin-top:12px"><button class="btn full" id="pgo">Open practice game</button></div></div>' +
+      (S.role === "admin" ? '<div class="card" id="reset-card"><h2>Clear a game</h2><p class="muted">Organizers only. Deletes every entry of one game, for example practice games or tests before the tournament. The match center goes back to not started. This cannot be undone.</p><div id="reset-list"><p class="muted">Loading games with entries...</p></div></div>' : '') +
       '<p class="muted">Signed in as ' + esc(S.name) + (S.role === "admin" ? " (organizer)" : "") + ' · <a href="#" id="out">Sign out</a></p></div>';
     var pb = document.getElementById("pb"); if (pb.options.length > 1) pb.selectedIndex = 1;
     Array.prototype.forEach.call(document.querySelectorAll("#gl button"), function (b) {
@@ -87,6 +88,32 @@
       askSettings({ no: document.getElementById("ps").value, teamA: a, teamB: b, nameA: tname(a), nameB: tname(b), division: (byTeam[a] || {}).division || "M", label: "Practice" }, null);
     };
     document.getElementById("out").onclick = function (e) { e.preventDefault(); ls("live-sess", null); S = null; renderLogin(); };
+    if (S.role === "admin") loadResetList();
+  }
+
+  /* ---------- organizer: clear a game ---------- */
+  function loadResetList() {
+    var el = document.getElementById("reset-list"); if (!el) return;
+    fetch(API + "?op=all", { cache: "no-store" }).then(function (r) { return r.json(); }).then(function (j) {
+      var s = j.games || {}, keys = Object.keys(s).sort(function (a, b) { return (/^P/.test(a) - /^P/.test(b)) || (parseInt(a.replace(/\D/g, ""), 10) - parseInt(b.replace(/\D/g, ""), 10)); });
+      if (!keys.length) { el.innerHTML = '<p class="muted">No game has entries.</p>'; return; }
+      el.innerHTML = '<div class="glist">' + keys.map(function (k) {
+        var x = s[k];
+        return '<button data-reset="' + esc(k) + '"><span class="no">' + esc(k) + '</span><span class="tt">' + esc(tname(x.teamA)) + ' v ' + esc(tname(x.teamB)) + '<small>' + x.a + '-' + x.b + ' · ' + ({ pre: "not started", h1: "1st half", ht: "half time", h2: "2nd half", end: "full time" }[x.phase] || "") + '</small></span><span class="tag">Clear</span></button>';
+      }).join("") + '</div>';
+      Array.prototype.forEach.call(el.querySelectorAll("[data-reset]"), function (b) {
+        b.onclick = function () {
+          var k = b.getAttribute("data-reset"), x = s[k];
+          openSheet('<h2>Clear game ' + esc(k) + '?<button data-close>&times;</button></h2><p>' + esc(tname(x.teamA)) + ' v ' + esc(tname(x.teamB)) + ', ' + x.a + '-' + x.b + '.</p><p class="muted">Every entry of this game is deleted and the match center shows it as not started. A phone still scoring it stops sending.</p><button class="btn red full" id="ok">Clear game ' + esc(k) + '</button><div class="err" id="er3"></div>');
+          document.getElementById("ok").onclick = function () {
+            api("reset", { no: k }).then(function (r) {
+              if (!r.ok) { document.getElementById("er3").textContent = r.message || "Could not clear the game."; return; }
+              ls("live-game-" + k, null); closeSheet(); toast("Game " + k + " cleared"); loadResetList();
+            }).catch(function () { document.getElementById("er3").textContent = "No connection. Try again."; });
+          };
+        };
+      });
+    }).catch(function () { el.innerHTML = '<p class="muted">Could not load the games. Check the connection.</p>'; });
   }
 
   function askSettings(meta, game) {
@@ -147,6 +174,7 @@
       syncing = false; online = true;
       if (j._status === 401) { toast("Sign in again to keep sending."); ls("live-sess", null); S = null; renderLogin("Your session ended. Your events are kept on this device and sent after you sign in."); return; }
       if (j._status === 409) { G.taken = true; renderGame(); return; }
+      if (j._status === 404) { G.taken = true; G.cleared = true; ls("live-game-" + G.no, null); renderGame(); return; }
       if (j.ok) {
         var acc = {}; (j.accepted || []).forEach(function (id) { acc[id] = 1; });
         G.pending = G.pending.filter(function (e) { return !acc[e.id]; });
@@ -163,7 +191,7 @@
     var el = document.getElementById("sync"); if (!el) return;
     if (!G) { el.innerHTML = S ? esc(S.name) : ""; return; }
     var n = G.pending.length;
-    el.innerHTML = G.taken ? '<span class="dot off"></span>Taken over' : !online ? '<span class="dot off"></span>Offline · ' + n + ' waiting' : n ? '<span class="dot wait"></span>' + n + ' sending' : '<span class="dot"></span>Live';
+    el.innerHTML = G.taken ? '<span class="dot off"></span>' + (G.cleared ? 'Cleared' : 'Taken over') : !online ? '<span class="dot off"></span>Offline · ' + n + ' waiting' : n ? '<span class="dot wait"></span>' + n + ' sending' : '<span class="dot"></span>Live';
   }
 
   /* ---------- scoring screen ---------- */
@@ -178,7 +206,7 @@
       (play ? '<button class="cbtn" id="cpp">' + (c.running ? "Pause" : "Resume") + '</button>' : '') + '</div>' +
       '<div class="phase">Game ' + esc(G.no) + ' · ' + PHASE_TXT[ph] + ' · ' + G.meta.halfLen + ' min halves</div><div class="susp" id="susp"></div>';
     var phaseBtn = { pre: ["Start 1st half", "h1", "pri"], h1: ["Half time", "ht", ""], ht: ["Start 2nd half", "h2", "pri"], h2: ["Full time", "end", ""] }[ph];
-    var taken = G.taken ? '<div class="card" style="margin:10px;border-color:#E5B8B8"><b>Another device took over this game.</b><p class="muted">Nothing entered here is sent any more. Tap below to go back to the game list.</p><button class="btn ghost full" id="back2">Game list</button></div>' : '';
+    var taken = G.taken ? '<div class="card" style="margin:10px;border-color:#E5B8B8"><b>' + (G.cleared ? 'An organizer cleared this game.' : 'Another device took over this game.') + '</b><p class="muted">Nothing entered here is sent any more. Tap below to go back to the game list.</p><button class="btn ghost full" id="back2">Game list</button></div>' : '';
     function col(side) {
       var dis = play && !G.taken ? "" : " disabled";
       return '<div class="col"><h3><span>' + esc(sideName(side)) + '</span><span>TO ' + countTO(side) + '</span></h3>' +
