@@ -12,7 +12,9 @@ function findHeader(rows, must){ // returns {r, idx:{headerName:colIndex}}
   for(let r=0;r<Math.min(rows.length,8);r++){
     const row=(rows[r]||[]).map(c=>String(c==null?"":c).trim());
     if(must.every(m=>row.includes(m))){
-      const idx={}; row.forEach((h,i)=>{ if(h) idx[h]=i; }); return {r, idx};
+      // first occurrence wins: Teams Master repeats "Team Name" and "Short Name" in the Team Styles
+      // table (O:R) on the same header row, and the last occurrence used to point mapTeams at it
+      const idx={}; row.forEach((h,i)=>{ if(h && idx[h]==null) idx[h]=i; }); return {r, idx};
     }
   }
   throw new Error("header not found; need: "+must.join(", "));
@@ -39,6 +41,24 @@ export function mapTeams(sheets){
       jersey: { home:String(val(row,idx,"Jersey Color Home")||"").trim(), away:String(val(row,idx,"Jersey Color Away")||"").trim() } });
   }
   return out;
+}
+
+// Team Styles table (Teams Master O:R): every team CalHeat knows, registered or not, with
+// short name and jerseys. Not the registered field (that is mapTeams). Used where a team
+// that is not registered still needs a name, for example practice games in the scorer app.
+export function mapTeamStyles(sheets){
+  const rows=sheets["Teams Master"]; if(!rows||!rows.length) return [];
+  for(let r=0;r<Math.min(rows.length,8);r++){
+    const row=(rows[r]||[]).map(c=>String(c==null?"":c).trim());
+    const sn=row.indexOf("Short Name"), sn2=row.indexOf("Short Name", sn+1);
+    if(sn<0||sn2<0) continue;
+    const jh=row.indexOf("Jersey Home"), ja=row.indexOf("Jersey Away");
+    const out=[], seen={};
+    for(let i=r+1;i<rows.length;i++){ const x=rows[i]||[]; const id=idOf(x[sn2]); if(!id||seen[id]) continue; seen[id]=1;
+      out.push({ id, name:String(x[sn2]).trim(), jersey:{ home:jh<0?"":String(x[jh]||"").trim(), away:ja<0?"":String(x[ja]||"").trim() } }); }
+    return out;
+  }
+  return [];
 }
 
 export function mapGames(sheets){

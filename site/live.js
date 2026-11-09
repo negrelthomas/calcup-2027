@@ -4,8 +4,8 @@
 (function () {
   var D = window.CALCUP || {}, L = window.LiveCore;
   var API = "/.netlify/functions/live";
-  var teams = D.teams || [], games = D.games || [], rosters = D.rosters || {};
-  var byTeam = {}; teams.forEach(function (t) { byTeam[t.id] = t; });
+  var games = D.games || [], rosters = D.rosters || {};
+  var byTeam = {}; (D.teamStyles || []).concat(D.teams || []).forEach(function (t) { byTeam[t.id] = t; });
   var $app = document.getElementById("lc-app"), $board = document.getElementById("lc-board");
   var no = new URLSearchParams(location.search).get("game");
   var data = null, off = 0, tab = "summary", showAll = { A: false, B: false }, timer = null;

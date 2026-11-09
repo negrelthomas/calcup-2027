@@ -5,8 +5,11 @@
   var D = window.CALCUP || {}, L = window.LiveCore;
   var API = "/.netlify/functions/live";
   var JCOL = { White:"#FFFFFF", Blue:"#2E6FD6", Black:"#1F1F1F", Green:"#1E8449", Gold:"#C9A227", Red:"#C0392B", Yellow:"#E4B90B", Navy:"#1F3A93", Orange:"#F47920" };
-  var teams = D.teams || [], games = D.games || [], rosters = D.rosters || {};
-  var byTeam = {}; teams.forEach(function (t) { byTeam[t.id] = t; });
+  var games = D.games || [], rosters = D.rosters || {};
+  // registered teams first, then every other team CalHeat knows (Team Styles), for practice games
+  var teams = (D.teams || []).slice(), byTeam = {};
+  teams.forEach(function (t) { byTeam[t.id] = t; });
+  (D.teamStyles || []).forEach(function (t) { if (!byTeam[t.id]) { byTeam[t.id] = t; teams.push(t); } });
   var $app = document.getElementById("app"), $sheet = document.getElementById("sheet"), $veil = document.getElementById("veil");
 
   function ls(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || "null"); if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
@@ -63,7 +66,7 @@
         '<small>' + esc(g.day + " " + g.time + " · " + (g.division === "W" ? "Women" : "Men") + (g.label ? " · " + g.label : "")) + '</small></span>' +
         (saved && saved.events && saved.events.length ? '<span class="tag live">open</span>' : '') + '</button>';
     }).join("");
-    var opts = teams.map(function (t) { return '<option value="' + esc(t.id) + '">' + esc(t.name) + (t.division === "W" ? " (W)" : " (M)") + '</option>'; }).join("");
+    var opts = teams.map(function (t) { return '<option value="' + esc(t.id) + '">' + esc(t.name) + '</option>'; }).join("");
     $app.innerHTML = topbar() + '<div class="wrap">' +
       '<div class="card"><h2>Pick the game you are scoring</h2><div class="glist" id="gl">' + (list || '<p class="muted">No games in the schedule yet.</p>') + '</div></div>' +
       '<div class="card"><h2>Practice game</h2><p class="muted">For training the table crew or scoring a video. Practice games show on the match center as practice and never count.</p>' +

@@ -89,6 +89,7 @@ async function getSheets(names){
   // merge into base (preserve static sections + team city/logo)
   const out=Object.assign({}, base);
   out.teams=mergeTeams(base.teams, model.teams);
+  const styles=M.mapTeamStyles(sheets); if(styles.length) out.teamStyles=styles;
   out.games=keep(model.games, base.games);
   out.referees=keep(model.referees, base.referees);
   out.standings=keep(model.standings, base.standings);
