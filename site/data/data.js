@@ -1316,7 +1316,7 @@ window.CALCUP = {
         "Azadeh Ahmadi"
       ],
       "country": "USA",
-      "bio": "USATH-certified referee pair."
+      "bio": "Halina from Finland and Azadeh from Iran form an experienced international refereeing duo sharing a deep passion for handball. Since 2024, they have been officiating across the USA at various tournaments and competitions, including CalCup, League, Fall Classic, USA Open Championship, and USATH Cup and will be officiating at CalCup for the second year in a row."
     },
     {
       "id": "r4",
