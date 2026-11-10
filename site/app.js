@@ -439,7 +439,11 @@
     dots.forEach(function(dt){ dt.addEventListener("click",function(){go(+dt.getAttribute("data-i"));}); });
     slots.forEach(function(sl){ sl.addEventListener("click",function(){ if(dist(+sl.getAttribute("data-i"))!==0) go(+sl.getAttribute("data-i")); }); });
     root.tabIndex=0; root.addEventListener("keydown",function(e){ if(e.key==="ArrowRight")go(idx+1); else if(e.key==="ArrowLeft")go(idx-1); });
-    layout();
+    // The stage is absolutely positioned, so size it to the tallest card: a longer bio is never cut off.
+    var stage=root.querySelector(".rc-stage");
+    function fit(){ var h=0; slots.forEach(function(sl){ h=Math.max(h,sl.offsetHeight); }); if(stage&&h) stage.style.height=Math.max(344,h+24)+"px"; }
+    window.addEventListener("resize",fit);
+    layout(); fit();
   }
 
   /* ---------- sponsors ---------- */

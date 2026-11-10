@@ -1325,7 +1325,7 @@ window.CALCUP = {
         "Tora Johnsen"
       ],
       "country": "USA",
-      "bio": "USATH-certified referee pair."
+      "bio": "USATH certified referee pair made up of Zeke, from California and also a goalkeeper for CalHeat, and Tora, who started refereeing in Norway five years ago and has lived in the US for a little over a year. Zeke and Tora have been refereeing together for the past six months, starting with the 2026 Open Nationals in Iowa. Later that year they officiated the first semifinal of the NORCA Championships, an IHF Trophy event in Salinas, Puerto Rico."
     },
     {
       "id": "r5",

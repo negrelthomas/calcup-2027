@@ -138,10 +138,15 @@ export function mapReferees(sheets){
     CAN:"Referee pair from Edmonton, Alberta, Canada, involved in handball since their high school years. Refereeing together for two and a half years, they have built a strong partnership and gained experience at international and national level, including two IHF Trophy competitions and several Canadian and USA National Championships.",
     FRA:"IHF referee pair designated by the French Handball Federation. Both 30 and from Brittany, they have refereed in the Daikin Starligue, the French first division, for three years, at EHF level since 2024 and at IHF level since July 2026."
   };
+  // Pair specific bios, matched on any referee name in the pair (lower case). Falls back to the country line.
+  const PAIR_BIO={
+    "ezekiel mcclintock": "USATH certified referee pair made up of Zeke, from California and also a goalkeeper for CalHeat, and Tora, who started refereeing in Norway five years ago and has lived in the US for a little over a year. Zeke and Tora have been refereeing together for the past six months, starting with the 2026 Open Nationals in Iowa. Later that year they officiated the first semifinal of the NORCA Championships, an IHF Trophy event in Salinas, Puerto Rico.",
+    "tora johnsen": "USATH certified referee pair made up of Zeke, from California and also a goalkeeper for CalHeat, and Tora, who started refereeing in Norway five years ago and has lived in the US for a little over a year. Zeke and Tora have been refereeing together for the past six months, starting with the 2026 Open Nationals in Iowa. Later that year they officiated the first semifinal of the NORCA Championships, an IHF Trophy event in Salinas, Puerto Rico."
+  };
   return Object.keys(pairs).sort((a,b)=>Number(a)-Number(b)).map(k=>{
     const p=pairs[k]; const tba=p.refs.every(isTbd);
     if(tba){ p.tba=true; p.refs=["TBD","TBD"]; p.bio = p.country==="FRA" ? "First division referee pair, to be announced." : "Referee pair to be announced."; }
-    else p.bio=BIO[p.country]||BIO.USA;
+    else { const hit=p.refs.map(n=>String(n).trim().toLowerCase()).find(n=>PAIR_BIO[n]); p.bio = hit ? PAIR_BIO[hit] : (BIO[p.country]||BIO.USA); }
     return p;
   });
 }
