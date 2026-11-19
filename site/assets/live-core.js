@@ -5,7 +5,7 @@
    Event log, one entry per tap. Fields:
      id    unique id made on the scoring device (lets an offline device resend safely)
      seq   order of arrival on the server
-     type  phase | clock | shot | pun | timeout | gk | void
+     type  phase | clock | shot | pun | timeout | turnover | gk | void
      t     game time in seconds when the event happened (0 to 2 x half length)
      w     wall time in ms, corrected to server time
      team  "A" or "B" (A = first team of the game in the schedule)
@@ -25,7 +25,7 @@
     { id: "EN", label: "Empty net" }
   ];
   var ZONE_LABEL = {}; ZONES.forEach(function (z) { ZONE_LABEL[z.id] = z.label; });
-  var TYPES = { phase: 1, clock: 1, shot: 1, pun: 1, timeout: 1, gk: 1, void: 1 };
+  var TYPES = { phase: 1, clock: 1, shot: 1, pun: 1, timeout: 1, turnover: 1, gk: 1, void: 1 };
   var RESULTS = { goal: 1, saved: 1, missed: 1, blocked: 1 };
   var PUNS = { yellow: "Yellow card", "2min": "2 minute suspension", red: "Red card", blue: "Blue card" };
   var PHASES = { h1: 1, ht: 1, h2: 1, end: 1 };
@@ -108,9 +108,9 @@
     function nm(team, n) { if (n == null || n === "") return "Unknown player"; return names[team][n] || ("#" + n); }
 
     var out = { score: { A: 0, B: 0 }, half: { A: [0, 0], B: [0, 0] }, players: { A: {}, B: {} }, keepers: { A: {}, B: {} },
-      team: { A: tz(), B: tz() }, zones: { A: {}, B: {} }, puns: [], timeouts: { A: 0, B: 0 }, timeline: [], prog: [], periods: [], lastGoals: [],
+      team: { A: tz(), B: tz() }, zones: { A: {}, B: {} }, puns: [], timeouts: { A: 0, B: 0 }, tos: { A: {}, B: {} }, timeline: [], prog: [], periods: [], lastGoals: [],
       runs: { best: null }, H: H };
-    function tz() { return { goals: 0, shots: 0, saves: 0, faced: 0, m7g: 0, m7: 0, y: 0, s2: 0, r: 0, b: 0, noShooter: 0, noZone: 0 }; }
+    function tz() { return { goals: 0, shots: 0, saves: 0, faced: 0, m7g: 0, m7: 0, y: 0, s2: 0, r: 0, b: 0, to: 0, noShooter: 0, noZone: 0 }; }
 
     var run = { team: null, len: 0, from: 0, to: 0 };
     list.forEach(function (e) {
@@ -152,6 +152,11 @@
       } else if (e.type === "timeout") {
         out.timeouts[e.team]++;
         out.timeline.push({ e: e, kind: "Team timeout", who: "", score: { A: out.score.A, B: out.score.B } });
+      } else if (e.type === "turnover") {
+        out.team[e.team].to++;
+        var tk = e.n == null ? "?" : String(e.n);
+        out.tos[e.team][tk] = (out.tos[e.team][tk] || 0) + 1;
+        out.timeline.push({ e: e, kind: "Turnover", who: nm(e.team, e.n), score: { A: out.score.A, B: out.score.B } });
       } else if (e.type === "gk") {
         out.timeline.push({ e: e, kind: "In goal", who: nm(e.team, e.n), score: { A: out.score.A, B: out.score.B } });
       } else if (e.type === "phase") {

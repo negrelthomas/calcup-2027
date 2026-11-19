@@ -174,7 +174,8 @@
       return list.map(function (k) { return '<div class="lc-gk"><span>' + mk(side) + '' + num(k.n) + esc(k.n == null ? "Keeper not set" : (k.name.charAt(0) === "#" ? "" : k.name)) + '</span><span><b>' + pct(k.saves, k.faced) + '</b> (' + k.saves + '/' + k.faced + ')</span></div>'; }).join("") +
         '<p class="lc-legend">' + esc(side === "A" ? NA : NB) + ' keepers: ' + T.saves + ' saves of ' + T.faced + ' shots on target · ' + pct(T.saves, T.faced) + '</p>';
     }
-    return '<div class="card lc-sec"><h3>Match analysis</h3><h5>Momentum</h5>' + mom + '<h5>Shooting</h5>' + shooting + '<h5>Goalkeeping</h5>' + gk("A") + gk("B") + '<p class="lc-legend">Save rate = saves divided by shots on target (goals plus saves). Missed and blocked shots do not count, and neither do empty net goals.</p></div>';
+    return '<div class="card lc-sec"><h3>Match analysis</h3><h5>Momentum</h5>' + mom + '<h5>Shooting</h5>' + shooting + '<h5>Goalkeeping</h5>' + gk("A") + gk("B") + '<p class="lc-legend">Save rate = saves divided by shots on target (goals plus saves). Missed and blocked shots do not count, and neither do empty net goals.</p>' +
+      (ST.team.A.to + ST.team.B.to ? '<h5>Turnovers</h5><p class="lc-legend">' + esc(NA) + ' ' + ST.team.A.to + ' · ' + esc(NB) + ' ' + ST.team.B.to + ' (ball lost without a shot)</p>' : '') + '</div>';
   }
 
   /* ---------- game analysis: run, momentum chart, keepers, periods, distribution, shot map ---------- */
@@ -287,6 +288,7 @@
         } else items.push({ side: e.team, t: e.t, ic: e.r === "goal" ? "gl" : e.r === "blocked" ? "bl" : "ms", title: x.kind, who: who(e.team, e.n, x.who), zone: zone, score: e.r === "goal" ? x.score : null });
       } else if (e.type === "pun") items.push({ side: e.team, t: e.t, ic: e.k === "2min" ? "p2" : e.k === "yellow" ? "py" : "pr", title: x.kind, who: /^[A-D]$/.test(String(e.n)) ? x.who : who(e.team, e.n, x.who) });
       else if (e.type === "timeout") items.push({ side: e.team, t: e.t, ic: "to", title: "Timeout", who: e.team === "A" ? NA : NB });
+      else if (e.type === "turnover") items.push({ side: e.team, t: e.t, ic: "tv", title: "Turnover", who: who(e.team, e.n, x.who) });
       else if (e.type === "gk") items.push({ side: e.team, t: e.t, ic: "gk", title: "In goal", who: who(e.team, e.n, x.who) });
     });
     var lastHalf = null, html = "";

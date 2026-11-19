@@ -34,7 +34,8 @@
   }
   function colorOf(side) {
     var g = G && G.game, jn = g ? (side === "A" ? g.jA : g.jB) : null, id = G.meta[side === "A" ? "teamA" : "teamB"];
-    return JCOL[jn] || (byTeam[id] && byTeam[id].jersey && byTeam[id].jersey.c) || (side === "A" ? "#FFFFFF" : "#F47920");
+    var tj = byTeam[id] && byTeam[id].jersey;
+    return JCOL[jn] || (tj && (tj.c || JCOL[tj.home])) || (side === "A" ? "#FFFFFF" : "#F47920");
   }
   function sideName(side) { return G.meta[side === "A" ? "nameA" : "nameB"] || tname(G.meta[side === "A" ? "teamA" : "teamB"]); }
   function sideRoster(side) { return roster(G.meta[side === "A" ? "teamA" : "teamB"]); }
@@ -203,21 +204,23 @@
     var head = '<div class="board"><div class="tn"><span class="sw" style="background:' + colorOf("A") + '"></span>' + esc(sideName("A")) + '</div>' +
       '<div class="sc">' + sc.A + ' : ' + sc.B + '</div><div class="tn b">' + esc(sideName("B")) + '<span class="sw" style="background:' + colorOf("B") + '"></span></div></div>' +
       '<div class="clockrow">' + (play ? '<button class="cbtn" id="cadj">&plusmn;</button>' : '') + '<span class="clk" id="clk">' + L.fmt(c.now) + '</span>' +
-      (play ? '<button class="cbtn" id="cpp">' + (c.running ? "Pause" : "Resume") + '</button>' : '') + '</div>' +
+      '</div>' +
       '<div class="phase">Game ' + esc(G.no) + ' · ' + PHASE_TXT[ph] + ' · ' + G.meta.halfLen + ' min halves</div><div class="susp" id="susp"></div>';
     var phaseBtn = { pre: ["Start 1st half", "h1", "pri"], h1: ["Half time", "ht", ""], ht: ["Start 2nd half", "h2", "pri"], h2: ["Full time", "end", ""] }[ph];
     var taken = G.taken ? '<div class="card" style="margin:10px;border-color:#E5B8B8"><b>' + (G.cleared ? 'An organizer cleared this game.' : 'Another device took over this game.') + '</b><p class="muted">Nothing entered here is sent any more. Tap below to go back to the game list.</p><button class="btn ghost full" id="back2">Game list</button></div>' : '';
     function col(side) {
       var dis = play && !G.taken ? "" : " disabled";
-      return '<div class="col"><h3><span>' + esc(sideName(side)) + '</span><span>TO ' + countTO(side) + '</span></h3>' +
-        '<button class="act goal" data-a="goal" data-s="' + side + '"' + dis + '>Goal</button>' +
-        '<div class="mini"><button class="act save" data-a="saved" data-s="' + side + '"' + dis + '>Saved</button><button class="act miss" data-a="missed" data-s="' + side + '"' + dis + '>Missed</button></div>' +
-        '<div class="mini"><button class="act sm s2" data-a="2min" data-s="' + side + '"' + (G.taken ? " disabled" : "") + '>2 min</button><button class="act sm y" data-a="yellow" data-s="' + side + '"' + (G.taken ? " disabled" : "") + '>Yellow</button></div>' +
-        '<div class="mini"><button class="act sm r" data-a="red" data-s="' + side + '"' + (G.taken ? " disabled" : "") + '>Red / blue</button><button class="act sm" data-a="timeout" data-s="' + side + '"' + dis + '>Timeout</button></div>' +
-        '<button class="act sm" data-a="gk" data-s="' + side + '"' + (G.taken ? " disabled" : "") + '>Keeper: ' + esc(keeperLabel(side)) + '</button></div>';
+      var tk = G.taken ? " disabled" : "";
+      function b(cls, a, label, sub, d) { return '<button class="act ' + cls + '" data-a="' + a + '" data-s="' + side + '"' + d + '><span>' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
+      var kl = keeperLabel(side), kset = kl !== "not set";
+      return '<div class="col"><div class="colhead" style="border-color:' + colorOf(side) + '"><span class="nm">' + esc(sideName(side)) + '</span><span class="to">TO ' + countTO(side) + '/3</span></div>' +
+        '<div class="g3">' + b("p goal", "goal", "Goal", "", dis) + b("p save", "saved", "Saved", "by opponent", dis) + b("p miss", "missed", "Missed", "or blocked", dis) + '</div>' +
+        '<div class="g3">' + b("s", "turnover", "Turnover", "", dis) + b("s", "2min", "2 min", "", tk) + b("s", "timeout", "Timeout", "", dis) + '</div>' +
+        '<div class="g3">' + b("c y", "yellow", "Yellow", "", tk) + b("c r", "red", "Red", "", tk) + b("c b", "blue", "Blue", "", tk) + '</div>' +
+        '<button class="act k' + (kset ? '' : ' unset') + '" data-a="gk" data-s="' + side + '"' + tk + '><span class="kl">GK</span><span class="kn">' + (kset ? esc(kl) : 'Not set') + '</span><span class="kc">' + (kset ? 'Change' : 'Set') + '</span></button></div>';
     }
     $app.innerHTML = topbar(head) + taken + '<div class="cols">' + col("A") + col("B") + '</div>' +
-      (phaseBtn && !G.taken ? '<div class="big-phase"><button class="btn full ' + phaseBtn[2] + '" id="ph">' + phaseBtn[0] + '</button></div>' : '') +
+      (phaseBtn && !G.taken ? '<div class="ctl' + (play ? ' two' : '') + '">' + (play ? '<button class="ctlb ' + (c.running ? 'stop' : 'go') + '" id="cpp"><span>' + (c.running ? 'Stop clock' : 'Start clock') + '</span><small>' + (c.running ? 'Referees signal time out' : 'On the referees&rsquo; whistle') + '</small></button>' : '') + '<button class="ctlb ' + (play ? 'ph' : 'start') + '" id="ph"><span>' + phaseBtn[0] + '</span></button></div>' : '') +
       (ph === "end" ? '<div class="card" style="margin:0 10px 10px"><b>Full time.</b> Check the final score against the score sheet, then export the player stats for the master workbook.<div style="display:flex;gap:8px;margin-top:10px"><button class="btn ghost" id="exp2">Export CSV</button><a class="btn ghost" href="live.html?game=' + encodeURIComponent(G.no) + '" target="_blank">Match center</a></div></div>' : '') +
       '<div class="log" id="log"></div>' +
       '<div style="margin:0 10px 30px;display:flex;gap:8px"><button class="btn ghost" id="back">Game list</button><a class="btn ghost" href="live.html?game=' + encodeURIComponent(G.no) + '" target="_blank">Match center</a></div>';
@@ -296,19 +299,19 @@
   function action(a, side) {
     var nm = sideName(side);
     if (a === "goal" || a === "saved" || a === "missed") {
-      var title = { goal: "Goal", saved: "Shot saved", missed: "Missed shot" }[a];
+      var title = { goal: "Goal", saved: "Shot saved", missed: "Shot missed" }[a];
       var zone = null;
       openSheet('<h2>' + title + ' · ' + esc(nm) + '<button data-close>&times;</button></h2>' +
-        '<p class="hint">' + (a === "saved" ? 'Saved: on target and stopped by the goalkeeper. ' : a === "missed" ? 'Missed: off target (wide, over, post) or blocked by a defender. It does not count as a save. ' : '') + 'Tap the zone if you saw it, then the shooter.</p>' +
+        '<p class="hint">' + (a === "saved" ? esc(nm) + ' shot, on target and stopped by the opponent keeper, ' + esc(sideName(side === "A" ? "B" : "A")) + ' (' + esc(keeperLabel(side === "A" ? "B" : "A")) + '), who is credited with the save. ' : a === "missed" ? esc(nm) + ' shot, off target (wide, over, post) or blocked by a defender. It does not count as a save. ' : '') + 'Tap the zone if you saw it, then the ' + esc(nm) + ' shooter.</p>' +
         '<div class="zones">' + L.ZONES.map(function (z) { return '<button data-z="' + z.id + '">' + zl(z.id) + '</button>'; }).join("") + '</div>' +
-        (a === "missed" ? '<div class="mini" style="margin-bottom:12px"><button class="act sm" data-r="missed" style="border-color:var(--navy)">Off target</button><button class="act sm" data-r="blocked">Blocked</button></div>' : '') +
+        (a === "missed" ? '<div class="opts"><button class="opt on" data-r="missed">Off target</button><button class="opt" data-r="blocked">Blocked</button></div>' : '') +
         playerGrid(side));
       var res = a;
       Array.prototype.forEach.call($sheet.querySelectorAll("[data-z]"), function (b) {
         b.onclick = function () { var on = zone === b.getAttribute("data-z"); zone = on ? null : b.getAttribute("data-z"); Array.prototype.forEach.call($sheet.querySelectorAll("[data-z]"), function (x) { x.classList.toggle("on", x.getAttribute("data-z") === zone); }); };
       });
       Array.prototype.forEach.call($sheet.querySelectorAll("[data-r]"), function (b) {
-        b.onclick = function () { res = b.getAttribute("data-r"); Array.prototype.forEach.call($sheet.querySelectorAll("[data-r]"), function (x) { x.style.borderColor = x === b ? "var(--navy)" : "#CBD5E1"; }); };
+        b.onclick = function () { res = b.getAttribute("data-r"); Array.prototype.forEach.call($sheet.querySelectorAll("[data-r]"), function (x) { x.classList.toggle("on", x === b); }); };
       });
       bindGrid(function (n) {
         closeSheet();
@@ -316,16 +319,18 @@
         var sc = L.score(G.events);
         toast((res === "goal" ? "Goal " : res === "saved" ? "Saved " : res === "blocked" ? "Blocked " : "Missed ") + (n == null ? "unknown" : "#" + n) + (zone ? " · " + zl(zone) : "") + (res === "goal" ? " · " + sc.A + "-" + sc.B : ""));
       });
-    } else if (a === "2min" || a === "yellow" || a === "red") {
+    } else if (a === "2min" || a === "yellow" || a === "red" || a === "blue") {
       var k = a;
-      openSheet('<h2>' + (a === "2min" ? "2 minute suspension" : a === "yellow" ? "Yellow card" : "Red or blue card") + ' · ' + esc(nm) + '<button data-close>&times;</button></h2>' +
-        (a === "red" ? '<div class="mini" style="margin-bottom:12px"><button class="act sm r" data-k="red" style="border-width:2px">Red</button><button class="act sm" data-k="blue">Blue (report follows)</button></div>' : '') +
+      openSheet('<h2>' + L.PUNS[a] + ' · ' + esc(nm) + '<button data-close>&times;</button></h2>' +
+        (a === "blue" ? '<p class="hint">Blue card: shown after a red card when a written report follows. Enter the red card first.</p>' : '') +
         playerGrid(side, { officials: true }));
-      Array.prototype.forEach.call($sheet.querySelectorAll("[data-k]"), function (b) { b.onclick = function () { k = b.getAttribute("data-k"); Array.prototype.forEach.call($sheet.querySelectorAll("[data-k]"), function (x) { x.style.borderWidth = x === b ? "2px" : "1px"; }); }; });
       bindGrid(function (n) { closeSheet(); add({ type: "pun", team: side, n: n, k: k }); toast(L.PUNS[k] + " · " + (n == null ? "unknown" : (/^[A-D]$/.test(n) ? "Official " + n : "#" + n))); });
     } else if (a === "timeout") {
-      openSheet('<h2>Team timeout · ' + esc(nm) + '<button data-close>&times;</button></h2><p class="muted">The clock stops. Tap Resume when play restarts.</p><button class="btn pri full" id="ok">Timeout ' + esc(nm) + '</button>');
+      openSheet('<h2>Team timeout · ' + esc(nm) + '<button data-close>&times;</button></h2><p class="muted">The clock stops. Tap Start clock on the whistle when play restarts.</p><button class="btn pri full" id="ok">Timeout ' + esc(nm) + '</button>');
       document.getElementById("ok").onclick = function () { closeSheet(); add({ type: "timeout", team: side }); };
+    } else if (a === "turnover") {
+      openSheet('<h2>Turnover · ' + esc(nm) + '<button data-close>&times;</button></h2><p class="hint">' + esc(nm) + ' lose the ball without a shot: bad pass, catching error, steps, double dribble, offensive foul, passive play. Tap the player who lost it, or Unknown.</p>' + playerGrid(side));
+      bindGrid(function (n) { closeSheet(); add({ type: "turnover", team: side, n: n }); toast("Turnover " + (n == null ? "unknown" : "#" + n)); });
     } else if (a === "gk") {
       openSheet('<h2>Goalkeeper in goal · ' + esc(nm) + '<button data-close>&times;</button></h2><p class="hint">Set it before throw off and after every change, so saves go to the right keeper.</p>' + playerGrid(side, { gkFirst: true }));
       bindGrid(function (n) { closeSheet(); add({ type: "gk", team: side, n: n }); toast("In goal: " + (n == null ? "unknown" : "#" + n)); });
@@ -338,9 +343,10 @@
     if (e.type === "shot") return ({ goal: "Goal", saved: "Saved", missed: "Missed", blocked: "Blocked" }[e.r]) + " " + who + (e.z ? " · " + zl(e.z) : "");
     if (e.type === "pun") return L.PUNS[e.k] + " " + who;
     if (e.type === "timeout") return "Timeout";
+    if (e.type === "turnover") return "Turnover " + who;
     if (e.type === "gk") return "In goal " + who;
     if (e.type === "phase") return { h1: "Throw off", ht: "Half time", h2: "Second half starts", end: "Full time" }[e.p];
-    if (e.type === "clock") return e.a === "adjust" ? "Clock " + (e.d > 0 ? "+" : "") + e.d + " s" : e.a === "stop" ? "Clock paused" : "Clock resumed";
+    if (e.type === "clock") return e.a === "adjust" ? "Clock " + (e.d > 0 ? "+" : "") + e.d + " s" : e.a === "stop" ? "Clock stopped" : "Clock started";
     return e.type;
   }
   function paintLog() {
@@ -365,15 +371,15 @@
 
   function exportCSV() {
     var st = L.stats(G.meta, G.events, rosterPair());
-    var rows = [["Game", "Team", "No", "Player", "Goals", "Shots", "7m goals", "7m shots", "Yellow", "2 min", "Red", "Blue"]];
+    var rows = [["Game", "Team", "No", "Player", "Goals", "Shots", "7m goals", "7m shots", "Turnovers", "Yellow", "2 min", "Red", "Blue"]];
     ["A", "B"].forEach(function (s) {
       var pun = {}; st.puns.forEach(function (p) { if (p.e.team !== s) return; var k = String(p.e.n); pun[k] = pun[k] || { yellow: 0, "2min": 0, red: 0, blue: 0 }; pun[k][p.e.k]++; });
-      var nos = {}; Object.keys(st.players[s]).forEach(function (k) { nos[k] = 1; }); Object.keys(pun).forEach(function (k) { nos[k === "null" ? "?" : k] = 1; });
+      var nos = {}; Object.keys(st.players[s]).forEach(function (k) { nos[k] = 1; }); Object.keys(pun).forEach(function (k) { nos[k === "null" ? "?" : k] = 1; }); Object.keys(st.tos[s]).forEach(function (k) { nos[k] = 1; });
       Object.keys(nos).forEach(function (k) {
         var p = st.players[s][k] || { n: k === "?" ? null : k, name: k === "?" ? "Unknown player" : (/^[A-D]$/.test(k) ? "Official " + k : "#" + k), g: 0, a: 0, m7g: 0, m7: 0 };
         var u = pun[k === "?" ? "null" : k] || { yellow: 0, "2min": 0, red: 0, blue: 0 };
         var named = sideRoster(s).filter(function (r) { return String(r.n) === k; })[0];
-        rows.push([G.no, sideName(s), k === "?" ? "" : k, named ? named.name : p.name, p.g, p.a, p.m7g, p.m7, u.yellow, u["2min"], u.red, u.blue]);
+        rows.push([G.no, sideName(s), k === "?" ? "" : k, named ? named.name : p.name, p.g, p.a, p.m7g, p.m7, st.tos[s][k] || 0, u.yellow, u["2min"], u.red, u.blue]);
       });
     });
     rows.push([]); rows.push(["Final score", sideName("A") + " " + st.score.A, sideName("B") + " " + st.score.B]);
