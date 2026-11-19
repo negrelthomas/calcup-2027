@@ -35,7 +35,13 @@
   function colorOf(side) {
     var g = G && G.game, jn = g ? (side === "A" ? g.jA : g.jB) : null, id = G.meta[side === "A" ? "teamA" : "teamB"];
     var tj = byTeam[id] && byTeam[id].jersey;
-    return JCOL[jn] || (tj && (tj.c || JCOL[tj.home])) || (side === "A" ? "#FFFFFF" : "#F47920");
+    return visible(JCOL[jn] || (tj && (tj.c || JCOL[tj.home])) || (side === "A" ? "#FFFFFF" : "#F47920"));
+  }
+  // the scoring screen is dark: a black or very dark jersey is shown in mid gray so it stays visible
+  function visible(hex) {
+    var m = /^#?([0-9a-f]{6})$/i.exec(hex || ""); if (!m) return hex;
+    var v = parseInt(m[1], 16), r = v >> 16 & 255, g = v >> 8 & 255, b = v & 255;
+    return (0.2126 * r + 0.7152 * g + 0.0722 * b) < 60 ? "#6F8199" : hex;
   }
   function sideName(side) { return G.meta[side === "A" ? "nameA" : "nameB"] || tname(G.meta[side === "A" ? "teamA" : "teamB"]); }
   function sideRoster(side) { return roster(G.meta[side === "A" ? "teamA" : "teamB"]); }
@@ -201,23 +207,23 @@
     if (!G) return;
     var c = clk(), sc = L.score(G.events), ph = c.phase;
     var play = ph === "h1" || ph === "h2";
-    var head = '<div class="board"><div class="tn"><span class="sw" style="background:' + colorOf("A") + '"></span>' + esc(sideName("A")) + '</div>' +
-      '<div class="sc">' + sc.A + ' : ' + sc.B + '</div><div class="tn b">' + esc(sideName("B")) + '<span class="sw" style="background:' + colorOf("B") + '"></span></div></div>' +
+    var head = '<div class="board"><div class="tn"><i style="background:' + colorOf("A") + '"></i>' + esc(sideName("A")) + '</div>' +
+      '<div class="sc">' + sc.A + '<em>:</em>' + sc.B + '</div><div class="tn b"><i style="background:' + colorOf("B") + '"></i>' + esc(sideName("B")) + '</div></div>' +
       '<div class="clockrow">' + (play ? '<button class="cbtn" id="cadj">&plusmn;</button>' : '') + '<span class="clk" id="clk">' + L.fmt(c.now) + '</span>' +
       '</div>' +
       '<div class="phase">Game ' + esc(G.no) + ' · ' + PHASE_TXT[ph] + ' · ' + G.meta.halfLen + ' min halves</div><div class="susp" id="susp"></div>';
     var phaseBtn = { pre: ["Start 1st half", "h1", "pri"], h1: ["Half time", "ht", ""], ht: ["Start 2nd half", "h2", "pri"], h2: ["Full time", "end", ""] }[ph];
-    var taken = G.taken ? '<div class="card" style="margin:10px;border-color:#E5B8B8"><b>' + (G.cleared ? 'An organizer cleared this game.' : 'Another device took over this game.') + '</b><p class="muted">Nothing entered here is sent any more. Tap below to go back to the game list.</p><button class="btn ghost full" id="back2">Game list</button></div>' : '';
+    var taken = G.taken ? '<div class="card" style="margin:10px;border-color:#9C3B35"><b>' + (G.cleared ? 'An organizer cleared this game.' : 'Another device took over this game.') + '</b><p class="muted">Nothing entered here is sent any more. Tap below to go back to the game list.</p><button class="btn ghost full" id="back2">Game list</button></div>' : '';
     function col(side) {
       var dis = play && !G.taken ? "" : " disabled";
       var tk = G.taken ? " disabled" : "";
       function b(cls, a, label, sub, d) { return '<button class="act ' + cls + '" data-a="' + a + '" data-s="' + side + '"' + d + '><span>' + label + '</span>' + (sub ? '<small>' + sub + '</small>' : '') + '</button>'; }
       var kl = keeperLabel(side), kset = kl !== "not set";
       return '<div class="col"><div class="colhead" style="border-color:' + colorOf(side) + '"><span class="nm">' + esc(sideName(side)) + '</span><span class="to">TO ' + countTO(side) + '/3</span></div>' +
-        '<div class="g3">' + b("p goal", "goal", "Goal", "", dis) + b("p save", "saved", "Saved", "by opponent", dis) + b("p miss", "missed", "Missed", "or blocked", dis) + '</div>' +
+        '<div class="g3">' + b("p goal", "goal", "Goal", "", dis) + b("p save", "saved", "Saved", "by keeper", dis) + b("p miss", "missed", "Missed", "or blocked", dis) + '</div>' +
         '<div class="g3">' + b("s", "turnover", "Turnover", "", dis) + b("s", "2min", "2 min", "", tk) + b("s", "timeout", "Timeout", "", dis) + '</div>' +
         '<div class="g3">' + b("c y", "yellow", "Yellow", "", tk) + b("c r", "red", "Red", "", tk) + b("c b", "blue", "Blue", "", tk) + '</div>' +
-        '<button class="act k' + (kset ? '' : ' unset') + '" data-a="gk" data-s="' + side + '"' + tk + '><span class="kl">GK</span><span class="kn">' + (kset ? esc(kl) : 'Not set') + '</span><span class="kc">' + (kset ? 'Change' : 'Set') + '</span></button></div>';
+        '<button class="act k' + (kset ? '' : ' unset') + '" data-a="gk" data-s="' + side + '"' + tk + '><span class="kl">GK</span><span class="kn">' + (kset ? esc(kl) : 'Not set') + '</span><span class="kc">' + (kset ? 'Change' : 'Set') + '</span><span class="kch">&rsaquo;</span></button></div>';
     }
     $app.innerHTML = topbar(head) + taken + '<div class="cols">' + col("A") + col("B") + '</div>' +
       (phaseBtn && !G.taken ? '<div class="ctl' + (play ? ' two' : '') + '">' + (play ? '<button class="ctlb ' + (c.running ? 'stop' : 'go') + '" id="cpp"><span>' + (c.running ? 'Stop clock' : 'Start clock') + '</span><small>' + (c.running ? 'Referees signal time out' : 'On the referees&rsquo; whistle') + '</small></button>' : '') + '<button class="ctlb ' + (play ? 'ph' : 'start') + '" id="ph"><span>' + phaseBtn[0] + '</span></button></div>' : '') +
@@ -353,9 +359,9 @@
     var el = document.getElementById("log"); if (!el || !G) return;
     var pend = {}; G.pending.forEach(function (e) { pend[e.id] = 1; });
     var list = L.active(G.events).slice().reverse();
-    el.innerHTML = '<h3><span>Log · ' + list.length + ' entries</span><button class="btn ghost" id="exp" style="padding:6px 10px;font-size:12px">Export CSV</button></h3>' +
+    el.innerHTML = '<h3><span>Log · ' + list.length + ' entries</span><button class="btn ghost" id="exp">Export CSV</button></h3>' +
       list.slice(0, 40).map(function (e) {
-        var side = e.team ? '<span class="sw" style="background:' + colorOf(e.team) + ';border-color:#9AA8B6;display:inline-block;vertical-align:-1px"></span> <b>' + esc(sideName(e.team)) + '</b> ' : '';
+        var side = e.team ? '<i class="tb" style="background:' + colorOf(e.team) + '"></i><b>' + esc(sideName(e.team)) + '</b> ' : '<i class="tb"></i>';
         return '<div class="ev' + (pend[e.id] ? " pend" : "") + (e.type === "clock" ? " clk-ev" : "") + '"><span class="t">' + L.fmt(e.t) + '</span><span>' + side + esc(describe(e)) + '</span>' +
           (G.taken ? '' : '<button class="x" data-del="' + e.id + '">Delete</button>') + '</div>';
       }).join("") + (list.length > 40 ? '<div class="ev muted">Older entries are on the match center.</div>' : '');
