@@ -2502,7 +2502,7 @@ window.CALCUP = {
     "deadline": "2027-01-31T12:10:00-08:00",
     "finalGame": 23,
     "firstGame": "2027-01-29T15:45:00-08:00",
-    "voters": 8
+    "voters": 13
   },
   "teamStyles": [
     {
