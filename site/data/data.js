@@ -63,6 +63,19 @@ window.CALCUP = {
         "home": "White",
         "away": "Blue"
       }
+    },
+    {
+      "id": "army-w",
+      "name": "West Point - Army W",
+      "city": "",
+      "division": "W",
+      "group": "",
+      "logo": "",
+      "jersey": null,
+      "jerseyKit": {
+        "home": "Black",
+        "away": "Gold"
+      }
     }
   ],
   "rosters": {
